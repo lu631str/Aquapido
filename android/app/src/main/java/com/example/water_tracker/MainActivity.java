@@ -2,8 +2,15 @@ package com.example.water_tracker;
 
 import java.util.Observable;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.util.Log;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -11,6 +18,8 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.view.KeyEvent;
+import android.widget.Toast;
+import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
 
@@ -24,8 +33,17 @@ public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "com.example.flutter_application_1/powerBtnCount";
     private static final String STREAM = "com.example.flutter_application_1/stream";
 
-    EventChannel.EventSink mEvents = null;
-    BroadcastReceiver mReceiver;
+    private EventChannel.EventSink mEvents = null;
+    private BroadcastReceiver mReceiver;
+    private SensorEventListener sensorEventListener;
+
+    private SensorManager mSensorManager;
+    private float mAccel; // acceleration apart from gravity
+    private float mAccelCurrent; // current acceleration including gravity
+    private float mAccelLast; // last acceleration including gravity
+    private long lastUpdate = 0;
+    private int shakeThreshold = 1000; // time between shakes in ms
+    private int vibrationFeedbackDuration = 400; // ms
 
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
@@ -51,13 +69,11 @@ public class MainActivity extends FlutterActivity {
 
                     @Override
                     public void onListen(Object args, EventChannel.EventSink events) {
-                        Log.w("TAG", "adding listener");
                         mEvents = events;
                     }
 
                     @Override
                     public void onCancel(Object args) {
-                        Log.w("TAG", "cancelling listener");
                     }
 
                 });
@@ -72,10 +88,18 @@ public class MainActivity extends FlutterActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        IntentFilter powerBtnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        powerBtnFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mReceiver = new SystemIntentReceiver();
-        registerReceiver(mReceiver, filter);
+        registerReceiver(mReceiver, powerBtnFilter);
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+
     }
 
     @Override
@@ -94,8 +118,8 @@ public class MainActivity extends FlutterActivity {
 
     @Override
     protected void onResume() {
-        if(mEvents != null) {
-            mEvents.success(getPowerBtnCounter());
+        if (mEvents != null) {
+            mEvents.success("power," + getPowerBtnCounter());
         }
         // only when screen turns on
         if (!SystemIntentReceiver.wasScreenOn) {
@@ -116,4 +140,45 @@ public class MainActivity extends FlutterActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+
+        @TargetApi(Build.VERSION_CODES.CUPCAKE)
+        public void onSensorChanged(SensorEvent se) {
+            long curTime = System.currentTimeMillis();
+            if ((curTime - lastUpdate) > shakeThreshold) {
+                lastUpdate = curTime;
+
+                float x = se.values[0];
+                float y = se.values[1];
+                float z = se.values[2];
+                mAccelLast = mAccelCurrent;
+                mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+                float delta = mAccelCurrent - mAccelLast;
+                mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+
+                if (mAccel > 11) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Device has shaken.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    vibrate();
+                    mEvents.success("shake,1");
+                }
+            }
+
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+
+        public void vibrate() {
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            // Vibrate for 500 milliseconds
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(vibrationFeedbackDuration, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                // deprecated in API 26
+                v.vibrate(vibrationFeedbackDuration);
+            }
+        }
+    };
 }

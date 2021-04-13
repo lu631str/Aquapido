@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,6 +74,8 @@ class _MainState extends State<Main> {
   int _counter = 0;
   int _glassSize = 300; // in ml
   dynamic _totalWaterAmount = 0;
+  bool _isPowerBtnAddEnabled = false;
+  bool _isShakingAddEnabled = false;
   String _unit = 'ml';
 
   static const platform =
@@ -86,16 +89,23 @@ class _MainState extends State<Main> {
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
-          stream.receiveBroadcastStream().listen(_updateCounter);
+          stream.receiveBroadcastStream().listen(evaluateEvent);
     }
-    _loadData().then((value) {
+    loadData().then((value) {
       setState(() {
-        _getPowerButtonCount();
+        getPowerButtonCount();
       });
     });
   }
 
-  Future<void> _getPowerButtonCount() async {
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  Future<void> getPowerButtonCount() async {
     int counter;
     try {
       final int result = await platform.invokeMethod('getPowerBtnCount');
@@ -108,16 +118,27 @@ class _MainState extends State<Main> {
     _counter += counter;
   }
 
-  Future<void> _updateCounter(value) async {
+  Future<void> evaluateEvent(event) async {
+    var arr = event.split(',');
+    debugPrint(event);
+    if (arr[0] == "power") {
+      updateCounter(int.parse(arr[1]));
+    }
+    if (arr[0] == "shake") {
+      updateCounter(int.parse(arr[1]));
+    }
+  }
+
+  Future<void> updateCounter(value) async {
     setState(() {
       _counter += value;
       _totalWaterAmount += value * _glassSize;
-      _saveCounter();
-      _saveTotalWater();
+      saveCounter();
+      saveTotalWater();
     });
   }
 
-  void _disableListener() {
+  void disableListener() {
     debugPrint('disable');
     if (_buttonEventStream != null) {
       _buttonEventStream.cancel();
@@ -136,17 +157,17 @@ class _MainState extends State<Main> {
     return water.toString();
   }
 
-  Future<void> _saveCounter() async {
+  Future<void> saveCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('counter', _counter);
   }
 
-  Future<void> _saveTotalWater() async {
+  Future<void> saveTotalWater() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('water', _totalWaterAmount.toDouble());
   }
 
-  Future<void> _loadData() async {
+  Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _counter = (prefs.getInt('counter') ?? 0);
     _glassSize = (prefs.getInt('size') ?? 0);
@@ -203,13 +224,13 @@ class _MainState extends State<Main> {
               'Glass size: $_glassSize ml',
             ),
             ElevatedButton(
-                onPressed: _disableListener, child: Text('Stop listening')),
+                onPressed: disableListener, child: Text('Stop listening')),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await _updateCounter(1);
+          await updateCounter(1);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

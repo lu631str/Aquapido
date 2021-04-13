@@ -13,43 +13,78 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  var _sizes = ["100", "200", "250", "300", "330", "400", "500"];
-  String _dropdownValue = "300";
+  var _sizes = ['100', '200', '250', '300', '330', '400', '500'];
+  String _dropdownValue = '300';
+
+  bool _isPowerBtnAddEnabled = false;
+  bool _isShakingAddEnabled = false;
 
   _SettingsState() {
-    _loadSize().then((value) {
+    loadSize().then((size) {
       setState(() {
-        _dropdownValue = _dropdownValue;
+        this._dropdownValue = size;
+      });
+    });
+
+    loadPowerSettings().then((power) {
+      setState(() {
+        this._isPowerBtnAddEnabled = power;
+      });
+    });
+
+    loadShakeSettings().then((shake) {
+      setState(() {
+        this._isShakingAddEnabled = shake;
       });
     });
   }
 
   void _resetCounter() {
-    _saveCounter(0);
+    saveCounter(0);
   }
 
   void _resetTotalWater() {
-    _saveTotalWater(0.0);
+    saveTotalWater(0.0);
   }
 
-  Future<void> _saveCounter(int newCounter) async {
+  Future<void> saveCounter(int newCounter) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('counter', newCounter);
   }
 
-  Future<void> _saveTotalWater(double newWater) async {
+  Future<void> saveTotalWater(double newWater) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('water', newWater);
   }
 
-  Future<void> _saveSize() async {
+  Future<void> saveSize(String size) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('size', int.parse(_dropdownValue));
+    await prefs.setInt('size', int.parse(size));
   }
 
-  Future<void> _loadSize() async {
+  Future<void> savePower(bool isPowerBtnAddEnabled) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _dropdownValue = (prefs.getInt('size') ?? 0).toString();
+    await prefs.setBool('power', isPowerBtnAddEnabled);
+  }
+
+  Future<void> saveShaking(bool isShakingAddEnabled) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('shake', isShakingAddEnabled);
+  }
+
+  Future<String> loadSize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return (prefs.getInt('size') ?? 0).toString();
+  }
+
+  Future<bool> loadShakeSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return (prefs.getBool('shake') ?? false);
+  }
+
+  Future<bool> loadPowerSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return (prefs.getBool('power') ?? false);
   }
 
   @override
@@ -80,12 +115,30 @@ class _SettingsState extends State<Settings> {
                     setState(() {
                       this._dropdownValue = newValue;
                     });
-                    _saveSize();
+                    saveSize(this._dropdownValue);
                   },
-                  value: _dropdownValue,
+                  value: this._dropdownValue,
                 ),
               ],
             ),
+            SwitchListTile(
+                value: this._isPowerBtnAddEnabled,
+                title: Text('Quick add Power Button'),
+                onChanged: (value) {
+                  setState(() {
+                    this._isPowerBtnAddEnabled = value;
+                    this.savePower(value);
+                  });
+                }),
+            SwitchListTile(
+                value: this._isShakingAddEnabled,
+                title: Text('Quick add Shaking'),
+                onChanged: (value) {
+                  setState(() {
+                    this._isShakingAddEnabled = value;
+                    this.saveShaking(value);
+                  });
+                }),
             OutlinedButton(
                 onPressed: _resetCounter, child: Text('Reset water glasses')),
             OutlinedButton(
