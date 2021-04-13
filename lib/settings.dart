@@ -78,7 +78,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   onChanged: (String newValue) {
                     setState(() {
-                      _dropdownValue = newValue;
+                      this._dropdownValue = newValue;
                     });
                     _saveSize();
                   },
