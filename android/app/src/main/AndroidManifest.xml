@@ -5,6 +5,7 @@
    <application
         android:label="water_tracker"
         android:icon="@mipmap/ic_launcher">
+       <service android:name=".WaterAddService" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

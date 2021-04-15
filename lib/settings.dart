@@ -13,8 +13,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  var _sizes = ['100', '200', '250', '300', '330', '400', '500'];
-  String _dropdownValue = '300';
+  int _selectedValue = 200;
 
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
@@ -22,7 +21,7 @@ class _SettingsState extends State<Settings> {
   _SettingsState() {
     loadSize().then((size) {
       setState(() {
-        this._dropdownValue = '300';
+        this._selectedValue = 300;
       });
     });
 
@@ -57,9 +56,9 @@ class _SettingsState extends State<Settings> {
     await prefs.setDouble('water', newWater);
   }
 
-  Future<void> saveSize(String size) async {
+  Future<void> saveSize(int size) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('size', int.parse(size));
+    await prefs.setInt('size', size);
   }
 
   Future<void> savePower(bool isPowerBtnAddEnabled) async {
@@ -97,28 +96,66 @@ class _SettingsState extends State<Settings> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Size in ml: '),
-                DropdownButton<String>(
-                  items: _sizes
-                      .map((String value) => DropdownMenuItem<String>(
-                          value: value, child: Text(value)))
-                      .toList(),
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      this._dropdownValue = newValue;
-                    });
-                    saveSize(this._dropdownValue);
-                  },
-                  value: this._dropdownValue,
-                ),
+                Text('Glass size: ' + _selectedValue.toString() + 'ml'),
+                ElevatedButton(
+                    child: Text('Change'),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) => SimpleDialog(
+                                title: Text('Choose Size'),
+                                children: [
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 100);
+                                      setState(() {
+                                        this._selectedValue = 100;
+                                      });
+                                      saveSize(this._selectedValue);
+                                    },
+                                    child: const Text(
+                                      '100ml',
+                                    ),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 200);
+                                      setState(() {
+                                        this._selectedValue = 200;
+                                      });
+                                      saveSize(this._selectedValue);
+                                    },
+                                    child: const Text(
+                                      '200ml',
+                                    ),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 300);
+                                      setState(() {
+                                        this._selectedValue = 300;
+                                      });
+                                      saveSize(this._selectedValue);
+                                    },
+                                    child: const Text(
+                                      '300ml',
+                                    ),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 330);
+                                      setState(() {
+                                        this._selectedValue = 330;
+                                      });
+                                      saveSize(this._selectedValue);
+                                    },
+                                    child: const Text(
+                                      '330ml',
+                                    ),
+                                  ),
+                                ],
+                              ));
+                    }),
               ],
             ),
             SwitchListTile(
@@ -139,6 +176,8 @@ class _SettingsState extends State<Settings> {
                     this.saveShaking(value);
                   });
                 }),
+            SwitchListTile(
+                value: false, title: Text('Quick add Drink gesture')),
             OutlinedButton(
                 onPressed: _resetCounter, child: Text('Reset water glasses')),
             OutlinedButton(

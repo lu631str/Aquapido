@@ -167,6 +167,13 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await updateCounter(1);
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // 
     );
   }
 }
