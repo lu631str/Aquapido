@@ -3,6 +3,8 @@ package com.example.water_tracker;
 import java.util.Observable;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -32,6 +34,8 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "com.example.flutter_application_1/powerBtnCount";
     private static final String STREAM = "com.example.flutter_application_1/stream";
+    private static final String CHANNEL_DEFAULT_IMPORTANCE = "MyChannel";
+    private static final int ONGOING_NOTIFICATION_ID = 420;
 
     private EventChannel.EventSink mEvents = null;
     private BroadcastReceiver mReceiver;
@@ -88,6 +92,8 @@ public class MainActivity extends FlutterActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        startForegroundService();
+
         IntentFilter powerBtnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         powerBtnFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mReceiver = new SystemIntentReceiver();
@@ -100,6 +106,20 @@ public class MainActivity extends FlutterActivity {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void startForegroundService() {
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification = new Notification.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle("MyTitle")
+                .setContentText("MyContentTest")
+                .setContentIntent(pendingIntent).setTicker("MyTickerText").build();
+
+        // Notification ID cannot be 0.
+        //startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
 
     @Override

@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
   _SettingsState() {
     loadSize().then((size) {
       setState(() {
-        this._dropdownValue = size;
+        this._dropdownValue = '300';
       });
     });
 
