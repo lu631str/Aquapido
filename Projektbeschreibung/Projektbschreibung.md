@@ -36,7 +36,7 @@ Ben Fuhrmann
 
 ### Wie werden die Persona die App nutzen?
 Die Persona nutzt die App hauptsächlich im Alltag. Dabei kann sie durch schnelle Gesten oder wenige Klicks ein getrunkenes Glas Wasser hinzufügen. Während einer Pause oder wenn die Persona etwas mehr Zeit hat, kann Sie sich den Verlauf ansehen, neue Ziele oder Erinnerungen setzen. Die Persona schaut täglich in die App und guckt den aktuellen Stand an oder fügt ein Glas Wasser hinzu.<br>
-Die App wird mit einer Hand im Portät Format beident.
+Die App wird mit einer Hand im Portät Format bedient.
 
 ### Konkreter Anwendunsfall und mobiler Kontext
 Ein Anwendungsfall ist, das die App einen täglich mehrmals daran erinnert Wasser zu trinken. Somit trinkt die Persona mehr Wasser und kann protokollieren wie viel.
@@ -46,3 +46,19 @@ Ein weiterer Anwendungsfall ist das aufzeichnen des Wasser trinkens. Die Persona
 Die App hilft der Persona mehr und regelmäßiger Wasser zu trinken und erhöht somit die Lebensqualität. Ausreichender Wasserkonsum ist außerdem gut für die Gesundheit und wirkt vorbeugend gegen Kopfschmerzen, Mündigkeit und Konzentrationsschwäche.
 
 ## Planung
+1-2. Woche (Funktionen implementieren):
+- Figma Design erweitern/fertig stellen
+- 'Quick Add' Funktionen einbauen (Power Button double click, Schütteln, Trink Geste)
+
+3-4. Woche (Funktionen implementieren):
+- Wassermenge hinzufügen/entfernen
+- Glas Größe hinzufügen/entferenen/auswählen
+- Verlauf anzeigen
+
+5-6. Woche (Funktionen implementieren / Design implementieren):
+- Täglicher/Wöchentlicher Durchschnitt anzeigen (Diagramm)
+- Ziele setzten und bearbeiten
+- Erinnerungen setzen
+  
+7-8.Woche:
+- Design implementieren
