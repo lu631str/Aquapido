@@ -4,17 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:water_tracker/settings.dart';
 import 'package:water_tracker/home.dart';
 
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+
+
     return MaterialApp(
       title: 'Quick Water Tracker',
       theme: ThemeData(
+
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -51,6 +58,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+
   List<Widget> _children = [
       Home(),
       Icon(Icons.timeline),
@@ -67,6 +75,8 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    const color1 = const Color(0xffb3d9f1);
+    const color2 = const Color(0xffeef6fb);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -74,9 +84,31 @@ class _MainState extends State<Main> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     //
-    return Scaffold(
+    return Container(
+
+
+
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              color1,
+              color2
+            ],
+          ),
+        ),
+
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Quick Water Tracker'),
+
+
+
+
+
+
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -104,6 +136,7 @@ class _MainState extends State<Main> {
         backgroundColor: Colors.blue,
         onTap: _onItemTapped,
       ),
+    ),
     );
   }
 }

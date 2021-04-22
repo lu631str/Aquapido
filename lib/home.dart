@@ -16,7 +16,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
   int _counter = 0;
   int _glassSize = 300; // in ml
   dynamic _totalWaterAmount = 0;
@@ -128,6 +127,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // 
+      ), //
     );
   }
 }

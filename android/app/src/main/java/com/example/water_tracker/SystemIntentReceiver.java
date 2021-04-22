@@ -1,5 +1,4 @@
 package com.example.water_tracker;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +30,7 @@ class SystemIntentReceiver extends BroadcastReceiver {
         if (currTime > 0 && prevTime > 0) {
             if ((currTime - prevTime) < doublePressThreshold && (currTime - prevTime) > -doublePressThreshold) {
                 count++;
-                Toast.makeText(context, "double Clicked power button", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "water was added", Toast.LENGTH_LONG).show();
                 Log.e("eciver ", "double Clicked power button");
                 currTime = 0;
                 prevTime = 0;
