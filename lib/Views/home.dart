@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
+import 'package:water_tracker/models/WaterModel.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -22,6 +24,8 @@ class _HomeState extends State<Home> {
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
   String _unit = 'ml';
+
+  List<WaterModel> history = [];
 
   static const platform =
       const MethodChannel('com.example.flutter_application_1/powerBtnCount');
@@ -93,9 +97,10 @@ class _HomeState extends State<Home> {
     setState(() {
       _currentCupCounter += value;
       _totalWaterAmount += value * _currentCupSize;
-      saveCurrentCupCounter(_currentCupCounter);
-      saveTotalWater(_totalWaterAmount);
     });
+    saveCurrentCupCounter(_currentCupCounter);
+    saveTotalWater(_totalWaterAmount);
+    this.history.add(WaterModel(_currentCupSize, DateTime.now()));
   }
 
   void disableListener() {
@@ -155,6 +160,15 @@ class _HomeState extends State<Home> {
             Text(
               'Glass size: $_currentCupSize ml',
             ),
+            Expanded(child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: history.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 22,
+                    child: Center(child: Text('Amount: ${history[index].cupSize} - Time: ${DateFormat('kk:mm:ss').format(history[index].dateTime)}')),
+                  );
+                }))
           ],
         ),
       ),

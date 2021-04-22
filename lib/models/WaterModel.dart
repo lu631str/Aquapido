@@ -1,4 +1,6 @@
 class WaterModel {
-  int waterAmount;
-  
+  int cupSize;
+  DateTime dateTime;
+
+  WaterModel(this.cupSize, this.dateTime);
 }

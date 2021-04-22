@@ -13,13 +13,23 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   int _selectedValue = 300;
 
+  List<int> cupSizes = [100, 200, 300, 330, 400, 500];
+
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
+  final myController = TextEditingController(text: '187');
 
   @override
   void initState() {
     super.initState();
     loadData();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
   }
 
   loadData() async {
@@ -39,7 +49,78 @@ class _SettingsState extends State<Settings> {
     saveTotalWater(0);
   }
 
-  void addSize() {}
+  void saveCustomSize(customSize) {
+    setState(() {
+      this.cupSizes.add(customSize);
+    });
+  }
+
+  void closeDialog() {
+    Navigator.pop(context);
+  }
+
+  List<Widget> createDialogOptions(context) {
+    List<Widget> sizeOptions = [];
+
+    cupSizes.forEach((i) {
+      return sizeOptions.add(
+        SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, i);
+            setState(() {
+              this._selectedValue = i;
+            });
+            saveSize(this._selectedValue);
+          },
+          child: Text('$i ml'),
+        ),
+      );
+    });
+    sizeOptions.add(OutlinedButton(
+        onPressed: () {
+          setState(() {
+            showCustomSizeAddDialog();
+          });
+        },
+        child: Text("Add")));
+    return sizeOptions;
+  }
+
+  void showCustomSizeAddDialog() {
+    showDialog(
+        context: context,
+        builder: (_) => SimpleDialog(
+              contentPadding: EdgeInsets.all(16),
+              title: Text('Add Size'),
+              children: [
+                TextFormField(
+                  controller: myController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Custom Cup Size',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                          child: Text('Cancel'),
+                          onPressed: closeDialog), // button 1
+                      ElevatedButton(
+                        child: Text('Save'),
+                        onPressed: () {
+                          setState(() {
+                            saveCustomSize(int.parse(myController.text));
+                            myController.clear();
+                            closeDialog();
+                          });
+                        },
+                      ), // button 2
+                    ])
+              ],
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,80 +156,31 @@ class _SettingsState extends State<Settings> {
                 }),
             SwitchListTile(
                 value: false, title: Text('Quick add Drink gesture')),
+            const Divider(
+              height: 40,
+              thickness: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
             ListTile(
               title: Text('Glass size: ' + _selectedValue.toString() + 'ml'),
               trailing: ElevatedButton(
                   child: Text('Change'),
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) => SimpleDialog(
-                              title: Text('Choose Size'),
-                              children: [
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, 100);
-                                    setState(() {
-                                      this._selectedValue = 100;
-                                    });
-                                    saveSize(this._selectedValue);
-                                  },
-                                  child: const Text(
-                                    '100ml',
-                                  ),
-                                ),
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, 200);
-                                    setState(() {
-                                      this._selectedValue = 200;
-                                    });
-                                    saveSize(this._selectedValue);
-                                  },
-                                  child: const Text(
-                                    '200ml',
-                                  ),
-                                ),
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, 300);
-                                    setState(() {
-                                      this._selectedValue = 300;
-                                    });
-                                    saveSize(this._selectedValue);
-                                  },
-                                  child: const Text(
-                                    '300ml',
-                                  ),
-                                ),
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, 330);
-                                    setState(() {
-                                      this._selectedValue = 330;
-                                    });
-                                    saveSize(this._selectedValue);
-                                  },
-                                  child: const Text(
-                                    '330ml',
-                                  ),
-                                ),
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, 400);
-                                    setState(() {
-                                      this._selectedValue = 400;
-                                    });
-                                    saveSize(this._selectedValue);
-                                  },
-                                  child: const Text(
-                                    '400ml',
-                                  ),
-                                ),
-                                OutlinedButton(
-                                    onPressed: addSize, child: Text("Add"))
-                              ],
-                            ));
+                    setState(() {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return SimpleDialog(
+                                contentPadding: EdgeInsets.all(16),
+                                title: Text('Choose Size'),
+                                children: createDialogOptions(context),
+                              );
+                            });
+                          });
+                    });
                   }),
             ),
             OutlinedButton(
