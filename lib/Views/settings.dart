@@ -12,6 +12,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   int _selectedValue = 300;
+  String dropdownValue = 'choose';
 
   List<int> cupSizes = [100, 200, 300, 330, 400, 500];
 
@@ -97,7 +98,7 @@ class _SettingsState extends State<Settings> {
                   controller: myController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Custom Cup Size',
+                    labelText: 'Custom Cup Size (ml)',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -156,12 +157,6 @@ class _SettingsState extends State<Settings> {
                 }),
             SwitchListTile(
                 value: false, title: Text('Quick add Drink gesture')),
-            const Divider(
-              height: 40,
-              thickness: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
             ListTile(
               title: Text('Glass size: ' + _selectedValue.toString() + 'ml'),
               trailing: ElevatedButton(
@@ -182,6 +177,59 @@ class _SettingsState extends State<Settings> {
                           });
                     });
                   }),
+            ),
+            const Divider(
+              height: 40,
+              thickness: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Personal Settings',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ],
+                ),ListTile(
+                  title: Text('Weight'),
+                  trailing: Text('Todo'),
+                ),
+                ListTile(
+                  title: Text('Gender'),
+                  trailing: DropdownButton(
+                    value: dropdownValue,
+                    items: <DropdownMenuItem>[
+                      DropdownMenuItem(
+                        value: 'choose',
+                        child: Text('Choose'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'male',
+                        child: Text('Male'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'female',
+                        child: Text('Female'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const Divider(
+              height: 40,
+              thickness: 1,
+              indent: 10,
+              endIndent: 10,
             ),
             OutlinedButton(
                 onPressed: _resetCounter, child: Text('Reset water glasses')),
