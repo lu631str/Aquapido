@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/settings.dart';
+import 'package:sensors/sensors.dart';
+import 'package:shake/shake.dart';
+import 'package:geofencing/geofencing.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -16,7 +21,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
   int _counter = 0;
   int _glassSize = 300; // in ml
   dynamic _totalWaterAmount = 0;
@@ -30,6 +34,14 @@ class _HomeState extends State<Home> {
       const EventChannel('com.example.flutter_application_1/stream');
 
   StreamSubscription _buttonEventStream;
+
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      updateCounter(1);
+    });
+  }
 
   _HomeState() {
     if (_buttonEventStream == null) {
@@ -71,7 +83,7 @@ class _HomeState extends State<Home> {
       updateCounter(int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
-      updateCounter(int.parse(arr[1]));
+      //updateCounter(int.parse(arr[1]));
     }
   }
 
@@ -173,7 +185,7 @@ class _HomeState extends State<Home> {
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // 
+      ), //
     );
   }
 }
