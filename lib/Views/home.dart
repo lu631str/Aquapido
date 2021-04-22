@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/settings.dart';
-import 'package:sensors/sensors.dart';
 import 'package:shake/shake.dart';
-import 'package:geofencing/geofencing.dart';
+import 'package:water_tracker/Persistence/SharedPref.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -21,9 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _counter = 0;
-  int _glassSize = 300; // in ml
-  dynamic _totalWaterAmount = 0;
+  int _currentCupCounter = 0;
+  int _currentCupSize = 300; // in ml
+  int _totalWaterAmount = 0;
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
   String _unit = 'ml';
@@ -38,21 +33,28 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      updateCounter(1);
-    });
-  }
+    loadData();
 
-  _HomeState() {
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
     }
-    loadData().then((value) {
-      setState(() {
-        getPowerButtonCount();
-      });
+
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      addWaterCup(1);
+    });
+  }
+
+  loadData() async {
+    int currentCupSize = await loadCurrentCupSize();
+    int counter = await loadCurrentCupCounter();
+    int totalWaterAmount = await loadTotalWaterAmount();
+    setState(() {
+      this._currentCupSize = currentCupSize;
+      this._currentCupCounter = counter;
+      this._totalWaterAmount = totalWaterAmount;
+      getPowerButtonCount();
     });
   }
 
@@ -73,26 +75,26 @@ class _HomeState extends State<Home> {
       counter = -1;
     }
 
-    _counter += counter;
+    _currentCupCounter += counter;
   }
 
   Future<void> evaluateEvent(event) async {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == "power") {
-      updateCounter(int.parse(arr[1]));
+      addWaterCup(int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
       //updateCounter(int.parse(arr[1]));
     }
   }
 
-  Future<void> updateCounter(value) async {
+  Future<void> addWaterCup(value) async {
     setState(() {
-      _counter += value;
-      _totalWaterAmount += value * _glassSize;
-      saveCounter();
-      saveTotalWater();
+      _currentCupCounter += value;
+      _totalWaterAmount += value * _currentCupSize;
+      saveCurrentCupCounter(_currentCupCounter);
+      saveTotalWater(_totalWaterAmount);
     });
   }
 
@@ -113,28 +115,6 @@ class _HomeState extends State<Home> {
       _unit = 'ml';
     }
     return water.toString();
-  }
-
-  Future<void> saveCounter() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('counter', _counter);
-  }
-
-  Future<void> saveTotalWater() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('water', _totalWaterAmount.toDouble());
-  }
-
-  Future<void> loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _counter = (prefs.getInt('counter') ?? 0);
-    _glassSize = (prefs.getInt('size') ?? 0);
-    dynamic tmp = (prefs.getDouble('water') ?? 0.0);
-    if (tmp >= 1000) {
-      _totalWaterAmount = tmp.toDouble();
-    } else {
-      _totalWaterAmount = tmp.toInt();
-    }
   }
 
   @override
@@ -169,20 +149,18 @@ class _HomeState extends State<Home> {
               'You have drank this many glasses of water:',
             ),
             Text(
-              '$_counter',
+              '$_currentCupCounter',
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              'Glass size: $_glassSize ml',
+              'Glass size: $_currentCupSize ml',
             ),
-            ElevatedButton(
-                onPressed: disableListener, child: Text('Stop listening')),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await updateCounter(1);
+          await addWaterCup(1);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
