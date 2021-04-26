@@ -148,11 +148,19 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
+              'Stay Hydrated',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text(
+              'Total water today:',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
               '${displayWaterAmount()} $_unit',
               style: Theme.of(context).textTheme.headline3,
             ),
             Text(
-              'You have drank this many glasses of water:',
+              'Water Cups today:',
             ),
             Text(
               '$_currentCupCounter',

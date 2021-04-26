@@ -55,6 +55,7 @@ class _SettingsState extends State<Settings> {
   void saveCustomSize(customSize) {
     setState(() {
       this.cupSizes.add(customSize);
+      this.icons.add(Icon(MyFlutterApp.glass_200ml));
     });
   }
 
