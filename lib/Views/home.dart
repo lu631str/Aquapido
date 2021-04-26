@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
+import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'package:intl/intl.dart';
 
@@ -160,15 +161,20 @@ class _HomeState extends State<Home> {
             Text(
               'Glass size: $_currentCupSize ml',
             ),
-            Expanded(child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: history.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 22,
-                    child: Center(child: Text('Amount: ${history[index].cupSize} - Time: ${DateFormat('kk:mm:ss').format(history[index].dateTime)}')),
-                  );
-                }))
+            Expanded(
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: history.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 24,
+                        child: ListTile(
+                          leading: Icon(MyFlutterApp.glass_100ml),
+                          title: Text(
+                              'Amount: ${history[index].cupSize} - Time: ${DateFormat('kk:mm:ss').format(history[index].dateTime)}'),
+                        ),
+                      );
+                    }))
           ],
         ),
       ),

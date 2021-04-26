@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
+import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -15,6 +16,7 @@ class _SettingsState extends State<Settings> {
   String dropdownValue = 'choose';
 
   List<int> cupSizes = [100, 200, 300, 330, 400, 500];
+  List<Icon> icons = [Icon(MyFlutterApp.glass_100ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml)];
 
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
@@ -63,17 +65,21 @@ class _SettingsState extends State<Settings> {
   List<Widget> createDialogOptions(context) {
     List<Widget> sizeOptions = [];
 
-    cupSizes.forEach((i) {
+    // asMap() to get index and item
+    cupSizes.asMap().forEach((index, size) {
       return sizeOptions.add(
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, i);
+            Navigator.pop(context, size);
             setState(() {
-              this._selectedValue = i;
+              this._selectedValue = size;
             });
             saveSize(this._selectedValue);
           },
-          child: Text('$i ml'),
+          child: ListTile(
+            title: Text('$size ml'),
+            leading: icons[index],
+          ),
         ),
       );
     });
@@ -194,7 +200,8 @@ class _SettingsState extends State<Settings> {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ],
-                ),ListTile(
+                ),
+                ListTile(
                   title: Text('Weight'),
                   trailing: Text('Todo'),
                 ),
