@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:water_tracker/Views/achievements.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 
@@ -52,7 +53,7 @@ class _MainState extends State<Main> {
   List<Widget> _children = [
     Home(),
     Icon(Icons.timeline),
-    Icon(Icons.star),
+    Achievements(),
     Settings(),
   ];
   int _currentIndex = 0;
