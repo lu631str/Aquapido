@@ -1,41 +1,31 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/settings.dart';
-import 'package:water_tracker/home.dart';
-
+import 'package:water_tracker/Views/settings.dart';
+import 'package:water_tracker/Views/home.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-
-
     return MaterialApp(
-      title: 'Quick Water Tracker',
-      theme: ThemeData(
-
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      //home: MyHomePage(title: 'Quick Water Tracker'),
-      home: Main()
-    );
+        title: 'Quick Water Tracker',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: Main());
   }
 }
 
@@ -58,13 +48,13 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-
+  
   List<Widget> _children = [
-      Home(),
-      Icon(Icons.timeline),
-      Icon(Icons.star),
-      Settings(),
-    ];
+    Home(),
+    Icon(Icons.timeline),
+    Icon(Icons.star),
+    Settings(),
+  ];
   int _currentIndex = 0;
 
   void _onItemTapped(int index) {
@@ -85,58 +75,45 @@ class _MainState extends State<Main> {
     // than having to individually change instances of widgets.
     //
     return Container(
-
-
-
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[
-              color1,
-              color2
-            ],
-          ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[color1, color2],
         ),
-
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text('Quick Water Tracker'),
-
-
-
-
-
-
+        appBar: AppBar(
+          title: const Text('Quick Water Tracker'),
+        ),
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.timeline),
+              label: 'Statistics',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: 'Achievements',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+          selectedItemColor: Colors.white,
+          backgroundColor: Colors.blue,
+          onTap: _onItemTapped,
+        ),
       ),
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timeline),
-            label: 'Statistics',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Achievements',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        selectedItemColor: Colors.white,
-        backgroundColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    ),
     );
   }
 }
