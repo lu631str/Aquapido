@@ -16,16 +16,71 @@ class _AchievementsState extends State<Achievements> {
   @override
   void initState() {
     super.initState();
+    loadData();
   }
+
+  int _currentCupCounter = 0;
+  int _currentCupSize = 300; // in ml
+  int _totalWaterAmount = 0;
+
+  loadData() async {
+    int currentCupSize = await loadCurrentCupSize();
+    int counter = await loadCurrentCupCounter();
+    int totalWaterAmount = await loadTotalWaterAmount();
+    setState(() {
+      this._currentCupSize = currentCupSize;
+      this._currentCupCounter += counter;
+      this._totalWaterAmount += totalWaterAmount;
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: CircleBadge(
+      backgroundColor: Colors.transparent,
+
+      body: Align(
+        alignment: Alignment(0.60,-0.80),
+
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+
+          children: <Widget>[
+       AchievementCircle(
+
           color: Color.fromRGBO(255, 255, 255, 1.0),
-          title: "4,5/10",
+          current: _totalWaterAmount.toDouble()/1000,
+          max: 10,
           subtitle: "Total Water"),
+
+            AchievementCircle(
+
+                color: Color.fromRGBO(255, 255, 255, 1.0),
+                current: _currentCupCounter.toDouble(),
+                max: 100,
+                subtitle: "Total Cups"),
+
+            AchievementCircle(
+
+                color: Color.fromRGBO(255, 255, 255, 1.0),
+                current: 4,
+                max: 10,
+                subtitle: "Streak"),
+
+
+
+
+
+
+
+      ]
+    ),
+    ),
     );
   }
 }
@@ -36,25 +91,21 @@ class _AchievementsState extends State<Achievements> {
 
 
 
-class CircleBadge extends StatelessWidget {
+class AchievementCircle extends StatelessWidget {
   final Color color;
-  final String title, subtitle;
+  final String  subtitle;
+  double current,max;
 
-  CircleBadge({this.color, this.title, this.subtitle});
+
+  AchievementCircle({this.color, this.current, this.max, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+
       children: <Widget>[
-        Container(
-            width: 45.0,
-            height: 60.0,
-            transform: Matrix4.translationValues(0.0, 102.0, 0.0),
 
-            child: Text('Test')
-
-
-            ),
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -85,7 +136,7 @@ class CircleBadge extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  this.title,
+                  this.current.round().toString() + "/" + this.max.round().toString(),
                   style: TextStyle(
                     color: (this.color != Color.fromRGBO(255, 255, 255, 1.0))
                         ? Colors.white
@@ -94,6 +145,16 @@ class CircleBadge extends StatelessWidget {
                     fontSize: 20.0,
                   ),
                 ),
+
+                    Text(
+                      this.subtitle,
+                      style: TextStyle(
+                        color: (this.color != Color.fromRGBO(255, 255, 255, 1.0))
+                            ? Colors.black54
+                            : Colors.blue[100],
+                        fontSize: 14.0,
+                      ),
+                    ),
               ],
             ),
           ),
