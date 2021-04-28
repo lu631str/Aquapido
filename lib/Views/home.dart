@@ -113,6 +113,13 @@ class _HomeState extends State<Home> {
     this.history.add(WaterModel(_currentCupSize, DateTime.now()));
   }
 
+  void delete(index) {
+    setState(() {
+      this.history.removeAt(index);
+    
+    });
+  }
+
   void disableListener() {
     debugPrint('disable');
     if (_buttonEventStream != null) {
@@ -178,7 +185,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context).textTheme.headline2,
             ),
             Text(
-              'Glass size: $_currentCupSize ml',
+              'Cup size: $_currentCupSize ml',
             ),
             Expanded(
                 child: ListView.builder(
@@ -186,11 +193,14 @@ class _HomeState extends State<Home> {
                     itemCount: history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 24,
+                        height: 40,
                         child: ListTile(
-                          leading: Icon(MyFlutterApp.glass_100ml),
+                          leading: Icon(MyFlutterApp.cup_400ml),
                           title: Text(
                               '${history[index].cupSize}ml ${getDateString(history[index].dateTime)} - ${DateFormat('kk:mm').format(history[index].dateTime)}'),
+                              trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {
+                                delete(index);
+                              },),
                         ),
                       );
                     }))

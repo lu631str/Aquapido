@@ -97,7 +97,9 @@ class _MainState extends State<Main> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text('Quick Water Tracker'),
+          centerTitle: true,
+          toolbarHeight: 30,
+          title: const Text('Aquapido - Quick Water Tracker'),
         ),
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
@@ -114,7 +116,7 @@ class _MainState extends State<Main> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              label: 'Achievements',
+              label: 'Goals',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

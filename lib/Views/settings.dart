@@ -17,12 +17,12 @@ class _SettingsState extends State<Settings> {
 
   List<int> cupSizes = [100, 200, 300, 330, 400, 500];
   List<Icon> icons = [
-    Icon(MyFlutterApp.glass_100ml),
-    Icon(MyFlutterApp.glass_200ml),
-    Icon(MyFlutterApp.glass_200ml),
-    Icon(MyFlutterApp.glass_200ml),
-    Icon(MyFlutterApp.glass_200ml),
-    Icon(MyFlutterApp.glass_200ml)
+    Icon(MyFlutterApp.cup_100ml),
+    Icon(MyFlutterApp.cup_200ml),
+    Icon(MyFlutterApp.cup_300ml),
+    Icon(MyFlutterApp.cup_330ml),
+    Icon(MyFlutterApp.cup_400ml),
+    Icon(MyFlutterApp.cup_400ml)
   ];
 
   bool _isPowerBtnAddEnabled = false;
@@ -59,18 +59,15 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  void _resetCounter() {
+  void _reset() {
     saveCurrentCupCounter(0);
-  }
-
-  void _resetTotalWater() {
     saveTotalWater(0);
   }
 
   void saveCustomSize(customSize) {
     setState(() {
       this.cupSizes.add(customSize);
-      this.icons.add(Icon(MyFlutterApp.glass_200ml));
+      this.icons.add(Icon(MyFlutterApp.cup_400ml));
     });
   }
 
@@ -180,9 +177,9 @@ class _SettingsState extends State<Settings> {
             SwitchListTile(
                 value: false, title: Text('Quick add Drink gesture')),
             ListTile(
-              title: Text('Glass size: ' + _selectedSize.toString() + 'ml'),
-              trailing: ElevatedButton(
-                  child: Text('Change'),
+              title: Text('Cup size'),
+              trailing: TextButton(
+                  child: Text(_selectedSize.toString() + 'ml'),
                   onPressed: () {
                     setState(() {
                       showDialog(
@@ -208,14 +205,12 @@ class _SettingsState extends State<Settings> {
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Personal Settings',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
+                ListTile(
+                  
+                  title: Text(
+                    'Personal Settings',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
                 ListTile(
                   title: Text('Weight'),
@@ -238,7 +233,8 @@ class _SettingsState extends State<Settings> {
                                       haptics: true,
                                       itemCount: 5,
                                       itemHeight: 32,
-                                      textMapper: (numberText) => numberText + ' ' + _weightUnit,
+                                      textMapper: (numberText) =>
+                                          numberText + ' ' + _weightUnit,
                                       onChanged: (value) => setState(
                                           () => _selectedWeight = value),
                                     ),
@@ -249,16 +245,16 @@ class _SettingsState extends State<Settings> {
                                           TextButton(
                                               child: Text('Cancel'),
                                               onPressed: () {
-                                                _selectedWeight = _currentWeight;
+                                                _selectedWeight =
+                                                    _currentWeight;
                                                 closeDialog();
-                                              }
-                                            ), // button 1
+                                              }), // button 1
                                           ElevatedButton(
                                             child: Text('Save'),
                                             onPressed: () {
                                               saveWeight(_selectedWeight);
-                                                _currentWeight = _selectedWeight;
-                                                closeDialog();
+                                              _currentWeight = _selectedWeight;
+                                              closeDialog();
                                             },
                                           ), // button 2
                                         ])
@@ -304,10 +300,20 @@ class _SettingsState extends State<Settings> {
               indent: 10,
               endIndent: 10,
             ),
-            OutlinedButton(
-                onPressed: _resetCounter, child: Text('Reset water glasses')),
-            OutlinedButton(
-                onPressed: _resetTotalWater, child: Text('Reset total water'))
+            new Container(
+              margin: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.only(
+                  top: 3, bottom: 3, left: 100, right: 100),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(
+                        6.0) //                 <--- border radius here
+                    ),
+              ),
+              child: OutlinedButton(onPressed: _reset, child: Text('Reset')),
+            )
           ],
         ),
       ),
