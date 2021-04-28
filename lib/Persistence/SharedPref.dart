@@ -47,6 +47,16 @@ Future<bool> loadPowerSettings() async {
   return prefs.getBool('power') ?? false;
 }
 
+Future<int> loadWeight() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getInt('weight') ?? 0;
+}
+
+Future<String> loadGender() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('gender') ?? 'Choose';
+}
+
 // Save
 Future<void> savePower(bool isPowerBtnAddEnabled) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,4 +66,14 @@ Future<void> savePower(bool isPowerBtnAddEnabled) async {
 Future<void> saveShaking(bool isShakingAddEnabled) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setBool('shake', isShakingAddEnabled);
+}
+
+Future<void> saveWeight(int newWeight) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setInt('weight', newWeight);
+}
+
+Future<void> saveGender(String gender) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('gender', gender);
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water_tracker/Views/achievements.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,17 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.blue,
+          fontFamily: GoogleFonts.comfortaa().fontFamily,
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+            headline2: TextStyle(fontSize: 42.0),
+            headline3: TextStyle(fontSize: 32.0),
+            headline4: TextStyle(fontSize: 24.0),
+            bodyText2: TextStyle(fontSize: 14.0),
+          ),
         ),
         home: Main());
   }
@@ -49,7 +61,6 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  
   List<Widget> _children = [
     Home(),
     Icon(Icons.timeline),

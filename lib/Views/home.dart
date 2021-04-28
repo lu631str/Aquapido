@@ -51,6 +51,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  String getDateString(DateTime dateTime) {
+    var now = DateTime.now();
+    if(dateTime.day == now.day && dateTime.month == now.month && dateTime.year == now.year) {
+      return 'Today';
+    } else {
+      return DateFormat('dd.MM.yy').format(dateTime);
+    }
+  }
+
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
@@ -149,22 +158,24 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Text(
               'Stay Hydrated',
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline1,
             ),
             Text(
-              'Total water today:',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Text(
-              '${displayWaterAmount()} $_unit',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            Text(
-              'Water Cups today:',
+              'Cups today:',
+              style: Theme.of(context).textTheme.headline4,
             ),
             Text(
               '$_currentCupCounter',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text('IMAGE'),
+            Text(
+              'Water today:',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '${displayWaterAmount()} $_unit',
+              style: Theme.of(context).textTheme.headline2,
             ),
             Text(
               'Glass size: $_currentCupSize ml',
@@ -179,7 +190,7 @@ class _HomeState extends State<Home> {
                         child: ListTile(
                           leading: Icon(MyFlutterApp.glass_100ml),
                           title: Text(
-                              'Amount: ${history[index].cupSize} - Time: ${DateFormat('kk:mm:ss').format(history[index].dateTime)}'),
+                              '${history[index].cupSize}ml ${getDateString(history[index].dateTime)} - ${DateFormat('kk:mm').format(history[index].dateTime)}'),
                         ),
                       );
                     }))
