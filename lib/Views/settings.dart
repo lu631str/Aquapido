@@ -154,8 +154,14 @@ class _SettingsState extends State<Settings> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            ListTile(
+                  title: Text(
+                    'General Settings',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ),
             SwitchListTile(
                 value: this._isPowerBtnAddEnabled,
                 title: Text('Quick add Power Button'),
@@ -206,10 +212,9 @@ class _SettingsState extends State<Settings> {
             Column(
               children: [
                 ListTile(
-                  
                   title: Text(
                     'Personal Settings',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
                 ListTile(

@@ -53,7 +53,9 @@ class _HomeState extends State<Home> {
 
   String getDateString(DateTime dateTime) {
     var now = DateTime.now();
-    if(dateTime.day == now.day && dateTime.month == now.month && dateTime.year == now.year) {
+    if (dateTime.day == now.day &&
+        dateTime.month == now.month &&
+        dateTime.year == now.year) {
       return 'Today';
     } else {
       return DateFormat('dd.MM.yy').format(dateTime);
@@ -116,7 +118,6 @@ class _HomeState extends State<Home> {
   void delete(index) {
     setState(() {
       this.history.removeAt(index);
-    
     });
   }
 
@@ -187,6 +188,12 @@ class _HomeState extends State<Home> {
             Text(
               'Cup size: $_currentCupSize ml',
             ),
+            ListTile(
+              title: Text(
+                'History',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
             Expanded(
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
@@ -198,9 +205,12 @@ class _HomeState extends State<Home> {
                           leading: Icon(MyFlutterApp.cup_400ml),
                           title: Text(
                               '${history[index].cupSize}ml ${getDateString(history[index].dateTime)} - ${DateFormat('kk:mm').format(history[index].dateTime)}'),
-                              trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {
-                                delete(index);
-                              },),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              delete(index);
+                            },
+                          ),
                         ),
                       );
                     }))
