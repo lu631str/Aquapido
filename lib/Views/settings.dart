@@ -54,7 +54,8 @@ class _SettingsState extends State<Settings> {
     setState(() {
       this._isPowerBtnAddEnabled = currentCupSize;
       this._isShakingAddEnabled = counter;
-      this._currentWeight = weight;
+      this._selectedWeight = this._currentWeight = weight;
+      
       this._gender = gender;
     });
   }
