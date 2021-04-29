@@ -41,78 +41,74 @@ class _AchievementsState extends State<Achievements> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Align(
-        alignment: Alignment(0.60, -0.80),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              AchievementCircle(
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  colorBoarder: Color.fromARGB(153, 51, 0, 2),
-                  isCurrentInt: false,
-                  currentDouble: _totalWaterAmount / 1000,
-                  max: 10,
-                  unit: "Liter",
-                  subtitle: "Total Water"),
-
-              AchievementCircle(
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  colorBoarder: Color.fromARGB(136, 83, 82, 82),
-                  isCurrentInt: true,
-                  currentInt: _currentCupCounter.round(),
-                  max: 100,
-                  unit: "Cups",
-                  subtitle: "Total Cups"),
-              AchievementCircle(
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  colorBoarder: Color.fromARGB(153, 255, 223, 17),
-                  isCurrentInt: true,
-                  currentInt: 260,
-                  max: 360,
-                  unit: "Days",
-                  subtitle: "Streak"),
-            ]),
-        const Divider(
-          height: 40,
-          thickness: 1,
-          indent: 10,
-          endIndent: 10,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: _goalLabels,
+          alignment: Alignment(0.60, -0.80),
+          child: Column(
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AchievementCircle(
+                        color: Color.fromRGBO(255, 255, 255, 1.0),
+                        colorBoarder: Color.fromARGB(153, 51, 0, 2),
+                        isCurrentInt: false,
+                        currentDouble: _totalWaterAmount / 1000,
+                        max: 10,
+                        unit: "Liter",
+                        subtitle: "Total Water"),
+                    AchievementCircle(
+                        color: Color.fromRGBO(255, 255, 255, 1.0),
+                        colorBoarder: Color.fromARGB(136, 83, 82, 82),
+                        isCurrentInt: true,
+                        currentInt: _currentCupCounter.round(),
+                        max: 100,
+                        unit: "Cups",
+                        subtitle: "Total Cups"),
+                    AchievementCircle(
+                        color: Color.fromRGBO(255, 255, 255, 1.0),
+                        colorBoarder: Color.fromARGB(153, 255, 223, 17),
+                        isCurrentInt: true,
+                        currentInt: 260,
+                        max: 360,
+                        unit: "Days",
+                        subtitle: "Streak"),
+                  ]),
+              const Divider(
+                height: 40,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
               ),
-            ),
-            Slider(
-              value: _dailyGoal,
-              min: _minGoal,
-              max: _maxGoal,
-              divisions: (_maxGoal - _minGoal) ~/ 50,
-              label: _dailyGoal.round().toString(),
-              onChanged: (double value) {
-                setState(() {
-                  _dailyGoal = value;
-                });
-              },
-            ),
-          ],
-        ),
-        Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
-
-
-
-
-
-      ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: _goalLabels,
+                    ),
+                  ),
+                  Slider(
+                    value: _dailyGoal,
+                    min: _minGoal,
+                    max: _maxGoal,
+                    divisions: (_maxGoal - _minGoal) ~/ 50,
+                    label: _dailyGoal.round().toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        _dailyGoal = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
+            ],
+          )),
     );
   }
 }
