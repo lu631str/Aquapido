@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
+import 'package:water_tracker/Persistence/Database.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'package:intl/intl.dart';
@@ -47,7 +48,7 @@ class _HomeState extends State<Home> {
     }
 
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      addWaterCup(1);
+      //addWaterCup(1);
     });
   }
 
@@ -98,7 +99,7 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == "power") {
-      addWaterCup(int.parse(arr[1]));
+      //addWaterCup(int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
       //updateCounter(int.parse(arr[1]));
@@ -106,18 +107,24 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> addWaterCup(value) async {
+    await insertWater(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize));
+    var history = await water();
     setState(() {
       _currentCupCounter += value;
       _totalWaterAmount += value * _currentCupSize;
+      this.history = history;
     });
     saveCurrentCupCounter(_currentCupCounter);
     saveTotalWater(_totalWaterAmount);
-    this.history.add(WaterModel(_currentCupSize, DateTime.now()));
+    //this.history.add(WaterModel(DateTime.now(), _currentCupSize));
   }
 
-  void delete(index) {
+  void delete(index) async {
+    var history = await water();
     setState(() {
-      this.history.removeAt(index);
+      //this.history.removeAt(index);
+      deleteWater(history[index]);
+      this.history = history;
     });
   }
 
@@ -218,8 +225,8 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await addWaterCup(1);
+        onPressed: () {
+          addWaterCup(1);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
