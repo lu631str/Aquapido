@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
    <application
-        android:label="water_tracker"
+        android:label="Aquapido"
         android:icon="@mipmap/ic_launcher">
        <service android:name=".WaterAddService" />
         <activity

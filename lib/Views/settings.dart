@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -12,15 +13,25 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int _selectedValue = 300;
-  String dropdownValue = 'choose';
+  int _selectedSize = 300;
 
   List<int> cupSizes = [100, 200, 300, 330, 400, 500];
-  List<Icon> icons = [Icon(MyFlutterApp.glass_100ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml), Icon(MyFlutterApp.glass_200ml)];
+  List<Icon> icons = [
+    Icon(MyFlutterApp.cup_100ml),
+    Icon(MyFlutterApp.cup_200ml),
+    Icon(MyFlutterApp.cup_300ml),
+    Icon(MyFlutterApp.cup_330ml),
+    Icon(MyFlutterApp.cup_400ml),
+    Icon(MyFlutterApp.cup_400ml)
+  ];
 
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
-  final myController = TextEditingController(text: '187');
+  String _weightUnit = 'kg';
+  int _currentWeight = 30;
+  int _selectedWeight = 30;
+  String _gender = 'choose';
+  final myController = TextEditingController(text: '0');
 
   @override
   void initState() {
@@ -38,24 +49,25 @@ class _SettingsState extends State<Settings> {
   loadData() async {
     bool currentCupSize = await loadPowerSettings();
     bool counter = await loadShakeSettings();
+    int weight = await loadWeight();
+    String gender = await loadGender();
     setState(() {
       this._isPowerBtnAddEnabled = currentCupSize;
       this._isShakingAddEnabled = counter;
+      this._currentWeight = weight;
+      this._gender = gender;
     });
   }
 
-  void _resetCounter() {
+  void _reset() {
     saveCurrentCupCounter(0);
-  }
-
-  void _resetTotalWater() {
     saveTotalWater(0);
   }
 
   void saveCustomSize(customSize) {
     setState(() {
       this.cupSizes.add(customSize);
-      this.icons.add(Icon(MyFlutterApp.glass_200ml));
+      this.icons.add(Icon(MyFlutterApp.cup_400ml));
     });
   }
 
@@ -73,9 +85,9 @@ class _SettingsState extends State<Settings> {
           onPressed: () {
             Navigator.pop(context, size);
             setState(() {
-              this._selectedValue = size;
+              this._selectedSize = size;
             });
-            saveSize(this._selectedValue);
+            saveSize(this._selectedSize);
           },
           child: ListTile(
             title: Text('$size ml'),
@@ -134,7 +146,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     loadCurrentCupSize().then((size) {
       setState(() {
-        this._selectedValue = size;
+        this._selectedSize = size;
       });
     });
 
@@ -142,8 +154,14 @@ class _SettingsState extends State<Settings> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            ListTile(
+                  title: Text(
+                    'General Settings',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ),
             SwitchListTile(
                 value: this._isPowerBtnAddEnabled,
                 title: Text('Quick add Power Button'),
@@ -165,9 +183,9 @@ class _SettingsState extends State<Settings> {
             SwitchListTile(
                 value: false, title: Text('Quick add Drink gesture')),
             ListTile(
-              title: Text('Glass size: ' + _selectedValue.toString() + 'ml'),
-              trailing: ElevatedButton(
-                  child: Text('Change'),
+              title: Text('Cup size'),
+              trailing: TextButton(
+                  child: Text(_selectedSize.toString() + 'ml'),
                   onPressed: () {
                     setState(() {
                       showDialog(
@@ -193,23 +211,70 @@ class _SettingsState extends State<Settings> {
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Personal Settings',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
+                ListTile(
+                  title: Text(
+                    'Personal Settings',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
                 ListTile(
                   title: Text('Weight'),
-                  trailing: Text('Todo'),
+                  trailing: TextButton(
+                    child: Text(_currentWeight.toString() + ' ' + _weightUnit),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return SimpleDialog(
+                                  contentPadding: EdgeInsets.all(16),
+                                  title: Text('Set Weight'),
+                                  children: [
+                                    NumberPicker(
+                                      value: _selectedWeight,
+                                      minValue: 30,
+                                      maxValue: 150,
+                                      haptics: true,
+                                      itemCount: 5,
+                                      itemHeight: 32,
+                                      textMapper: (numberText) =>
+                                          numberText + ' ' + _weightUnit,
+                                      onChanged: (value) => setState(
+                                          () => _selectedWeight = value),
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          TextButton(
+                                              child: Text('Cancel'),
+                                              onPressed: () {
+                                                _selectedWeight =
+                                                    _currentWeight;
+                                                closeDialog();
+                                              }), // button 1
+                                          ElevatedButton(
+                                            child: Text('Save'),
+                                            onPressed: () {
+                                              saveWeight(_selectedWeight);
+                                              _currentWeight = _selectedWeight;
+                                              closeDialog();
+                                            },
+                                          ), // button 2
+                                        ])
+                                  ],
+                                );
+                              },
+                            );
+                          });
+                    },
+                  ),
                 ),
                 ListTile(
                   title: Text('Gender'),
                   trailing: DropdownButton(
-                    value: dropdownValue,
+                    value: _gender,
                     items: <DropdownMenuItem>[
                       DropdownMenuItem(
                         value: 'choose',
@@ -226,7 +291,8 @@ class _SettingsState extends State<Settings> {
                     ],
                     onChanged: (value) {
                       setState(() {
-                        dropdownValue = value;
+                        saveGender(value);
+                        _gender = value;
                       });
                     },
                   ),
@@ -239,10 +305,20 @@ class _SettingsState extends State<Settings> {
               indent: 10,
               endIndent: 10,
             ),
-            OutlinedButton(
-                onPressed: _resetCounter, child: Text('Reset water glasses')),
-            OutlinedButton(
-                onPressed: _resetTotalWater, child: Text('Reset total water'))
+            new Container(
+              margin: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.only(
+                  top: 3, bottom: 3, left: 100, right: 100),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(
+                        6.0) //                 <--- border radius here
+                    ),
+              ),
+              child: OutlinedButton(onPressed: _reset, child: Text('Reset')),
+            )
           ],
         ),
       ),

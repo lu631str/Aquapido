@@ -51,6 +51,17 @@ class _HomeState extends State<Home> {
     });
   }
 
+  String getDateString(DateTime dateTime) {
+    var now = DateTime.now();
+    if (dateTime.day == now.day &&
+        dateTime.month == now.month &&
+        dateTime.year == now.year) {
+      return 'Today';
+    } else {
+      return DateFormat('dd.MM.yy').format(dateTime);
+    }
+  }
+
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
@@ -104,6 +115,12 @@ class _HomeState extends State<Home> {
     this.history.add(WaterModel(_currentCupSize, DateTime.now()));
   }
 
+  void delete(index) {
+    setState(() {
+      this.history.removeAt(index);
+    });
+  }
+
   void disableListener() {
     debugPrint('disable');
     if (_buttonEventStream != null) {
@@ -149,25 +166,33 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Text(
               'Stay Hydrated',
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline1,
             ),
             Text(
-              'Total water today:',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Text(
-              '${displayWaterAmount()} $_unit',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            Text(
-              'Water Cups today:',
-            ),
-            Text(
-              '$_currentCupCounter',
+              'Cups today:',
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              'Glass size: $_currentCupSize ml',
+              '$_currentCupCounter',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text('IMAGE'),
+            Text(
+              'Water today:',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '${displayWaterAmount()} $_unit',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text(
+              'Cup size: $_currentCupSize ml',
+            ),
+            ListTile(
+              title: Text(
+                'History',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
             Expanded(
                 child: ListView.builder(
@@ -175,11 +200,17 @@ class _HomeState extends State<Home> {
                     itemCount: history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 24,
+                        height: 40,
                         child: ListTile(
-                          leading: Icon(MyFlutterApp.glass_100ml),
+                          leading: Icon(MyFlutterApp.cup_400ml),
                           title: Text(
-                              'Amount: ${history[index].cupSize} - Time: ${DateFormat('kk:mm:ss').format(history[index].dateTime)}'),
+                              '${history[index].cupSize}ml ${getDateString(history[index].dateTime)} - ${DateFormat('kk:mm').format(history[index].dateTime)}'),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              delete(index);
+                            },
+                          ),
                         ),
                       );
                     }))

@@ -22,6 +22,11 @@ class _AchievementsState extends State<Achievements> {
   int _currentCupCounter = 0;
   int _currentCupSize = 300; // in ml
   int _totalWaterAmount = 0;
+  double _dailyGoal = 2000;
+  double _minGoal = 2000;
+  double _maxGoal = 8000;
+
+  List<Widget> _goalLabels = [Text('2000'), Text('8000')];
 
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
@@ -71,6 +76,42 @@ class _AchievementsState extends State<Achievements> {
                   unit: "Days",
                   subtitle: "Streak"),
             ]),
+        const Divider(
+          height: 40,
+          thickness: 1,
+          indent: 10,
+          endIndent: 10,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _goalLabels,
+              ),
+            ),
+            Slider(
+              value: _dailyGoal,
+              min: _minGoal,
+              max: _maxGoal,
+              divisions: (_maxGoal - _minGoal) ~/ 50,
+              label: _dailyGoal.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _dailyGoal = value;
+                });
+              },
+            ),
+          ],
+        ),
+        Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
+
+
+
+
+
       ),
     );
   }
