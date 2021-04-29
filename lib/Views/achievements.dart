@@ -36,13 +36,14 @@ class _AchievementsState extends State<Achievements> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Align(
         alignment: Alignment(0.60, -0.80),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               AchievementCircle(
                   color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -52,6 +53,7 @@ class _AchievementsState extends State<Achievements> {
                   max: 10,
                   unit: "Liter",
                   subtitle: "Total Water"),
+
               AchievementCircle(
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   colorBoarder: Color.fromARGB(136, 83, 82, 82),
@@ -75,6 +77,8 @@ class _AchievementsState extends State<Achievements> {
 }
 
 class AchievementCircle extends StatelessWidget {
+
+
   Color color;
   Color colorBoarder;
   final String subtitle;
@@ -95,14 +99,17 @@ class AchievementCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(height: 40.0),
+          Container(height: 10.0), // Space Top
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -113,7 +120,7 @@ class AchievementCircle extends StatelessWidget {
                   ),
                 ),
                 padding: EdgeInsets.all(6.0),
-                transform: Matrix4.translationValues(0.0, -30.0, 0.0),
+                //transform: Matrix4.translationValues(0.0, -30.0, 0.0),
                 height: 110.0,
                 width: 120.0,
                 alignment: Alignment.center,
@@ -129,6 +136,7 @@ class AchievementCircle extends StatelessWidget {
                     ),
                   ),
                   alignment: Alignment.center,
+
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
