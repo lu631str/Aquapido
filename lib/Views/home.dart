@@ -67,10 +67,14 @@ class _HomeState extends State<Home> {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
     int totalWaterAmount = await loadTotalWaterAmount();
+    var history = await water();
+    //print('history0' + history[0].toString());
+    //print('history1' + history[1].toString());
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter = counter;
       this._totalWaterAmount = totalWaterAmount;
+      this.history = history;
       getPowerButtonCount();
     });
   }
@@ -108,23 +112,19 @@ class _HomeState extends State<Home> {
 
   Future<void> addWaterCup(value) async {
     await insertWater(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize));
-    var history = await water();
     setState(() {
       _currentCupCounter += value;
       _totalWaterAmount += value * _currentCupSize;
-      this.history = history;
     });
     saveCurrentCupCounter(_currentCupCounter);
     saveTotalWater(_totalWaterAmount);
-    //this.history.add(WaterModel(DateTime.now(), _currentCupSize));
+    this.history.add(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize));
   }
 
   void delete(index) async {
-    var history = await water();
+    deleteWater(this.history[index]);
     setState(() {
-      //this.history.removeAt(index);
-      deleteWater(history[index]);
-      this.history = history;
+      this.history.removeAt(index);
     });
   }
 

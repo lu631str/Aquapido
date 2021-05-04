@@ -6,7 +6,7 @@ class WaterModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'dateTime': dateTime.millisecondsSinceEpoch,
+      'dateTime': dateTime.millisecondsSinceEpoch.toString(),
       'cupSize': cupSize,
     };
   }

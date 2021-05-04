@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
       this._isPowerBtnAddEnabled = currentCupSize;
       this._isShakingAddEnabled = counter;
       this._selectedWeight = this._currentWeight = weight;
-      
+
       this._gender = gender;
     });
   }
@@ -153,174 +153,178 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            ListTile(
-                  title: Text(
-                    'General Settings',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  'General Settings',
+                  style: Theme.of(context).textTheme.headline5,
                 ),
-            SwitchListTile(
-                value: this._isPowerBtnAddEnabled,
-                title: Text('Quick add Power Button'),
-                onChanged: (value) {
-                  setState(() {
-                    this._isPowerBtnAddEnabled = value;
-                    savePower(value);
-                  });
-                }),
-            SwitchListTile(
-                value: this._isShakingAddEnabled,
-                title: Text('Quick add Shaking'),
-                onChanged: (value) {
-                  setState(() {
-                    this._isShakingAddEnabled = value;
-                    saveShaking(value);
-                  });
-                }),
-            SwitchListTile(
-                value: false, title: Text('Quick add Drink gesture')),
-            ListTile(
-              title: Text('Cup size'),
-              trailing: TextButton(
-                  child: Text(_selectedSize.toString() + 'ml'),
-                  onPressed: () {
+              ),
+              SwitchListTile(
+                  value: this._isPowerBtnAddEnabled,
+                  title: Text('Quick add Power Button'),
+                  onChanged: (value) {
                     setState(() {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return StatefulBuilder(
-                                builder: (context, setState) {
-                              return SimpleDialog(
-                                contentPadding: EdgeInsets.all(16),
-                                title: Text('Choose Size'),
-                                children: createDialogOptions(context),
-                              );
-                            });
-                          });
+                      this._isPowerBtnAddEnabled = value;
+                      savePower(value);
                     });
                   }),
-            ),
-            const Divider(
-              height: 40,
-              thickness: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
-            Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    'Personal Settings',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                ),
-                ListTile(
-                  title: Text('Weight'),
-                  trailing: TextButton(
-                    child: Text(_currentWeight.toString() + ' ' + _weightUnit),
+              SwitchListTile(
+                  value: this._isShakingAddEnabled,
+                  title: Text('Quick add Shaking'),
+                  onChanged: (value) {
+                    setState(() {
+                      this._isShakingAddEnabled = value;
+                      saveShaking(value);
+                    });
+                  }),
+              SwitchListTile(
+                  value: false, title: Text('Quick add Drink gesture')),
+              ListTile(
+                title: Text('Cup size'),
+                trailing: TextButton(
+                    child: Text(_selectedSize.toString() + 'ml'),
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return StatefulBuilder(
-                              builder: (context, setState) {
+                      setState(() {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
                                 return SimpleDialog(
                                   contentPadding: EdgeInsets.all(16),
-                                  title: Text('Set Weight'),
-                                  children: [
-                                    NumberPicker(
-                                      value: _selectedWeight,
-                                      minValue: 30,
-                                      maxValue: 150,
-                                      haptics: true,
-                                      itemCount: 5,
-                                      itemHeight: 32,
-                                      textMapper: (numberText) =>
-                                          numberText + ' ' + _weightUnit,
-                                      onChanged: (value) => setState(
-                                          () => _selectedWeight = value),
-                                    ),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          TextButton(
-                                              child: Text('Cancel'),
-                                              onPressed: () {
-                                                _selectedWeight =
-                                                    _currentWeight;
-                                                closeDialog();
-                                              }), // button 1
-                                          ElevatedButton(
-                                            child: Text('Save'),
-                                            onPressed: () {
-                                              saveWeight(_selectedWeight);
-                                              _currentWeight = _selectedWeight;
-                                              closeDialog();
-                                            },
-                                          ), // button 2
-                                        ])
-                                  ],
+                                  title: Text('Choose Size'),
+                                  children: createDialogOptions(context),
                                 );
-                              },
-                            );
-                          });
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: Text('Gender'),
-                  trailing: DropdownButton(
-                    value: _gender,
-                    items: <DropdownMenuItem>[
-                      DropdownMenuItem(
-                        value: 'choose',
-                        child: Text('Choose'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'male',
-                        child: Text('Male'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'female',
-                        child: Text('Female'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        saveGender(value);
-                        _gender = value;
+                              });
+                            });
                       });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 40,
-              thickness: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
-            new Container(
-              margin: const EdgeInsets.all(2.0),
-              padding: const EdgeInsets.only(
-                  top: 3, bottom: 3, left: 100, right: 100),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.red,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(
-                        6.0) //                 <--- border radius here
-                    ),
+                    }),
               ),
-              child: OutlinedButton(onPressed: _reset, child: Text('Reset')),
-            )
-          ],
+              const Divider(
+                height: 40,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+              Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'Personal Settings',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('Weight'),
+                    trailing: TextButton(
+                      child:
+                          Text(_currentWeight.toString() + ' ' + _weightUnit),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return SimpleDialog(
+                                    contentPadding: EdgeInsets.all(16),
+                                    title: Text('Set Weight'),
+                                    children: [
+                                      NumberPicker(
+                                        value: _selectedWeight,
+                                        minValue: 30,
+                                        maxValue: 150,
+                                        haptics: true,
+                                        itemCount: 5,
+                                        itemHeight: 32,
+                                        textMapper: (numberText) =>
+                                            numberText + ' ' + _weightUnit,
+                                        onChanged: (value) => setState(
+                                            () => _selectedWeight = value),
+                                      ),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () {
+                                                  _selectedWeight =
+                                                      _currentWeight;
+                                                  closeDialog();
+                                                }), // button 1
+                                            ElevatedButton(
+                                              child: Text('Save'),
+                                              onPressed: () {
+                                                saveWeight(_selectedWeight);
+                                                _currentWeight =
+                                                    _selectedWeight;
+                                                closeDialog();
+                                              },
+                                            ), // button 2
+                                          ])
+                                    ],
+                                  );
+                                },
+                              );
+                            });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('Gender'),
+                    trailing: DropdownButton(
+                      value: _gender,
+                      items: <DropdownMenuItem>[
+                        DropdownMenuItem(
+                          value: 'choose',
+                          child: Text('Choose'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'male',
+                          child: Text('Male'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'female',
+                          child: Text('Female'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          saveGender(value);
+                          _gender = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(
+                height: 40,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+              new Container(
+                margin: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.only(
+                    top: 3, bottom: 3, left: 100, right: 100),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.red,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(
+                          6.0) //                 <--- border radius here
+                      ),
+                ),
+                child: OutlinedButton(onPressed: _reset, child: Text('Reset')),
+              )
+            ],
+          ),
         ),
       ),
     );

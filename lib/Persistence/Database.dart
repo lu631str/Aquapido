@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:water_tracker/models/WaterModel.dart';
+import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
 
@@ -17,7 +18,7 @@ Future<Database> connectWithDatabase() async {
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
       return db.execute(
-        "CREATE TABLE water(datetime INTEGER PRIMARY KEY, cupSize INTEGER)",
+        "CREATE TABLE water(dateTime INTEGER PRIMARY KEY, cupSize INTEGER)",
       );
     },
     // Set the version. This executes the onCreate function and provides a
@@ -34,6 +35,9 @@ Future<void> insertWater(WaterModel water) async {
   // `conflictAlgorithm` to use in case the same dog is inserted twice.
   //
   // In this case, replace any previous data.
+
+  log('Database: INSERT WATER - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
+
   await db.insert(
     'water',
     water.toMap(),
@@ -44,6 +48,8 @@ Future<void> insertWater(WaterModel water) async {
 Future<void> deleteWater(WaterModel water) async {
   // Get a reference to the database.
   final db = await database;
+
+  log('Database: DELETE WATER - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
   // Remove the Dog from the Database.
   await db.delete(
@@ -62,12 +68,20 @@ Future<List<WaterModel>> water() async {
   // Query the table for all The Dogs.
   final List<Map<String, dynamic>> maps = await db.query('water');
 
-
+  if (maps.isEmpty) {
+    log('Database: Table Water is EMPTY!');
+    return [];
+  }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
-    print(maps[i]['dateTime']);
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['dateTime']);
+    print("get: dateTime: " + maps[i]['dateTime'].toString());
+    print("get: cupSize: " + maps[i]['cupSize'].toString());
+    var dateTime = null;
+    var dateTimeMillis = maps[i]['dateTime'];
+    if (dateTimeMillis != null) {
+      dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeMillis.toString()));
+    }
     return WaterModel(
       dateTime: dateTime,
       cupSize: maps[i]['cupSize'],
