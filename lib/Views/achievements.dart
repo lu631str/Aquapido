@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/Widgets/AchievementCircle.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 
 class Achievements extends StatefulWidget {
   Achievements({Key key, this.title}) : super(key: key);
@@ -22,13 +24,14 @@ class _AchievementsState extends State<Achievements> {
   int _currentCupSize = 300; // in ml
   int _totalWaterAmount = 0;
   double _dailyGoal = 2000;
-  double _minGoal = 2000;
-  double _maxGoal = 8000;
+  double _recommended = 3000;
+  final double _minGoal = 2000;
+  final double _maxGoal = 6000;
   List<int> maxTotalWater = [10, 100, 300];
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
 
-  List<Widget> _goalLabels = [Text('2000'), Text('8000')];
+  List<Widget> _goalLabels = [Text('2000'), Text('6000')];
 
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
@@ -42,20 +45,42 @@ class _AchievementsState extends State<Achievements> {
     }
   }
 
+  double calcRecommendedPercentage() {
+    var normalizedRecommended = this._recommended - this._minGoal;
+    var range = this._maxGoal - this._minGoal;
+    return (normalizedRecommended / range) * 100;
+  }
+
+  double calcRecommend(weight) {
+    // Kilogramm Körpergewicht x 30 bis 40 ml = empfohlene Trinkmenge pro Tag.
+    // oder: 1ml Wasser pro 1 kcal pro Tag
+
+    double recommended = weight * 35.0;
+
+    if (recommended < _minGoal) {
+      return _minGoal;
+    } else {
+      return recommended;
+    }
+  }
+
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
+    int weight = await loadWeight();
     int totalWaterAmount = 2600;
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter += counter;
       this._totalWaterAmount += totalWaterAmount;
+      this._recommended = calcRecommend(weight);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Align(
           alignment: Alignment(0.60, -0.80),
@@ -101,25 +126,84 @@ class _AchievementsState extends State<Achievements> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: _goalLabels,
-                    ),
+                    child: FlutterSlider(
+                values: [_dailyGoal],
+                min: _minGoal,
+                max: _maxGoal,
+                step: FlutterSliderStep(step: 100),
+                jump: true,
+                onDragging: (handlerIndex, lowerValue, upperValue) {
+                  _dailyGoal = lowerValue;
+                  setState(() {});
+                },
+                handler: FlutterSliderHandler(
+                  decoration: BoxDecoration(),
+                  child: Material(
+                    type: MaterialType.circle,
+                    color: Colors.blue,
+                    elevation: 4,
+                    child: Container(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.outlined_flag_outlined,
+                          size: 16,
+                        )),
                   ),
-                  Slider(
-                    value: _dailyGoal,
-                    min: _minGoal,
-                    max: _maxGoal,
-                    divisions: (_maxGoal - _minGoal) ~/ 50,
-                    label: _dailyGoal.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _dailyGoal = value;
-                      });
-                    },
+                ),
+                handlerAnimation: FlutterSliderHandlerAnimation(
+                    curve: Curves.elasticOut,
+                    reverseCurve: Curves.bounceIn,
+                    duration: Duration(milliseconds: 400),
+                    scale: 1.3),
+                tooltip: FlutterSliderTooltip(
+                  format: (String value) {
+                    double num = double.parse(value); // get value as double
+                    return num.toInt()
+                        .toString(); // parse double to int and then to string
+                  },
+                  rightSuffix: Text(' ml'),
+                  positionOffset: FlutterSliderTooltipPositionOffset(top: 5),
+                ),
+                trackBar: FlutterSliderTrackBar(
+                  inactiveTrackBar: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: Colors.black12,
+                    border: Border.all(width: 20, color: Colors.blue),
+                  ),
+                  activeTrackBar: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      color: Colors.blue.withOpacity(0.5)),
+                  inactiveTrackBarHeight: 10,
+                  activeTrackBarHeight: 10,
+                ),
+                hatchMark: FlutterSliderHatchMark(
+                  labelsDistanceFromTrackBar: 54.0,
+                  linesDistanceFromTrackBar: -2.0,
+                  displayLines: true,
+                  density: 0.2,
+                  labels: [
+                    FlutterSliderHatchMarkLabel(
+                        percent: 0, label: Text('${_minGoal.toInt()}')),
+                    FlutterSliderHatchMarkLabel(
+                      percent: calcRecommendedPercentage(),
+                      label: Container(
+                        child: Container(
+                            height: 16,
+                            child: VerticalDivider(
+                              color: Colors.red,
+                              thickness: 2,
+                            )),
+                      ),
+                    ),
+                    FlutterSliderHatchMarkLabel(
+                        percent: 100, label: Text('${_maxGoal.toInt()}')),
+                  ],
+                ),
+              ),
                   ),
                 ],
               ),
+              
               Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
             ],
           )),
