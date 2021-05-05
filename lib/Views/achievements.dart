@@ -31,7 +31,7 @@ class _AchievementsState extends State<Achievements> {
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
-    int totalWaterAmount = await loadTotalWaterAmount();
+    int totalWaterAmount = 23;
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter += counter;

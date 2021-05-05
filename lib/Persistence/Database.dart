@@ -8,6 +8,8 @@ import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
 
+final String waterTableName = "water";
+
 Future<Database> connectWithDatabase() async {
   WidgetsFlutterBinding.ensureInitialized();
   return openDatabase(
@@ -18,7 +20,7 @@ Future<Database> connectWithDatabase() async {
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
       return db.execute(
-        "CREATE TABLE water(dateTime INTEGER PRIMARY KEY, cupSize INTEGER)",
+        "CREATE TABLE $waterTableName(date_time INTEGER PRIMARY KEY, cup_size INTEGER)",
       );
     },
     // Set the version. This executes the onCreate function and provides a
@@ -36,12 +38,28 @@ Future<void> insertWater(WaterModel water) async {
   //
   // In this case, replace any previous data.
 
-  log('Database: INSERT WATER - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
+  log('Database: INSERT water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
   await db.insert(
-    'water',
+    waterTableName,
     water.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+
+Future<void> clearWaterTable() async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Insert the Dog into the correct table. You might also specify the
+  // `conflictAlgorithm` to use in case the same dog is inserted twice.
+  //
+  // In this case, replace any previous data.
+
+  log('Database: CLEAR table $waterTableName');
+
+  await db.delete(
+    waterTableName,
   );
 }
 
@@ -49,11 +67,11 @@ Future<void> deleteWater(WaterModel water) async {
   // Get a reference to the database.
   final db = await database;
 
-  log('Database: DELETE WATER - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
+  log('Database: DELETE water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
   // Remove the Dog from the Database.
   await db.delete(
-    'water',
+    waterTableName,
     // Use a `where` clause to delete a specific dog.
     where: "dateTime = ?",
     // Pass the Dog's id as a whereArg to prevent SQL injection.
@@ -66,25 +84,19 @@ Future<List<WaterModel>> water() async {
   final Database db = await database;
 
   // Query the table for all The Dogs.
-  final List<Map<String, dynamic>> maps = await db.query('water');
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
 
   if (maps.isEmpty) {
-    log('Database: Table Water is EMPTY!');
+    log('Database: Table $waterTableName is EMPTY!');
     return [];
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
-    print("get: dateTime: " + maps[i]['dateTime'].toString());
-    print("get: cupSize: " + maps[i]['cupSize'].toString());
-    var dateTime = null;
-    var dateTimeMillis = maps[i]['dateTime'];
-    if (dateTimeMillis != null) {
-      dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeMillis.toString()));
-    }
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
     return WaterModel(
       dateTime: dateTime,
-      cupSize: maps[i]['cupSize'],
+      cupSize: maps[i]['cup_size'],
     );
   });
 }

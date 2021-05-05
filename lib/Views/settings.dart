@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
+import 'package:water_tracker/Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class Settings extends StatefulWidget {
@@ -62,7 +63,8 @@ class _SettingsState extends State<Settings> {
 
   void _reset() {
     saveCurrentCupCounter(0);
-    saveTotalWater(0);
+    clearWaterTable();
+    
   }
 
   void saveCustomSize(customSize) {
@@ -310,7 +312,7 @@ class _SettingsState extends State<Settings> {
                 endIndent: 10,
               ),
               new Container(
-                margin: const EdgeInsets.all(2.0),
+                margin: const EdgeInsets.only(top: 2, bottom: 20),
                 padding: const EdgeInsets.only(
                     top: 3, bottom: 3, left: 100, right: 100),
                 decoration: BoxDecoration(
