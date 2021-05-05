@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
-import 'package:water_tracker/icons/my_flutter_app_icons.dart';
-import 'package:water_tracker/Views/home.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:water_tracker/Widgets/AchievementCircle.dart';
 
 class Achievements extends StatefulWidget {
   Achievements({Key key, this.title}) : super(key: key);
@@ -27,7 +25,7 @@ class _AchievementsState extends State<Achievements> {
   double _minGoal = 2000;
   double _maxGoal = 8000;
   List<int> maxTotalWater = [10, 100, 300];
-  List<int> maxCups = [5, 100, 150];
+  List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
 
   List<Widget> _goalLabels = [Text('2000'), Text('8000')];
@@ -35,17 +33,19 @@ class _AchievementsState extends State<Achievements> {
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
       return max[0];
-    }
-    if (current >= max[0]) {
+    } else if(current >= max[0] && current < max[1]) {
       return max[1];
+    } else if(current >= max[1]) {
+      return max[2];
+    } else {
+      return -1; // error case
     }
-    if (current >= max[1]) return max[2];
   }
 
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
-    int totalWaterAmount = 23;
+    int totalWaterAmount = 2600;
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter += counter;
@@ -90,8 +90,6 @@ class _AchievementsState extends State<Achievements> {
                         unit: "Days",
                         subtitle: "Streak"),
                   ]),
-
-
               const Divider(
                 height: 40,
                 thickness: 1,
@@ -128,243 +126,6 @@ class _AchievementsState extends State<Achievements> {
     );
   }
 }
-
-class AchievementCircle extends StatelessWidget {
-  Color color;
-  Color colorBoarder;
-  final String subtitle;
-  int currentInt, max;
-
-  double currentDouble;
-  bool isCurrentInt;
-  String unit;
-
-  AchievementCircle(
-      {this.color,
-      this.currentInt,
-      this.max,
-      this.subtitle,
-      this.unit,
-      this.isCurrentInt,
-      this.currentDouble,
-      this.colorBoarder});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(height: 10.0), // Space Top
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-
-              Container(
-
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: this.color,
-                  border: Border.all(
-                    color: colorBoarder,
-                    width: 9.0,
-                  ),
-                ),
-                padding: EdgeInsets.all(6.0),
-                //transform: Matrix4.translationValues(0.0, -30.0, 0.0),
-                height: 110.0,
-                width: 120.0,
-                alignment: Alignment.center,
-
-
-                child:CircularPercentIndicator(
-                  startAngle: 180.0,
-                  radius: 80.0,
-                  lineWidth: 5.0,
-
-                  percent: (isCurrentInt == true)
-                  ? (currentInt/max).toDouble()
-                  : (currentDouble/max),
-
-
-
-                  center:
-                    isCurrentInt == true
-                      ?new Text(
-                      this.currentInt.toString() +
-                                            "/" +
-                                            this.max.round().toString()+"\n"+this.unit,
-
-                                        style: TextStyle(
-                                          color: (this.color !=
-                                                  Color.fromRGBO(255, 255, 255, 1.0))
-                                              ? Colors.white
-                                              : Colors.blue[100],
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 14.0,
-
-
-                                          ),
-                    textAlign: TextAlign.center,
-                  )
-
-                  :new Text(
-                    this.currentDouble.toString() +
-                        "/" +
-                        this.max.round().toString()+"\n"+this.unit,
-
-                    style: TextStyle(
-                      color: (this.color !=
-                          Color.fromRGBO(255, 255, 255, 1.0))
-                          ? Colors.white
-                          : Colors.blue[100],
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14.0,
-
-
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-
-
-
-
-
-
-
-
-
-                  progressColor: Colors.blue,
-                ),
-
-                // child: Container(
-                //   decoration: BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: this.color,
-                //     border: Border.all(
-                //       color: (this.color != Color.fromRGBO(255, 255, 255, 1.0))
-                //           ? Colors.white
-                //           : Colors.blue[100],
-                //       width: 2.0,
-                //     ),
-                //   ),
-                // alignment: Alignment.center,
-                //
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: <Widget>[
-                //       isCurrentInt == true
-                //           ? Text(
-                //               this.currentInt.toString() +
-                //                   "/" +
-                //                   this.max.round().toString(),
-                //               style: TextStyle(
-                //                 color: (this.color !=
-                //                         Color.fromRGBO(255, 255, 255, 1.0))
-                //                     ? Colors.white
-                //                     : Colors.blue[100],
-                //                 fontWeight: FontWeight.w900,
-                //                 fontSize: 18.0,
-                //               ),
-                //             )
-                //           : Text(
-                //               this.currentDouble.toString() +
-                //                   "/" +
-                //                   this.max.round().toString(),
-                //               style: TextStyle(
-                //                 color: (this.color !=
-                //                         Color.fromRGBO(255, 255, 255, 1.0))
-                //                     ? Colors.white
-                //                     : Colors.blue[100],
-                //                 fontWeight: FontWeight.w900,
-                //                 fontSize: 18.0,
-                //               ),
-                //             ),
-                //       Text(
-                //         this.unit,
-                //         style: TextStyle(
-                //           color:
-                //               (this.color != Color.fromRGBO(255, 255, 255, 1.0))
-                //                   ? Colors.black54
-                //                   : Colors.blue[100],
-                //           fontSize: 14.0,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ),
-            ],
-          ),
-          Container(
-              alignment: Alignment.center,
-              child: Text(
-                this.subtitle + " ",
-                style: TextStyle(
-                  color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
-                      ? Colors.black54
-                      : Colors.blue[100],
-                  fontSize: 18.0,
-                ),
-              )),
-        ]);
-  }
-}
-
-// class CircularProgress extends StatelessWidget {
-//   final size = 200.0;
-//   static const TWO_PI = 3.14 * 2;
-//
-//   int percentage = (0.5 * 100).ceil();
-//
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: size,
-//       height: size,
-//       child: Stack(
-//         children: [
-//           ShaderMask(
-//             shaderCallback: (rect) {
-//               return SweepGradient(
-//                   startAngle: 0.0,
-//                   endAngle: TWO_PI,
-//                   stops: [0.5, .05],
-//                   // 0.0 , 0.5 , 0.5 , 1.0
-//                   center: Alignment.center,
-//                   colors: [Colors.blue, Colors.grey.withAlpha(55)]
-//               ).createShader(rect);
-//             },
-//             child: Container(
-//               width: size,
-//               height: size,
-//               decoration: BoxDecoration(
-//                   shape: BoxShape.circle,
-//                   // image: DecorationImage(image: Image
-//                   //     .asset("assets/images/radial_scale.png")
-//                   //     .image)
-//               ),
-//             ),
-//           ),
-//           Center(
-//             child: Container(
-//               width: size - 40,
-//               height: size - 40,
-//               decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   shape: BoxShape.circle
-//               ),
-//               child: Center(child: Text("$percentage",
-//                 style: TextStyle(fontSize: 40),)),
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 @override
 bool shouldRepaint(CustomPainter oldDelegate) {
