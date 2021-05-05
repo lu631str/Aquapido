@@ -13,20 +13,10 @@ Future<int> loadCurrentCupCounter() async {
   return prefs.getInt('counter') ?? 0;
 }
 
-Future<int> loadTotalWaterAmount() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getInt('water') ?? 0;
-}
-
 // Save
 Future<void> saveCurrentCupCounter(int newCounter) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', newCounter);
-}
-
-Future<void> saveTotalWater(int newWater) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('water', newWater);
 }
 
 Future<void> saveSize(int size) async {

@@ -1,6 +1,13 @@
 class WaterModel {
-  int cupSize;
-  DateTime dateTime;
+  final DateTime dateTime;
+  final int cupSize;
 
-  WaterModel(this.cupSize, this.dateTime);
+  WaterModel({this.dateTime, this.cupSize});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date_time': dateTime.millisecondsSinceEpoch,
+      'cup_size': cupSize,
+    };
+  }
 }
