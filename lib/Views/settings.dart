@@ -29,8 +29,8 @@ class _SettingsState extends State<Settings> {
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
   String _weightUnit = 'kg';
-  int _currentWeight = 30;
-  int _selectedWeight = 30;
+  int _currentWeight = 40;
+  int _selectedWeight = 40;
   String _gender = 'choose';
   final myController = TextEditingController(text: '0');
 
@@ -238,7 +238,7 @@ class _SettingsState extends State<Settings> {
                                     children: [
                                       NumberPicker(
                                         value: _selectedWeight,
-                                        minValue: 30,
+                                        minValue: 40,
                                         maxValue: 150,
                                         haptics: true,
                                         itemCount: 5,
