@@ -73,7 +73,7 @@ Future<void> deleteWater(WaterModel water) async {
   await db.delete(
     waterTableName,
     // Use a `where` clause to delete a specific dog.
-    where: "dateTime = ?",
+    where: "date_time = ?",
     // Pass the Dog's id as a whereArg to prevent SQL injection.
     whereArgs: [water.dateTime.millisecondsSinceEpoch],
   );

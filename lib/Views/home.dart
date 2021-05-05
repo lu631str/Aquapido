@@ -23,8 +23,6 @@ class _HomeState extends State<Home> {
   int _currentCupCounter = 0;
   int _currentCupSize = 300; // in ml
   int _totalWaterAmount = 0;
-  bool _isPowerBtnAddEnabled = false;
-  bool _isShakingAddEnabled = false;
   String _unit = 'ml';
 
   List<WaterModel> history = [];
@@ -47,8 +45,8 @@ class _HomeState extends State<Home> {
           stream.receiveBroadcastStream().listen(evaluateEvent);
     }
 
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      //addWaterCup(1);
+    ShakeDetector.autoStart(onPhoneShake: () {
+      addWaterCup(1);
     });
   }
 
@@ -97,10 +95,10 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == "power") {
-      //addWaterCup(int.parse(arr[1]));
+      addWaterCup(int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
-      //updateCounter(int.parse(arr[1]));
+      addWaterCup(int.parse(arr[1]));
     }
   }
 

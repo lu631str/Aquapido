@@ -31,27 +31,36 @@ class _AchievementsState extends State<Achievements> {
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
 
-  List<Widget> _goalLabels = [Text('2000'), Text('6000')];
-
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
       return max[0];
-    } else if(current >= max[0] && current < max[1]) {
+    } else if (current >= max[0] && current < max[1]) {
       return max[1];
-    } else if(current >= max[1]) {
+    } else if (current >= max[1]) {
       return max[2];
     } else {
       return -1; // error case
     }
   }
 
-  double calcRecommendedPercentage() {
+  double _calcRecommendedPercentage() {
     var normalizedRecommended = this._recommended - this._minGoal;
     var range = this._maxGoal - this._minGoal;
     return (normalizedRecommended / range) * 100;
   }
 
-  double calcRecommend(weight) {
+  int _closestInteger(value, divisor) {
+    // This method calculates the closest integer to 'value' which is dividable by divisor
+    double c1 = value - (value % divisor);
+    double c2 = (value + divisor) - (value % divisor);
+    if (value - c1 > c2 - value) {
+        return c2.toInt();
+    } else {
+        return c1.toInt();
+    }
+  }
+
+  double _calcRecommend(weight) {
     // Kilogramm Körpergewicht x 30 bis 40 ml = empfohlene Trinkmenge pro Tag.
     // oder: 1ml Wasser pro 1 kcal pro Tag
 
@@ -60,7 +69,7 @@ class _AchievementsState extends State<Achievements> {
     if (recommended < _minGoal) {
       return _minGoal;
     } else {
-      return recommended;
+      return _closestInteger(recommended, 100).toDouble();
     }
   }
 
@@ -73,7 +82,7 @@ class _AchievementsState extends State<Achievements> {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter += counter;
       this._totalWaterAmount += totalWaterAmount;
-      this._recommended = calcRecommend(weight);
+      this._recommended = _calcRecommend(weight);
     });
   }
 
@@ -127,83 +136,84 @@ class _AchievementsState extends State<Achievements> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: FlutterSlider(
-                values: [_dailyGoal],
-                min: _minGoal,
-                max: _maxGoal,
-                step: FlutterSliderStep(step: 100),
-                jump: true,
-                onDragging: (handlerIndex, lowerValue, upperValue) {
-                  _dailyGoal = lowerValue;
-                  setState(() {});
-                },
-                handler: FlutterSliderHandler(
-                  decoration: BoxDecoration(),
-                  child: Material(
-                    type: MaterialType.circle,
-                    color: Colors.blue,
-                    elevation: 4,
-                    child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: Icon(
-                          Icons.outlined_flag_outlined,
-                          size: 16,
-                        )),
-                  ),
-                ),
-                handlerAnimation: FlutterSliderHandlerAnimation(
-                    curve: Curves.elasticOut,
-                    reverseCurve: Curves.bounceIn,
-                    duration: Duration(milliseconds: 400),
-                    scale: 1.3),
-                tooltip: FlutterSliderTooltip(
-                  format: (String value) {
-                    double num = double.parse(value); // get value as double
-                    return num.toInt()
-                        .toString(); // parse double to int and then to string
-                  },
-                  rightSuffix: Text(' ml'),
-                  positionOffset: FlutterSliderTooltipPositionOffset(top: 5),
-                ),
-                trackBar: FlutterSliderTrackBar(
-                  inactiveTrackBar: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2),
-                    color: Colors.black12,
-                    border: Border.all(width: 20, color: Colors.blue),
-                  ),
-                  activeTrackBar: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.blue.withOpacity(0.5)),
-                  inactiveTrackBarHeight: 10,
-                  activeTrackBarHeight: 10,
-                ),
-                hatchMark: FlutterSliderHatchMark(
-                  labelsDistanceFromTrackBar: 54.0,
-                  linesDistanceFromTrackBar: -2.0,
-                  displayLines: true,
-                  density: 0.2,
-                  labels: [
-                    FlutterSliderHatchMarkLabel(
-                        percent: 0, label: Text('${_minGoal.toInt()}')),
-                    FlutterSliderHatchMarkLabel(
-                      percent: calcRecommendedPercentage(),
-                      label: Container(
-                        child: Container(
-                            height: 16,
-                            child: VerticalDivider(
-                              color: Colors.red,
-                              thickness: 2,
-                            )),
+                      values: [_dailyGoal],
+                      min: _minGoal,
+                      max: _maxGoal,
+                      step: FlutterSliderStep(step: 100),
+                      jump: true,
+                      onDragging: (handlerIndex, lowerValue, upperValue) {
+                        _dailyGoal = lowerValue;
+                        setState(() {});
+                      },
+                      handler: FlutterSliderHandler(
+                        decoration: BoxDecoration(),
+                        child: Material(
+                          type: MaterialType.circle,
+                          color: Colors.blue,
+                          elevation: 4,
+                          child: Container(
+                              padding: EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.outlined_flag_outlined,
+                                size: 16,
+                              )),
+                        ),
+                      ),
+                      handlerAnimation: FlutterSliderHandlerAnimation(
+                          curve: Curves.elasticOut,
+                          reverseCurve: Curves.bounceIn,
+                          duration: Duration(milliseconds: 400),
+                          scale: 1.3),
+                      tooltip: FlutterSliderTooltip(
+                        format: (String value) {
+                          double num =
+                              double.parse(value); // get value as double
+                          return num.toInt()
+                              .toString(); // parse double to int and then to string
+                        },
+                        rightSuffix: Text(' ml'),
+                        positionOffset:
+                            FlutterSliderTooltipPositionOffset(top: 5),
+                      ),
+                      trackBar: FlutterSliderTrackBar(
+                        inactiveTrackBar: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: Colors.black12,
+                          border: Border.all(width: 20, color: Colors.blue),
+                        ),
+                        activeTrackBar: BoxDecoration(
+                            borderRadius: BorderRadius.circular(2),
+                            color: Colors.blue.withOpacity(0.5)),
+                        inactiveTrackBarHeight: 10,
+                        activeTrackBarHeight: 10,
+                      ),
+                      hatchMark: FlutterSliderHatchMark(
+                        labelsDistanceFromTrackBar: 54.0,
+                        linesDistanceFromTrackBar: -2.0,
+                        displayLines: true,
+                        density: 0.2,
+                        labels: [
+                          FlutterSliderHatchMarkLabel(
+                              percent: 0, label: Text('${_minGoal.toInt()}')),
+                          FlutterSliderHatchMarkLabel(
+                            percent: _calcRecommendedPercentage(),
+                            label: Container(
+                              child: Container(
+                                  height: 16,
+                                  child: VerticalDivider(
+                                    color: Colors.red,
+                                    thickness: 2,
+                                  )),
+                            ),
+                          ),
+                          FlutterSliderHatchMarkLabel(
+                              percent: 100, label: Text('${_maxGoal.toInt()}')),
+                        ],
                       ),
                     ),
-                    FlutterSliderHatchMarkLabel(
-                        percent: 100, label: Text('${_maxGoal.toInt()}')),
-                  ],
-                ),
-              ),
                   ),
                 ],
               ),
-              
               Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
             ],
           )),
