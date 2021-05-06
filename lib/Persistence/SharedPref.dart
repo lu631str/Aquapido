@@ -39,7 +39,7 @@ Future<bool> loadPowerSettings() async {
 
 Future<int> loadWeight() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getInt('weight') ?? 30;
+  return prefs.getInt('weight') ?? 40;
 }
 
 Future<String> loadGender() async {

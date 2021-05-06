@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:grafpix/icons.dart';
+
+import 'MedalType.dart';
 
 
 class AchievementCircle extends StatelessWidget {
@@ -7,6 +10,7 @@ class AchievementCircle extends StatelessWidget {
   final Color colorBoarder;
   final String subtitle;
   final int currentInt, max;
+  final MedalType medalType;
 
   final double currentDouble;
   final bool isCurrentInt;
@@ -17,6 +21,7 @@ class AchievementCircle extends StatelessWidget {
       this.currentInt,
       this.max,
       this.subtitle,
+      this.medalType,
       this.unit,
       this.isCurrentInt,
       this.currentDouble,
@@ -29,8 +34,9 @@ class AchievementCircle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(height: 10.0), // Space Top
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Stack(
+            overflow: Overflow.visible,
+            //mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
@@ -88,12 +94,25 @@ class AchievementCircle extends StatelessWidget {
                   progressColor: Colors.blue,
                 ),
               ),
+              new Positioned(
+                left: 42,
+                bottom: -15,
+                child: PixMedal(
+                  icon: PixIcon.drop,
+                  medalType: medalType,
+                  radius: 18.0,
+                  iconSize: 10.0,
+                  iconColor: Colors.blue,
+                ),
+              ),
+
             ],
           ),
           Container(
-              alignment: Alignment.center,
+            height: 40,
+              alignment: Alignment.bottomCenter,
               child: Text(
-                this.subtitle + " ",
+                this.subtitle,
                 style: TextStyle(
                   color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
                       ? Colors.black54
@@ -101,6 +120,7 @@ class AchievementCircle extends StatelessWidget {
                   fontSize: 18.0,
                 ),
               )),
+          Container(height: 10.0),
         ]);
   }
 }

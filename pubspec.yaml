@@ -37,6 +37,7 @@ dependencies:
   sqflite: ^2.0.0+3
   path: ^1.8.0
   flutter_xlider: ^3.4.0
+  grafpix: ^1.2.8
 
 dev_dependencies:
   flutter_test:

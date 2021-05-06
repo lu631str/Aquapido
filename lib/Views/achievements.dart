@@ -3,6 +3,7 @@ import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/Widgets/AchievementCircle.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:water_tracker/Widgets/MedalType.dart';
 
 class Achievements extends StatefulWidget {
   Achievements({Key key, this.title}) : super(key: key);
@@ -30,6 +31,36 @@ class _AchievementsState extends State<Achievements> {
   List<int> maxTotalWater = [10, 100, 300];
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
+
+
+  MedalType getMedal(List<int> max, int current) {
+    if (current < max[0]) {
+      return MedalType.Bronze;
+    } else if (current >= max[0] && current < max[1]) {
+      return MedalType.Silver;
+    } else if (current >= max[1]) {
+      return MedalType.Gold;
+    } else {
+      return MedalType.Gold; // error case
+    }
+  }
+
+
+
+  Color getRingColor(List<int> max, int current) {
+    if (current < max[0]) {
+      return Color.fromARGB(255, 168, 93, 30);
+    } else if (current >= max[0] && current < max[1]) {
+      return Color.fromARGB(255, 193, 193, 194);
+    } else if (current >= max[1]) {
+      return Color.fromARGB(255, 199, 177, 70);
+    } else {
+      return Color.fromARGB(153, 255, 0, 0) ; // error case
+    }
+  }
+
+
+
 
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
@@ -105,13 +136,18 @@ class _AchievementsState extends State<Achievements> {
           alignment: Alignment(0.60, -0.80),
           child: Column(
             children: [
-              Row(
+              Card(
+                  elevation: 2,
+                  color: Color.fromARGB(255, 219, 237, 255),
+                  margin: EdgeInsets.all(6),
+              child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     AchievementCircle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
-                        colorBoarder: Color.fromARGB(153, 51, 0, 2),
+                        colorBoarder: getRingColor(maxTotalWater,_totalWaterAmount),
+                        medalType: getMedal(maxTotalWater,_totalWaterAmount),
                         isCurrentInt: false,
                         currentDouble: _totalWaterAmount / 1000,
                         max: maxTotalWater[0],
@@ -119,27 +155,25 @@ class _AchievementsState extends State<Achievements> {
                         subtitle: "Total Water"),
                     AchievementCircle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
-                        colorBoarder: Color.fromARGB(136, 83, 82, 82),
+                        colorBoarder: getRingColor(maxCups,_currentCupCounter),
+                        medalType: getMedal(maxCups,_currentCupCounter),
                         isCurrentInt: true,
                         currentInt: _currentCupCounter.round(),
                         max: getMax(maxCups, _currentCupCounter),
                         unit: "Cups",
                         subtitle: "Total Cups"),
+                    //mus nach implementierung von Streaks eingefügt werden
                     AchievementCircle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
-                        colorBoarder: Color.fromARGB(153, 255, 223, 17),
+                        colorBoarder: Color.fromARGB(255, 199, 177, 70),
+                        medalType: MedalType.Gold,
                         isCurrentInt: true,
                         currentInt: 60,
                         max: maxStreak[0],
                         unit: "Days",
                         subtitle: "Streak"),
-                  ]),
-              const Divider(
-                height: 40,
-                thickness: 1,
-                indent: 10,
-                endIndent: 10,
-              ),
+                  ])),
+
               Card(
                 elevation: 2,
                 color: Color.fromARGB(255, 219, 237, 255),
