@@ -31,7 +31,7 @@
 .pub/
 /build/
 pubspec.lock
-
+**/failures/*.png
 # Web related
 lib/generated_plugin_registrant.dart
 
