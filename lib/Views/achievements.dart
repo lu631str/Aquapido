@@ -140,7 +140,9 @@ class _AchievementsState extends State<Achievements> {
                   elevation: 2,
                   color: Color.fromARGB(255, 219, 237, 255),
                   margin: EdgeInsets.all(6),
-              child:Row(
+              child: Column(
+              children: <Widget>[
+              Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -171,8 +173,44 @@ class _AchievementsState extends State<Achievements> {
                         currentInt: 60,
                         max: maxStreak[0],
                         unit: "Days",
-                        subtitle: "Streak"),
-                  ])),
+                        subtitle: "Streak")]),
+
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          AchievementCircle(
+                              color: Color.fromRGBO(255, 255, 255, 1.0),
+                              colorBoarder: getRingColor(maxTotalWater,_totalWaterAmount),
+                              medalType: getMedal(maxTotalWater,_totalWaterAmount),
+                              isCurrentInt: false,
+                              currentDouble: _totalWaterAmount / 1000,
+                              max: maxTotalWater[0],
+                              unit: "Liter",
+                              subtitle: "Total Water"),
+                          AchievementCircle(
+                              color: Color.fromRGBO(255, 255, 255, 1.0),
+                              colorBoarder: getRingColor(maxCups,_currentCupCounter),
+                              medalType: getMedal(maxCups,_currentCupCounter),
+                              isCurrentInt: true,
+                              currentInt: _currentCupCounter.round(),
+                              max: getMax(maxCups, _currentCupCounter),
+                              unit: "Cups",
+                              subtitle: "Total Cups"),
+                          //mus nach implementierung von Streaks eingefügt werden
+                          AchievementCircle(
+                              color: Color.fromRGBO(255, 255, 255, 1.0),
+                              colorBoarder: Color.fromARGB(255, 199, 177, 70),
+                              medalType: MedalType.Gold,
+                              isCurrentInt: true,
+                              currentInt: 60,
+                              max: maxStreak[0],
+                              unit: "Days",
+                              subtitle: "Streak")])])),
+
+
+
+
 
               Card(
                 elevation: 2,
