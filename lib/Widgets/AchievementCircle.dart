@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:grafpix/icons.dart';
@@ -108,19 +109,22 @@ class AchievementCircle extends StatelessWidget {
 
             ],
           ),
-          Container(
-            height: 40,
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                this.subtitle,
+           Container(
+
+          child: Text(
+             "\n"+this.subtitle,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
+
+
                 style: TextStyle(
                   color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
                       ? Colors.black54
                       : Colors.blue[100],
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                 ),
               )),
-          Container(height: 10.0),
+          Container(height: 20.0),
         ]);
   }
 }

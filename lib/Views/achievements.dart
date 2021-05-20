@@ -163,7 +163,7 @@ class _AchievementsState extends State<Achievements> {
                         currentInt: _currentCupCounter.round(),
                         max: getMax(maxCups, _currentCupCounter),
                         unit: "Cups",
-                        subtitle: "Total Cups"),
+                        subtitle: "Total Cups        "),
                     //mus nach implementierung von Streaks eingefügt werden
                     AchievementCircle(
                         color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -173,7 +173,7 @@ class _AchievementsState extends State<Achievements> {
                         currentInt: 60,
                         max: maxStreak[0],
                         unit: "Days",
-                        subtitle: "Streak")]),
+                        subtitle: "Streak      ")]),
 
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -181,32 +181,32 @@ class _AchievementsState extends State<Achievements> {
                         children: <Widget>[
                           AchievementCircle(
                               color: Color.fromRGBO(255, 255, 255, 1.0),
-                              colorBoarder: getRingColor(maxTotalWater,_totalWaterAmount),
-                              medalType: getMedal(maxTotalWater,_totalWaterAmount),
-                              isCurrentInt: false,
-                              currentDouble: _totalWaterAmount / 1000,
-                              max: maxTotalWater[0],
-                              unit: "Liter",
-                              subtitle: "Total Water"),
+                              colorBoarder: Color.fromARGB(255, 193, 193, 194),
+                              medalType: MedalType.Silver,
+                              isCurrentInt: true,
+                              currentInt: 260,
+                              max: 300,
+                              unit: "times",
+                              subtitle: "Goals\nReached"),
                           AchievementCircle(
                               color: Color.fromRGBO(255, 255, 255, 1.0),
-                              colorBoarder: getRingColor(maxCups,_currentCupCounter),
-                              medalType: getMedal(maxCups,_currentCupCounter),
+                              colorBoarder: Color.fromARGB(255, 168, 93, 30),
+                              medalType: MedalType.Bronze,
                               isCurrentInt: true,
-                              currentInt: _currentCupCounter.round(),
-                              max: getMax(maxCups, _currentCupCounter),
-                              unit: "Cups",
-                              subtitle: "Total Cups"),
+                              currentInt: 5,
+                              max: 10,
+                              unit: "times",
+                              subtitle: "Quick Funktion\n Add "),
                           //mus nach implementierung von Streaks eingefügt werden
                           AchievementCircle(
                               color: Color.fromRGBO(255, 255, 255, 1.0),
-                              colorBoarder: Color.fromARGB(255, 199, 177, 70),
-                              medalType: MedalType.Gold,
+                              colorBoarder: Color.fromARGB(255, 193, 193, 194),
+                              medalType: MedalType.Silver,
                               isCurrentInt: true,
-                              currentInt: 60,
-                              max: maxStreak[0],
-                              unit: "Days",
-                              subtitle: "Streak")])])),
+                              currentInt: 123,
+                              max: 250,
+                              unit: "times",
+                              subtitle: "drinks after\n reminder")])])),
 
 
 
