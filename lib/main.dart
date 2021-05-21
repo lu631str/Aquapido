@@ -4,6 +4,7 @@ import 'package:water_tracker/Views/achievements.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:water_tracker/Views/statistics.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,7 +64,7 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   List<Widget> _children = [
     Home(),
-    Icon(Icons.timeline),
+    Statistics(),
     Achievements(),
     Settings(),
   ];
