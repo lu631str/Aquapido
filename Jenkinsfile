@@ -11,7 +11,7 @@ pipeline {
         }
         stage ("Run Flutter Tests") {
             steps {
-                sh "flutter test –-update-goldens -–name=Golden"
+                sh "flutter test --update-goldens --name=Golden"
                 sh "flutter test"
             }
         }
