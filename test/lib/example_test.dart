@@ -5,6 +5,7 @@ import 'Devices.dart';
 
 void main() {
   testGoldens('testGoldens', (tester) async {
+    await loadAppFonts();
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: 
         devicesWithDifferentTextScales,
