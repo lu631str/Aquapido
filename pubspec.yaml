@@ -39,6 +39,7 @@ dependencies:
   flutter_xlider: ^3.4.0
   golden_toolkit: ^0.9.0
   grafpix: ^1.2.8
+  introduction_screen: ^2.1.0
 
 dev_dependencies:
   flutter_test:

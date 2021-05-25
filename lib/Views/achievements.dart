@@ -19,6 +19,7 @@ class _AchievementsState extends State<Achievements> {
   void initState() {
     super.initState();
     loadData();
+
   }
 
   int _currentCupCounter = 0;

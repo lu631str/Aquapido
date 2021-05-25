@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:water_tracker/Views/achievements.dart';
+import 'package:water_tracker/Views/introductionScreen.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -15,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Quick Water Tracker',
+
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -131,3 +135,4 @@ class _MainState extends State<Main> {
     );
   }
 }
+
