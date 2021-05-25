@@ -34,4 +34,6 @@ class MyFlutterApp {
   static const IconData emo_unhappy = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData emo_cry = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData emo_laugh = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+
+  static const Map<int, IconData> sizeIcons = {100: cup_100ml, 200: cup_200ml, 300: cup_300ml, 330: cup_330ml, 400: cup_400ml, 500: cup_400ml};
 }

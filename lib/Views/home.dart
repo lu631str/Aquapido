@@ -242,14 +242,22 @@ class _HomeState extends State<Home> {
               ),
             ),
             Expanded(
-                child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: _history.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                          child: HistoryListElement(index,
-                              MyFlutterApp.cup_400ml, _history[index], delete));
-                    }))
+                child: Card(
+                    margin: const EdgeInsets.all(8),
+                    elevation: 2,
+                    color: Color(0xFFE7F3FF),
+                    child: ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: _history.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                              child: HistoryListElement(
+                                  index,
+                                  MyFlutterApp
+                                      .sizeIcons[_history[index].cupSize],
+                                  _history[index],
+                                  delete));
+                        })))
           ],
         ),
       ),
