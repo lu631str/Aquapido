@@ -4,7 +4,13 @@ class WaterModel {
   final DateTime dateTime;
   final int cupSize;
 
+  bool isPlaceholder = false;
+
   WaterModel({this.dateTime, this.cupSize});
+
+  WaterModel.placeholder(this.cupSize) :
+  this.dateTime = DateTime.now(),
+  this.isPlaceholder = true;
 
   bool _isToday(dateTime) {
     DateTime now = DateTime.now();
@@ -24,12 +30,18 @@ class WaterModel {
     }
   }
 
-  String toDateString() {
-    return '${this._getDateString(this.dateTime)} - ${DateFormat('kk:mm').format(this.dateTime)}';
+  String toCupSizeString() {
+    if(this.isPlaceholder) {
+      return "Add your first glass of water!";
+    }
+    return '${this.cupSize}ml';
   }
 
-  String toCupSizeString() {
-    return '${this.cupSize}ml';
+  String toDateString() {
+    if(this.isPlaceholder) {
+      return "";
+    }
+    return '${this._getDateString(this.dateTime)} - ${DateFormat('kk:mm').format(this.dateTime)}';
   }
 
   String toString() {

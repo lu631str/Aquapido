@@ -43,9 +43,9 @@ class HistoryListElement extends StatelessWidget {
                         ),
                         IconButton(
                           icon: IconTheme(
-                              data: IconThemeData(color: Colors.black87),
+                              data: IconThemeData(color: this._waterModel.isPlaceholder ? Colors.black26 : Colors.black87),
                               child: Icon(Icons.delete)),
-                          onPressed: () {
+                          onPressed: this._waterModel.isPlaceholder ? null: () {
                             this._deleteCallback(this._index);
                           },
                         ),

@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
   loadData() async {
     int currentCupSize = await loadCurrentCupSize();
     int counter = await loadCurrentCupCounter();
-    var history = await water();
+    var history = await waterList();
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter = counter;
@@ -115,6 +115,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> addWaterCup(waterModel, index, amountOfCups) async {
+    if(this._history.first.isPlaceholder) {
+      this._history.clear();
+    }
     await insertWater(waterModel);
     this._history.insert(index, waterModel);
     setState(() {
@@ -133,6 +136,9 @@ class _HomeState extends State<Home> {
       calculateTotalWaterAmount();
     });
     saveCurrentCupCounter(_currentCupCounter);
+    if(this._history.isEmpty) {
+      this.loadData();
+    }
 
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
