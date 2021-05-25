@@ -51,7 +51,8 @@ class _HomeState extends State<Home> {
     }
 
     ShakeDetector.autoStart(onPhoneShake: () {
-      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),0, 1);
+      addWaterCup(
+          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, 1);
     });
   }
 
@@ -100,10 +101,16 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == "power") {
-      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, int.parse(arr[1]));
+      addWaterCup(
+          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+          0,
+          int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
-      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, int.parse(arr[1]));
+      addWaterCup(
+          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+          0,
+          int.parse(arr[1]));
     }
   }
 
@@ -128,6 +135,7 @@ class _HomeState extends State<Home> {
     saveCurrentCupCounter(_currentCupCounter);
 
     final snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text('Deleted: ${this._lastDeleted.toString()}'),
       action: SnackBarAction(
         label: 'Undo',
@@ -136,6 +144,7 @@ class _HomeState extends State<Home> {
         },
       ),
     );
+
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -238,18 +247,19 @@ class _HomeState extends State<Home> {
                     itemCount: _history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                          child: HistoryListElement(
-                              index,
-                              MyFlutterApp.cup_400ml,
-                              _history[index],
-                              delete));
+                          child: HistoryListElement(index,
+                              MyFlutterApp.cup_400ml, _history[index], delete));
                     }))
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, 1);
+          addWaterCup(
+              WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+              0,
+              1);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
