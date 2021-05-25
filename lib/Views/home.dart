@@ -6,9 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/Persistence/Database.dart';
+import 'package:water_tracker/Widgets/HistoryListElement.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'package:intl/intl.dart';
+
+typedef void DeleteCallback(int index);
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -25,7 +28,9 @@ class _HomeState extends State<Home> {
   int _totalWaterAmount = 0;
   String _unit = 'ml';
 
-  List<WaterModel> history = [];
+  WaterModel _lastDeleted;
+
+  List<WaterModel> _history = [];
 
   static const platform =
       const MethodChannel('com.example.flutter_application_1/powerBtnCount');
@@ -46,7 +51,7 @@ class _HomeState extends State<Home> {
     }
 
     ShakeDetector.autoStart(onPhoneShake: () {
-      addWaterCup(1);
+      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),0, 1);
     });
   }
 
@@ -65,7 +70,7 @@ class _HomeState extends State<Home> {
     setState(() {
       this._currentCupSize = currentCupSize;
       this._currentCupCounter = counter;
-      this.history = history.reversed.toList();
+      this._history = history.reversed.toList();
       calculateTotalWaterAmount();
       getPowerButtonCount();
     });
@@ -95,16 +100,16 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == "power") {
-      addWaterCup(int.parse(arr[1]));
+      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
-      addWaterCup(int.parse(arr[1]));
+      addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, int.parse(arr[1]));
     }
   }
 
-  Future<void> addWaterCup(amountOfCups) async {
-    await insertWater(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize));
-    this.history.insert(0, WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize));
+  Future<void> addWaterCup(waterModel, index, amountOfCups) async {
+    await insertWater(waterModel);
+    this._history.insert(index, waterModel);
     setState(() {
       _currentCupCounter += amountOfCups;
       calculateTotalWaterAmount();
@@ -113,11 +118,25 @@ class _HomeState extends State<Home> {
   }
 
   void delete(index) async {
-    deleteWater(this.history[index]);
+    deleteWater(this._history[index]);
+    this._lastDeleted = this._history[index];
+    this._history.removeAt(index);
     setState(() {
-      this.history.removeAt(index);
+      _currentCupCounter--;
       calculateTotalWaterAmount();
     });
+    saveCurrentCupCounter(_currentCupCounter);
+
+    final snackBar = SnackBar(
+      content: Text('Deleted: ${this._lastDeleted.toString()}'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          this.addWaterCup(_lastDeleted, index, 1);
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void disableListener() {
@@ -140,12 +159,12 @@ class _HomeState extends State<Home> {
 
   void calculateTotalWaterAmount() {
     num sum = 0;
-    this.history.forEach((water) {
+    this._history.forEach((water) {
       if (isToday(water.dateTime)) {
         sum += water.cupSize;
       }
-     });
-     this._totalWaterAmount = sum;
+    });
+    this._totalWaterAmount = sum;
   }
 
   String formatDailyTotalWaterAmount() {
@@ -216,33 +235,25 @@ class _HomeState extends State<Home> {
             Expanded(
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: history.length,
+                    itemCount: _history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 40,
-                        child: ListTile(
-                          leading: Icon(MyFlutterApp.cup_400ml),
-                          title: Text(
-                              '${history[index].cupSize}ml ${getDateString(history[index].dateTime)} - ${DateFormat('kk:mm').format(history[index].dateTime)}'),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              delete(index);
-                            },
-                          ),
-                        ),
-                      );
+                          child: HistoryListElement(
+                              index,
+                              MyFlutterApp.cup_400ml,
+                              _history[index],
+                              delete));
                     }))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addWaterCup(1);
+          addWaterCup(WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, 1);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), //
+      ),
     );
   }
 }
