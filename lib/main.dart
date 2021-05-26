@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Views/achievements.dart';
+import 'package:water_tracker/Views/goals.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,7 +79,7 @@ class _MainState extends State<Main> {
   List<Widget> _children = [
     Home(),
     Statistics(),
-    Achievements(),
+    Goals(),
     Settings(),
   ];
   int _currentIndex = 0;

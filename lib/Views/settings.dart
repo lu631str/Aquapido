@@ -78,10 +78,6 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  void closeDialog() {
-    Navigator.pop(context);
-  }
-
   List<Widget> createDialogOptions(context) {
     List<Widget> sizeOptions = [];
 
@@ -133,14 +129,14 @@ class _SettingsState extends State<Settings> {
                     children: <Widget>[
                       TextButton(
                           child: Text('Cancel'),
-                          onPressed: closeDialog), // button 1
+                          onPressed: () => Navigator.pop(context)), // button 1
                       ElevatedButton(
                         child: Text('Save'),
                         onPressed: () {
                           setState(() {
                             saveCustomSize(int.parse(myController.text));
                             myController.clear();
-                            closeDialog();
+                            Navigator.pop(context);
                           });
                         },
                       ), // button 2
@@ -189,7 +185,8 @@ class _SettingsState extends State<Settings> {
                     });
                   }),
               SwitchListTile(
-                  value: false, title: Text('settings.general_settings.quick_gesture').tr()),
+                  value: false,
+                  title: Text('settings.general_settings.quick_gesture').tr()),
               ListTile(
                 title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
@@ -214,13 +211,15 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.language').tr(),
                 trailing: DropdownButton<Locale>(
-                  value: context.supportedLocales.firstWhere((langLocale) => langLocale.languageCode == this._language),
+                  value: context.supportedLocales.firstWhere((langLocale) =>
+                      langLocale.languageCode == this._language),
                   items: context.supportedLocales
-                  .map<DropdownMenuItem<Locale>>((Locale langLocale) {
+                      .map<DropdownMenuItem<Locale>>((Locale langLocale) {
                     return DropdownMenuItem<Locale>(
-                        value: langLocale,
-                        child: Text(languageCodeMap[langLocale.languageCode]),
-                    );}).toList(),
+                      value: langLocale,
+                      child: Text(languageCodeMap[langLocale.languageCode]),
+                    );
+                  }).toList(),
                   onChanged: (langLocale) {
                     context.setLocale(langLocale);
                     this._language = langLocale.languageCode;
@@ -278,7 +277,7 @@ class _SettingsState extends State<Settings> {
                                                 onPressed: () {
                                                   _selectedWeight =
                                                       _currentWeight;
-                                                  closeDialog();
+                                                  Navigator.pop(context);
                                                 }), // button 1
                                             ElevatedButton(
                                               child: Text('Save'),
@@ -286,7 +285,7 @@ class _SettingsState extends State<Settings> {
                                                 saveWeight(_selectedWeight);
                                                 _currentWeight =
                                                     _selectedWeight;
-                                                closeDialog();
+                                                Navigator.pop(context);
                                               },
                                             ), // button 2
                                           ])

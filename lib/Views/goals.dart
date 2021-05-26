@@ -1,20 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/Widgets/AchievementCircle.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:water_tracker/Widgets/MedalType.dart';
 
-class Achievements extends StatefulWidget {
-  Achievements({Key key, this.title}) : super(key: key);
+class Goals extends StatefulWidget {
+  Goals({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _AchievementsState createState() => _AchievementsState();
+  _GoalsState createState() => _GoalsState();
 }
 
-class _AchievementsState extends State<Achievements> {
+class _GoalsState extends State<Goals> {
   @override
   void initState() {
     super.initState();
@@ -163,7 +163,7 @@ class _AchievementsState extends State<Achievements> {
                                     currentInt: _currentCupCounter.round(),
                                     max: getMax(maxCups, _currentCupCounter),
                                     unit: "Cups",
-                                    subtitle: "Total Cups        "),
+                                    subtitle: "Total Cups"),
                                 //mus nach implementierung von Streaks eingefügt werden
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -174,7 +174,7 @@ class _AchievementsState extends State<Achievements> {
                                     currentInt: 60,
                                     max: maxStreak[0],
                                     unit: "Days",
-                                    subtitle: "Streak      ")
+                                    subtitle: "Streak")
                               ]),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +188,7 @@ class _AchievementsState extends State<Achievements> {
                                     isCurrentInt: true,
                                     currentInt: 260,
                                     max: 300,
-                                    unit: "times",
+                                    unit: "Times",
                                     subtitle: "Goals\nReached"),
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -198,8 +198,8 @@ class _AchievementsState extends State<Achievements> {
                                     isCurrentInt: true,
                                     currentInt: 5,
                                     max: 10,
-                                    unit: "times",
-                                    subtitle: "Quick Funktion\n Add "),
+                                    unit: "Times",
+                                    subtitle: "Quick Add\n Used"),
                                 //mus nach implementierung von Streaks eingefügt werden
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -209,8 +209,8 @@ class _AchievementsState extends State<Achievements> {
                                     isCurrentInt: true,
                                     currentInt: 123,
                                     max: 250,
-                                    unit: "times",
-                                    subtitle: "drinks after\n reminder")
+                                    unit: "Times",
+                                    subtitle: "Drinks after\n reminder")
                               ])
                         ])),
                   ],
@@ -230,7 +230,30 @@ class _AchievementsState extends State<Achievements> {
                         child: Text('Daily Goal: ${_dailyGoal.toInt()} ml'),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                    builder: (context, setState) {
+                                  return SimpleDialog(
+                                    contentPadding: EdgeInsets.all(16),
+                                    title: Text('Information'),
+                                    children: [
+                                      Text(
+                                          'We calculate the recommended value based on your personal information.'),
+                                      SimpleDialogOption(
+                                        child: OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Alright")),
+                                      )
+                                    ],
+                                  );
+                                });
+                              });
+                        },
                         icon: Icon(Icons.info_outline),
                         padding: const EdgeInsets.only(right: 6),
                         constraints: BoxConstraints(),

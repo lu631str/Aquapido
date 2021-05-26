@@ -5,7 +5,6 @@ import 'package:grafpix/icons.dart';
 
 import 'MedalType.dart';
 
-
 class AchievementCircle extends StatelessWidget {
   final Color color;
   final Color colorBoarder;
@@ -106,24 +105,20 @@ class AchievementCircle extends StatelessWidget {
                   iconColor: Colors.blue,
                 ),
               ),
-
             ],
           ),
-           Container(
-
-          child: Text(
-             "\n"+this.subtitle,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.clip,
-
-
-                style: TextStyle(
-                  color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
-                      ? Colors.black54
-                      : Colors.blue[100],
-                  fontSize: 16.0,
-                ),
-              )),
+          Container(
+              child: Text(
+            "\n" + this.subtitle,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+              color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
+                  ? Colors.black54
+                  : Colors.blue[100],
+              fontSize: 16.0,
+            ),
+          )),
           Container(height: 20.0),
         ]);
   }
