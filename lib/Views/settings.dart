@@ -3,6 +3,7 @@ import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -25,6 +26,7 @@ class _SettingsState extends State<Settings> {
     Icon(MyFlutterApp.cup_400ml),
     Icon(MyFlutterApp.cup_400ml)
   ];
+  Map<String, String> languageCodeMap = {"en": "English", "de": "Deutsch"};
 
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
@@ -32,6 +34,7 @@ class _SettingsState extends State<Settings> {
   int _currentWeight = 40;
   int _selectedWeight = 40;
   String _gender = 'choose';
+  String _language = 'en';
   final myController = TextEditingController(text: '0');
 
   @override
@@ -52,10 +55,12 @@ class _SettingsState extends State<Settings> {
     bool counter = await loadShakeSettings();
     int weight = await loadWeight();
     String gender = await loadGender();
+    String lang = await loadLanguage();
     setState(() {
       this._isPowerBtnAddEnabled = currentCupSize;
       this._isShakingAddEnabled = counter;
       this._selectedWeight = this._currentWeight = weight;
+      this._language = lang;
 
       this._gender = gender;
     });
@@ -64,7 +69,6 @@ class _SettingsState extends State<Settings> {
   void _reset() {
     saveCurrentCupCounter(0);
     clearWaterTable();
-    
   }
 
   void saveCustomSize(customSize) {
@@ -162,13 +166,13 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'General Settings',
+                  'settings.general_settings.title',
                   style: Theme.of(context).textTheme.headline5,
-                ),
+                ).tr(),
               ),
               SwitchListTile(
                   value: this._isPowerBtnAddEnabled,
-                  title: Text('Quick add Power Button'),
+                  title: Text('settings.general_settings.quick_power').tr(),
                   onChanged: (value) {
                     setState(() {
                       this._isPowerBtnAddEnabled = value;
@@ -177,7 +181,7 @@ class _SettingsState extends State<Settings> {
                   }),
               SwitchListTile(
                   value: this._isShakingAddEnabled,
-                  title: Text('Quick add Shaking'),
+                  title: Text('settings.general_settings.quick_shaking').tr(),
                   onChanged: (value) {
                     setState(() {
                       this._isShakingAddEnabled = value;
@@ -185,9 +189,9 @@ class _SettingsState extends State<Settings> {
                     });
                   }),
               SwitchListTile(
-                  value: false, title: Text('Quick add Drink gesture')),
+                  value: false, title: Text('settings.general_settings.quick_gesture').tr()),
               ListTile(
-                title: Text('Cup size'),
+                title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
                     child: Text(_selectedSize.toString() + 'ml'),
                     onPressed: () {
@@ -207,6 +211,23 @@ class _SettingsState extends State<Settings> {
                       });
                     }),
               ),
+              ListTile(
+                title: Text('settings.general_settings.language').tr(),
+                trailing: DropdownButton<Locale>(
+                  value: context.supportedLocales.firstWhere((langLocale) => langLocale.languageCode == this._language),
+                  items: context.supportedLocales
+                  .map<DropdownMenuItem<Locale>>((Locale langLocale) {
+                    return DropdownMenuItem<Locale>(
+                        value: langLocale,
+                        child: Text(languageCodeMap[langLocale.languageCode]),
+                    );}).toList(),
+                  onChanged: (langLocale) {
+                    context.setLocale(langLocale);
+                    this._language = langLocale.languageCode;
+                    saveLanguage(langLocale.languageCode);
+                  },
+                ),
+              ),
               const Divider(
                 height: 40,
                 thickness: 1,
@@ -217,12 +238,12 @@ class _SettingsState extends State<Settings> {
                 children: [
                   ListTile(
                     title: Text(
-                      'Personal Settings',
+                      'settings.personal_settings.title',
                       style: Theme.of(context).textTheme.headline5,
-                    ),
+                    ).tr(),
                   ),
                   ListTile(
-                    title: Text('Weight'),
+                    title: Text('settings.personal_settings.weight').tr(),
                     trailing: TextButton(
                       child:
                           Text(_currentWeight.toString() + ' ' + _weightUnit),
@@ -278,7 +299,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   ListTile(
-                    title: Text('Gender'),
+                    title: Text('settings.personal_settings.gender').tr(),
                     trailing: DropdownButton(
                       value: _gender,
                       items: <DropdownMenuItem>[

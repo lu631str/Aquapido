@@ -5,9 +5,20 @@ import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:water_tracker/Views/statistics.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: Locale('en', 'US'),
+        child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         title: 'Quick Water Tracker',
         theme: ThemeData(
           // This is the theme of your application.
@@ -106,22 +120,22 @@ class _MainState extends State<Main> {
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Home',
+              label: 'home.title'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.timeline),
-              label: 'Statistics',
+              label: 'statistics.title'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              label: 'Goals',
+              label: 'goals.title'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              label: 'Settings',
+              label: 'settings.title'.tr(),
             ),
           ],
           selectedItemColor: Colors.white,

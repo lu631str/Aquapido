@@ -1,0 +1,27 @@
+{
+    "home": {
+        "title": "Start"
+    },
+    "statistics": {
+        "title": "Statistiken"
+    },
+    "goals": {
+        "title": "Ziele"
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "general_settings": {
+            "title": "Allgemeine Einstellungen",
+            "quick_power": "Schnell hinzufügen Taste",
+            "quick_shaking": "Schnell hinzufügen Schütteln",
+            "quick_gesture": "Schnell hinzufügen Trink Geste",
+            "cup_size": "Glas Größe",
+            "language": "Sprache"
+        },
+        "personal_settings": {
+            "title": "Persönliche Einstellungen",
+            "weight": "Gewicht",
+            "gender": "Geschlecht"
+        }
+    }
+}
