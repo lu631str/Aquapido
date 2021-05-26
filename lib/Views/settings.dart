@@ -136,38 +136,36 @@ class _SettingsState extends State<Settings> {
 
   void showCustomSizeAddDialog() {
     showDialog(
-        context: context,
-        builder: (_) => SimpleDialog(
-              contentPadding: EdgeInsets.all(16),
-              title: Text('Add Size'),
-              children: [
-                TextFormField(
-                  controller: myController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Custom Cup Size (ml)',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                          child: Text('Cancel'),
-                          onPressed: closeDialog), // button 1
-                      ElevatedButton(
-                        child: Text('Save'),
-                        onPressed: () {
-                          setState(() {
-                            saveCustomSize(int.parse(myController.text));
-                            myController.clear();
-                            closeDialog();
-                          });
-                        },
-                      ), // button 2
-                    ])
-              ],
-            ));
+      context: context,
+      builder: (_) => SimpleDialog(
+        contentPadding: EdgeInsets.all(16),
+        title: Text('Add Size'),
+        children: [
+          TextFormField(
+            controller: myController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Custom Cup Size (ml)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+            TextButton(
+                child: Text('Cancel'), onPressed: closeDialog), // button 1
+            ElevatedButton(
+              child: Text('Save'),
+              onPressed: () {
+                setState(() {
+                  saveCustomSize(int.parse(myController.text));
+                  myController.clear();
+                  closeDialog();
+                });
+              },
+            ), // button 2
+          ])
+        ],
+      ),
+    );
   }
 
   @override
