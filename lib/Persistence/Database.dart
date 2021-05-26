@@ -79,7 +79,7 @@ Future<void> deleteWater(WaterModel water) async {
   );
 }
 
-Future<List<WaterModel>> water() async {
+Future<List<WaterModel>> waterList() async {
   // Get a reference to the database.
   final Database db = await database;
 
@@ -88,7 +88,7 @@ Future<List<WaterModel>> water() async {
 
   if (maps.isEmpty) {
     log('Database: Table $waterTableName is EMPTY!');
-    return [];
+    return List.generate(1, (index) => WaterModel.placeholder(0));
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
