@@ -1,0 +1,27 @@
+{
+    "home": {
+        "title": "Home"
+    },
+    "statistics": {
+        "title": "Statistics"
+    },
+    "goals": {
+        "title": "Goals"
+    },
+    "settings": {
+        "title": "Settings",
+        "general_settings": {
+            "title": "General Settings",
+            "quick_power": "Quick add Power Button",
+            "quick_shaking": "Quick add Shaking",
+            "quick_gesture": "Quick add Drink gesture",
+            "cup_size": "Cup size",
+            "language": "Language"
+        },
+        "personal_settings": {
+            "title": "Personal Settings",
+            "weight": "Weight",
+            "gender": "Gender"
+        }
+    }
+}

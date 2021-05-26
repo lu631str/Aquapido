@@ -47,6 +47,11 @@ Future<String> loadGender() async {
   return prefs.getString('gender') ?? 'choose';
 }
 
+Future<String> loadLanguage() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('language') ?? 'en';
+}
+
 // Save
 Future<void> savePower(bool isPowerBtnAddEnabled) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -66,4 +71,9 @@ Future<void> saveWeight(int newWeight) async {
 Future<void> saveGender(String gender) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('gender', gender);
+}
+
+Future<void> saveLanguage(String lang) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('language', lang);
 }
