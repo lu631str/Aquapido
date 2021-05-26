@@ -51,7 +51,7 @@ Future<String> loadGender() async {
 
 Future<String> loadLanguage(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('language') ?? context.locale;
+  return prefs.getString('language') ?? context.locale.languageCode;
 }
 
 // Save
