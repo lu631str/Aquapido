@@ -52,6 +52,12 @@ Future<String> loadLanguage() async {
   return prefs.getString('language') ?? 'en';
 }
 
+Future<int> loadInterval() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getInt('interval') ?? 30;
+}
+
+
 // Save
 Future<void> savePower(bool isPowerBtnAddEnabled) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -76,4 +82,9 @@ Future<void> saveGender(String gender) async {
 Future<void> saveLanguage(String lang) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('language', lang);
+}
+
+Future<void> saveInterval(int interval) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setInt('interval', interval);
 }

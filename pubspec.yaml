@@ -40,6 +40,7 @@ dependencies:
   golden_toolkit: ^0.9.0
   grafpix: ^1.2.8
   easy_localization: ^3.0.0
+  time_range_picker: ^2.0.1
 
 dev_dependencies:
   flutter_test:
