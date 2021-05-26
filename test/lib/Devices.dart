@@ -4,12 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:golden_toolkit/golden_toolkit.dart' as toolkit;
 
 class Devices {
+  /*
   /// [iphoneSE] matches specs of iphone SE
   static toolkit.Device get iphoneSE => const toolkit.Device(
         size: Size(320.0, 568.0),
         name: 'iphone_se__text_scale_1_0',
         safeArea: EdgeInsets.only(top: 20.0),
       );
+    */
 
   /// [iphone8] matches specs of iphone 8
   static toolkit.Device get iphone8 => const toolkit.Device(
@@ -34,7 +36,7 @@ class Devices {
 }
 
 final devicesWithDifferentTextScales = [
-  Devices.iphoneSE,
+  //Devices.iphoneSE,
   Devices.iphone8,
   Devices.iphone11,
   Devices.iphone12ProMax,
