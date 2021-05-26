@@ -28,8 +28,6 @@ class _HomeState extends State<Home> {
   int _totalWaterAmount = 0;
   String _unit = 'ml';
 
-  WaterModel _lastDeleted;
-
   List<WaterModel> _history = [];
 
   static const platform =
@@ -115,7 +113,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> addWaterCup(waterModel, index, amountOfCups) async {
-    if(this._history.first.isPlaceholder) {
+    if (this._history.first.isPlaceholder) {
       this._history.clear();
     }
     await insertWater(waterModel);
@@ -128,25 +126,29 @@ class _HomeState extends State<Home> {
   }
 
   void delete(index) async {
-    deleteWater(this._history[index]);
-    this._lastDeleted = this._history[index];
+    WaterModel waterModel = this._history[index];
+    deleteWater(waterModel);
+
     this._history.removeAt(index);
     setState(() {
       _currentCupCounter--;
       calculateTotalWaterAmount();
     });
     saveCurrentCupCounter(_currentCupCounter);
-    if(this._history.isEmpty) {
+    if (this._history.isEmpty) {
       this.loadData();
     }
+    this._showUndoSnackBar(index, waterModel);
+  }
 
+  void _showUndoSnackBar(index, waterModel) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
-      content: Text('Deleted: ${this._lastDeleted.toString()}'),
+      content: Text('Deleted: ${waterModel.toString()}'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          this.addWaterCup(_lastDeleted, index, 1);
+          this.addWaterCup(waterModel, index, 1);
         },
       ),
     );

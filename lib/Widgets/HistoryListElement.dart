@@ -46,6 +46,7 @@ class HistoryListElement extends StatelessWidget {
                               data: IconThemeData(color: this._waterModel.isPlaceholder ? Colors.black26 : Colors.black87),
                               child: Icon(Icons.delete)),
                           onPressed: this._waterModel.isPlaceholder ? null: () {
+                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
                             this._deleteCallback(this._index);
                           },
                         ),
