@@ -124,7 +124,9 @@ class _HomeState extends State<Home> {
 
     this._history.removeAt(index);
     setState(() {
-      _currentCupCounter--;
+      if(_currentCupCounter > 0) {
+        _currentCupCounter--;
+      }
       _calculateTotalWaterAmount();
     });
     saveCurrentCupCounter(_currentCupCounter);

@@ -1,4 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // ==== DATA ====
 
@@ -47,9 +49,9 @@ Future<String> loadGender() async {
   return prefs.getString('gender') ?? 'choose';
 }
 
-Future<String> loadLanguage() async {
+Future<String> loadLanguage(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('language') ?? 'en';
+  return prefs.getString('language') ?? context.locale;
 }
 
 // Save

@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
     bool counter = await loadShakeSettings();
     int weight = await loadWeight();
     String gender = await loadGender();
-    String lang = await loadLanguage();
+    String lang = await loadLanguage(context);
     setState(() {
       this._isPowerBtnAddEnabled = currentCupSize;
       this._isShakingAddEnabled = counter;
