@@ -10,7 +10,6 @@ import 'package:water_tracker/Widgets/HistoryListElement.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'package:water_tracker/Utils/utils.dart';
-import 'package:intl/intl.dart';
 
 typedef void DeleteCallback(int index);
 
