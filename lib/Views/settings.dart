@@ -51,14 +51,14 @@ class _SettingsState extends State<Settings> {
   }
 
   loadData() async {
-    bool currentCupSize = await loadPowerSettings();
-    bool counter = await loadShakeSettings();
+    bool powerSettings = await loadPowerSettings();
+    bool shakeSettings = await loadShakeSettings();
     int weight = await loadWeight();
     String gender = await loadGender();
     String lang = await loadLanguage(context);
     setState(() {
-      this._isPowerBtnAddEnabled = currentCupSize;
-      this._isShakingAddEnabled = counter;
+      this._isPowerBtnAddEnabled = powerSettings;
+      this._isShakingAddEnabled = shakeSettings;
       this._selectedWeight = this._currentWeight = weight;
       this._language = lang;
 
