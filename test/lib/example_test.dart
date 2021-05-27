@@ -29,7 +29,7 @@ void main() {
     );
   }
 
-  testGoldens('testGoldens', (tester) async {
+  testGoldens('testStatistics', (tester) async {
     // Prepare
     await loadAppFonts();
     SharedPreferences.setMockInitialValues(sharedPrefMock);
@@ -61,7 +61,7 @@ void main() {
     await screenMatchesGolden(tester, 'goals');
   });
 
-  testGoldens('testGoals', (tester) async {
+  testGoldens('testSettings', (tester) async {
     // Prepare
     await loadAppFonts();
     SharedPreferences.setMockInitialValues(sharedPrefMock);
