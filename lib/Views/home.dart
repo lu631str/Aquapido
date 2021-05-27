@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
 
     this._history.removeAt(index);
     setState(() {
-      if(_currentCupCounter > 0) {
+      if (_currentCupCounter > 0) {
         _currentCupCounter--;
       }
       _calculateTotalWaterAmount();
@@ -261,22 +261,24 @@ class _HomeState extends State<Home> {
               ),
             ),
             Expanded(
-                child: Card(
-                    margin: const EdgeInsets.all(8),
-                    elevation: 2,
-                    color: Color(0xFFE7F3FF),
-                    child: ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: _history.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                              child: HistoryListElement(
-                                  index,
-                                  MyFlutterApp
-                                      .sizeIcons[_history[index].cupSize],
-                                  _history[index],
-                                  _delete));
-                        })))
+              child: Card(
+                margin: const EdgeInsets.all(8),
+                elevation: 2,
+                color: Color(0xFFE7F3FF),
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: _history.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        child: HistoryListElement(
+                            index,
+                            MyFlutterApp.sizeIcons[_history[index].cupSize],
+                            _history[index],
+                            _delete),
+                      );
+                    }),
+              ),
+            ),
           ],
         ),
       ),

@@ -22,6 +22,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final int currentChild;
+
+  MyApp({this.currentChild});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -53,12 +56,12 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 14.0),
           ),
         ),
-        home: Main());
+        home: Main(currentChild: currentChild,));
   }
 }
 
 class Main extends StatefulWidget {
-  Main({Key key, this.title}) : super(key: key);
+  Main({Key key, this.title, this.currentChild}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -70,19 +73,26 @@ class Main extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final int currentChild;
 
   @override
-  _MainState createState() => _MainState();
+  _MainState createState() => _MainState(currentChild: currentChild);
 }
 
 class _MainState extends State<Main> {
+  final int currentChild;
+  int _currentIndex = 0;
+
+  _MainState({this.currentChild}) {
+    _currentIndex = (currentChild == null) ? 0 : currentChild;
+  }
+
   List<Widget> _children = [
     Home(),
     Statistics(),
     Goals(),
     Settings(),
   ];
-  int _currentIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
