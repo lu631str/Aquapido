@@ -12,7 +12,7 @@ pipeline {
         stage ("Run Flutter Tests") {
             steps {
                 sh "flutter test --update-goldens --name=Golden"
-                sh "flutter test"
+                sh "flutter test test/unit_tests"
             }
         }
         stage("SonarQube Analysis") {
