@@ -41,6 +41,7 @@ dependencies:
   grafpix: ^1.2.8
   easy_localization: ^3.0.0
   time_range_picker: ^2.0.1
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

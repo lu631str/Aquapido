@@ -8,8 +8,11 @@ import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/Persistence/Database.dart';
 import 'package:water_tracker/Widgets/HistoryListElement.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
+import 'package:water_tracker/models/SettingsModel.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'package:water_tracker/Utils/utils.dart';
+import 'package:water_tracker/models/SettingsModel.dart';
+import 'package:provider/provider.dart';
 
 typedef void DeleteCallback(int index);
 
@@ -23,8 +26,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentCupCounter = 0;
-  int _currentCupSize = 300; // in ml
+  int _currentCupCounter = 5;
   int _totalWaterAmount = 0;
   String _unit = 'ml';
 
@@ -50,17 +52,17 @@ class _HomeState extends State<Home> {
 
     ShakeDetector.autoStart(onPhoneShake: () {
       _addWaterCup(
-          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize), 0, 1);
+          WaterModel(
+              dateTime: DateTime.now(),
+              cupSize: context.watch<SettingsModel>().cupSize),
+          0,
+          1);
     });
   }
 
   _loadData() async {
-    int currentCupSize = await loadCurrentCupSize();
-    int counter = await loadCurrentCupCounter();
     var history = await waterList();
     setState(() {
-      this._currentCupSize = currentCupSize;
-      this._currentCupCounter = counter;
       this._history = history.reversed.toList();
       _calculateTotalWaterAmount();
       getPowerButtonCount();
@@ -92,13 +94,17 @@ class _HomeState extends State<Home> {
     debugPrint(event);
     if (arr[0] == "power") {
       _addWaterCup(
-          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+          WaterModel(
+              dateTime: DateTime.now(),
+              cupSize: context.watch<SettingsModel>().cupSize),
           0,
           int.parse(arr[1]));
     }
     if (arr[0] == "shake") {
       _addWaterCup(
-          WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+          WaterModel(
+              dateTime: DateTime.now(),
+              cupSize: context.watch<SettingsModel>().cupSize),
           0,
           int.parse(arr[1]));
     }
@@ -114,7 +120,7 @@ class _HomeState extends State<Home> {
       _currentCupCounter += amountOfCups;
       _calculateTotalWaterAmount();
     });
-    saveCurrentCupCounter(_currentCupCounter);
+    //saveCurrentCupCounter(_currentCupCounter);
   }
 
   void _delete(index) async {
@@ -128,7 +134,7 @@ class _HomeState extends State<Home> {
       }
       _calculateTotalWaterAmount();
     });
-    saveCurrentCupCounter(_currentCupCounter);
+    //saveCurrentCupCounter(_currentCupCounter);
     if (this._history.isEmpty) {
       this._loadData();
     }
@@ -246,7 +252,7 @@ class _HomeState extends State<Home> {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Text(
-                        '$_currentCupSize ml',
+                        '${context.watch<SettingsModel>().cupSize} ml',
                         style: Theme.of(context).textTheme.headline5,
                       ),
                     ],
@@ -286,7 +292,10 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _addWaterCup(
-              WaterModel(dateTime: DateTime.now(), cupSize: _currentCupSize),
+              WaterModel(
+                  dateTime: DateTime.now(),
+                  cupSize: Provider.of<SettingsModel>(context, listen: false)
+                      .cupSize),
               0,
               1);
         },

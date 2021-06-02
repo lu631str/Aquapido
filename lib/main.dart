@@ -6,10 +6,18 @@ import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:water_tracker/Views/statistics.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
+import 'package:water_tracker/models/SettingsModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+SharedPreferences prefs; // Praeferenzen festlegen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
 
   runApp(
     EasyLocalization(
@@ -17,7 +25,12 @@ void main() async {
         path:
             'assets/translations', // <-- change the path of the translation files
         fallbackLocale: Locale('en', 'US'),
-        child: MyApp()),
+        child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsModel()),
+      ],
+      child: MyApp(),
+    ),),
   );
 }
 
