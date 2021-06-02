@@ -1,0 +1,6 @@
+projectKey=lehre_rschimka_mobile_g-mobile-sose21_07-mobile-sose21_AXmtxBTyz9Y_mj-D0U6Q
+serverUrl=http://f776e35e-dd5a-47aa-8cb8-5826c98b5ed0.ma.bw-cloud-instance.org:9000
+serverVersion=8.9.0.43852
+dashboardUrl=http://f776e35e-dd5a-47aa-8cb8-5826c98b5ed0.ma.bw-cloud-instance.org:9000/dashboard?id=lehre_rschimka_mobile_g-mobile-sose21_07-mobile-sose21_AXmtxBTyz9Y_mj-D0U6Q
+ceTaskId=AXmx5mRRz9Y_mj-D0U6i
+ceTaskUrl=http://f776e35e-dd5a-47aa-8cb8-5826c98b5ed0.ma.bw-cloud-instance.org:9000/api/ce/task?id=AXmx5mRRz9Y_mj-D0U6i
