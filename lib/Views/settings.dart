@@ -4,6 +4,7 @@ import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -28,11 +29,30 @@ class _SettingsState extends State<Settings> {
   ];
   Map<String, String> languageCodeMap = {"en": "English", "de": "Deutsch"};
 
+  List<ClockLabel> _clockLabels = [
+    ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 6, minute: 0), text: '6'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 9, minute: 0), text: '9'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 12, minute: 0), text: '12'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 15, minute: 0), text: '15'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 18, minute: 0), text: '18'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 21, minute: 0), text: '21'),
+    ClockLabel.fromTime(time: TimeOfDay(hour: 24, minute: 0), text: '0')
+  ];
+
+  TimeOfDay _timePickerStart = TimeOfDay(hour: 23, minute: 0);
+  TimeOfDay _timePickerEnd = TimeOfDay(hour: 8, minute: 0);
+
   bool _isPowerBtnAddEnabled = false;
   bool _isShakingAddEnabled = false;
   String _weightUnit = 'kg';
+
   int _currentWeight = 40;
   int _selectedWeight = 40;
+
+  int _currentInterval = 30;
+  int _selectedInterval = 30;
+
   String _gender = 'choose';
   String _language = 'en';
   final myController = TextEditingController(text: '0');
@@ -54,14 +74,15 @@ class _SettingsState extends State<Settings> {
     bool powerSettings = await loadPowerSettings();
     bool shakeSettings = await loadShakeSettings();
     int weight = await loadWeight();
+    int interval = await loadInterval();
     String gender = await loadGender();
     String lang = await loadLanguage(context);
     setState(() {
       this._isPowerBtnAddEnabled = powerSettings;
       this._isShakingAddEnabled = shakeSettings;
       this._selectedWeight = this._currentWeight = weight;
+      this._selectedInterval = this._currentInterval = interval;
       this._language = lang;
-
       this._gender = gender;
     });
   }
@@ -166,31 +187,91 @@ class _SettingsState extends State<Settings> {
                   style: Theme.of(context).textTheme.headline5,
                 ).tr(),
               ),
-              SwitchListTile(
-                  value: this._isPowerBtnAddEnabled,
-                  title: Text('settings.general_settings.quick_power').tr(),
-                  onChanged: (value) {
-                    setState(() {
-                      this._isPowerBtnAddEnabled = value;
-                      savePower(value);
-                    });
-                  }),
-              SwitchListTile(
-                  value: this._isShakingAddEnabled,
-                  title: Text('settings.general_settings.quick_shaking').tr(),
-                  onChanged: (value) {
-                    setState(() {
-                      this._isShakingAddEnabled = value;
-                      saveShaking(value);
-                    });
-                  }),
-              SwitchListTile(
-                  value: false,
-                  title: Text('settings.general_settings.quick_gesture').tr()),
+              ListTile(
+                title: Text('settings.general_settings.sleep_time').tr(),
+                trailing: TextButton(
+                  child: Text(this._timePickerStart.format(context) +
+                      " - " +
+                      this._timePickerEnd.format(context)),
+                  onPressed: () async {
+                    TimeRange result = await showTimeRangePicker(
+                        context: context,
+                        labels: this._clockLabels,
+                        rotateLabels: false,
+                        ticks: 24,
+                        ticksLength: 8.0,
+                        ticksWidth: 2.0,
+                        ticksOffset: 5.0,
+                        ticksColor: Colors.black45,
+                        start: _timePickerStart,
+                        end: _timePickerEnd,
+                        use24HourFormat: true);
+                    if (result != null) {
+                      this._timePickerStart = result.startTime;
+                      this._timePickerEnd = result.endTime;
+                    }
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('settings.general_settings.reminder_interval').tr(),
+                trailing: TextButton(
+                  child: Text(this._currentInterval.toString() + ' min'),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return SimpleDialog(
+                                contentPadding: EdgeInsets.all(16),
+                                title: Text('Set Interval'),
+                                children: [
+                                  NumberPicker(
+                                    value: _selectedInterval,
+                                    minValue: 15,
+                                    maxValue: 180,
+                                    haptics: true,
+                                    itemCount: 5,
+                                    itemHeight: 32,
+                                    step: 15,
+                                    textMapper: (numberText) =>
+                                        numberText + ' min',
+                                    onChanged: (value) => setState(
+                                        () => _selectedInterval = value),
+                                  ),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        TextButton(
+                                            child: Text('Cancel'),
+                                            onPressed: () {
+                                              _selectedInterval =
+                                                  _currentInterval;
+                                              Navigator.pop(context);
+                                            }), // button 1
+                                        ElevatedButton(
+                                          child: Text('Save'),
+                                          onPressed: () {
+                                            saveInterval(_selectedInterval);
+                                            _currentInterval =
+                                                _selectedInterval;
+                                            Navigator.pop(context);
+                                          },
+                                        ), // button 2
+                                      ])
+                                ],
+                              );
+                            },
+                          );
+                        });
+                  },
+                ),
+              ),
               ListTile(
                 title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
-                    child: Text(_selectedSize.toString() + 'ml'),
+                    child: Text(_selectedSize.toString() + ' ml'),
                     onPressed: () {
                       setState(() {
                         showDialog(
@@ -226,6 +307,44 @@ class _SettingsState extends State<Settings> {
                     saveLanguage(langLocale.languageCode);
                   },
                 ),
+              ),
+              const Divider(
+                height: 40,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              ),
+              Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'settings.quick_settings.title',
+                      style: Theme.of(context).textTheme.headline5,
+                    ).tr(),
+                  ),
+                  SwitchListTile(
+                      value: this._isPowerBtnAddEnabled,
+                      title: Text('settings.quick_settings.quick_power').tr(),
+                      onChanged: (value) {
+                        setState(() {
+                          this._isPowerBtnAddEnabled = value;
+                          savePower(value);
+                        });
+                      }),
+                  SwitchListTile(
+                      value: this._isShakingAddEnabled,
+                      title: Text('settings.quick_settings.quick_shaking').tr(),
+                      onChanged: (value) {
+                        setState(() {
+                          this._isShakingAddEnabled = value;
+                          saveShaking(value);
+                        });
+                      }),
+                  SwitchListTile(
+                      value: false,
+                      title:
+                          Text('settings.quick_settings.quick_gesture').tr()),
+                ],
               ),
               const Divider(
                 height: 40,
@@ -343,7 +462,43 @@ class _SettingsState extends State<Settings> {
                           6.0) //                 <--- border radius here
                       ),
                 ),
-                child: OutlinedButton(onPressed: _reset, child: Text('Reset')),
+                child: OutlinedButton(
+                    onPressed: () => {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return SimpleDialog(
+                                      contentPadding: EdgeInsets.all(16),
+                                      title: Text('Reset - Are you sure?'),
+                                      children: [
+                                        Text(
+                                            'This action can NOT be undone. All data will be lost!'),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              TextButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }), // button 1
+                                              ElevatedButton(
+                                                child: Text('Reset'),
+                                                onPressed: () {
+                                                  this._reset();
+                                                  Navigator.pop(context);
+                                                },
+                                              ), // button 2
+                                            ])
+                                      ],
+                                    );
+                                  },
+                                );
+                              })
+                        },
+                    child: Text('Reset')),
               )
             ],
           ),

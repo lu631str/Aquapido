@@ -12,11 +12,16 @@
         "title": "Settings",
         "general_settings": {
             "title": "General Settings",
-            "quick_power": "Quick add Power Button",
-            "quick_shaking": "Quick add Shaking",
-            "quick_gesture": "Quick add Drink gesture",
+            "sleep_time": "Sleep time",
+            "reminder_interval": "Reminder interval",
             "cup_size": "Cup size",
             "language": "Language"
+        },
+        "quick_settings": {
+            "title": "Quick Add Settings",
+            "quick_power": "Quick add Power Button",
+            "quick_shaking": "Quick add Shaking",
+            "quick_gesture": "Quick add Drink gesture"
         },
         "personal_settings": {
             "title": "Personal Settings",
