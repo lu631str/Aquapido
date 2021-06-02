@@ -21,7 +21,7 @@ class SettingsModel with ChangeNotifier {
 
   void reset() {
     _weight = prefs.getInt('weight') ?? 70;
-    _interval = prefs.getInt('interval') ?? 30;
+    _interval = prefs.getInt('interval') ?? 60;
     notifyListeners();
   }
 

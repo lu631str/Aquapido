@@ -118,7 +118,6 @@ class _HomeState extends State<Home> {
       _currentCupCounter += amountOfCups;
       _calculateTotalWaterAmount();
     });
-    //saveCurrentCupCounter(_currentCupCounter);
   }
 
   void _delete(index) async {
@@ -132,7 +131,6 @@ class _HomeState extends State<Home> {
       }
       _calculateTotalWaterAmount();
     });
-    //saveCurrentCupCounter(_currentCupCounter);
     if (this._history.isEmpty) {
       this._loadData();
     }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
+import 'package:water_tracker/Utils/utils.dart';
 import 'package:water_tracker/models/WaterModel.dart';
 import 'dart:developer';
 
@@ -77,6 +78,29 @@ Future<void> deleteWater(WaterModel water) async {
     // Pass the Dog's id as a whereArg to prevent SQL injection.
     whereArgs: [water.dateTime.millisecondsSinceEpoch],
   );
+}
+
+Future<int> totalCupsToday() async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
+
+  if (maps.isEmpty) {
+    log('Database (totalCups): Table $waterTableName is EMPTY!');
+    return 0;
+  }
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  List<WaterModel> waterModelList = List.generate(maps.length, (i) {
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
+    return WaterModel(
+      dateTime: dateTime,
+      cupSize: maps[i]['cup_size'],
+    );
+  });
+  return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
 }
 
 Future<List<WaterModel>> waterList() async {

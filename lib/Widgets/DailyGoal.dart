@@ -42,9 +42,10 @@ class DailyGoal extends StatelessWidget {
 
     if (recommended < _minGoal) {
       return _minGoal;
-    } else {
-      return _closestInteger(recommended, 100).toDouble();
+    } else if (recommended > _maxGoal) {
+      return _maxGoal;
     }
+    return _closestInteger(recommended, 100).toDouble();
   }
 
   @override
@@ -103,7 +104,6 @@ class DailyGoal extends StatelessWidget {
               jump: true,
               onDragging: (handlerIndex, lowerValue, upperValue) {
                 context.read<SettingsModel>().updateDailyGoal(lowerValue);
-                //setState(() {});
               },
               handler: FlutterSliderHandler(
                 decoration: BoxDecoration(),

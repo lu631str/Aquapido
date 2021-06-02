@@ -117,8 +117,8 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    const color1 = const Color(0xffb3d9f1);
-    const color2 = const Color(0xffeef6fb);
+    const color1 = const Color(0xff91ceff);
+    const color2 = const Color(0xfffafdff);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
