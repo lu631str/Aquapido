@@ -21,9 +21,7 @@ void main() {
   };
 
   Widget makeTestableWidget(Widget child) {
-    return MediaQuery(
-      data: MediaQueryData(),
-      child: EasyLocalization(
+    return EasyLocalization(
         supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
         path:
             '../../assets/translations', // <-- change the path of the translation files
@@ -34,10 +32,10 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: [Locale('en', 'US')],
+          supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
           locale: Locale('en', 'US'),
           home: child,
-        )));
+        ));
   }
 
   group('Home Screens', () {
@@ -45,8 +43,8 @@ void main() {
       // Prepare
       SharedPreferences.setMockInitialValues(sharedPrefMock);
       WidgetsFlutterBinding.ensureInitialized();
-      await EasyLocalization.ensureInitialized();
       await loadAppFonts();
+      await EasyLocalization.ensureInitialized();
 
       final builder = DeviceBuilder()
         ..overrideDevicesForAllScenarios(
@@ -61,8 +59,8 @@ void main() {
       // Prepare
       SharedPreferences.setMockInitialValues(sharedPrefMock);
       WidgetsFlutterBinding.ensureInitialized();
-      await EasyLocalization.ensureInitialized();
       await loadAppFonts();
+      await EasyLocalization.ensureInitialized();
 
       final builder = DeviceBuilder()
         ..overrideDevicesForAllScenarios(
@@ -77,8 +75,8 @@ void main() {
       // Prepare
       SharedPreferences.setMockInitialValues(sharedPrefMock);
       WidgetsFlutterBinding.ensureInitialized();
-      await EasyLocalization.ensureInitialized();
       await loadAppFonts();
+      await EasyLocalization.ensureInitialized();
 
       final builder = DeviceBuilder()
         ..overrideDevicesForAllScenarios(
