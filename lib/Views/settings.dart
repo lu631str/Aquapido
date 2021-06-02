@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Persistence/SharedPref.dart';
 import 'package:water_tracker/icons/my_flutter_app_icons.dart';
 import 'package:water_tracker/Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
