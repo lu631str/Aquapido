@@ -29,15 +29,15 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => SettingsModel()),
       ],
-      child: MyApp(),
+      child: WaterTrackerApp(),
     ),),
   );
 }
 
-class MyApp extends StatelessWidget {
+class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
 
-  MyApp({this.currentChild});
+  WaterTrackerApp({this.currentChild});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
