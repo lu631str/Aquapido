@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tracker/models/SettingsModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_tracker/models/WaterModel.dart';
 
 
 
@@ -28,6 +29,7 @@ void main() async {
         child: MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SettingsModel()),
+        ChangeNotifierProvider(create: (_) => WaterModel()),
       ],
       child: WaterTrackerApp(),
     ),),

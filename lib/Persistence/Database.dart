@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:water_tracker/Utils/utils.dart';
-import 'package:water_tracker/models/WaterModel.dart';
+import 'package:water_tracker/models/Water.dart';
 import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
@@ -30,7 +30,7 @@ Future<Database> connectWithDatabase() async {
   );
 }
 
-Future<void> insertWater(WaterModel water) async {
+Future<void> insertWater(Water water) async {
   // Get a reference to the database.
   final Database db = await database;
 
@@ -64,7 +64,7 @@ Future<void> clearWaterTable() async {
   );
 }
 
-Future<void> deleteWater(WaterModel water) async {
+Future<void> deleteWater(Water water) async {
   // Get a reference to the database.
   final db = await database;
 
@@ -93,9 +93,9 @@ Future<int> totalCupsToday() async {
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
-  List<WaterModel> waterModelList = List.generate(maps.length, (i) {
+  List<Water> waterModelList = List.generate(maps.length, (i) {
     var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-    return WaterModel(
+    return Water(
       dateTime: dateTime,
       cupSize: maps[i]['cup_size'],
     );
@@ -103,7 +103,7 @@ Future<int> totalCupsToday() async {
   return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
 }
 
-Future<List<WaterModel>> waterList() async {
+Future<List<Water>> waterList() async {
   // Get a reference to the database.
   final Database db = await database;
 
@@ -112,13 +112,13 @@ Future<List<WaterModel>> waterList() async {
 
   if (maps.isEmpty) {
     log('Database: Table $waterTableName is EMPTY!');
-    return List.generate(1, (index) => WaterModel.placeholder(0));
+    return List.generate(1, (index) => Water.placeholder(0));
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
     var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-    return WaterModel(
+    return Water(
       dateTime: dateTime,
       cupSize: maps[i]['cup_size'],
     );
