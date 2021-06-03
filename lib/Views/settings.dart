@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:water_tracker/icons/my_flutter_app_icons.dart';
-import 'package:water_tracker/Persistence/Database.dart';
+import '../icons/my_flutter_app_icons.dart';
+import '../Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
-import 'package:water_tracker/models/SettingsModel.dart';
+import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 

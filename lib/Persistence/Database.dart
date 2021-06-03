@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
-import 'package:water_tracker/Utils/utils.dart';
-import 'package:water_tracker/models/Water.dart';
+import '../Utils/utils.dart';
+import '../Models/Water.dart';
 import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();

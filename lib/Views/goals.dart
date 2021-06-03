@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Widgets/AchievementCircle.dart';
-import 'package:water_tracker/Widgets/DailyGoal.dart';
-import 'package:water_tracker/Widgets/MedalType.dart';
+import '../Widgets/AchievementCircle.dart';
+import '../Widgets/DailyGoal.dart';
+import '../Widgets/MedalType.dart';
 
 class Goals extends StatefulWidget {
   Goals({Key key, this.title}) : super(key: key);

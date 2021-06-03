@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Views/goals.dart';
-import 'package:water_tracker/Views/settings.dart';
-import 'package:water_tracker/Views/home.dart';
+import '/Views/goals.dart';
+import '/Views/settings.dart';
+import '/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_tracker/Views/statistics.dart';
+import '/Views/statistics.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:water_tracker/models/SettingsModel.dart';
+import '/Models/SettingsModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/models/WaterModel.dart';
+import '/Models/WaterModel.dart';
 
 
 

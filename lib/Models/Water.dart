@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:water_tracker/Utils/utils.dart';
+import '../Utils/utils.dart';
 
 class Water {
   final DateTime dateTime;

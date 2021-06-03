@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:water_tracker/models/SettingsModel.dart';
+import '../Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
 
 class DailyGoal extends StatelessWidget {

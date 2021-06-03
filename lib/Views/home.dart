@@ -4,14 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
-import 'package:water_tracker/Persistence/Database.dart';
-import 'package:water_tracker/Widgets/HistoryListElement.dart';
-import 'package:water_tracker/icons/my_flutter_app_icons.dart';
-import 'package:water_tracker/models/SettingsModel.dart';
-import 'package:water_tracker/models/Water.dart';
-import 'package:water_tracker/Utils/utils.dart';
+import '../Persistence/Database.dart';
+import '../Widgets/HistoryListElement.dart';
+import '../icons/my_flutter_app_icons.dart';
+import '../Models/SettingsModel.dart';
+import '../Models/Water.dart';
+import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:water_tracker/models/WaterModel.dart';
+import '../Models/WaterModel.dart';
 
 typedef void DeleteCallback(int index);
 

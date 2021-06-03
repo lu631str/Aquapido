@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:water_tracker/models/Water.dart';
-import 'package:water_tracker/Persistence/Database.dart';
+import '../Models/Water.dart';
+import '../Persistence/Database.dart';
 
 class WaterModel with ChangeNotifier {
 

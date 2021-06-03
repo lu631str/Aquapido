@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/main.dart';
+import '../main.dart';
 
 class SettingsModel with ChangeNotifier {
   int _weight = 0;
