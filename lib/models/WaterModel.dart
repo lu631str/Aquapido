@@ -1,48 +1,30 @@
-import 'package:intl/intl.dart';
-import 'package:water_tracker/Utils/utils.dart';
+import 'package:flutter/foundation.dart';
+import 'package:water_tracker/models/Water.dart';
+import 'package:water_tracker/Persistence/Database.dart';
 
-class WaterModel {
-  final DateTime dateTime;
-  final int cupSize;
+class WaterModel with ChangeNotifier {
 
-  bool isPlaceholder = false;
-
-  WaterModel({this.dateTime, this.cupSize});
-
-  WaterModel.placeholder(this.cupSize) :
-  this.dateTime = DateTime.now(),
-  this.isPlaceholder = true;
-
-  String _getDateString(DateTime dateTime) {
-    if (isToday(dateTime)) {
-      return 'Today';
-    } else {
-      return DateFormat('dd.MM.yy').format(dateTime);
-    }
+  void addWater(Water water) {
+    insertWater(water);
+    notifyListeners();
   }
 
-  String toCupSizeString() {
-    if(this.isPlaceholder) {
-      return "Add your first glass of water!";
-    }
-    return '${this.cupSize}ml';
+  void removeWater(Water water) {
+    deleteWater(water);
+    notifyListeners();
   }
 
-  String toDateString() {
-    if(this.isPlaceholder) {
-      return "";
-    }
-    return '${this._getDateString(this.dateTime)} - ${DateFormat('kk:mm').format(this.dateTime)}';
+  Future<List<Water>> getAllWater() async {
+    List<Water> list = await waterList();
+    notifyListeners();
+    return list;
   }
 
-  String toString() {
-    return this.toCupSizeString() + ' ' + toDateString();
+  Future<int> getTotalCupsToday() async {
+    int cups = await totalCupsToday();
+    notifyListeners();
+    return cups;
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'date_time': dateTime.millisecondsSinceEpoch,
-      'cup_size': cupSize,
-    };
-  }
+
 }

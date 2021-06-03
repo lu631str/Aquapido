@@ -6,10 +6,19 @@ import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:water_tracker/Views/statistics.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
+import 'package:water_tracker/models/SettingsModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_tracker/models/WaterModel.dart';
+
+
+
+SharedPreferences prefs; // Praeferenzen festlegen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
 
   runApp(
     EasyLocalization(
@@ -17,14 +26,20 @@ void main() async {
         path:
             'assets/translations', // <-- change the path of the translation files
         fallbackLocale: Locale('en', 'US'),
-        child: MyApp()),
+        child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsModel()),
+        ChangeNotifierProvider(create: (_) => WaterModel()),
+      ],
+      child: WaterTrackerApp(),
+    ),),
   );
 }
 
-class MyApp extends StatelessWidget {
+class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
 
-  MyApp({this.currentChild});
+  WaterTrackerApp({this.currentChild});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -104,8 +119,8 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    const color1 = const Color(0xffb3d9f1);
-    const color2 = const Color(0xffeef6fb);
+    const color1 = const Color(0xff91ceff);
+    const color2 = const Color(0xfffafdff);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
