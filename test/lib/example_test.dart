@@ -6,6 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:water_tracker/Models/WaterModel.dart';
+import 'package:water_tracker/Models/SettingsModel.dart';
+
 
 import 'Devices.dart';
 
@@ -34,7 +38,13 @@ void main() {
           ],
           supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
           locale: Locale('en', 'US'),
-          home: child,
+          home: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsModel()),
+        ChangeNotifierProvider(create: (_) => WaterModel()),
+      ],
+      child: child,
+    ),
         ));
   }
 
