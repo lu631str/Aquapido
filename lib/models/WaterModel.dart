@@ -5,7 +5,7 @@ import 'package:water_tracker/Persistence/Database.dart';
 class WaterModel with ChangeNotifier {
 
   void addWater(Water water) {
-    addWater(water);
+    insertWater(water);
     notifyListeners();
   }
 
