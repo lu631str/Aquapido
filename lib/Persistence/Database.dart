@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
-import 'package:water_tracker/models/WaterModel.dart';
+import '../Utils/utils.dart';
+import '../Models/Water.dart';
 import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
@@ -29,7 +30,7 @@ Future<Database> connectWithDatabase() async {
   );
 }
 
-Future<void> insertWater(WaterModel water) async {
+Future<void> insertWater(Water water) async {
   // Get a reference to the database.
   final Database db = await database;
 
@@ -63,7 +64,7 @@ Future<void> clearWaterTable() async {
   );
 }
 
-Future<void> deleteWater(WaterModel water) async {
+Future<void> deleteWater(Water water) async {
   // Get a reference to the database.
   final db = await database;
 
@@ -79,7 +80,30 @@ Future<void> deleteWater(WaterModel water) async {
   );
 }
 
-Future<List<WaterModel>> waterList() async {
+Future<int> totalCupsToday() async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
+
+  if (maps.isEmpty) {
+    log('Database (totalCups): Table $waterTableName is EMPTY!');
+    return 0;
+  }
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  List<Water> waterModelList = List.generate(maps.length, (i) {
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
+    return Water(
+      dateTime: dateTime,
+      cupSize: maps[i]['cup_size'],
+    );
+  });
+  return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
+}
+
+Future<List<Water>> waterList() async {
   // Get a reference to the database.
   final Database db = await database;
 
@@ -88,13 +112,13 @@ Future<List<WaterModel>> waterList() async {
 
   if (maps.isEmpty) {
     log('Database: Table $waterTableName is EMPTY!');
-    return List.generate(1, (index) => WaterModel.placeholder(0));
+    return List.generate(1, (index) => Water.placeholder(0));
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
     var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-    return WaterModel(
+    return Water(
       dateTime: dateTime,
       cupSize: maps[i]['cup_size'],
     );

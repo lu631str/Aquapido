@@ -1,15 +1,15 @@
 import 'package:intl/intl.dart';
-import 'package:water_tracker/Utils/utils.dart';
+import '../Utils/utils.dart';
 
-class WaterModel {
+class Water {
   final DateTime dateTime;
   final int cupSize;
 
   bool isPlaceholder = false;
 
-  WaterModel({this.dateTime, this.cupSize});
+  Water({this.dateTime, this.cupSize});
 
-  WaterModel.placeholder(this.cupSize) :
+  Water.placeholder(this.cupSize) :
   this.dateTime = DateTime.now(),
   this.isPlaceholder = true;
 

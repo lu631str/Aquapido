@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Persistence/SharedPref.dart';
-import 'package:water_tracker/icons/my_flutter_app_icons.dart';
-import 'package:water_tracker/Persistence/Database.dart';
+import '../icons/my_flutter_app_icons.dart';
+import '../Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
+import '../Models/SettingsModel.dart';
+import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -16,8 +18,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int _selectedSize = 300;
-
   List<int> cupSizes = [100, 200, 300, 330, 400, 500];
   List<Icon> icons = [
     Icon(MyFlutterApp.cup_100ml),
@@ -43,25 +43,10 @@ class _SettingsState extends State<Settings> {
   TimeOfDay _timePickerStart = TimeOfDay(hour: 23, minute: 0);
   TimeOfDay _timePickerEnd = TimeOfDay(hour: 8, minute: 0);
 
-  bool _isPowerBtnAddEnabled = false;
-  bool _isShakingAddEnabled = false;
   String _weightUnit = 'kg';
 
-  int _currentWeight = 40;
-  int _selectedWeight = 40;
-
-  int _currentInterval = 30;
-  int _selectedInterval = 30;
-
-  String _gender = 'choose';
   String _language = 'en';
   final myController = TextEditingController(text: '0');
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
 
   @override
   void dispose() {
@@ -70,25 +55,8 @@ class _SettingsState extends State<Settings> {
     super.dispose();
   }
 
-  loadData() async {
-    bool powerSettings = await loadPowerSettings();
-    bool shakeSettings = await loadShakeSettings();
-    int weight = await loadWeight();
-    int interval = await loadInterval();
-    String gender = await loadGender();
-    String lang = await loadLanguage(context);
-    setState(() {
-      this._isPowerBtnAddEnabled = powerSettings;
-      this._isShakingAddEnabled = shakeSettings;
-      this._selectedWeight = this._currentWeight = weight;
-      this._selectedInterval = this._currentInterval = interval;
-      this._language = lang;
-      this._gender = gender;
-    });
-  }
-
   void _reset() {
-    saveCurrentCupCounter(0);
+    //saveCurrentCupCounter(0);
     clearWaterTable();
   }
 
@@ -99,7 +67,7 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  List<Widget> createDialogOptions(context) {
+  List<Widget> createDialogOptions(context, reportState) {
     List<Widget> sizeOptions = [];
 
     // asMap() to get index and item
@@ -107,11 +75,8 @@ class _SettingsState extends State<Settings> {
       return sizeOptions.add(
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, size);
-            setState(() {
-              this._selectedSize = size;
-            });
-            saveSize(this._selectedSize);
+            Navigator.pop(context);
+            reportState.updateCupSize(size);
           },
           child: ListTile(
             title: Text('$size ml'),
@@ -168,12 +133,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    loadCurrentCupSize().then((size) {
-      setState(() {
-        this._selectedSize = size;
-      });
-    });
-
+    var reportState = Provider.of<SettingsModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -216,7 +176,9 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.reminder_interval').tr(),
                 trailing: TextButton(
-                  child: Text(this._currentInterval.toString() + ' min'),
+                  child: Text(
+                      context.watch<SettingsModel>().interval.toString() +
+                          ' min'),
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -228,7 +190,8 @@ class _SettingsState extends State<Settings> {
                                 title: Text('Set Interval'),
                                 children: [
                                   NumberPicker(
-                                    value: _selectedInterval,
+                                    value:
+                                        context.read<SettingsModel>().interval,
                                     minValue: 15,
                                     maxValue: 180,
                                     haptics: true,
@@ -237,8 +200,9 @@ class _SettingsState extends State<Settings> {
                                     step: 15,
                                     textMapper: (numberText) =>
                                         numberText + ' min',
-                                    onChanged: (value) => setState(
-                                        () => _selectedInterval = value),
+                                    onChanged: (value) => setState(() => context
+                                        .read<SettingsModel>()
+                                        .updateInterval(value)),
                                   ),
                                   Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -246,16 +210,16 @@ class _SettingsState extends State<Settings> {
                                         TextButton(
                                             child: Text('Cancel'),
                                             onPressed: () {
-                                              _selectedInterval =
-                                                  _currentInterval;
+                                              context.read<SettingsModel>().reset();
                                               Navigator.pop(context);
                                             }), // button 1
                                         ElevatedButton(
                                           child: Text('Save'),
                                           onPressed: () {
-                                            saveInterval(_selectedInterval);
-                                            _currentInterval =
-                                                _selectedInterval;
+                                            context
+                                                .read<SettingsModel>()
+                                                .saveInterval();
+                                            debugPrint("saved");
                                             Navigator.pop(context);
                                           },
                                         ), // button 2
@@ -271,21 +235,20 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
-                    child: Text(_selectedSize.toString() + ' ml'),
+                    child: Text(context.watch<SettingsModel>().cupSize.toString() + ' ml'),
                     onPressed: () {
                       setState(() {
                         showDialog(
                             context: context,
-                            builder: (context) {
-                              return StatefulBuilder(
-                                  builder: (context, setState) {
-                                return SimpleDialog(
-                                  contentPadding: EdgeInsets.all(16),
-                                  title: Text('Choose Size'),
-                                  children: createDialogOptions(context),
-                                );
-                              });
-                            });
+                            builder: (_) =>
+                                ChangeNotifierProvider<SettingsModel>.value(
+                                  value: reportState,
+                                  child: SimpleDialog(
+                                    contentPadding: EdgeInsets.all(16),
+                                    title: Text('Choose Size'),
+                                    children: createDialogOptions(context, reportState),
+                                  ),
+                                ));
                       });
                     }),
               ),
@@ -304,7 +267,9 @@ class _SettingsState extends State<Settings> {
                   onChanged: (langLocale) {
                     context.setLocale(langLocale);
                     this._language = langLocale.languageCode;
-                    saveLanguage(langLocale.languageCode);
+                    context
+                        .read<SettingsModel>()
+                        .updateLanguage(langLocale.languageCode);
                   },
                 ),
               ),
@@ -323,21 +288,21 @@ class _SettingsState extends State<Settings> {
                     ).tr(),
                   ),
                   SwitchListTile(
-                      value: this._isPowerBtnAddEnabled,
+                      value: context.watch<SettingsModel>().powerSettings,
                       title: Text('settings.quick_settings.quick_power').tr(),
                       onChanged: (value) {
                         setState(() {
-                          this._isPowerBtnAddEnabled = value;
-                          savePower(value);
+                          context
+                              .read<SettingsModel>()
+                              .updatePowerSettings(value);
                         });
                       }),
                   SwitchListTile(
-                      value: this._isShakingAddEnabled,
+                      value: context.watch<SettingsModel>().shakeSettings,
                       title: Text('settings.quick_settings.quick_shaking').tr(),
                       onChanged: (value) {
                         setState(() {
-                          this._isShakingAddEnabled = value;
-                          saveShaking(value);
+                          context.read<SettingsModel>().updateShakeSettings(value);
                         });
                       }),
                   SwitchListTile(
@@ -363,8 +328,10 @@ class _SettingsState extends State<Settings> {
                   ListTile(
                     title: Text('settings.personal_settings.weight').tr(),
                     trailing: TextButton(
-                      child:
-                          Text(_currentWeight.toString() + ' ' + _weightUnit),
+                      child: Text(
+                          context.watch<SettingsModel>().weight.toString() +
+                              ' ' +
+                              _weightUnit),
                       onPressed: () {
                         showDialog(
                             context: context,
@@ -376,17 +343,20 @@ class _SettingsState extends State<Settings> {
                                     title: Text('Set Weight'),
                                     children: [
                                       NumberPicker(
-                                        value: _selectedWeight,
-                                        minValue: 40,
-                                        maxValue: 150,
-                                        haptics: true,
-                                        itemCount: 5,
-                                        itemHeight: 32,
-                                        textMapper: (numberText) =>
-                                            numberText + ' ' + _weightUnit,
-                                        onChanged: (value) => setState(
-                                            () => _selectedWeight = value),
-                                      ),
+                                          value: context
+                                              .read<SettingsModel>()
+                                              .weight,
+                                          minValue: 40,
+                                          maxValue: 150,
+                                          haptics: true,
+                                          itemCount: 5,
+                                          itemHeight: 32,
+                                          textMapper: (numberText) =>
+                                              numberText + ' ' + _weightUnit,
+                                          onChanged: (value) => setState(() =>
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .updateWeight(value))),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
@@ -394,16 +364,15 @@ class _SettingsState extends State<Settings> {
                                             TextButton(
                                                 child: Text('Cancel'),
                                                 onPressed: () {
-                                                  _selectedWeight =
-                                                      _currentWeight;
+                                                  context.read<SettingsModel>().reset();
                                                   Navigator.pop(context);
                                                 }), // button 1
                                             ElevatedButton(
                                               child: Text('Save'),
                                               onPressed: () {
-                                                saveWeight(_selectedWeight);
-                                                _currentWeight =
-                                                    _selectedWeight;
+                                                context
+                                                    .read<SettingsModel>()
+                                                    .saveWeight();
                                                 Navigator.pop(context);
                                               },
                                             ), // button 2
@@ -419,7 +388,7 @@ class _SettingsState extends State<Settings> {
                   ListTile(
                     title: Text('settings.personal_settings.gender').tr(),
                     trailing: DropdownButton(
-                      value: _gender,
+                      value: context.watch<SettingsModel>().gender,
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
                           value: 'choose',
@@ -436,8 +405,7 @@ class _SettingsState extends State<Settings> {
                       ],
                       onChanged: (value) {
                         setState(() {
-                          saveGender(value);
-                          _gender = value;
+                          context.read<SettingsModel>().updateGender(value);
                         });
                       },
                     ),

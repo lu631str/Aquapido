@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Views/home.dart';
-import 'package:water_tracker/models/WaterModel.dart';
+import '../Views/home.dart';
+import '../Models/Water.dart';
 
 class HistoryListElement extends StatelessWidget {
   final int _index;
   final IconData _icon;
-  final WaterModel _waterModel;
+  final Water _water;
   final DeleteCallback _deleteCallback;
   final double _iconCircleSize = 44;
   final double _cardHeight = 40;
 
   HistoryListElement(
-      this._index, this._icon, this._waterModel, this._deleteCallback);
+      this._index, this._icon, this._water, this._deleteCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class HistoryListElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      child: Text(this._waterModel.toCupSizeString()),
+                      child: Text(this._water.toCupSizeString()),
                       margin: const EdgeInsets.only(left: 60),
                     ),
-                    Text(this._waterModel.toDateString()),
+                    Text(this._water.toDateString()),
                     Row(
                       children: [
                         VerticalDivider(
@@ -44,11 +44,11 @@ class HistoryListElement extends StatelessWidget {
                         IconButton(
                           icon: IconTheme(
                               data: IconThemeData(
-                                  color: this._waterModel.isPlaceholder
+                                  color: this._water.isPlaceholder
                                       ? Colors.black26
                                       : Colors.black87),
                               child: Icon(Icons.delete)),
-                          onPressed: this._waterModel.isPlaceholder
+                          onPressed: this._water.isPlaceholder
                               ? null
                               : () {
                                   ScaffoldMessenger.of(context)
