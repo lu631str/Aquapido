@@ -9,7 +9,7 @@ import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
 
-final String waterTableName = "water";
+const String waterTableName = 'water';
 
 Future<Database> connectWithDatabase() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ Future<Database> connectWithDatabase() async {
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
       return db.execute(
-        "CREATE TABLE $waterTableName(date_time INTEGER PRIMARY KEY, cup_size INTEGER)",
+        'CREATE TABLE $waterTableName(date_time INTEGER PRIMARY KEY, cup_size INTEGER)',
       );
     },
     // Set the version. This executes the onCreate function and provides a
@@ -74,7 +74,7 @@ Future<void> deleteWater(Water water) async {
   await db.delete(
     waterTableName,
     // Use a `where` clause to delete a specific dog.
-    where: "date_time = ?",
+    where: 'date_time = ?',
     // Pass the Dog's id as a whereArg to prevent SQL injection.
     whereArgs: [water.dateTime.millisecondsSinceEpoch],
   );
@@ -93,8 +93,8 @@ Future<int> totalCupsToday() async {
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
-  List<Water> waterModelList = List.generate(maps.length, (i) {
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
+  final List<Water> waterModelList = List.generate(maps.length, (i) {
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
     return Water(
       dateTime: dateTime,
       cupSize: maps[i]['cup_size'],
@@ -117,7 +117,7 @@ Future<List<Water>> waterList() async {
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
   return List.generate(maps.length, (i) {
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
     return Water(
       dateTime: dateTime,
       cupSize: maps[i]['cup_size'],

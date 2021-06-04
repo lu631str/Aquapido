@@ -23,14 +23,14 @@ class Water {
 
   String toCupSizeString() {
     if(this.isPlaceholder) {
-      return "Add your first glass of water!";
+      return 'Add your first glass of water!';
     }
     return '${this.cupSize}ml';
   }
 
   String toDateString() {
     if(this.isPlaceholder) {
-      return "";
+      return '';
     }
     return '${this._getDateString(this.dateTime)} - ${DateFormat('kk:mm').format(this.dateTime)}';
   }

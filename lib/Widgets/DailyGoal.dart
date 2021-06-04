@@ -7,6 +7,8 @@ class DailyGoal extends StatelessWidget {
   final double _minGoal = 2000;
   final double _maxGoal = 6000;
 
+  DailyGoal({Key key}) : super(key: key);
+
   double _calcRecommendedPercentage(weight) {
     var normalizedRecommended = this._calcRecommend(weight) - this._minGoal;
     var range = this._maxGoal - this._minGoal;
@@ -81,7 +83,7 @@ class DailyGoal extends StatelessWidget {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Alright")),
+                                    child: Text('Alright')),
                               )
                             ],
                           );

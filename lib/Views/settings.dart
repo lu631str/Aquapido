@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> {
     Icon(MyFlutterApp.cup_400ml),
     Icon(MyFlutterApp.cup_400ml)
   ];
-  Map<String, String> languageCodeMap = {"en": "English", "de": "Deutsch"};
+  Map<String, String> languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
 
   List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
@@ -91,7 +91,7 @@ class _SettingsState extends State<Settings> {
             showCustomSizeAddDialog();
           });
         },
-        child: Text("Add")));
+        child: Text('Add')));
     return sizeOptions;
   }
 
@@ -151,7 +151,7 @@ class _SettingsState extends State<Settings> {
                 title: Text('settings.general_settings.sleep_time').tr(),
                 trailing: TextButton(
                   child: Text(this._timePickerStart.format(context) +
-                      " - " +
+                      ' - ' +
                       this._timePickerEnd.format(context)),
                   onPressed: () async {
                     TimeRange result = await showTimeRangePicker(
@@ -219,7 +219,7 @@ class _SettingsState extends State<Settings> {
                                             context
                                                 .read<SettingsModel>()
                                                 .saveInterval();
-                                            debugPrint("saved");
+                                            debugPrint('saved');
                                             Navigator.pop(context);
                                           },
                                         ), // button 2

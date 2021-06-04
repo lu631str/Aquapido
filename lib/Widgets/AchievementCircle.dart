@@ -61,9 +61,9 @@ class AchievementCircle extends StatelessWidget {
                   center: isCurrentInt == true
                       ? new Text(
                           this.currentInt.toString() +
-                              "/" +
+                              '/' +
                               this.max.round().toString() +
-                              "\n" +
+                              '\n' +
                               this.unit,
                           style: TextStyle(
                             color: (this.color !=
@@ -77,9 +77,9 @@ class AchievementCircle extends StatelessWidget {
                         )
                       : new Text(
                           this.currentDouble.toString() +
-                              "/" +
+                              '/' +
                               this.max.round().toString() +
-                              "\n" +
+                              '\n' +
                               this.unit,
                           style: TextStyle(
                             color: (this.color !=
@@ -109,7 +109,7 @@ class AchievementCircle extends StatelessWidget {
           ),
           Container(
               child: Text(
-            "\n" + this.subtitle,
+            '\n' + this.subtitle,
             textAlign: TextAlign.center,
             overflow: TextOverflow.clip,
             style: TextStyle(

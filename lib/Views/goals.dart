@@ -87,8 +87,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: false,
                                     currentDouble: _totalWaterAmount / 1000,
                                     max: maxTotalWater[0],
-                                    unit: "Liter",
-                                    subtitle: "Total Water"),
+                                    unit: 'Liter',
+                                    subtitle: 'Total Water'),
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder: getRingColor(
@@ -98,8 +98,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: true,
                                     currentInt: _currentCupCounter.round(),
                                     max: getMax(maxCups, _currentCupCounter),
-                                    unit: "Cups",
-                                    subtitle: "Total Cups"),
+                                    unit: 'Cups',
+                                    subtitle: 'Total Cups'),
                                 //mus nach implementierung von Streaks eingefügt werden
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -109,8 +109,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: true,
                                     currentInt: 60,
                                     max: maxStreak[0],
-                                    unit: "Days",
-                                    subtitle: "Streak")
+                                    unit: 'Days',
+                                    subtitle: 'Streak')
                               ]),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -124,8 +124,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: true,
                                     currentInt: 260,
                                     max: 300,
-                                    unit: "Times",
-                                    subtitle: "Goals\nReached"),
+                                    unit: 'Times',
+                                    subtitle: 'Goals\nReached'),
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder:
@@ -134,8 +134,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: true,
                                     currentInt: 5,
                                     max: 10,
-                                    unit: "Times",
-                                    subtitle: "Quick Add\n Used"),
+                                    unit: 'Times',
+                                    subtitle: 'Quick Add\n Used'),
                                 //mus nach implementierung von Streaks eingefügt werden
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -145,8 +145,8 @@ class _GoalsState extends State<Goals> {
                                     isCurrentInt: true,
                                     currentInt: 123,
                                     max: 250,
-                                    unit: "Times",
-                                    subtitle: "Drinks after\n reminder")
+                                    unit: 'Times',
+                                    subtitle: 'Drinks after\n reminder')
                               ])
                         ])),
                   ],
