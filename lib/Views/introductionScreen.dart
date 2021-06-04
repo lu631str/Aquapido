@@ -53,7 +53,7 @@ class _IntroScreenState extends State<IntroScreen> {
   void _onIntroEnd(context) {
     SetData();
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => MyApp()),
+      MaterialPageRoute(builder: (_) => WaterTrackerApp()),
     );
   }
 

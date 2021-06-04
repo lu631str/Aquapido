@@ -4,7 +4,7 @@ import 'Views/goals.dart';
 import 'Views/settings.dart';
 import 'Views/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/Views/achievements.dart';
+import 'package:water_tracker/Views/goals.dart';
 import 'package:water_tracker/Views/introductionScreen.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
@@ -13,12 +13,11 @@ import 'Views/statistics.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'Models/SettingsModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Models/WaterModel.dart';
 
+SharedPreferences prefs;
 
-
-SharedPreferences prefs; // Praeferenzen festlegen
+// Praeferenzen festlegen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,33 +26,39 @@ void main() async {
 
   runApp(
     EasyLocalization(
-        supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
-        path:
-            'assets/translations', // <-- change the path of the translation files
-        fallbackLocale: Locale('en', 'US'),
-        child: MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SettingsModel()),
-        ChangeNotifierProvider(create: (_) => WaterModel()),
-      ],
-      child: WaterTrackerApp(),
-    ),),
+      supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
+      path:
+          'assets/translations', // <-- change the path of the translation files
+      fallbackLocale: Locale('en', 'US'),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => SettingsModel()),
+          ChangeNotifierProvider(create: (_) => WaterModel()),
+        ],
+        child: WaterTrackerApp(),
+      ),
+    ),
   );
 }
 
 class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
+  bool introSeen;
 
-  WaterTrackerApp({Key key, this.currentChild}) : super(key: key);
+  WaterTrackerApp({Key key, this.currentChild, this.introSeen})
+      : super(key: key);
+
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        builder: (context, child) =>
-          MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
+        builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child),
         title: 'Quick Water Tracker',
         theme: ThemeData(
           // This is the theme of your application.
@@ -78,29 +83,34 @@ class WaterTrackerApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 14.0),
           ),
         ),
-        home: new Splash());
+        home:
+            (introSeen != true) ? Splash() : Main(currentChild: currentChild));
   }
-
 }
 
-
-
 class Splash extends StatefulWidget {
+  const Splash({
+    Key key,
+  }) : super(key: key);
+
   @override
   SplashState createState() => new SplashState();
 }
 
 class SplashState extends State<Splash> {
+  SplashState({
+    Key key,
+  });
+
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
       return Main.id;
-
     } else {
       // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-       //await prefs.setBool('seen', true);
+      //await prefs.setBool('seen', true);
       return IntroScreen.id;
     }
   }
@@ -132,14 +142,14 @@ class SplashState extends State<Splash> {
                 // Define the default TextTheme. Use this to specify the default
                 // text styling for headlines, titles, bodies of text, and more.
                 textTheme: TextTheme(
-                  headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+                  headline1:
+                      TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
                   headline2: TextStyle(fontSize: 42.0),
                   headline3: TextStyle(fontSize: 32.0),
                   headline4: TextStyle(fontSize: 24.0),
                   bodyText2: TextStyle(fontSize: 14.0),
                 ),
               ),
-
               initialRoute: snapshot.data,
               routes: {
                 IntroScreen.id: (context) => IntroScreen(),
@@ -154,7 +164,6 @@ class SplashState extends State<Splash> {
 class Main extends StatefulWidget {
   Main({Key key, this.title, this.currentChild}) : super(key: key);
   static String id = 'MainScreen';
-  Main({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -186,7 +195,8 @@ class _MainState extends State<Main> {
     Goals(),
     Settings(),
   ];
-  int _currentIndex = 0;
+
+  // int _currentIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
