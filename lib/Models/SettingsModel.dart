@@ -19,6 +19,7 @@ class SettingsModel with ChangeNotifier {
   int get interval => _interval;
   double get dailyGoal => prefs.getDouble('dailyGoal') ?? 2500.0;
 
+  /// Resets local values to stored values (from shared preferences)
   void reset() {
     _weight = prefs.getInt('weight') ?? 70;
     _interval = prefs.getInt('interval') ?? 60;
