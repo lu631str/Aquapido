@@ -9,40 +9,39 @@ class Water {
 
   Water({this.dateTime, this.cupSize});
 
-  Water.placeholder(this.cupSize) :
-  this.dateTime = DateTime.now(),
-  this.isPlaceholder = true;
+  Water.placeholder(this.cupSize)
+      : dateTime = DateTime.now(),
+        isPlaceholder = true;
 
   String _getDateString(DateTime dateTime) {
     if (isToday(dateTime)) {
       return 'Today';
-    } else {
-      return DateFormat('dd.MM.yy').format(dateTime);
     }
+    return DateFormat('dd.MM.yy').format(dateTime);
   }
 
+  /// Returns CupSize String Representation.
   String toCupSizeString() {
     if(this.isPlaceholder) {
       return 'Add your first glass of water!';
     }
-    return '${this.cupSize}ml';
+    return '${cupSize}ml';
   }
 
+  /// Returns Date String Representation.
   String toDateString() {
     if(this.isPlaceholder) {
       return '';
     }
-    return '${this._getDateString(this.dateTime)} - ${DateFormat('kk:mm').format(this.dateTime)}';
+    return '${_getDateString(dateTime)} - ${DateFormat('kk:mm').format(dateTime)}';
   }
 
-  String toString() {
-    return this.toCupSizeString() + ' ' + toDateString();
-  }
+  /// Returns String Representation.
+  @override
+  String toString() => (toCupSizeString() + ' ' + toDateString()).trim();
 
-  Map<String, dynamic> toMap() {
-    return {
-      'date_time': dateTime.millisecondsSinceEpoch,
-      'cup_size': cupSize,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        'date_time': dateTime.millisecondsSinceEpoch,
+        'cup_size': cupSize,
+      };
 }

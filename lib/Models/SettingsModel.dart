@@ -25,50 +25,60 @@ class SettingsModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCupSize(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updateCupSize(int newValue) {
     prefs.setInt('size', newValue);
     notifyListeners();
   }
 
-  void updateShakeSettings(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updateShakeSettings(bool newValue) {
     prefs.setBool('shake', newValue);
     notifyListeners();
   }
 
-  void updatePowerSettings(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updatePowerSettings(bool newValue) {
     prefs.setBool('power', newValue);
     notifyListeners();
   }
 
-  void updateWeight(newValue) {
+  /// Sets local weight.
+  void setWeight(int newValue) {
     _weight = newValue;
     notifyListeners();
   }
 
+  /// Saves local weight to sharedPreferences.
   void saveWeight() {
     prefs.setInt('weight', _weight);
   }
 
-  void updateGender(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updateGender(String newValue) {
     prefs.setString('gender', newValue);
     notifyListeners();
   }
 
-  void updateLanguage(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updateLanguage(String newValue) {
     prefs.setString('language', newValue);
     notifyListeners();
   }
 
-  void updateInterval(newValue) {
+  /// Sets local interval.
+  void setInterval(int newValue) {
     _interval = newValue;
     notifyListeners();
   }
 
+  /// Saves local interval to sharedPreferences.
   void saveInterval() {
     prefs.setInt('interval', _interval);
   }
 
-  void updateDailyGoal(newValue) {
+  /// Saves [newValue] to sharedPreferences.
+  void updateDailyGoal(double newValue) {
     prefs.setDouble('dailyGoal', newValue);
     notifyListeners();
   }

@@ -18,8 +18,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  List<int> cupSizes = [100, 200, 300, 330, 400, 500];
-  List<Icon> icons = [
+  List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
+  List<Icon> _icons = [
     Icon(MyFlutterApp.cup_100ml),
     Icon(MyFlutterApp.cup_200ml),
     Icon(MyFlutterApp.cup_300ml),
@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> {
     Icon(MyFlutterApp.cup_400ml),
     Icon(MyFlutterApp.cup_400ml)
   ];
-  Map<String, String> languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
+  Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
 
   List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
@@ -46,12 +46,12 @@ class _SettingsState extends State<Settings> {
   String _weightUnit = 'kg';
 
   String _language = 'en';
-  final myController = TextEditingController(text: '0');
+  final _myController = TextEditingController(text: '0');
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    myController.dispose();
+    _myController.dispose();
     super.dispose();
   }
 
@@ -62,8 +62,8 @@ class _SettingsState extends State<Settings> {
 
   void saveCustomSize(customSize) {
     setState(() {
-      this.cupSizes.add(customSize);
-      this.icons.add(Icon(MyFlutterApp.cup_400ml));
+      this._cupSizes.add(customSize);
+      this._icons.add(Icon(MyFlutterApp.cup_400ml));
     });
   }
 
@@ -71,7 +71,7 @@ class _SettingsState extends State<Settings> {
     List<Widget> sizeOptions = [];
 
     // asMap() to get index and item
-    cupSizes.asMap().forEach((index, size) {
+    _cupSizes.asMap().forEach((index, size) {
       return sizeOptions.add(
         SimpleDialogOption(
           onPressed: () {
@@ -80,7 +80,7 @@ class _SettingsState extends State<Settings> {
           },
           child: ListTile(
             title: Text('$size ml'),
-            leading: icons[index],
+            leading: _icons[index],
           ),
         ),
       );
@@ -103,7 +103,7 @@ class _SettingsState extends State<Settings> {
               title: Text('Add Size'),
               children: [
                 TextFormField(
-                  controller: myController,
+                  controller: _myController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Custom Cup Size (ml)',
@@ -120,8 +120,8 @@ class _SettingsState extends State<Settings> {
                         child: Text('Save'),
                         onPressed: () {
                           setState(() {
-                            saveCustomSize(int.parse(myController.text));
-                            myController.clear();
+                            saveCustomSize(int.parse(_myController.text));
+                            _myController.clear();
                             Navigator.pop(context);
                           });
                         },
@@ -202,7 +202,7 @@ class _SettingsState extends State<Settings> {
                                         numberText + ' min',
                                     onChanged: (value) => setState(() => context
                                         .read<SettingsModel>()
-                                        .updateInterval(value)),
+                                        .setInterval(value)),
                                   ),
                                   Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -261,7 +261,7 @@ class _SettingsState extends State<Settings> {
                       .map<DropdownMenuItem<Locale>>((Locale langLocale) {
                     return DropdownMenuItem<Locale>(
                       value: langLocale,
-                      child: Text(languageCodeMap[langLocale.languageCode]),
+                      child: Text(_languageCodeMap[langLocale.languageCode]),
                     );
                   }).toList(),
                   onChanged: (langLocale) {
@@ -356,7 +356,7 @@ class _SettingsState extends State<Settings> {
                                           onChanged: (value) => setState(() =>
                                               context
                                                   .read<SettingsModel>()
-                                                  .updateWeight(value))),
+                                                  .setWeight(value))),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
