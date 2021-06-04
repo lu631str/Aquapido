@@ -13,6 +13,11 @@ Future<int> loadCurrentCupCounter() async {
   return prefs.getInt('counter') ?? 0;
 }
 
+Future<bool> loadIntroSeen() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('intro_seen') ?? false;
+}
+
 // Save
 Future<void> saveCurrentCupCounter(int newCounter) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,6 +27,11 @@ Future<void> saveCurrentCupCounter(int newCounter) async {
 Future<void> saveSize(int size) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setInt('size', size);
+}
+
+Future<void> saveIntroSeen(bool isIntroSeen) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('intro_seen', isIntroSeen);
 }
 
 // ==== SETTINGS ====

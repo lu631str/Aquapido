@@ -1,201 +1,457 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
-
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
-    );
-
-    return MaterialApp(
-      title: 'Introduction screen',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: IntroScreen(),
-    );
-  }
-}
+import 'package:numberpicker/numberpicker.dart';
+import 'package:water_tracker/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Widgets/InfoCard.dart';
 
 class IntroScreen extends StatefulWidget {
+  static String id = 'IntroScreen';
+
   @override
   _IntroScreenState createState() => _IntroScreenState();
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  List<String> infos = [
+    " ... water lubricates the joints and thed isks of the spine which contains around 80% water!",
+    "... water forms saliva and mucus, which helps us to keep the mouth, nose and eyes moist and prevents friction damage!",
+    "... water delivers oxygen throughout the body. Blood is more than 90% water and carries the oxygen to different parts of the body!"
+  ];
+  int selectGender;
+  int selectActivity;
+  String _weightUnit = 'kg';
+  int _selectedWeight = 45;
+
+  @override
+  void initState() {
+    super.initState();
+    selectGender = 0;
+    selectActivity = 0;
+  }
+
   final introKey = GlobalKey<IntroductionScreenState>();
 
+  SetData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', true);
+  }
+
+  setSelectGender(int val) {
+    setState(() {
+      selectGender = val;
+    });
+  }
+
+  setSelectActivity(int val) {
+    setState(() {
+      selectActivity = val;
+    });
+  }
+
   void _onIntroEnd(context) {
+    SetData();
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomePage()),
+      MaterialPageRoute(builder: (_) => MyApp()),
     );
   }
 
-  Widget _buildFullscrenImage() {
-    return Image.asset(
-      'assets/fullscreen.jpg',
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      alignment: Alignment.center,
-    );
-  }
 
-  Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/$assetName', width: width);
-  }
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const color1 = const Color(0xffb3d9f1);
+    const color2 = const Color(0xffeef6fb);
+    const bodyStyle = TextStyle(fontSize: 14.0);
 
     const pageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
 
-    return IntroductionScreen(
-      key: introKey,
-      globalBackgroundColor: Colors.white,
-      globalHeader: Align(
-        alignment: Alignment.topRight,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, right: 16),
-            child: _buildImage('flutter.png', 100),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[color1, color2],
         ),
       ),
-      globalFooter: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          child: const Text(
-            'Let\s go right away!',
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-          onPressed: () => _onIntroEnd(context),
-        ),
-      ),
-      pages: [
-        PageViewModel(
-          title: "Fractional shares",
-          body:
-          "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('img1.jpg'),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Learn as you go",
-          body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
-          image: _buildImage('img2.jpg'),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Kids and teens",
-          body:
-          "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('img3.jpg'),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Full Screen Page",
-          body:
-          "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
-          image: _buildFullscrenImage(),
-          decoration: pageDecoration.copyWith(
-            contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-            fullScreen: true,
-            bodyFlex: 2,
-            imageFlex: 3,
-          ),
-        ),
-        PageViewModel(
-          title: "Another title page",
-          body: "Another beautiful body text for this example onboarding",
-          image: _buildImage('img2.jpg'),
-          footer: ElevatedButton(
-            onPressed: () {
-              introKey.currentState?.animateScroll(0);
-            },
-            child: const Text(
-              'FooButton',
-              style: TextStyle(color: Colors.white),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.lightBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+      child: IntroductionScreen(
+        key: introKey,
+        globalBackgroundColor: Colors.transparent,
+        globalHeader: Align(
+          alignment: Alignment.topRight,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16, right: 16),
             ),
           ),
-          decoration: pageDecoration,
         ),
-        PageViewModel(
-          title: "Title of last page - reversed",
-          bodyWidget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Click on ", style: bodyStyle),
-              Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
-            ],
-          ),
-          decoration: pageDecoration.copyWith(
-            bodyFlex: 2,
-            imageFlex: 4,
-            bodyAlignment: Alignment.bottomCenter,
-            imageAlignment: Alignment.topCenter,
-          ),
-          image: _buildImage('img1.jpg'),
-          reverse: true,
-        ),
-      ],
-      onDone: () => _onIntroEnd(context),
-      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
-      showSkipButton: true,
-      skipFlex: 0,
-      nextFlex: 0,
-      //rtl: true, // Display as right-to-left
-      skip: const Text('Skip'),
-      next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
-      curve: Curves.fastLinearToSlowEaseIn,
-      controlsMargin: const EdgeInsets.all(16),
-      controlsPadding: kIsWeb
-          ? const EdgeInsets.all(12.0)
-          : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-      dotsDecorator: const DotsDecorator(
-        size: Size(10.0, 10.0),
-        color: Color(0xFFBDBDBD),
-        activeSize: Size(22.0, 10.0),
-        activeShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        ),
-      ),
-      dotsContainerDecorator: const ShapeDecoration(
-        color: Colors.black87,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-      ),
-    );
-  }
-}
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text("This is the screen after Introduction")),
+        pages: [
+          PageViewModel(
+            title: "Welcome to Aquapido",
+            bodyWidget: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    margin: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "We need some information about you, to give you the best advise and a wonderful experience.",
+                      textAlign: TextAlign.start,
+                      style: bodyStyle,
+                    )),
+                Container(
+                    margin: EdgeInsets.all(30.0),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "Please select your gender:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w700),
+                    )),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: 200,
+                      margin: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(0),
+
+                      decoration: BoxDecoration(
+                          color: (selectGender == 1)
+                              ? Colors.blue
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: Colors.blue,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      // color: Colors.blue,
+                      child: RadioListTile(
+                        value: 1,
+                        title: Text(
+                          "Male",
+                          style: (selectGender == 1)
+                              ? TextStyle(color: Colors.white)
+                              : TextStyle(color: Colors.black),
+                          textAlign: TextAlign.start,
+                        ),
+                        groupValue: selectGender,
+                        activeColor: Colors.white,
+                        onChanged: (val) {
+                          print("Radio $val");
+                          setSelectGender(val);
+                        },
+                      ),
+                    ),
+                    Container(
+                        width: 200,
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 60),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                            color: (selectGender == 2)
+                                ? Colors.blue
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: Colors.blue,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: RadioListTile(
+                          value: 2,
+                          title: Text(
+                            "Female",
+                            textAlign: TextAlign.start,
+                            style: (selectGender == 2)
+                                ? TextStyle(color: Colors.white)
+                                : TextStyle(color: Colors.black),
+                          ),
+                          groupValue: selectGender,
+                          activeColor: Colors.white,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            setSelectGender(val);
+                          },
+                        )),
+                  ],
+                )
+              ],
+            ),
+            footer: new Stack(children: [
+              InfoCard(
+                title: "Did you know that ...",
+                text: infos[0],
+              ),
+              Divider(
+                height: 300,
+                thickness: 1,
+                indent: 0,
+                endIndent: 0,
+              ),
+            ]),
+            decoration: pageDecoration,
+          ),
+          PageViewModel(
+            title: "Welcome to Aquapido",
+            bodyWidget: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    margin: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "We need some information about you, to give you the best advise and a wonderful experience.",
+                      textAlign: TextAlign.start,
+                      style: bodyStyle,
+                    )),
+                Container(
+                    margin: EdgeInsets.all(30.0),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "Please select your weight:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w700),
+                    )),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 18, 0, 22),
+                      constraints: BoxConstraints(
+                          minWidth: 200,
+                          maxWidth: 200,
+                          minHeight: 196,
+                          maxHeight: 196),
+                      child: Card(
+                        color: Color.fromARGB(255, 219, 237, 255),
+                        elevation: 2,
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: NumberPicker(
+                          value: _selectedWeight,
+                          minValue: 40,
+                          maxValue: 150,
+                          haptics: true,
+                          itemCount: 5,
+                          itemHeight: 32,
+                          textMapper: (numberText) =>
+                              numberText + ' ' + _weightUnit,
+                          onChanged: (value) =>
+                              setState(() => _selectedWeight = value),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            footer: new Stack(children: [
+              InfoCard(
+                title: "Did you know that ...",
+                text: infos[1],
+              ),
+              Divider(
+                height: 300,
+                thickness: 1,
+                indent: 0,
+                endIndent: 0,
+              ),
+            ]),
+            decoration: pageDecoration,
+          ),
+          PageViewModel(
+            title: "Welcome to Aquapido",
+            bodyWidget: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    margin: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "We need some information about you, to give you the best advise and a wonderful experience.",
+                      textAlign: TextAlign.start,
+                      style: bodyStyle,
+                    )),
+                Container(
+                    margin: EdgeInsets.fromLTRB(0, 37, 0, 30),
+                    padding: EdgeInsets.all(0),
+                    child: Text(
+                      "Your Lifestyle activity level:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w700),
+                    )),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 300,
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      padding: EdgeInsets.all(0),
+
+                      decoration: BoxDecoration(
+                          color: (selectActivity == 1)
+                              ? Colors.blue
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: Colors.blue,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      // color: Colors.blue,
+                      child: RadioListTile(
+                        value: 1,
+                        title: Text(
+                          "Low (sitting)",
+                          style: (selectActivity == 1)
+                              ? TextStyle(color: Colors.white)
+                              : TextStyle(color: Colors.black),
+                          textAlign: TextAlign.start,
+                        ),
+                        groupValue: selectActivity,
+                        activeColor: Colors.white,
+                        onChanged: (val) {
+                          print("Radio $val");
+                          setSelectActivity(val);
+                        },
+                      ),
+                    ),
+                    Container(
+                        width: 300,
+                        margin: EdgeInsets.all(5.0),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                            color: (selectActivity == 2)
+                                ? Colors.blue
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: Colors.blue,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: RadioListTile(
+                          value: 2,
+                          title: Text(
+                            "Normal (active)",
+                            textAlign: TextAlign.start,
+                            style: (selectActivity == 2)
+                                ? TextStyle(color: Colors.white)
+                                : TextStyle(color: Colors.black),
+                          ),
+                          groupValue: selectActivity,
+                          activeColor: Colors.white,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            setSelectActivity(val);
+                          },
+                        )),
+                    Container(
+                        width: 300,
+                        margin: EdgeInsets.all(5.0),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                            color: (selectActivity == 3)
+                                ? Colors.blue
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: Colors.blue,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: RadioListTile(
+                          value: 3,
+                          title: Text(
+                            "High (very active)",
+                            textAlign: TextAlign.start,
+                            style: (selectActivity == 3)
+                                ? TextStyle(color: Colors.white)
+                                : TextStyle(color: Colors.black),
+                          ),
+                          groupValue: selectActivity,
+                          activeColor: Colors.white,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            setSelectActivity(val);
+                          },
+                        )),
+                    Container(
+                        width: 300,
+                        margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                        padding: EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                            color: (selectActivity == 4)
+                                ? Colors.blue
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: Colors.blue,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: RadioListTile(
+                          value: 4,
+                          title: Text(
+                            "Very High (Hustler)",
+                            textAlign: TextAlign.start,
+                            style: (selectActivity == 4)
+                                ? TextStyle(color: Colors.white)
+                                : TextStyle(color: Colors.black),
+                          ),
+                          groupValue: selectActivity,
+                          activeColor: Colors.white,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            setSelectActivity(val);
+                          },
+                        )),
+                  ],
+                )
+              ],
+            ),
+            footer: new Stack(overflow: Overflow.visible, children: [
+              Positioned(
+                  top: -24,
+                  child: InfoCard(
+                    title: "Did you know that ...",
+                    text: infos[0],
+                  )),
+              Divider(
+                height: 255,
+                thickness: 1,
+                indent: 0,
+                endIndent: 0,
+              ),
+            ]),
+            decoration: pageDecoration,
+          ),
+        ],
+        onDone: () => _onIntroEnd(context),
+        onSkip: () => _onIntroEnd(context),
+        // You can override onSkip callback
+        showSkipButton: true,
+        skipFlex: 0,
+        nextFlex: 0,
+        //rtl: true, // Display as right-to-left
+        skip: const Text('LATER'),
+        next: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+            child: Text(
+              'NEXT',
+              style: TextStyle(color: Colors.white),
+            )),
+
+        done: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+            child: Text(
+              'START',
+              style: TextStyle(color: Colors.white),
+            )),
+        //curve: Curves.fastLinearToSlowEaseIn,
+      ),
     );
   }
 }

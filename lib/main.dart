@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/Views/achievements.dart';
 import 'package:water_tracker/Views/introductionScreen.dart';
 import 'package:water_tracker/Views/settings.dart';
@@ -9,11 +9,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:water_tracker/Views/statistics.dart';
 
 
+
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -43,11 +48,84 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 14.0),
           ),
         ),
-        home: Main());
+        home: new Splash());
+  }
+
+}
+
+
+
+class Splash extends StatefulWidget {
+  @override
+  SplashState createState() => new SplashState();
+}
+
+class SplashState extends State<Splash> {
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+      return Main.id;
+
+    } else {
+      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
+       //await prefs.setBool('seen', true);
+      return IntroScreen.id;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return MaterialApp(
+              theme: ThemeData(
+                // This is the theme of your application.
+                //
+                // Try running your application with "flutter run". You'll see the
+                // application has a blue toolbar. Then, without quitting the app, try
+                // changing the primarySwatch below to Colors.green and then invoke
+                // "hot reload" (press "r" in the console where you ran "flutter run",
+                // or simply save your changes to "hot reload" in a Flutter IDE).
+                // Notice that the counter didn't reset back to zero; the application
+                // is not restarted.
+                primarySwatch: Colors.blue,
+                fontFamily: GoogleFonts.comfortaa().fontFamily,
+
+                // Define the default TextTheme. Use this to specify the default
+                // text styling for headlines, titles, bodies of text, and more.
+                textTheme: TextTheme(
+                  headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+                  headline2: TextStyle(fontSize: 42.0),
+                  headline3: TextStyle(fontSize: 32.0),
+                  headline4: TextStyle(fontSize: 24.0),
+                  bodyText2: TextStyle(fontSize: 14.0),
+                ),
+              ),
+
+              initialRoute: snapshot.data,
+              routes: {
+                IntroScreen.id: (context) => IntroScreen(),
+                Main.id: (context) => Main(),
+              },
+            );
+          }
+        });
   }
 }
 
+
+
+
 class Main extends StatefulWidget {
+  static String id = 'MainScreen';
   Main({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
