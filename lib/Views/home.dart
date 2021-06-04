@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
   Future<void> evaluateEvent(event) async {
     var arr = event.split(',');
     debugPrint(event);
-    if (arr[0] == "power") {
+    if (arr[0] == 'power') {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
           0,
           int.parse(arr[1]));
     }
-    if (arr[0] == "shake") {
+    if (arr[0] == 'shake') {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -194,9 +194,9 @@ class _HomeState extends State<Home> {
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
           //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // Invoke 'debug painting' (press 'p' in the console, choose the
+          // 'Toggle Debug Paint' action from the Flutter Inspector in Android
+          // Studio, or the 'Toggle Debug Paint' command in Visual Studio Code)
           // to see the wireframe for each widget.
           //
           // Column has various properties to control how it sizes itself and

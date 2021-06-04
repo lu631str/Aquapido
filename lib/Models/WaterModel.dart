@@ -15,13 +15,13 @@ class WaterModel with ChangeNotifier {
   }
 
   Future<List<Water>> getAllWater() async {
-    List<Water> list = await waterList();
+    final List<Water> list = await waterList();
     notifyListeners();
     return list;
   }
 
   Future<int> getTotalCupsToday() async {
-    int cups = await totalCupsToday();
+    final int cups = await totalCupsToday();
     notifyListeners();
     return cups;
   }
