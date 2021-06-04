@@ -19,7 +19,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
-  List<Icon> _icons = [
+  final List<Icon> _icons = [
     Icon(MyFlutterApp.cup_100ml),
     Icon(MyFlutterApp.cup_200ml),
     Icon(MyFlutterApp.cup_300ml),
@@ -27,9 +27,9 @@ class _SettingsState extends State<Settings> {
     Icon(MyFlutterApp.cup_400ml),
     Icon(MyFlutterApp.cup_400ml)
   ];
-  Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
+  final Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
 
-  List<ClockLabel> _clockLabels = [
+  final List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
     ClockLabel.fromTime(time: TimeOfDay(hour: 6, minute: 0), text: '6'),
     ClockLabel.fromTime(time: TimeOfDay(hour: 9, minute: 0), text: '9'),
@@ -43,7 +43,7 @@ class _SettingsState extends State<Settings> {
   TimeOfDay _timePickerStart = TimeOfDay(hour: 23, minute: 0);
   TimeOfDay _timePickerEnd = TimeOfDay(hour: 8, minute: 0);
 
-  String _weightUnit = 'kg';
+  final String _weightUnit = 'kg';
 
   String _language = 'en';
   final _myController = TextEditingController(text: '0');
@@ -91,7 +91,7 @@ class _SettingsState extends State<Settings> {
             showCustomSizeAddDialog();
           });
         },
-        child: Text('Add')));
+        child: const Text('Add')));
     return sizeOptions;
   }
 
@@ -100,7 +100,7 @@ class _SettingsState extends State<Settings> {
         context: context,
         builder: (_) => SimpleDialog(
               contentPadding: EdgeInsets.all(16),
-              title: Text('Add Size'),
+              title: const Text('Add Size'),
               children: [
                 TextFormField(
                   controller: _myController,
@@ -114,10 +114,10 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       TextButton(
-                          child: Text('Cancel'),
+                          child: const Text('Cancel'),
                           onPressed: () => Navigator.pop(context)), // button 1
                       ElevatedButton(
-                        child: Text('Save'),
+                        child: const Text('Save'),
                         onPressed: () {
                           setState(() {
                             saveCustomSize(int.parse(_myController.text));
@@ -174,7 +174,7 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               ListTile(
-                title: Text('settings.general_settings.reminder_interval').tr(),
+                title: const Text('settings.general_settings.reminder_interval').tr(),
                 trailing: TextButton(
                   child: Text(
                       context.watch<SettingsModel>().interval.toString() +
@@ -186,8 +186,8 @@ class _SettingsState extends State<Settings> {
                           return StatefulBuilder(
                             builder: (context, setState) {
                               return SimpleDialog(
-                                contentPadding: EdgeInsets.all(16),
-                                title: Text('Set Interval'),
+                                contentPadding: const EdgeInsets.all(16),
+                                title: const Text('Set Interval'),
                                 children: [
                                   NumberPicker(
                                     value:
@@ -208,18 +208,17 @@ class _SettingsState extends State<Settings> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         TextButton(
-                                            child: Text('Cancel'),
+                                            child: const Text('Cancel'),
                                             onPressed: () {
                                               context.read<SettingsModel>().reset();
                                               Navigator.pop(context);
                                             }), // button 1
                                         ElevatedButton(
-                                          child: Text('Save'),
+                                          child: const Text('Save'),
                                           onPressed: () {
                                             context
                                                 .read<SettingsModel>()
                                                 .saveInterval();
-                                            debugPrint('saved');
                                             Navigator.pop(context);
                                           },
                                         ), // button 2
@@ -244,7 +243,7 @@ class _SettingsState extends State<Settings> {
                                 ChangeNotifierProvider<SettingsModel>.value(
                                   value: reportState,
                                   child: SimpleDialog(
-                                    contentPadding: EdgeInsets.all(16),
+                                    contentPadding: const EdgeInsets.all(16),
                                     title: Text('Choose Size'),
                                     children: createDialogOptions(context, reportState),
                                   ),
@@ -426,7 +425,7 @@ class _SettingsState extends State<Settings> {
                   border: Border.all(
                     color: Colors.red,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(
+                  borderRadius: const BorderRadius.all(Radius.circular(
                           6.0) //                 <--- border radius here
                       ),
                 ),
@@ -453,7 +452,7 @@ class _SettingsState extends State<Settings> {
                                                     Navigator.pop(context);
                                                   }), // button 1
                                               ElevatedButton(
-                                                child: Text('Reset'),
+                                                child: const Text('Reset'),
                                                 onPressed: () {
                                                   this._reset();
                                                   Navigator.pop(context);
@@ -466,7 +465,7 @@ class _SettingsState extends State<Settings> {
                                 );
                               })
                         },
-                    child: Text('Reset')),
+                    child: const Text('Reset')),
               )
             ],
           ),

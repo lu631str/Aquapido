@@ -22,7 +22,7 @@ class Water {
 
   /// Returns CupSize String Representation.
   String toCupSizeString() {
-    if(this.isPlaceholder) {
+    if(isPlaceholder) {
       return 'Add your first glass of water!';
     }
     return '${cupSize}ml';
@@ -30,7 +30,7 @@ class Water {
 
   /// Returns Date String Representation.
   String toDateString() {
-    if(this.isPlaceholder) {
+    if(isPlaceholder) {
       return '';
     }
     return '${_getDateString(dateTime)} - ${DateFormat('kk:mm').format(dateTime)}';
@@ -38,7 +38,7 @@ class Water {
 
   /// Returns String Representation.
   @override
-  String toString() => (toCupSizeString() + ' ' + toDateString()).trim();
+  String toString() => '${toCupSizeString()} ${toDateString()}'.trim();
 
   Map<String, dynamic> toMap() => {
         'date_time': dateTime.millisecondsSinceEpoch,
