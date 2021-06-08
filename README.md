@@ -1,6 +1,6 @@
-# water_tracker
+# Aquapido - Quick Water Tracker
 
-A new Flutter project.
+With this water tracker you can add your daily glass of water very quickly, without even unlocking your phone.
 
 ## Getting Started
 
