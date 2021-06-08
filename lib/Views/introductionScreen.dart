@@ -83,14 +83,7 @@ class _IntroScreenState extends State<IntroScreen> {
       child: IntroductionScreen(
         key: introKey,
         globalBackgroundColor: Colors.transparent,
-        globalHeader: Align(
-          alignment: Alignment.topRight,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16, right: 16),
-            ),
-          ),
-        ),
+        controlsPadding: EdgeInsets.all(0),
 
         pages: [
           PageViewModel(
