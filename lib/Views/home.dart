@@ -228,7 +228,7 @@ class _HomeState extends State<Home> {
                       ),
                       FutureBuilder(
                           future:
-                              context.watch<WaterModel>().getTotalCupsToday(),
+                              Provider.of<WaterModel>(context, listen: false).getTotalCupsToday(),
                           builder:
                               (BuildContext context, AsyncSnapshot<int> text) {
                             return new Text(
