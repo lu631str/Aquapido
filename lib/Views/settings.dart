@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../icons/my_flutter_app_icons.dart';
 import '../Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -7,6 +8,8 @@ import 'package:time_range_picker/time_range_picker.dart';
 import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -54,10 +57,17 @@ class _SettingsState extends State<Settings> {
     _myController.dispose();
     super.dispose();
   }
+  setData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', false);
+  }
 
   void _reset() {
     //saveCurrentCupCounter(0);
+    setData();
     clearWaterTable();
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
   void saveCustomSize(customSize) {
