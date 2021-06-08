@@ -112,7 +112,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   children: <Widget>[
                     Container(
                       width: 200,
-                      margin: EdgeInsets.all(20.0),
+                      margin: EdgeInsets.all(10.0),
                       padding: EdgeInsets.all(0),
 
                       decoration: BoxDecoration(
@@ -122,7 +122,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           border: Border.all(
                             color: Colors.blue,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       // color: Colors.blue,
                       child: RadioListTile(
                         value: 1,
@@ -143,7 +143,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     ),
                     Container(
                         width: 200,
-                        margin: EdgeInsets.fromLTRB(0, 20, 0, 60),
+                        margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
                         padding: EdgeInsets.all(0),
                         decoration: BoxDecoration(
                             color: (selectGender == 2)
@@ -153,7 +153,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               color: Colors.blue,
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(10))),
                         child: RadioListTile(
                           value: 2,
                           title: Text(
@@ -293,7 +293,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           border: Border.all(
                             color: Colors.blue,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       // color: Colors.blue,
                       child: RadioListTile(
                         value: 1,
@@ -324,7 +324,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               color: Colors.blue,
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(10))),
                         child: RadioListTile(
                           value: 2,
                           title: Text(
@@ -353,7 +353,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               color: Colors.blue,
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(10))),
                         child: RadioListTile(
                           value: 3,
                           title: Text(
@@ -382,7 +382,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               color: Colors.blue,
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(10))),
                         child: RadioListTile(
                           value: 4,
                           title: Text(
