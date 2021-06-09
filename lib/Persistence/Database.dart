@@ -112,6 +112,37 @@ Future<double> getAverageCupsPerDay() async {
   return totalCups / totalDays;
 }
 
+Future<double> getAverageLitersPerDay() async {
+   // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
+
+  if (maps.isEmpty) {
+    log('Database (averageLitersPerDay): Table $waterTableName is EMPTY!');
+    return 0;
+  }
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  final List<Water> waterModelList = _getWaterModelListFromMap(maps);
+
+  int totalDays = 0;
+  int totalLiters = 0;
+
+  var groupByDate = groupBy<Water, dynamic>(waterModelList, (obj) => obj.dateTime.toString().substring(0, 10));
+  groupByDate.forEach((date, list) {
+    totalDays++;
+    list.forEach((listItem) {
+      totalLiters += listItem.cupSize;
+    });
+  });
+
+  log('Database: Average Liters per Day: ${totalLiters / totalDays}');
+
+  return totalLiters / totalDays;
+}
+
 Future<int> totalCupsToday() async {
   // Get a reference to the database.
   final Database db = await database;

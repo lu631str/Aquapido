@@ -32,4 +32,10 @@ Future<double> averageCupsPerDay() async {
     return cups;
   }
 
+  Future<double> averageLitersPerDay() async {
+    final double liters = await getAverageLitersPerDay();
+    notifyListeners();
+    return liters;
+  }
+
 }

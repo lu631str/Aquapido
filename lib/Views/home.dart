@@ -171,10 +171,9 @@ class _HomeState extends State<Home> {
     this._totalWaterAmount = sum;
   }
 
-  String _formatDailyTotalWaterAmount() {
-    dynamic water = _totalWaterAmount;
-    if (_totalWaterAmount >= 1000) {
-      water = _totalWaterAmount / 1000.0;
+  String _formatDailyTotalWaterAmount(dynamic water) {
+    if (water >= 1000) {
+      water = water / 1000.0;
       _unit = 'L';
     } else {
       _unit = 'ml';
@@ -242,7 +241,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${_formatDailyTotalWaterAmount()} $_unit',
+                        '${_formatDailyTotalWaterAmount(_totalWaterAmount)} $_unit',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                     ],

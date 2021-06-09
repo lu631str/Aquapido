@@ -34,9 +34,9 @@ class _StatisticsState extends State<Statistics> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  AverageCard(subTitle: 'Liters / Day', futureValue: Future.value(2.8)),
-                  AverageCard(subTitle: 'Liters / Week', futureValue: Future.value(9.6)),
-                  AverageCard(subTitle: 'Cups / Day', futureValue: Provider.of<WaterModel>(context, listen: false).averageCupsPerDay(),),
+                  AverageCard(subTitle: 'Liters / Day', isMl: true, futureValue: Provider.of<WaterModel>(context, listen: false).averageLitersPerDay()),
+                  AverageCard(subTitle: 'Liters / Week', isMl: true, futureValue: Future.value(9400)),
+                  AverageCard(subTitle: 'Cups / Day', isMl: false, futureValue: Provider.of<WaterModel>(context, listen: false).averageCupsPerDay()),
                 ],
               ),
             ],

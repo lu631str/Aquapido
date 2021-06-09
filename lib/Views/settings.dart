@@ -21,6 +21,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  
   List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
   final List<Icon> _icons = [
     Icon(MyFlutterApp.cup_100ml),
@@ -108,7 +109,7 @@ class _SettingsState extends State<Settings> {
   void showCustomSizeAddDialog() {
     showDialog(
         context: context,
-        builder: (_) => SimpleDialog(
+        builder: (dialogContext) => SimpleDialog(
               contentPadding: EdgeInsets.all(16),
               title: const Text('Add Size'),
               children: [
@@ -125,14 +126,14 @@ class _SettingsState extends State<Settings> {
                     children: <Widget>[
                       TextButton(
                           child: const Text('Cancel'),
-                          onPressed: () => Navigator.pop(context)), // button 1
+                          onPressed: () => Navigator.pop(dialogContext)), // button 1
                       ElevatedButton(
                         child: const Text('Save'),
                         onPressed: () {
                           setState(() {
                             saveCustomSize(int.parse(_myController.text));
                             _myController.clear();
-                            Navigator.pop(context);
+                            Navigator.pop(dialogContext);
                           });
                         },
                       ), // button 2
@@ -192,7 +193,7 @@ class _SettingsState extends State<Settings> {
                   onPressed: () {
                     showDialog(
                         context: context,
-                        builder: (context) {
+                        builder: (dialogContext) {
                           return StatefulBuilder(
                             builder: (context, setState) {
                               return SimpleDialog(
@@ -221,7 +222,7 @@ class _SettingsState extends State<Settings> {
                                             child: const Text('Cancel'),
                                             onPressed: () {
                                               context.read<SettingsModel>().reset();
-                                              Navigator.pop(context);
+                                              Navigator.pop(dialogContext);
                                             }), // button 1
                                         ElevatedButton(
                                           child: const Text('Save'),
@@ -229,7 +230,7 @@ class _SettingsState extends State<Settings> {
                                             context
                                                 .read<SettingsModel>()
                                                 .saveInterval();
-                                            Navigator.pop(context);
+                                            Navigator.pop(dialogContext);
                                           },
                                         ), // button 2
                                       ])
@@ -249,13 +250,13 @@ class _SettingsState extends State<Settings> {
                       setState(() {
                         showDialog(
                             context: context,
-                            builder: (_) =>
+                            builder: (dialogContext) =>
                                 ChangeNotifierProvider<SettingsModel>.value(
                                   value: reportState,
                                   child: SimpleDialog(
                                     contentPadding: const EdgeInsets.all(16),
                                     title: Text('Choose Size'),
-                                    children: createDialogOptions(context, reportState),
+                                    children: createDialogOptions(dialogContext, reportState),
                                   ),
                                 ));
                       });
@@ -344,7 +345,7 @@ class _SettingsState extends State<Settings> {
                       onPressed: () {
                         showDialog(
                             context: context,
-                            builder: (context) {
+                            builder: (dialogContext) {
                               return StatefulBuilder(
                                 builder: (context, setState) {
                                   return SimpleDialog(
@@ -374,7 +375,7 @@ class _SettingsState extends State<Settings> {
                                                 child: Text('Cancel'),
                                                 onPressed: () {
                                                   context.read<SettingsModel>().reset();
-                                                  Navigator.pop(context);
+                                                  Navigator.pop(dialogContext);
                                                 }), // button 1
                                             ElevatedButton(
                                               child: Text('Save'),
@@ -382,7 +383,7 @@ class _SettingsState extends State<Settings> {
                                                 context
                                                     .read<SettingsModel>()
                                                     .saveWeight();
-                                                Navigator.pop(context);
+                                                Navigator.pop(dialogContext);
                                               },
                                             ), // button 2
                                           ])
@@ -443,7 +444,7 @@ class _SettingsState extends State<Settings> {
                     onPressed: () => {
                           showDialog(
                               context: context,
-                              builder: (context) {
+                              builder: (dialogContext) {
                                 return StatefulBuilder(
                                   builder: (context, setState) {
                                     return SimpleDialog(
@@ -459,13 +460,13 @@ class _SettingsState extends State<Settings> {
                                               TextButton(
                                                   child: Text('Cancel'),
                                                   onPressed: () {
-                                                    Navigator.pop(context);
+                                                    Navigator.pop(dialogContext);
                                                   }), // button 1
                                               ElevatedButton(
                                                 child: const Text('Reset'),
                                                 onPressed: () {
                                                   this._reset();
-                                                  Navigator.pop(context);
+                                                  Navigator.pop(dialogContext);
                                                 },
                                               ), // button 2
                                             ])

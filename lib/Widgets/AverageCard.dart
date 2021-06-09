@@ -1,19 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:water_tracker/Persistence/Database.dart';
-import 'package:provider/provider.dart';
-import '../Models/WaterModel.dart';
-
+import 'dart:developer';
 
 class AverageCard extends StatelessWidget {
   final String subTitle;
   final Future<double> futureValue;
+  final bool isMl;
   final double cardSize = 98;
   final double fontSize = 20.0;
 
-  AverageCard({this.subTitle, this.futureValue, Key key}) : super(key: key);
+  AverageCard({this.subTitle, this.futureValue, this.isMl, Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +30,22 @@ class AverageCard extends StatelessWidget {
                     future: futureValue,
                     builder:
                         (BuildContext context, AsyncSnapshot<double> snapshot) {
-                      return new Text(
-                        '${snapshot.data}',
-                        style: TextStyle(fontSize: fontSize),
-                      );
+                      if (snapshot.connectionState == ConnectionState.waiting)
+                        return Text(
+                          '0.0',
+                          style: TextStyle(fontSize: fontSize),
+                        );
+                      else if (snapshot.hasData)
+                        return Text(
+                          '${isMl == true ? snapshot.data / 1000 : snapshot.data}',
+                          style: TextStyle(fontSize: fontSize),
+                        );
+                      else if (snapshot.hasError) {
+                        log('Error while fetching \'$subTitle\': ${snapshot.error}');
+                        return Text('Error');
+                      }
+                      else
+                        return Text('None');
                     }),
               ),
               Text(subTitle),
