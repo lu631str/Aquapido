@@ -26,5 +26,10 @@ class WaterModel with ChangeNotifier {
     return cups;
   }
 
+Future<double> averageCupsPerDay() async {
+    final double cups = await getAverageCupsPerDay();
+    notifyListeners();
+    return cups;
+  }
 
 }

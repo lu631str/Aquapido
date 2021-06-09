@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import '../Utils/utils.dart';
 import '../Models/Water.dart';
+import "package:collection/collection.dart";
 import 'dart:developer';
 
 final Future<Database> database = connectWithDatabase();
@@ -80,6 +81,37 @@ Future<void> deleteWater(Water water) async {
   );
 }
 
+Future<double> getAverageCupsPerDay() async {
+   // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
+
+  if (maps.isEmpty) {
+    log('Database (averageCupsPerDay): Table $waterTableName is EMPTY!');
+    return 0;
+  }
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  final List<Water> waterModelList = _getWaterModelListFromMap(maps);
+
+  int totalDays = 0;
+  int totalCups = 0;
+
+  var groupByDate = groupBy<Water, dynamic>(waterModelList, (obj) => obj.dateTime.toString().substring(0, 10));
+  groupByDate.forEach((date, list) {
+    totalDays++;
+    list.forEach((listItem) {
+      totalCups++;
+    });
+  });
+
+  log('Database: Average Cups per Day: ${totalCups / totalDays}');
+
+  return totalCups / totalDays;
+}
+
 Future<int> totalCupsToday() async {
   // Get a reference to the database.
   final Database db = await database;
@@ -93,13 +125,7 @@ Future<int> totalCupsToday() async {
   }
 
   // Convert the List<Map<String, dynamic> into a List<Dog>.
-  final List<Water> waterModelList = List.generate(maps.length, (i) {
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-    return Water(
-      dateTime: dateTime,
-      cupSize: maps[i]['cup_size'],
-    );
-  });
+  final List<Water> waterModelList = _getWaterModelListFromMap(maps);
   return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
 }
 
@@ -115,7 +141,10 @@ Future<List<Water>> waterList() async {
     return List.generate(1, (index) => Water.placeholder(0));
   }
 
-  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  return _getWaterModelListFromMap(maps);
+}
+
+List<Water> _getWaterModelListFromMap(List<Map<String, dynamic>> maps) {
   return List.generate(maps.length, (i) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
     return Water(
