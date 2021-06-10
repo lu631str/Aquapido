@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
-import '../Persistence/Database.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
@@ -26,11 +25,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentCupCounter = 5;
-  int _totalWaterAmount = 0;
+  int _currentCupCounter = 0;
   String _unit = 'ml';
-
-  List<Water> _history = [];
 
   static const platform =
       const MethodChannel('com.example.flutter_application_1/powerBtnCount');
@@ -46,7 +42,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    getPowerButtonCount();
 
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
@@ -76,37 +72,26 @@ class _HomeState extends State<Home> {
         // artboard.We store a reference to it so we can toggle playback.
         artboard.addController(_controller = _animation);
         setState(() => {
-          _riveArtboard = artboard,
-          this._controller.isActive = false,
-        });
+              _riveArtboard = artboard,
+              this._controller.isActive = false,
+            });
         _updateWaterGlass();
       },
     );
-
   }
 
   void _updateWaterGlass() {
-    print('lets go controller: $_controller');
     if (_controller != null) {
       setState(() {
         //_controller.isActive = true;
-       double currentWater = _totalWaterAmount / Provider.of<SettingsModel>(context, listen: false).dailyGoal;
-       _animation.instance.reset();
-       _animation.instance.advance(currentWater);
-       _controller.apply(_riveArtboard, currentWater);
-       print('lets go');
+        double currentWater = Provider.of<WaterModel>(context, listen: false)
+                .totalWaterAmountPerDay() /
+            Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+        _animation.instance.reset();
+        _animation.instance.advance(currentWater);
+        _controller.apply(_riveArtboard, currentWater);
       });
-
     }
-  }
-
-  _loadData() async {
-    var history = await waterList();
-    setState(() {
-      this._history = history.reversed.toList();
-      _calculateTotalWaterAmount();
-      getPowerButtonCount();
-    });
   }
 
   @override
@@ -116,7 +101,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> getPowerButtonCount() async {
+  void getPowerButtonCount() async {
     int counter;
     try {
       final int result = await platform.invokeMethod('getPowerBtnCount');
@@ -153,31 +138,20 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _addWaterCup(water, index, amountOfCups) async {
-    if (this._history.first.isPlaceholder) {
-      this._history.clear();
-    }
-    Provider.of<WaterModel>(context, listen: false).addWater(water);
-    this._history.insert(index, water);
+    Provider.of<WaterModel>(context, listen: false).addWater(index, water);
     setState(() {
       _currentCupCounter += amountOfCups;
-      _calculateTotalWaterAmount();
     });
   }
 
   void _delete(index) async {
-    Water water = this._history[index];
-    Provider.of<WaterModel>(context, listen: false).removeWater(water);
-
-    this._history.removeAt(index);
+    Water water =
+        Provider.of<WaterModel>(context, listen: false).removeWater(index);
     setState(() {
       if (_currentCupCounter > 0) {
         _currentCupCounter--;
       }
-      _calculateTotalWaterAmount();
     });
-    if (this._history.isEmpty) {
-      this._loadData();
-    }
     _updateWaterGlass();
     this._showUndoSnackBar(index, water);
   }
@@ -203,16 +177,6 @@ class _HomeState extends State<Home> {
       _buttonEventStream.cancel();
       _buttonEventStream = null;
     }
-  }
-
-  void _calculateTotalWaterAmount() {
-    num sum = 0;
-    this._history.forEach((water) {
-      if (isToday(water.dateTime)) {
-        sum += water.cupSize;
-      }
-    });
-    this._totalWaterAmount = sum;
   }
 
   String _formatDailyTotalWaterAmount(dynamic water) {
@@ -281,7 +245,6 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      
                       Container(
                         height: 180,
                         width: 180,
@@ -290,7 +253,7 @@ class _HomeState extends State<Home> {
                             : Rive(artboard: _riveArtboard),
                       ),
                       Text(
-                        '${_formatDailyTotalWaterAmount(_totalWaterAmount)} $_unit',
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay())} $_unit',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                     ],
@@ -318,13 +281,16 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: _history.length,
+                    itemCount: context.watch<WaterModel>().history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            cupImages[getImageIndex(_history[index].cupSize)],
-                            _history[index],
+                            cupImages[getImageIndex(context
+                                .watch<WaterModel>()
+                                .history[index]
+                                .cupSize)],
+                            context.watch<WaterModel>().history[index],
                             _delete),
                       );
                     }),

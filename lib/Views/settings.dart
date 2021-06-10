@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_tracker/Models/WaterModel.dart';
 import '../icons/my_flutter_app_icons.dart';
 import '../Persistence/Database.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -22,10 +23,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  
   List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
 
-  final Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
+  final Map<String, String> _languageCodeMap = {
+    'en': 'English',
+    'de': 'Deutsch'
+  };
 
   final List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
@@ -43,7 +46,6 @@ class _SettingsState extends State<Settings> {
 
   final String _weightUnit = 'kg';
 
-
   final _myController = TextEditingController(text: '0');
 
   @override
@@ -52,6 +54,7 @@ class _SettingsState extends State<Settings> {
     _myController.dispose();
     super.dispose();
   }
+
   setData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', false);
@@ -60,9 +63,9 @@ class _SettingsState extends State<Settings> {
   void _reset() {
     //saveCurrentCupCounter(0);
     setData();
-    clearWaterTable();
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => WaterTrackerApp()));
+    Provider.of<WaterModel>(context, listen: false).removeAllWater();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
   void saveCustomSize(customSize) {
@@ -120,7 +123,8 @@ class _SettingsState extends State<Settings> {
                     children: <Widget>[
                       TextButton(
                           child: const Text('Cancel'),
-                          onPressed: () => Navigator.pop(dialogContext)), // button 1
+                          onPressed: () =>
+                              Navigator.pop(dialogContext)), // button 1
                       ElevatedButton(
                         child: const Text('Save'),
                         onPressed: () {
@@ -179,7 +183,8 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               ListTile(
-                title: const Text('settings.general_settings.reminder_interval').tr(),
+                title: const Text('settings.general_settings.reminder_interval')
+                    .tr(),
                 trailing: TextButton(
                   child: Text(
                       context.watch<SettingsModel>().interval.toString() +
@@ -215,7 +220,9 @@ class _SettingsState extends State<Settings> {
                                         TextButton(
                                             child: const Text('Cancel'),
                                             onPressed: () {
-                                              context.read<SettingsModel>().reset();
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .reset();
                                               Navigator.pop(dialogContext);
                                             }), // button 1
                                         ElevatedButton(
@@ -239,7 +246,9 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
-                    child: Text(context.watch<SettingsModel>().cupSize.toString() + ' ml'),
+                    child: Text(
+                        context.watch<SettingsModel>().cupSize.toString() +
+                            ' ml'),
                     onPressed: () {
                       setState(() {
                         showDialog(
@@ -250,7 +259,8 @@ class _SettingsState extends State<Settings> {
                                   child: SimpleDialog(
                                     contentPadding: const EdgeInsets.all(16),
                                     title: Text('Choose Size'),
-                                    children: createDialogOptions(dialogContext, settingsState),
+                                    children: createDialogOptions(
+                                        dialogContext, settingsState),
                                   ),
                                 ));
                       });
@@ -260,7 +270,9 @@ class _SettingsState extends State<Settings> {
                 title: Text('settings.general_settings.language').tr(),
                 trailing: DropdownButton<Locale>(
                   value: context.supportedLocales.firstWhere((langLocale) =>
-                      langLocale.languageCode == Provider.of<SettingsModel>(context, listen: false).language),
+                      langLocale.languageCode ==
+                      Provider.of<SettingsModel>(context, listen: false)
+                          .language),
                   items: context.supportedLocales
                       .map<DropdownMenuItem<Locale>>((Locale langLocale) {
                     return DropdownMenuItem<Locale>(
@@ -306,7 +318,9 @@ class _SettingsState extends State<Settings> {
                       title: Text('settings.quick_settings.quick_shaking').tr(),
                       onChanged: (value) {
                         setState(() {
-                          context.read<SettingsModel>().updateShakeSettings(value);
+                          context
+                              .read<SettingsModel>()
+                              .updateShakeSettings(value);
                         });
                       }),
                   SwitchListTile(
@@ -368,7 +382,9 @@ class _SettingsState extends State<Settings> {
                                             TextButton(
                                                 child: Text('Cancel'),
                                                 onPressed: () {
-                                                  context.read<SettingsModel>().reset();
+                                                  context
+                                                      .read<SettingsModel>()
+                                                      .reset();
                                                   Navigator.pop(dialogContext);
                                                 }), // button 1
                                             ElevatedButton(
@@ -454,7 +470,8 @@ class _SettingsState extends State<Settings> {
                                               TextButton(
                                                   child: Text('Cancel'),
                                                   onPressed: () {
-                                                    Navigator.pop(dialogContext);
+                                                    Navigator.pop(
+                                                        dialogContext);
                                                   }), // button 1
                                               ElevatedButton(
                                                 child: const Text('Reset'),
