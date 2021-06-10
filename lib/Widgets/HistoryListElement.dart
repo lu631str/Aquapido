@@ -4,14 +4,14 @@ import '../Models/Water.dart';
 
 class HistoryListElement extends StatelessWidget {
   final int _index;
-  final IconData _icon;
+  final Image _image;
   final Water _water;
   final DeleteCallback _deleteCallback;
   final double _iconCircleSize = 44;
   final double _cardHeight = 40;
 
   HistoryListElement(
-      this._index, this._icon, this._water, this._deleteCallback);
+      this._index, this._image, this._water, this._deleteCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class HistoryListElement extends StatelessWidget {
             child: Container(
               height: this._iconCircleSize,
               width: this._iconCircleSize,
-              child: Icon(_icon),
+              child: _image,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -80,7 +80,7 @@ class HistoryListElement extends StatelessWidget {
                   ],
                   borderRadius: BorderRadius.circular(120),
                   border: Border.all(color: Colors.black87)),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(7),
             ),
           )
         ]));

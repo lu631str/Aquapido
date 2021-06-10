@@ -12,6 +12,7 @@ import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
+import '../Utils/utils.dart';
 
 typedef void DeleteCallback(int index);
 
@@ -283,7 +284,7 @@ class _HomeState extends State<Home> {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            MyFlutterApp.sizeIcons[_history[index].cupSize],
+                            cupImages[getImageIndex(_history[index].cupSize)],
                             _history[index],
                             _delete),
                       );

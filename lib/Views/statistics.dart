@@ -27,10 +27,6 @@ class _StatisticsState extends State<Statistics> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'Statistics',
-                style: Theme.of(context).textTheme.headline1,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

@@ -8,6 +8,7 @@ import 'package:time_range_picker/time_range_picker.dart';
 import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import '../Utils/utils.dart';
 
 import '../main.dart';
 
@@ -23,14 +24,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   
   List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
-  final List<Icon> _icons = [
-    Icon(MyFlutterApp.cup_100ml),
-    Icon(MyFlutterApp.cup_200ml),
-    Icon(MyFlutterApp.cup_300ml),
-    Icon(MyFlutterApp.cup_330ml),
-    Icon(MyFlutterApp.cup_400ml),
-    Icon(MyFlutterApp.cup_400ml)
-  ];
+
   final Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
 
   final List<ClockLabel> _clockLabels = [
@@ -74,7 +68,7 @@ class _SettingsState extends State<Settings> {
   void saveCustomSize(customSize) {
     setState(() {
       this._cupSizes.add(customSize);
-      this._icons.add(Icon(MyFlutterApp.cup_400ml));
+      cupImages.add(cupImages[6]);
     });
   }
 
@@ -91,7 +85,7 @@ class _SettingsState extends State<Settings> {
           },
           child: ListTile(
             title: Text('$size ml'),
-            leading: _icons[index],
+            leading: cupImages[index],
           ),
         ),
       );
