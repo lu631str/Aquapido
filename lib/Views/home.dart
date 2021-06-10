@@ -231,8 +231,7 @@ class _HomeState extends State<Home> {
                       ),
                       FutureBuilder(
                           future:
-                              Provider.of<WaterModel>(context, listen: false)
-                                  .getTotalCupsToday(),
+                              context.watch<WaterModel>().getTotalCupsToday(),
                           builder:
                               (BuildContext context, AsyncSnapshot<int> text) {
                             return new Text(
@@ -281,16 +280,14 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: context.watch<WaterModel>().history.length,
+                    itemCount: Provider.of<WaterModel>(context, listen: true).history.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            cupImages[getImageIndex(context
-                                .watch<WaterModel>()
-                                .history[index]
+                            cupImages[getImageIndex(Provider.of<WaterModel>(context, listen: true).history[index]
                                 .cupSize)],
-                            context.watch<WaterModel>().history[index],
+                            Provider.of<WaterModel>(context, listen: true).history[index],
                             _delete),
                       );
                     }),

@@ -61,7 +61,6 @@ class _SettingsState extends State<Settings> {
   }
 
   void _reset() {
-    //saveCurrentCupCounter(0);
     setData();
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
     Navigator.of(context)

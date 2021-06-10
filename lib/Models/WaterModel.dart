@@ -45,9 +45,7 @@ class WaterModel with ChangeNotifier {
   }
 
   Future<int> getTotalCupsToday() async {
-    final int cups = await _totalCupsToday();
-    notifyListeners();
-    return cups;
+    return await _totalCupsToday();
   }
 
   Future<double> getAverageCupsPerDay() async {
@@ -70,6 +68,8 @@ class WaterModel with ChangeNotifier {
 
   void removeAllWater() {
     _clearWaterTable();
+    _loadHistoryFromDB();
+    notifyListeners();
   }
 
   Future<List<Water>> waterList() {
@@ -95,7 +95,7 @@ class WaterModel with ChangeNotifier {
     //
     // In this case, replace any previous data.
 
-    log('Database: INSERT water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
+    log('WaterModel: INSERT water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
     await db.insert(
       DatabaseHelper.WATER_TABLE_NAME,
@@ -113,7 +113,7 @@ class WaterModel with ChangeNotifier {
     //
     // In this case, replace any previous data.
 
-    log('Database: CLEAR table ${DatabaseHelper.WATER_TABLE_NAME}');
+    log('WaterModel: CLEAR table ${DatabaseHelper.WATER_TABLE_NAME}');
 
     await db.delete(
       DatabaseHelper.WATER_TABLE_NAME,
@@ -124,7 +124,7 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    log('Database: DELETE water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
+    log('WaterModel: DELETE water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
     // Remove the Dog from the Database.
     await db.delete(
@@ -145,7 +145,7 @@ class WaterModel with ChangeNotifier {
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
     if (maps.isEmpty) {
-      log('Database (averageCupsPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      log('WaterModel (averageCupsPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
       return 0;
     }
 
@@ -164,7 +164,7 @@ class WaterModel with ChangeNotifier {
       });
     });
 
-    log('Database: Average Cups per Day: ${totalCups / totalDays}');
+    log('WaterModel: Average Cups per Day: ${totalCups / totalDays}');
 
     return totalCups / totalDays;
   }
@@ -178,7 +178,7 @@ class WaterModel with ChangeNotifier {
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
     if (maps.isEmpty) {
-      log('Database (averageLitersPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      log('WaterModel (averageLitersPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
       return 0;
     }
 
@@ -220,7 +220,7 @@ class WaterModel with ChangeNotifier {
     double avrgLiterPerWeek =
         weeklyLiters.reduce((a, b) => a + b) / weeklyLiters.length;
 
-    log('Database: Average Liters per Week: $avrgLiterPerWeek');
+    log('WaterModel: Average Liters per Week: $avrgLiterPerWeek');
 
     return avrgLiterPerWeek;
   }
@@ -234,7 +234,7 @@ class WaterModel with ChangeNotifier {
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
     if (maps.isEmpty) {
-      log('Database (averageLitersPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      log('WaterModel (averageLitersPerDay): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
       return 0;
     }
 
@@ -253,7 +253,7 @@ class WaterModel with ChangeNotifier {
       });
     });
 
-    log('Database: Average Liters per Day: ${totalLiters / totalDays}');
+    log('WaterModel: Average Liters per Day: ${totalLiters / totalDays}');
 
     return totalLiters / totalDays;
   }
@@ -267,7 +267,7 @@ class WaterModel with ChangeNotifier {
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
     if (maps.isEmpty) {
-      log('Database (totalCups): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      log('WaterModel (totalCups): Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
       return 0;
     }
 
@@ -284,7 +284,7 @@ class WaterModel with ChangeNotifier {
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
     if (maps.isEmpty) {
-      log('Database: Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      log('WaterModel: Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
       return List.generate(1, (index) => Water.placeholder(0));
     }
 
