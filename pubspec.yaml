@@ -63,6 +63,8 @@ flutter:
   assets:
     - assets/images/conor.jpg
     - assets/images/ausrufezeichen.png
+    - assets/images/shake.png
+    - assets/images/powerbutton.jpg
     - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -30,7 +30,10 @@ class _SettingsState extends State<Settings> {
     Icon(MyFlutterApp.cup_400ml),
     Icon(MyFlutterApp.cup_400ml)
   ];
-  final Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
+  final Map<String, String> _languageCodeMap = {
+    'en': 'English',
+    'de': 'Deutsch'
+  };
 
   final List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
@@ -57,6 +60,7 @@ class _SettingsState extends State<Settings> {
     _myController.dispose();
     super.dispose();
   }
+
   setData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', false);
@@ -66,8 +70,9 @@ class _SettingsState extends State<Settings> {
     //saveCurrentCupCounter(0);
     setData();
     clearWaterTable();
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => WaterTrackerApp()));
+    Provider.of<SettingsModel>(context, listen: false).updateDialogSeen(false);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
   void saveCustomSize(customSize) {
@@ -184,7 +189,8 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               ListTile(
-                title: const Text('settings.general_settings.reminder_interval').tr(),
+                title: const Text('settings.general_settings.reminder_interval')
+                    .tr(),
                 trailing: TextButton(
                   child: Text(
                       context.watch<SettingsModel>().interval.toString() +
@@ -220,7 +226,9 @@ class _SettingsState extends State<Settings> {
                                         TextButton(
                                             child: const Text('Cancel'),
                                             onPressed: () {
-                                              context.read<SettingsModel>().reset();
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .reset();
                                               Navigator.pop(context);
                                             }), // button 1
                                         ElevatedButton(
@@ -244,7 +252,9 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.cup_size').tr(),
                 trailing: TextButton(
-                    child: Text(context.watch<SettingsModel>().cupSize.toString() + ' ml'),
+                    child: Text(
+                        context.watch<SettingsModel>().cupSize.toString() +
+                            ' ml'),
                     onPressed: () {
                       setState(() {
                         showDialog(
@@ -255,7 +265,8 @@ class _SettingsState extends State<Settings> {
                                   child: SimpleDialog(
                                     contentPadding: const EdgeInsets.all(16),
                                     title: Text('Choose Size'),
-                                    children: createDialogOptions(context, reportState),
+                                    children: createDialogOptions(
+                                        context, reportState),
                                   ),
                                 ));
                       });
@@ -297,6 +308,16 @@ class _SettingsState extends State<Settings> {
                     ).tr(),
                   ),
                   SwitchListTile(
+                      value: context.watch<SettingsModel>().shakeSettings,
+                      title: Text('settings.quick_settings.quick_shaking').tr(),
+                      onChanged: (value) {
+                        setState(() {
+                          context
+                              .read<SettingsModel>()
+                              .updateShakeSettings(value);
+                        });
+                      }),
+                  SwitchListTile(
                       value: context.watch<SettingsModel>().powerSettings,
                       title: Text('settings.quick_settings.quick_power').tr(),
                       onChanged: (value) {
@@ -304,14 +325,6 @@ class _SettingsState extends State<Settings> {
                           context
                               .read<SettingsModel>()
                               .updatePowerSettings(value);
-                        });
-                      }),
-                  SwitchListTile(
-                      value: context.watch<SettingsModel>().shakeSettings,
-                      title: Text('settings.quick_settings.quick_shaking').tr(),
-                      onChanged: (value) {
-                        setState(() {
-                          context.read<SettingsModel>().updateShakeSettings(value);
                         });
                       }),
                   SwitchListTile(
@@ -373,7 +386,9 @@ class _SettingsState extends State<Settings> {
                                             TextButton(
                                                 child: Text('Cancel'),
                                                 onPressed: () {
-                                                  context.read<SettingsModel>().reset();
+                                                  context
+                                                      .read<SettingsModel>()
+                                                      .reset();
                                                   Navigator.pop(context);
                                                 }), // button 1
                                             ElevatedButton(

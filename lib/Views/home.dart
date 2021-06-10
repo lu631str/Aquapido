@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
+import 'package:water_tracker/Widgets/QuickAddDialog.dart';
 import '../Persistence/Database.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../icons/my_flutter_app_icons.dart';
@@ -47,6 +48,18 @@ class _HomeState extends State<Home> {
       debugPrint('initialize stream');
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
+
+    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => QuickAddDialog(
+            text: "rgdfg",
+            title: "dfgdfg",
+            descriptions: "44",
+          )
+        );
+      });
     }
 
     ShakeDetector.autoStart(onPhoneShake: () {

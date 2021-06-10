@@ -33,6 +33,15 @@ class Devices {
         name: 'iphone_12_pro_max__text_scale_1_0',
         safeArea: EdgeInsets.only(top: 47.0, bottom: 34.0),
       );
+
+  // /// [Pixel3a] matches specs of Google Pixel 3A
+  // static toolkit.Device get googlePixel3a => const toolkit.Device(
+  //   size: Size(328.0, 926.0),
+  //   name: 'googlePixel3a',
+  //   safeArea: EdgeInsets.only(top: 47.0, bottom: 34.0),
+  // );
+  //
+
 }
 
 final devicesWithDifferentTextScales = [

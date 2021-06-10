@@ -33,9 +33,14 @@ class _IntroScreenState extends State<IntroScreen> {
 
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  SetData() async {
+  SetSeenToTrue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', true);
+  }
+
+  SetSeenToFalse() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', false);
   }
 
   setSelectGender(int val) {
@@ -51,7 +56,7 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   void _onIntroEnd(context) {
-    SetData();
+    SetSeenToTrue();
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => WaterTrackerApp()),
     );
