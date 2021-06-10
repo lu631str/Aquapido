@@ -15,7 +15,7 @@ class SettingsModel with ChangeNotifier {
   bool get powerSettings => prefs.getBool('power') ?? false;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
-  String get language => prefs.getString('language') ?? Locale('en');
+  String get language => prefs.getString('language') ?? 'en';
   int get interval => _interval;
   double get dailyGoal => prefs.getDouble('dailyGoal') ?? 2500.0;
 

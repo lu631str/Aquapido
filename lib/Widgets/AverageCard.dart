@@ -16,7 +16,7 @@ class AverageCard extends StatelessWidget {
     return Card(
       elevation: 3.0,
       child: Padding(
-        padding: EdgeInsets.all(6),
+        padding: EdgeInsets.all(5),
         child: Container(
           child: Column(
             children: [
@@ -25,7 +25,7 @@ class AverageCard extends StatelessWidget {
                 height: 50.0,
               ),
               Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(4),
                 child: FutureBuilder(
                     future: futureValue,
                     builder:

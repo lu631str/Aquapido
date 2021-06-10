@@ -112,6 +112,58 @@ Future<double> getAverageCupsPerDay() async {
   return totalCups / totalDays;
 }
 
+Future<double> getAverageLitersPerWeek() async {
+   // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await db.query(waterTableName);
+
+  if (maps.isEmpty) {
+    log('Database (averageLitersPerDay): Table $waterTableName is EMPTY!');
+    return 0;
+  }
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  final List<Water> waterModelList = _getWaterModelListFromMap(maps);
+
+  int weeklyLitersIndex = 0;
+  int totalDays = 0;
+  int litersIntermediate = 0;
+  List<int> weeklyLiters = [];
+
+  var groupByDate = groupBy<Water, dynamic>(waterModelList, (obj) => obj.dateTime.toString().substring(0, 10));
+
+  // iterate over each day
+  groupByDate.forEach((date, list) {
+    totalDays++;
+
+    // iterate over each water cup
+    list.forEach((listItem) {
+      litersIntermediate += listItem.cupSize;
+    });
+
+    if(weeklyLitersIndex >= weeklyLiters.length) {
+      weeklyLiters.add(litersIntermediate);
+    } else {
+      weeklyLiters[weeklyLitersIndex] = weeklyLiters[weeklyLitersIndex] + litersIntermediate;
+    }
+
+    litersIntermediate = 0;
+
+    if(totalDays >= 7) {
+      weeklyLitersIndex++;
+      totalDays = 0;
+    }
+  });
+
+  double avrgLiterPerWeek = weeklyLiters.reduce((a, b) => a + b) / weeklyLiters.length;
+
+  log('Database: Average Liters per Week: $avrgLiterPerWeek');
+
+  return avrgLiterPerWeek;
+}
+
 Future<double> getAverageLitersPerDay() async {
    // Get a reference to the database.
   final Database db = await database;

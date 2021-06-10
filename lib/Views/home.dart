@@ -95,7 +95,8 @@ class _HomeState extends State<Home> {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
-              cupSize: context.watch<SettingsModel>().cupSize),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize),
           0,
           int.parse(arr[1]));
     }
@@ -103,7 +104,8 @@ class _HomeState extends State<Home> {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
-              cupSize: context.watch<SettingsModel>().cupSize),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize),
           0,
           int.parse(arr[1]));
     }
@@ -227,7 +229,8 @@ class _HomeState extends State<Home> {
                       ),
                       FutureBuilder(
                           future:
-                              Provider.of<WaterModel>(context, listen: false).getTotalCupsToday(),
+                              Provider.of<WaterModel>(context, listen: false)
+                                  .getTotalCupsToday(),
                           builder:
                               (BuildContext context, AsyncSnapshot<int> text) {
                             return new Text(

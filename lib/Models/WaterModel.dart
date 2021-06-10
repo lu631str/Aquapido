@@ -3,7 +3,6 @@ import '../Models/Water.dart';
 import '../Persistence/Database.dart';
 
 class WaterModel with ChangeNotifier {
-
   void addWater(Water water) {
     insertWater(water);
     notifyListeners();
@@ -26,7 +25,7 @@ class WaterModel with ChangeNotifier {
     return cups;
   }
 
-Future<double> averageCupsPerDay() async {
+  Future<double> averageCupsPerDay() async {
     final double cups = await getAverageCupsPerDay();
     notifyListeners();
     return cups;
@@ -38,4 +37,9 @@ Future<double> averageCupsPerDay() async {
     return liters;
   }
 
+  Future<double> averageLitersPerWeek() async {
+    final double liters = await getAverageLitersPerWeek();
+    notifyListeners();
+    return liters;
+  }
 }

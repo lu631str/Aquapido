@@ -49,7 +49,7 @@ class _SettingsState extends State<Settings> {
 
   final String _weightUnit = 'kg';
 
-  String _language = 'en';
+
   final _myController = TextEditingController(text: '0');
 
   @override
@@ -144,7 +144,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    var reportState = Provider.of<SettingsModel>(context, listen: false);
+    var settingsState = Provider.of<SettingsModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -252,11 +252,11 @@ class _SettingsState extends State<Settings> {
                             context: context,
                             builder: (dialogContext) =>
                                 ChangeNotifierProvider<SettingsModel>.value(
-                                  value: reportState,
+                                  value: settingsState,
                                   child: SimpleDialog(
                                     contentPadding: const EdgeInsets.all(16),
                                     title: Text('Choose Size'),
-                                    children: createDialogOptions(dialogContext, reportState),
+                                    children: createDialogOptions(dialogContext, settingsState),
                                   ),
                                 ));
                       });
@@ -266,7 +266,7 @@ class _SettingsState extends State<Settings> {
                 title: Text('settings.general_settings.language').tr(),
                 trailing: DropdownButton<Locale>(
                   value: context.supportedLocales.firstWhere((langLocale) =>
-                      langLocale.languageCode == this._language),
+                      langLocale.languageCode == Provider.of<SettingsModel>(context, listen: false).language),
                   items: context.supportedLocales
                       .map<DropdownMenuItem<Locale>>((Locale langLocale) {
                     return DropdownMenuItem<Locale>(
@@ -276,7 +276,7 @@ class _SettingsState extends State<Settings> {
                   }).toList(),
                   onChanged: (langLocale) {
                     context.setLocale(langLocale);
-                    this._language = langLocale.languageCode;
+                    print(langLocale.languageCode);
                     context
                         .read<SettingsModel>()
                         .updateLanguage(langLocale.languageCode);
