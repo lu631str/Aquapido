@@ -43,6 +43,8 @@ dependencies:
   time_range_picker: ^2.0.1
   provider: ^5.0.0
   introduction_screen: ^2.1.0
+  rive: ^0.7.13
+  flare_flutter: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

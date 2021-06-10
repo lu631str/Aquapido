@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import '../Persistence/Database.dart';
 import '../Widgets/HistoryListElement.dart';
-import '../icons/my_flutter_app_icons.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
-import '../Utils/utils.dart';
+
+import 'package:rive/rive.dart';
 
 typedef void DeleteCallback(int index);
 
@@ -39,6 +39,10 @@ class _HomeState extends State<Home> {
 
   StreamSubscription _buttonEventStream;
 
+  Artboard _riveArtboard;
+  RiveAnimationController _controller;
+  SimpleAnimation _animation = SimpleAnimation('100%');
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +62,42 @@ class _HomeState extends State<Home> {
           0,
           1);
     });
+
+    // Load the animation file from the bundle, note that you could also
+    // download this. The RiveFile just expects a list of bytes.
+    rootBundle.load('assets/animations/water-glass.riv').then(
+      (data) async {
+        // Load the RiveFile from the binary data.
+        final file = RiveFile.import(data);
+        // The artboard is the root of the animation and gets drawn in the
+        // Rive widget.
+        final artboard = file.mainArtboard;
+        // Add a controller to play back a known animation on the main/default
+        // artboard.We store a reference to it so we can toggle playback.
+        artboard.addController(_controller = _animation);
+        setState(() => {
+          _riveArtboard = artboard,
+          this._controller.isActive = false,
+        });
+        _updateWaterGlass();
+      },
+    );
+
+  }
+
+  void _updateWaterGlass() {
+    print('lets go controller: $_controller');
+    if (_controller != null) {
+      setState(() {
+        //_controller.isActive = true;
+       double currentWater = _totalWaterAmount / Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+       _animation.instance.reset();
+       _animation.instance.advance(currentWater);
+       _controller.apply(_riveArtboard, currentWater);
+       print('lets go');
+      });
+
+    }
   }
 
   _loadData() async {
@@ -138,6 +178,7 @@ class _HomeState extends State<Home> {
     if (this._history.isEmpty) {
       this._loadData();
     }
+    _updateWaterGlass();
     this._showUndoSnackBar(index, water);
   }
 
@@ -212,14 +253,10 @@ class _HomeState extends State<Home> {
               'Stay Hydrated',
               style: Theme.of(context).textTheme.headline1,
             ),
-            Text(
-              'Water today:',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             SizedBox(
-              height: 170,
+              height: 227,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -244,6 +281,14 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
+                      Container(
+                        height: 180,
+                        width: 180,
+                        child: _riveArtboard == null
+                            ? const SizedBox(height: 20, width: 20)
+                            : Rive(artboard: _riveArtboard),
+                      ),
                       Text(
                         '${_formatDailyTotalWaterAmount(_totalWaterAmount)} $_unit',
                         style: Theme.of(context).textTheme.headline2,
@@ -264,12 +309,6 @@ class _HomeState extends State<Home> {
                     ],
                   )
                 ],
-              ),
-            ),
-            ListTile(
-              title: Text(
-                'History',
-                style: Theme.of(context).textTheme.headline4,
               ),
             ),
             Expanded(
@@ -304,6 +343,7 @@ class _HomeState extends State<Home> {
                       .cupSize),
               0,
               1);
+          _updateWaterGlass();
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

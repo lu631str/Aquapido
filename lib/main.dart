@@ -17,8 +17,6 @@ import 'Models/WaterModel.dart';
 
 SharedPreferences prefs;
 
-// Praeferenzen festlegen
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
