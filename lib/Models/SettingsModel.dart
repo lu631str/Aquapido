@@ -64,7 +64,6 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateLanguage(String newValue) {
     prefs.setString('language', newValue);
-    notifyListeners();
   }
 
   /// Sets local interval.

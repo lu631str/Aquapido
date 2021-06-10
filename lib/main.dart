@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'Views/goals.dart';
 import 'Views/settings.dart';
 import 'Views/home.dart';
