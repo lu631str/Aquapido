@@ -55,6 +55,7 @@ class WaterTrackerApp extends StatelessWidget {
     return MaterialApp(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
+        debugShowCheckedModeBanner: false,
         locale: context.locale,
         builder: (context, child) => MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -126,6 +127,7 @@ class SplashState extends State<Splash> {
             );
           } else {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 // This is the theme of your application.
                 //
@@ -231,30 +233,36 @@ class _MainState extends State<Main> {
           title: const Text('Aquapido - Quick Water Tracker'),
         ),
         body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'home.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.timeline),
-              label: 'statistics.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'goals.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings.title'.tr(),
-            ),
-          ],
-          selectedItemColor: Colors.white,
-          backgroundColor: Colors.blue,
-          onTap: _onItemTapped,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.0),
+            topRight: Radius.circular(12.0),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'home.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.timeline),
+                label: 'statistics.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.star),
+                label: 'goals.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'settings.title'.tr(),
+              ),
+            ],
+            selectedItemColor: Colors.white,
+            backgroundColor: Colors.blue,
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );
