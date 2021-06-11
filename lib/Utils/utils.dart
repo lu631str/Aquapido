@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-
-const double IMAGE_HEIGHT = 100.0;
 
 /// Checks [dateTime] if it is today.
 bool isToday(DateTime dateTime) {
@@ -12,37 +9,6 @@ bool isToday(DateTime dateTime) {
   }
   return false;
 }
-
-final List<Image> cupImages = [
-  Image.asset(
-    'assets/images/cup_100ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_200ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_300ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_330ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_400ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_500ml.png',
-    height: IMAGE_HEIGHT,
-  ),
-  Image.asset(
-    'assets/images/cup_custom.png',
-    height: IMAGE_HEIGHT,
-  ),
-];
 
 int getImageIndex(int cupSize) {
     switch (cupSize) {

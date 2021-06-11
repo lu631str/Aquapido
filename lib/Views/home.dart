@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
+import 'package:water_tracker/Utils/Constants.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
@@ -25,7 +26,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentCupCounter = 0;
   String _unit = 'ml';
 
   static const platform =
@@ -42,7 +42,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getPowerButtonCount();
 
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
@@ -101,19 +100,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void getPowerButtonCount() async {
-    int counter;
-    try {
-      final int result = await platform.invokeMethod('getPowerBtnCount');
-      counter = result;
-    } on PlatformException catch (e) {
-      debugPrint(e.message);
-      counter = -1;
-    }
-
-    _currentCupCounter += counter;
-  }
-
   Future<void> evaluateEvent(event) async {
     var arr = event.split(',');
     debugPrint(event);
@@ -138,20 +124,14 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _addWaterCup(water, index, amountOfCups) async {
-    Provider.of<WaterModel>(context, listen: false).addWater(index, water);
-    setState(() {
-      _currentCupCounter += amountOfCups;
-    });
+    if(amountOfCups != 0) {
+      Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+    }
   }
 
   void _delete(index) async {
     Water water =
         Provider.of<WaterModel>(context, listen: false).removeWater(index);
-    setState(() {
-      if (_currentCupCounter > 0) {
-        _currentCupCounter--;
-      }
-    });
     _updateWaterGlass();
     this._showUndoSnackBar(index, water);
   }
@@ -285,7 +265,7 @@ class _HomeState extends State<Home> {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            cupImages[getImageIndex(Provider.of<WaterModel>(context, listen: true).history[index]
+                            Constants.cupImages[getImageIndex(Provider.of<WaterModel>(context, listen: true).history[index]
                                 .cupSize)],
                             Provider.of<WaterModel>(context, listen: true).history[index],
                             _delete),

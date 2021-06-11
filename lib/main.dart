@@ -235,8 +235,8 @@ class _MainState extends State<Main> {
         body: _children[_currentIndex],
         bottomNavigationBar: ClipRRect(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

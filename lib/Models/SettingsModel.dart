@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:water_tracker/Utils/Constants.dart';
 import '../main.dart';
 
 class SettingsModel with ChangeNotifier {
@@ -10,6 +11,7 @@ class SettingsModel with ChangeNotifier {
     reset();
   }
 
+  List<int> get cupSizes => _getAllCupSizes();
   int get cupSize => prefs.getInt('size') ?? 300;
   bool get shakeSettings => prefs.getBool('shake') ?? false;
   bool get powerSettings => prefs.getBool('power') ?? false;
@@ -23,6 +25,31 @@ class SettingsModel with ChangeNotifier {
   void reset() {
     _weight = prefs.getInt('weight') ?? 70;
     _interval = prefs.getInt('interval') ?? 60;
+    notifyListeners();
+  }
+
+  List<int> _getAllCupSizes() {
+    List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
+    List<int> cupSizesList = cupSizesStringList.map(int.parse).toList();
+    return new List.from(Constants.cupSizes)..addAll(cupSizesList);
+  }
+
+  void resetCustomCups() {
+    prefs.setStringList('customCupSizes', []);
+    notifyListeners();
+  }
+
+  void addCustomCupSize(int cupSize) {
+    List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
+    cupSizesStringList.add(cupSize.toString());
+    prefs.setStringList('customCupSizes', cupSizesStringList);
+    notifyListeners();
+  }
+
+  void deleteCustomCupSize(int cupSize) {
+    List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
+    cupSizesStringList.remove(cupSize.toString());
+    prefs.setStringList('customCupSizes', cupSizesStringList);
     notifyListeners();
   }
 

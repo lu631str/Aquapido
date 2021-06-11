@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/Models/WaterModel.dart';
-import '../icons/my_flutter_app_icons.dart';
-import '../Persistence/Database.dart';
+import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
+import 'package:water_tracker/Utils/Constants.dart';
 import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../Utils/utils.dart';
+import '../Widgets/CupSizeElement.dart';
 
 import '../main.dart';
 
@@ -23,8 +24,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
-
   final Map<String, String> _languageCodeMap = {
     'en': 'English',
     'de': 'Deutsch'
@@ -63,80 +62,80 @@ class _SettingsState extends State<Settings> {
   void _reset() {
     setData();
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
+    Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
-  void saveCustomSize(customSize) {
+  void saveCustomSize(customSize, dialogContext) {
     setState(() {
-      this._cupSizes.add(customSize);
-      cupImages.add(cupImages[6]);
+      _myController.text = '0';
+      Provider.of<SettingsModel>(context, listen: false)
+          .addCustomCupSize(customSize);
+      Navigator.pop(dialogContext);
     });
   }
 
-  List<Widget> createDialogOptions(context, reportState) {
+  List<Widget> createCupSizeDialogOptions(
+      mainContext, dialogContext, settingstState) {
     List<Widget> sizeOptions = [];
 
-    // asMap() to get index and item
-    _cupSizes.asMap().forEach((index, size) {
+    Provider.of<SettingsModel>(context, listen: true).cupSizes.forEach((size) {
       return sizeOptions.add(
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context);
-            reportState.updateCupSize(size);
+            settingstState.updateCupSize(size);
+            Navigator.pop(dialogContext);
           },
-          child: ListTile(
-            title: Text('$size ml'),
-            leading: cupImages[index],
-          ),
+          child: CupSizeElement(size: size, isCustom: !Constants.cupSizes.contains(size),)
         ),
       );
     });
-    sizeOptions.add(OutlinedButton(
-        onPressed: () {
-          setState(() {
-            showCustomSizeAddDialog();
-          });
-        },
-        child: const Text('Add')));
     return sizeOptions;
   }
 
-  void showCustomSizeAddDialog() {
+  bool isCustomSizeValid(TextEditingController controller) {
+    int customSize = int.tryParse(controller.text) ?? -1;
+    if (customSize >= 50 && customSize <= 5000) {
+      return true;
+    }
+    return true;
+  }
+
+  void showCustomSizeAddDialog(mainContext) {
     showDialog(
-        context: context,
-        builder: (dialogContext) => SimpleDialog(
-              contentPadding: EdgeInsets.all(16),
-              title: const Text('Add Size'),
-              children: [
-                TextFormField(
-                  controller: _myController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Custom Cup Size (ml)',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () =>
-                              Navigator.pop(dialogContext)), // button 1
-                      ElevatedButton(
-                        child: const Text('Save'),
-                        onPressed: () {
-                          setState(() {
-                            saveCustomSize(int.parse(_myController.text));
-                            _myController.clear();
-                            Navigator.pop(dialogContext);
-                          });
-                        },
-                      ), // button 2
-                    ])
-              ],
-            ));
+      context: mainContext,
+      builder: (dialogContext) => SimpleDialog(
+        contentPadding: EdgeInsets.all(16),
+        title: const Text('Add Size'),
+        children: [
+          TextFormField(
+            controller: _myController,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Custom Cup Size (ml)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+            TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  _myController.text = '0';
+                  Navigator.pop(dialogContext);
+                }), // button 1
+            ElevatedButton(
+              child: const Text('Save'),
+              onPressed: (isCustomSizeValid(_myController))
+                  ? () => saveCustomSize(
+                      int.parse(_myController.text), dialogContext)
+                  : null,
+            ), // button 2
+          ])
+        ],
+      ),
+    );
   }
 
   @override
@@ -251,17 +250,40 @@ class _SettingsState extends State<Settings> {
                     onPressed: () {
                       setState(() {
                         showDialog(
-                            context: context,
-                            builder: (dialogContext) =>
-                                ChangeNotifierProvider<SettingsModel>.value(
-                                  value: settingsState,
-                                  child: SimpleDialog(
-                                    contentPadding: const EdgeInsets.all(16),
-                                    title: Text('Choose Size'),
-                                    children: createDialogOptions(
-                                        dialogContext, settingsState),
+                          context: context,
+                          builder: (dialogContext) =>
+                              ChangeNotifierProvider<SettingsModel>.value(
+                            value: settingsState,
+                            child: SimpleDialog(
+                              contentPadding: const EdgeInsets.all(16),
+                              title: Text('Choose Size'),
+                              children: [
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.6,
+                                  child: Scrollbar(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: createCupSizeDialogOptions(
+                                            context,
+                                            dialogContext,
+                                            settingsState),
+                                      ),
+                                    ),
                                   ),
-                                ));
+                                ),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showCustomSizeAddDialog(context);
+                                    });
+                                  },
+                                  child: const Text('Add'),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
                       });
                     }),
               ),
