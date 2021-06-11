@@ -40,10 +40,14 @@ class SettingsModel with ChangeNotifier {
   }
 
   void addCustomCupSize(int cupSize) {
+    if (Constants.cupSizes.contains(cupSize)) {
+      return;
+    }
     List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
     cupSizesStringList.add(cupSize.toString());
     prefs.setStringList('customCupSizes', cupSizesStringList);
     notifyListeners();
+    
   }
 
   void deleteCustomCupSize(int cupSize) {
