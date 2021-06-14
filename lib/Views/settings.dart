@@ -6,6 +6,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:water_tracker/Utils/Constants.dart';
+import 'package:water_tracker/src/ReminderNotification.dart';
 import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -187,16 +188,7 @@ class _SettingsState extends State<Settings> {
                       context
                           .read<SettingsModel>()
                           .setEndSleepTime(result.endTime);
-                          FlutterBackgroundService()
-                                                .sendData({
-                                              "action": "setSleepTime",
-                                              "startTimeHours": result.startTime.hour,
-                                              "startTimeMinutes": result.startTime.minute,
-                                              "endTimeHours": result.endTime.hour,
-                                              "endTimeMinutes": result.endTime.minute,
-                                            });
-                                            FlutterBackgroundService().sendData(
-                                                {"action": "startReminder"});
+                         ReminderNotification.updateSleepTime(result.startTime, result.endTime);
                     }
                   },
                 ),
@@ -254,16 +246,9 @@ class _SettingsState extends State<Settings> {
                                             context
                                                 .read<SettingsModel>()
                                                 .saveInterval();
-                                            FlutterBackgroundService()
-                                                .sendData({
-                                              "action": "setInterval",
-                                              "interval": context
+                                            ReminderNotification.updateReminderInterval(context
                                                   .read<SettingsModel>()
-                                                  .interval
-                                            });
-                                            FlutterBackgroundService().sendData(
-                                                {"action": "startReminder"});
-                                            debugPrint("start");
+                                                  .interval);
                                             Navigator.pop(dialogContext);
                                           },
                                         ), // button 2
