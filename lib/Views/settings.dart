@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../Utils/utils.dart';
 import '../Widgets/CupSizeElement.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 
 import '../main.dart';
 
@@ -39,9 +40,6 @@ class _SettingsState extends State<Settings> {
     ClockLabel.fromTime(time: TimeOfDay(hour: 21, minute: 0), text: '21'),
     ClockLabel.fromTime(time: TimeOfDay(hour: 24, minute: 0), text: '0')
   ];
-
-  TimeOfDay _timePickerStart = TimeOfDay(hour: 23, minute: 0);
-  TimeOfDay _timePickerEnd = TimeOfDay(hour: 8, minute: 0);
 
   final String _weightUnit = 'kg';
 
@@ -83,12 +81,14 @@ class _SettingsState extends State<Settings> {
     Provider.of<SettingsModel>(context, listen: true).cupSizes.forEach((size) {
       return sizeOptions.add(
         SimpleDialogOption(
-          onPressed: () {
-            settingstState.updateCupSize(size);
-            Navigator.pop(dialogContext);
-          },
-          child: CupSizeElement(size: size, isCustom: !Constants.cupSizes.contains(size),)
-        ),
+            onPressed: () {
+              settingstState.updateCupSize(size);
+              Navigator.pop(dialogContext);
+            },
+            child: CupSizeElement(
+              size: size,
+              isCustom: !Constants.cupSizes.contains(size),
+            )),
       );
     });
     return sizeOptions;
@@ -157,25 +157,44 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 title: Text('settings.general_settings.sleep_time').tr(),
                 trailing: TextButton(
-                  child: Text(this._timePickerStart.format(context) +
+                  child: Text(context
+                          .read<SettingsModel>()
+                          .startSleepTime
+                          .format(context) +
                       ' - ' +
-                      this._timePickerEnd.format(context)),
+                      context
+                          .read<SettingsModel>()
+                          .endSleepTime
+                          .format(context)),
                   onPressed: () async {
                     TimeRange result = await showTimeRangePicker(
-                        context: context,
-                        labels: this._clockLabels,
-                        rotateLabels: false,
-                        ticks: 24,
-                        ticksLength: 8.0,
-                        ticksWidth: 2.0,
-                        ticksOffset: 5.0,
-                        ticksColor: Colors.black45,
-                        start: _timePickerStart,
-                        end: _timePickerEnd,
-                        use24HourFormat: true);
+                      context: context,
+                      labels: this._clockLabels,
+                      rotateLabels: false,
+                      ticks: 24,
+                      ticksLength: 8.0,
+                      ticksWidth: 2.0,
+                      ticksOffset: 5.0,
+                      ticksColor: Colors.black45,
+                      start: context.read<SettingsModel>().startSleepTime,
+                      end: context.read<SettingsModel>().endSleepTime,
+                      use24HourFormat: true,
+                    );
                     if (result != null) {
-                      this._timePickerStart = result.startTime;
-                      this._timePickerEnd = result.endTime;
+                      context
+                          .read<SettingsModel>()
+                          .setStartSleepTime(result.startTime);
+                      context
+                          .read<SettingsModel>()
+                          .setEndSleepTime(result.endTime);
+                          FlutterBackgroundService()
+                                                .sendData({
+                                              "action": "setSleepTime",
+                                              "startTimeHours": result.startTime.hour,
+                                              "startTimeMinutes": result.startTime.minute,
+                                              "endTimeHours": result.endTime.hour,
+                                              "endTimeMinutes": result.endTime.minute,
+                                            });
                     }
                   },
                 ),
@@ -208,9 +227,13 @@ class _SettingsState extends State<Settings> {
                                     step: 15,
                                     textMapper: (numberText) =>
                                         numberText + ' min',
-                                    onChanged: (value) => setState(() => context
-                                        .read<SettingsModel>()
-                                        .setInterval(value)),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        context
+                                            .read<SettingsModel>()
+                                            .setInterval(value);
+                                      });
+                                    },
                                   ),
                                   Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -229,6 +252,16 @@ class _SettingsState extends State<Settings> {
                                             context
                                                 .read<SettingsModel>()
                                                 .saveInterval();
+                                            FlutterBackgroundService()
+                                                .sendData({
+                                              "action": "setInterval",
+                                              "interval": context
+                                                  .read<SettingsModel>()
+                                                  .interval
+                                            });
+                                            FlutterBackgroundService().sendData(
+                                                {"action": "startReminder"});
+                                            debugPrint("start");
                                             Navigator.pop(dialogContext);
                                           },
                                         ), // button 2

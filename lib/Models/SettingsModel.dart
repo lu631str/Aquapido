@@ -12,6 +12,8 @@ class SettingsModel with ChangeNotifier {
   }
 
   List<int> get cupSizes => _getAllCupSizes();
+  TimeOfDay get startSleepTime => _getStartSleepTime();
+  TimeOfDay get endSleepTime => _getEndSleepTime();
   int get cupSize => prefs.getInt('size') ?? 300;
   bool get shakeSettings => prefs.getBool('shake') ?? false;
   bool get powerSettings => prefs.getBool('power') ?? false;
@@ -20,6 +22,7 @@ class SettingsModel with ChangeNotifier {
   String get language => prefs.getString('language') ?? 'en';
   int get interval => _interval;
   double get dailyGoal => prefs.getDouble('dailyGoal') ?? 2500.0;
+
 
   /// Resets local values to stored values (from shared preferences)
   void reset() {
@@ -34,11 +37,39 @@ class SettingsModel with ChangeNotifier {
     return new List.from(Constants.cupSizes)..addAll(cupSizesList);
   }
 
+   /// Sets local startSleepTime.
+  void setEndSleepTime(TimeOfDay newValue) {
+    prefs.setInt('endTimeHours', newValue.hour);
+    prefs.setInt('endTimeMinutes', newValue.minute);
+    notifyListeners();
+  }
+
+  /// Sets local startSleepTime.
+  void setStartSleepTime(TimeOfDay newValue) {
+    prefs.setInt('startTimeHours', newValue.hour);
+    prefs.setInt('startTimeMinutes', newValue.minute);
+    notifyListeners();
+  }
+
+  TimeOfDay _getStartSleepTime() {
+    int startTimeHours = prefs.getInt('startTimeHours') ?? 20;
+    int startTimeMinutes = prefs.getInt('startTimeMinutes') ?? 0;
+    return TimeOfDay(hour: startTimeHours, minute: startTimeMinutes);
+  }
+
+ TimeOfDay _getEndSleepTime() {
+    int endTimeHours = prefs.getInt('endTimeHours') ?? 8;
+    int endTimeMinutes = prefs.getInt('endTimeMinutes') ?? 0;
+    return TimeOfDay(hour: endTimeHours, minute: endTimeMinutes);
+  }
+
+
   void resetCustomCups() {
     prefs.setStringList('customCupSizes', []);
     notifyListeners();
   }
 
+  /// Saves custom [cupSize] to sharedPreferences within a string array.
   void addCustomCupSize(int cupSize) {
     if (Constants.cupSizes.contains(cupSize)) {
       return;
@@ -47,9 +78,9 @@ class SettingsModel with ChangeNotifier {
     cupSizesStringList.add(cupSize.toString());
     prefs.setStringList('customCupSizes', cupSizesStringList);
     notifyListeners();
-    
   }
 
+  /// Deletes custom [cupSize] to sharedPreferences from the string array.
   void deleteCustomCupSize(int cupSize) {
     List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
     cupSizesStringList.remove(cupSize.toString());

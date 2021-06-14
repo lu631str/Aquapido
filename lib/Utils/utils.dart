@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 /// Checks [dateTime] if it is today.
 bool isToday(DateTime dateTime) {
   final DateTime now = DateTime.now();
@@ -6,6 +8,34 @@ bool isToday(DateTime dateTime) {
       dateTime.month == now.month &&
       dateTime.year == now.year) {
     return true;
+  }
+  return false;
+}
+
+double _toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+
+bool isCurrentTimeOfDayInBetweenTimes(TimeOfDay current, TimeOfDay startTime, TimeOfDay endTime) {
+
+  if(_toDouble(startTime) == _toDouble(endTime)) {
+    return true;
+  }
+
+  // Starttime is BEFORE 0 Uhr and Endtime is AFTER 0 Uhr
+  if(_toDouble(startTime) > _toDouble(endTime)) {
+    // is current time between starttime and 0 Uhr?
+    if(_toDouble(current) >= _toDouble(startTime) && _toDouble(current) <= 23.99) {
+      return true;
+    }
+
+    // is current time between 0 Uhr and endtime?
+    if(_toDouble(current) <= _toDouble(endTime) && _toDouble(current) >= 0.0) {
+      return true;
+    }
+
+  } else { // Starttime and Endtime are both before or both after 0 Uhr
+    if(_toDouble(current) >= _toDouble(startTime) && _toDouble(current) >= _toDouble(endTime)) {
+      return true;
+    }
   }
   return false;
 }

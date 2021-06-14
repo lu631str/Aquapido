@@ -11,6 +11,8 @@ import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 
 import 'package:rive/rive.dart';
 
@@ -124,7 +126,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _addWaterCup(water, index, amountOfCups) async {
-    if(amountOfCups != 0) {
+    if (amountOfCups != 0) {
       Provider.of<WaterModel>(context, listen: false).addWater(index, water);
     }
   }
@@ -260,14 +262,19 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: Provider.of<WaterModel>(context, listen: true).history.length,
+                    itemCount: Provider.of<WaterModel>(context, listen: true)
+                        .history
+                        .length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            Constants.cupImages[getImageIndex(Provider.of<WaterModel>(context, listen: true).history[index]
-                                .cupSize)],
-                            Provider.of<WaterModel>(context, listen: true).history[index],
+                            Constants.cupImages[getImageIndex(
+                                Provider.of<WaterModel>(context, listen: true)
+                                    .history[index]
+                                    .cupSize)],
+                            Provider.of<WaterModel>(context, listen: true)
+                                .history[index],
                             _delete),
                       );
                     }),
@@ -278,7 +285,7 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           _addWaterCup(
               Water(
                   dateTime: DateTime.now(),
@@ -287,6 +294,7 @@ class _HomeState extends State<Home> {
               0,
               1);
           _updateWaterGlass();
+                  FlutterBackgroundService().sendData({"action": "startReminder"});
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
