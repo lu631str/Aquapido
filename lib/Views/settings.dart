@@ -195,6 +195,8 @@ class _SettingsState extends State<Settings> {
                                               "endTimeHours": result.endTime.hour,
                                               "endTimeMinutes": result.endTime.minute,
                                             });
+                                            FlutterBackgroundService().sendData(
+                                                {"action": "startReminder"});
                     }
                   },
                 ),

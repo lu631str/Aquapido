@@ -96,7 +96,7 @@ void onStart() async {
       interval = int.parse(event["interval"].toString());
     }
 
-    if (event["action"] == "sleepTime") {
+    if (event["action"] == "setSleepTime") {
       startTimeHours = int.parse(event["startTimeHours"].toString());
       startTimeMinutes = int.parse(event["startTimeMinutes"].toString());
       endTimeHours = int.parse(event["endTimeHours"].toString());
@@ -114,6 +114,11 @@ void onStart() async {
       timer = Timer.periodic(Duration(seconds: interval),
           (timer) async {
         if (!(await service.isServiceRunning())) timer.cancel();
+
+        debugPrint(isCurrentTimeOfDayInBetweenTimes(
+            TimeOfDay.now(),
+            TimeOfDay(hour: startTimeHours, minute: startTimeMinutes),
+            TimeOfDay(hour: endTimeHours, minute: endTimeMinutes)).toString());
 
         if (!isCurrentTimeOfDayInBetweenTimes(
             TimeOfDay.now(),

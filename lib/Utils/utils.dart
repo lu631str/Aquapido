@@ -23,6 +23,11 @@ bool isCurrentTimeOfDayInBetweenTimes(TimeOfDay current, TimeOfDay startTime, Ti
   // Starttime is BEFORE 0 Uhr and Endtime is AFTER 0 Uhr
   if(_toDouble(startTime) > _toDouble(endTime)) {
     // is current time between starttime and 0 Uhr?
+    debugPrint('=======');
+    debugPrint('startTime: ' + _toDouble(startTime).toString());
+    debugPrint('endTime: ' + _toDouble(endTime).toString());
+    debugPrint('current: ' + _toDouble(current).toString());
+    debugPrint('=======');
     if(_toDouble(current) >= _toDouble(startTime) && _toDouble(current) <= 23.99) {
       return true;
     }
