@@ -147,7 +147,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     )),
                     Container(
                        width: MediaQuery.of(context).size.width / 2.3 ,
-                      // height: MediaQuery.of(context).size.height / 16,
+                       height: MediaQuery.of(context).size.height / 16,
                     //  margin: EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 80,0,MediaQuery.of(context).size.height / 20),
                      // padding: EdgeInsets.all(0),
 
