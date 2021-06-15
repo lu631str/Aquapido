@@ -5,6 +5,8 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:water_tracker/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Widgets/InfoCard.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:sizer/sizer.dart';
 
 class IntroScreen extends StatefulWidget {
   static String id = 'IntroScreen';
@@ -89,43 +91,65 @@ class _IntroScreenState extends State<IntroScreen> {
         key: introKey,
         globalBackgroundColor: Colors.transparent,
         globalHeader: Align(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topLeft,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top: 16, right: 16),
-            ),
+                padding: const EdgeInsets.only(top: 14, right: 14, left: 14),
+              child: Column(
+              children: [
+                Container(
+                  //margin:EdgeInsets.fromLTRB(0,0,0,MediaQuery.of(context).size.height / 80,) ,
+              child:AutoSizeText(
+                "Welcome to Aquapido",
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
+              )),
+               Container(
+                child:AutoSizeText(
+                  "We need some information about you, to give you the best advise and a wonderful experience.",
+                  maxLines: 2,
+                  minFontSize: 10,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14.0),
+                )),
+
+              ],
+            )),
           ),
         ),
 
         pages: [
           PageViewModel(
-            title: "Welcome to Aquapido",
-            bodyWidget: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            useScrollView: false,
+            title: "",
+            bodyWidget: Container(
+              //height:MediaQuery.of(context).size.height /2 ,
+                margin:EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 9,0,MediaQuery.of(context).size.height / 80,),
+
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
                 Container(
-                    margin: EdgeInsets.all(15.0),
-                    padding: EdgeInsets.all(0),
-                    child: Text(
-                      "We need some information about you, to give you the best advise and a wonderful experience.",
-                      textAlign: TextAlign.start,
-                      style: bodyStyle,
-                    )),
-                Container(
-                    margin: EdgeInsets.all(30.0),
-                    padding: EdgeInsets.all(0),
-                    child: Text(
+                    width: MediaQuery.of(context).size.width / 2 ,
+                   // height: MediaQuery.of(context).size.height / 20,
+                   //margin: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height / 10,0,0),
+                    padding: EdgeInsets.fromLTRB(0,0,0,MediaQuery.of(context).size.width / 14),
+                    child: AutoSizeText(
                       "Please select your gender:",
+                      maxLines: 1,
+                      minFontSize: 10,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14.0, fontWeight: FontWeight.w700),
                     )),
-                Column(
-                  children: <Widget>[
                     Container(
-                      width: 200,
-                      margin: EdgeInsets.all(20.0),
-                      padding: EdgeInsets.all(0),
+                       width: MediaQuery.of(context).size.width / 2.3 ,
+                      // height: MediaQuery.of(context).size.height / 16,
+                    //  margin: EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 80,0,MediaQuery.of(context).size.height / 20),
+                     // padding: EdgeInsets.all(0),
 
                       decoration: BoxDecoration(
                           color: (selectGender == 1)
@@ -137,9 +161,12 @@ class _IntroScreenState extends State<IntroScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       // color: Colors.blue,
                       child: RadioListTile(
+                        dense: true,
                         value: 1,
-                        title: Text(
+                        title: AutoSizeText(
                           "Male",
+                          minFontSize: 6,
+                          maxLines: 1,
                           style: (selectGender == 1)
                               ? TextStyle(color: Colors.white)
                               : TextStyle(color: Colors.black),
@@ -154,9 +181,11 @@ class _IntroScreenState extends State<IntroScreen> {
                       ),
                     ),
                     Container(
-                        width: 200,
-                        margin: EdgeInsets.fromLTRB(0, 20, 0, 60),
-                        padding: EdgeInsets.all(0),
+                        width: MediaQuery.of(context).size.width / 2.3 ,
+                       // width: MediaQuery.of(context).size.width / 1.9 ,
+                       // height: MediaQuery.of(context).size.height / 13,
+                       // margin: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height / 20),
+                     //  padding: EdgeInsets.all(0),
                         decoration: BoxDecoration(
                             color: (selectGender == 2)
                                 ? Colors.blue
@@ -167,9 +196,12 @@ class _IntroScreenState extends State<IntroScreen> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
                         child: RadioListTile(
+                          dense: true,
                           value: 2,
-                          title: Text(
+                          title: AutoSizeText(
                             "Female",
+                            minFontSize: 6,
+                            maxLines: 1,
                             textAlign: TextAlign.start,
                             style: (selectGender == 2)
                                 ? TextStyle(color: Colors.white)
@@ -183,21 +215,16 @@ class _IntroScreenState extends State<IntroScreen> {
                           },
                         )),
                   ],
-                )
-              ],
-            ),
-            footer: new Stack(children: [
-              InfoCard(
-                title: "Did you know that ...",
-                text: infos[0],
-              ),
-              Divider(
-                height: 300,
-                thickness: 1,
-                indent: 0,
-                endIndent: 0,
-              ),
-            ]),
+
+            )),
+            footer:
+            Container(
+                margin:  EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height / 3.6, 0, 0),
+                child:InfoCard(
+                  title: "Did you know that ...",
+                  text: infos[0],
+                )),
+
             decoration: pageDecoration,
           ),
           PageViewModel(
@@ -226,11 +253,9 @@ class _IntroScreenState extends State<IntroScreen> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 18, 0, 22),
-                      constraints: BoxConstraints(
-                          minWidth: 200,
-                          maxWidth: 200,
-                          minHeight: 196,
-                          maxHeight: 196),
+                      width: MediaQuery.of(context).size.width / 1.7 ,
+                      height: MediaQuery.of(context).size.height / 5,
+
                       child: Card(
                         color: Color.fromARGB(255, 219, 237, 255),
                         elevation: 2,
@@ -253,18 +278,12 @@ class _IntroScreenState extends State<IntroScreen> {
                 )
               ],
             ),
-            footer: new Stack(children: [
+            footer:
               InfoCard(
                 title: "Did you know that ...",
                 text: infos[1],
               ),
-              Divider(
-                height: 300,
-                thickness: 1,
-                indent: 0,
-                endIndent: 0,
-              ),
-            ]),
+
             decoration: pageDecoration,
           ),
           PageViewModel(
@@ -415,20 +434,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 )
               ],
             ),
-            footer: new Stack(overflow: Overflow.visible, children: [
-              Positioned(
-                  top: -24,
-                  child: InfoCard(
+            footer: InfoCard(
                     title: "Did you know that ...",
                     text: infos[0],
-                  )),
-              Divider(
-                height: 255,
-                thickness: 1,
-                indent: 0,
-                endIndent: 0,
-              ),
-            ]),
+                  ),
+
             decoration: pageDecoration,
           ),
         ],
