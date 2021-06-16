@@ -11,6 +11,10 @@ class AverageCard extends StatelessWidget {
   AverageCard({this.subTitle, this.futureValue, this.isMl, Key key})
       : super(key: key);
 
+  String _formatValue(double value) {
+    return (value).toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -37,7 +41,7 @@ class AverageCard extends StatelessWidget {
                         );
                       else if (snapshot.hasData)
                         return Text(
-                          '${isMl == true ? snapshot.data / 1000 : snapshot.data}',
+                          '${isMl ? _formatValue(snapshot.data / 1000) : _formatValue(snapshot.data)}',
                           style: TextStyle(fontSize: fontSize),
                         );
                       else if (snapshot.hasError) {
