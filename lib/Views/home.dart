@@ -225,10 +225,10 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 180,
+                        height: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: _riveArtboard == null
-                            ? const SizedBox(height: 20, width: 20)
+                            ? const Text('Loading')
                             : Rive(artboard: _riveArtboard),
                       ),
                       Text(
