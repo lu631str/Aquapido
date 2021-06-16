@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
-import 'src/ReminderNotification.dart';
 
 import 'dart:async';
 
@@ -23,7 +22,6 @@ SharedPreferences prefs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ReminderNotification.initialize();
   await EasyLocalization.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   DatabaseHelper.database = await DatabaseHelper().initDatabaseConnection();

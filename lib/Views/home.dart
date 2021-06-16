@@ -11,8 +11,8 @@ import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import '../src/ReminderNotification.dart';
 
 import 'package:rive/rive.dart';
 
@@ -44,7 +44,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
+    ReminderNotification.initialize();
+    ReminderNotification.checkPermission(context);
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
