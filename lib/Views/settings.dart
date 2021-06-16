@@ -151,85 +151,75 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'settings.general_settings.title',
+                  'settings.reminder_settings.title',
                   style: Theme.of(context).textTheme.headline5,
                 ).tr(),
               ),
+              SwitchListTile(
+                  value: context.watch<SettingsModel>().reminder,
+                  title: Text('settings.reminder_settings.reminder').tr(),
+                  onChanged: (value) {
+                    setState(() {
+                      context.read<SettingsModel>().updateReminder(value);
+                      ReminderNotification.updateNotification();
+                    });
+                  }),
               ListTile(
-                title: Text('settings.general_settings.sleep_time').tr(),
-                trailing: TextButton(
-                  child: Text(context
-                          .read<SettingsModel>()
-                          .startSleepTime
-                          .format(context) +
-                      ' - ' +
-                      context
-                          .read<SettingsModel>()
-                          .endSleepTime
-                          .format(context)),
-                  onPressed: () async {
-                    TimeRange result = await showTimeRangePicker(
-                      context: context,
-                      labels: this._clockLabels,
-                      rotateLabels: false,
-                      ticks: 24,
-                      ticksLength: 8.0,
-                      ticksWidth: 2.0,
-                      ticksOffset: 5.0,
-                      ticksColor: Colors.black45,
-                      start: context.read<SettingsModel>().startSleepTime,
-                      end: context.read<SettingsModel>().endSleepTime,
-                      use24HourFormat: true,
-                    );
-                    if (result != null) {
-                      context
-                          .read<SettingsModel>()
-                          .setStartSleepTime(result.startTime);
-                      context
-                          .read<SettingsModel>()
-                          .setEndSleepTime(result.endTime);
-                         ReminderNotification.updateSleepTime(result.startTime, result.endTime);
-                    }
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('settings.general_settings.reminder_interval')
-                    .tr(),
-                trailing: TextButton(
-                  child: Text(
-                      context.watch<SettingsModel>().interval.toString() +
-                          ' min'),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (dialogContext) {
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              return SimpleDialog(
-                                contentPadding: const EdgeInsets.all(16),
-                                title: const Text('Set Interval'),
-                                children: [
-                                  NumberPicker(
-                                    value:
-                                        context.read<SettingsModel>().interval,
-                                    minValue: 15,
-                                    maxValue: 180,
-                                    haptics: true,
-                                    itemCount: 5,
-                                    itemHeight: 32,
-                                    step: 15,
-                                    textMapper: (numberText) =>
-                                        numberText + ' min',
-                                    onChanged: (value) {
-                                      setState(() {
-                                        context
-                                            .read<SettingsModel>()
-                                            .setInterval(value);
-                                      });
-                                    },
-                                  ),
-                                  Row(
+                title: const Text('settings.reminder_settings.reminderMode').tr(),
+                trailing: OutlinedButton(
+                  child: RichText(
+                    text: TextSpan(children: [
+                      WidgetSpan(
+                        child: Provider.of<SettingsModel>(context, listen: true).reminderVibration ? Icon(
+                          Icons.vibration,
+                          size: 20,
+                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
+                        ) : Icon(
+                          Icons.mobile_off,
+                          size: 20,
+                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
+                        ),
+                      ),
+                      TextSpan(text: ' '),
+                      WidgetSpan(
+                        child: Provider.of<SettingsModel>(context, listen: true).reminderSound ? Icon(
+                          Icons.volume_up,
+                          size: 20,
+                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
+                        ) : Icon(
+                          Icons.volume_off,
+                          size: 20,
+                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
+                        ),
+                      )
+                    ]),
+                  ),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () => showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return SimpleDialog(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: const Text('Set Reminder Mode'),
+                                  children: [
+                                    ListTile(title: Text('Choose how we should remind you in addition to show a notification'),),
+                                    Column(children: [
+                                      CheckboxListTile(
+                                          value: Provider.of<SettingsModel>(context, listen: true).reminderVibration,
+                                          title: Text('Vibration'),
+                                          onChanged: (bool value) {
+                                            Provider.of<SettingsModel>(context, listen: false).setReminderVibration(value);
+                                          }),
+                                      CheckboxListTile(
+                                          value: Provider.of<SettingsModel>(context, listen: true).reminderSound,
+                                          title: Text('Sound'),
+                                          onChanged: (bool value) {
+                                            Provider.of<SettingsModel>(context, listen: false).setReminderSound(value);
+                                          }),
+                                    ],),
+                                    Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         TextButton(
@@ -245,24 +235,139 @@ class _SettingsState extends State<Settings> {
                                           onPressed: () {
                                             context
                                                 .read<SettingsModel>()
-                                                .saveInterval();
-                                            ReminderNotification.updateReminderInterval(context
-                                                  .read<SettingsModel>()
-                                                  .interval);
+                                                .saveReminderSound();
+                                            context
+                                                .read<SettingsModel>()
+                                                .saveReminderVibration();
+                                            ReminderNotification
+                                                .updateNotificationChannel();
                                             Navigator.pop(dialogContext);
                                           },
                                         ), // button 2
-                                      ])
-                                ],
-                              );
-                            },
-                          );
-                        });
-                  },
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          })
+                      : null,
                 ),
               ),
               ListTile(
-                title: Text('settings.general_settings.cup_size').tr(),
+                title: Text('settings.reminder_settings.sleep_time').tr(),
+                trailing: TextButton(
+                  child: Text(context
+                          .read<SettingsModel>()
+                          .startSleepTime
+                          .format(context) +
+                      ' - ' +
+                      context
+                          .read<SettingsModel>()
+                          .endSleepTime
+                          .format(context)),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () async {
+                          TimeRange result = await showTimeRangePicker(
+                            context: context,
+                            labels: this._clockLabels,
+                            rotateLabels: false,
+                            ticks: 24,
+                            ticksLength: 8.0,
+                            ticksWidth: 2.0,
+                            ticksOffset: 5.0,
+                            ticksColor: Colors.black45,
+                            start: context.read<SettingsModel>().startSleepTime,
+                            end: context.read<SettingsModel>().endSleepTime,
+                            use24HourFormat: true,
+                          );
+                          if (result != null) {
+                            context
+                                .read<SettingsModel>()
+                                .setStartSleepTime(result.startTime);
+                            context
+                                .read<SettingsModel>()
+                                .setEndSleepTime(result.endTime);
+                            ReminderNotification.updateNotification();
+                          }
+                        }
+                      : null,
+                ),
+              ),
+              ListTile(
+                title:
+                    const Text('settings.reminder_settings.reminder_interval')
+                        .tr(),
+                trailing: TextButton(
+                  child: Text(
+                      context.watch<SettingsModel>().interval.toString() +
+                          ' min'),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () => showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return SimpleDialog(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: const Text('Set Interval'),
+                                  children: [
+                                    NumberPicker(
+                                      value: context
+                                          .read<SettingsModel>()
+                                          .interval,
+                                      minValue: 15,
+                                      maxValue: 180,
+                                      haptics: true,
+                                      itemCount: 5,
+                                      itemHeight: 32,
+                                      step: 15,
+                                      textMapper: (numberText) =>
+                                          numberText + ' min',
+                                      onChanged: (value) {
+                                        setState(() {
+                                          context
+                                              .read<SettingsModel>()
+                                              .setInterval(value);
+                                          ReminderNotification
+                                              .updateNotification();
+                                        });
+                                      },
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          TextButton(
+                                              child: const Text('Cancel'),
+                                              onPressed: () {
+                                                context
+                                                    .read<SettingsModel>()
+                                                    .reset();
+                                                Navigator.pop(dialogContext);
+                                              }), // button 1
+                                          ElevatedButton(
+                                            child: const Text('Save'),
+                                            onPressed: () {
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .saveInterval();
+                                              ReminderNotification
+                                                  .updateNotification();
+                                              Navigator.pop(dialogContext);
+                                            },
+                                          ), // button 2
+                                        ])
+                                  ],
+                                );
+                              },
+                            );
+                          })
+                      : null,
+                ),
+              ),
+              ListTile(
+                title: Text('settings.reminder_settings.cup_size').tr(),
                 trailing: TextButton(
                     child: Text(
                         context.watch<SettingsModel>().cupSize.toString() +
@@ -306,29 +411,6 @@ class _SettingsState extends State<Settings> {
                         );
                       });
                     }),
-              ),
-              ListTile(
-                title: Text('settings.general_settings.language').tr(),
-                trailing: DropdownButton<Locale>(
-                  value: context.supportedLocales.firstWhere((langLocale) =>
-                      langLocale.languageCode ==
-                      Provider.of<SettingsModel>(context, listen: false)
-                          .language),
-                  items: context.supportedLocales
-                      .map<DropdownMenuItem<Locale>>((Locale langLocale) {
-                    return DropdownMenuItem<Locale>(
-                      value: langLocale,
-                      child: Text(_languageCodeMap[langLocale.languageCode]),
-                    );
-                  }).toList(),
-                  onChanged: (langLocale) {
-                    context.setLocale(langLocale);
-                    print(langLocale.languageCode);
-                    context
-                        .read<SettingsModel>()
-                        .updateLanguage(langLocale.languageCode);
-                  },
-                ),
               ),
               const Divider(
                 height: 40,
@@ -468,6 +550,30 @@ class _SettingsState extends State<Settings> {
                         setState(() {
                           context.read<SettingsModel>().updateGender(value);
                         });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('settings.personal_settings.language').tr(),
+                    trailing: DropdownButton<Locale>(
+                      value: context.supportedLocales.firstWhere((langLocale) =>
+                          langLocale.languageCode ==
+                          Provider.of<SettingsModel>(context, listen: false)
+                              .language),
+                      items: context.supportedLocales
+                          .map<DropdownMenuItem<Locale>>((Locale langLocale) {
+                        return DropdownMenuItem<Locale>(
+                          value: langLocale,
+                          child:
+                              Text(_languageCodeMap[langLocale.languageCode]),
+                        );
+                      }).toList(),
+                      onChanged: (langLocale) {
+                        context.setLocale(langLocale);
+                        print(langLocale.languageCode);
+                        context
+                            .read<SettingsModel>()
+                            .updateLanguage(langLocale.languageCode);
                       },
                     ),
                   ),

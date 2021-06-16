@@ -6,6 +6,8 @@ import '../main.dart';
 class SettingsModel with ChangeNotifier {
   int _weight = 0;
   int _interval = 0;
+  bool _reminderSound = false;
+  bool _reminderVibration = true;
 
   SettingsModel() {
     reset();
@@ -17,24 +19,40 @@ class SettingsModel with ChangeNotifier {
   int get cupSize => prefs.getInt('size') ?? 300;
   bool get shakeSettings => prefs.getBool('shake') ?? false;
   bool get powerSettings => prefs.getBool('power') ?? false;
+  bool get reminder => prefs.getBool('reminder') ?? false;
+  bool get reminderVibration => _reminderVibration;
+  bool get reminderSound => _reminderSound;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
   String get language => prefs.getString('language') ?? 'en';
   int get interval => _interval;
   double get dailyGoal => prefs.getDouble('dailyGoal') ?? 2500.0;
 
-
-  /// Resets local values to stored values (from shared preferences)
-  void reset() {
-    _weight = prefs.getInt('weight') ?? 70;
-    _interval = prefs.getInt('interval') ?? 60;
-    notifyListeners();
-  }
-
   List<int> _getAllCupSizes() {
     List<String> cupSizesStringList = (prefs.getStringList('customCupSizes') ?? []);
     List<int> cupSizesList = cupSizesStringList.map(int.parse).toList();
     return new List.from(Constants.cupSizes)..addAll(cupSizesList);
+  }
+
+  TimeOfDay _getStartSleepTime() {
+    int startTimeHours = prefs.getInt('startTimeHours') ?? 20;
+    int startTimeMinutes = prefs.getInt('startTimeMinutes') ?? 0;
+    return TimeOfDay(hour: startTimeHours, minute: startTimeMinutes);
+  }
+
+ TimeOfDay _getEndSleepTime() {
+    int endTimeHours = prefs.getInt('endTimeHours') ?? 8;
+    int endTimeMinutes = prefs.getInt('endTimeMinutes') ?? 0;
+    return TimeOfDay(hour: endTimeHours, minute: endTimeMinutes);
+  }
+  
+  /// Resets local values to stored values (from shared preferences)
+  void reset() {
+    _weight = prefs.getInt('weight') ?? 70;
+    _interval = prefs.getInt('interval') ?? 60;
+    _reminderSound = prefs.getBool('reminderSound') ?? false;
+    _reminderVibration = prefs.getBool('reminderVibration') ?? true;
+    notifyListeners();
   }
 
    /// Sets local startSleepTime.
@@ -51,17 +69,6 @@ class SettingsModel with ChangeNotifier {
     notifyListeners();
   }
 
-  TimeOfDay _getStartSleepTime() {
-    int startTimeHours = prefs.getInt('startTimeHours') ?? 20;
-    int startTimeMinutes = prefs.getInt('startTimeMinutes') ?? 0;
-    return TimeOfDay(hour: startTimeHours, minute: startTimeMinutes);
-  }
-
- TimeOfDay _getEndSleepTime() {
-    int endTimeHours = prefs.getInt('endTimeHours') ?? 8;
-    int endTimeMinutes = prefs.getInt('endTimeMinutes') ?? 0;
-    return TimeOfDay(hour: endTimeHours, minute: endTimeMinutes);
-  }
 
 
   void resetCustomCups() {
@@ -91,6 +98,12 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateCupSize(int newValue) {
     prefs.setInt('size', newValue);
+    notifyListeners();
+  }
+
+  /// Saves [newValue] to sharedPreferences.
+  void updateReminder(bool newValue) {
+    prefs.setBool('reminder', newValue);
     notifyListeners();
   }
 
@@ -126,6 +139,28 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateLanguage(String newValue) {
     prefs.setString('language', newValue);
+  }
+
+  /// Sets local ReminderSound.
+  void setReminderSound(bool newValue) {
+    _reminderSound = newValue;
+    notifyListeners();
+  }
+
+  /// Saves local ReminderSound to sharedPreferences.
+  void saveReminderSound() {
+    prefs.setBool('reminderSound', _reminderSound);
+  }
+
+  /// Sets local Reminder Vibration.
+  void setReminderVibration(bool newValue) {
+    _reminderVibration = newValue;
+    notifyListeners();
+  }
+
+  /// Saves local ReminderVibration to sharedPreferences.
+  void saveReminderVibration() {
+    prefs.setBool('reminderVibration', _reminderVibration);
   }
 
   /// Sets local interval.
