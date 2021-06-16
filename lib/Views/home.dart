@@ -198,7 +198,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context).textTheme.headline1,
             ),
             SizedBox(
-              height: 227,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -226,7 +226,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Container(
                         height: 180,
-                        width: 180,
+                        width: MediaQuery.of(context).size.width * 0.4,
                         child: _riveArtboard == null
                             ? const SizedBox(height: 20, width: 20)
                             : Rive(artboard: _riveArtboard),
