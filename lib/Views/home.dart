@@ -12,6 +12,7 @@ import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
 import '../src/ReminderNotification.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'package:rive/rive.dart';
 
@@ -45,6 +46,26 @@ class _HomeState extends State<Home> {
     super.initState();
     ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
+
+    try {
+    AwesomeNotifications().actionStream.listen(
+            (receivedNotification){
+              if(receivedNotification.buttonKeyPressed == 'addWaterButton') {
+                _addWaterCup(
+                    Water(
+                        dateTime: DateTime.now(),
+                        cupSize: int.parse(receivedNotification.payload['cupSize'])),
+                    0,
+                    1);
+              }
+        }
+    );
+    } catch (error) {
+      // Bad state exception because the action stream is already listened to.
+      // This also happens if cancel all subscription and trying to close the streams
+    }
+
+
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
@@ -125,9 +146,13 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _addWaterCup(water, index, amountOfCups) async {
+  Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
-      Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+      if(mounted) {
+        Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+      } else {
+        print('not mounted');
+      }
     }
   }
 

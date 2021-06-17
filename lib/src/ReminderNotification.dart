@@ -101,11 +101,12 @@ class ReminderNotification {
               id: 10,
               channelKey: 'basic_channel',
               title: 'Stay Hydrated - Drink water now',
-              body: 'Don\'t forget to drink water!'),
+              body: 'Don\'t forget to drink water!',
+              payload: {'cupSize': '${prefs.getInt('size') ?? 300}'},),
           actionButtons: [
             NotificationActionButton(
                 enabled: true,
-                key: 'myButton',
+                key: 'addWaterButton',
                 label: 'Add Water - ${prefs.getInt('size') ?? 300}ml',
                 buttonType: ActionButtonType.Default)
           ],

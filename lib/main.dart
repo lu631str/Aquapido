@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'dart:async';
 
