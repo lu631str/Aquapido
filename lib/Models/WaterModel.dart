@@ -1,10 +1,11 @@
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import "package:collection/collection.dart";
+import 'package:sqflite/sqflite.dart';
+
 import '../Models/Water.dart';
 import '../Persistence/Database.dart';
 import '../Utils/utils.dart';
-import "package:collection/collection.dart";
-import 'package:sqflite/sqflite.dart';
-import 'dart:developer';
 
 class WaterModel with ChangeNotifier {
   WaterModel() {

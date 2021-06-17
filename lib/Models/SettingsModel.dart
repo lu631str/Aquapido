@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Utils/Constants.dart';
+
+import '../Utils/Constants.dart';
 import '../main.dart';
 
 /*

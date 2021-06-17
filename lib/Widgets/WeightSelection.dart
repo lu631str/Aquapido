@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
+
+import '../Models/SettingsModel.dart';
 
 class WeightSelection extends StatefulWidget {
   @override

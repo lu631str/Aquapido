@@ -1,20 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
-import 'package:water_tracker/Utils/Constants.dart';
-import 'package:water_tracker/Widgets/QuickAddDialog.dart';
+import 'package:provider/provider.dart';
+
+import '../Widgets/QuickAddDialog.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
 import '../Utils/utils.dart';
-import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
 import '../Utils/Constants.dart';
 import '../src/ReminderNotification.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'package:rive/rive.dart';
 

@@ -17,30 +17,3 @@
 ///         License:   SIL (http://scripts.sil.org/OFL)
 ///         Homepage:  http://fontello.com
 ///
-import 'package:flutter/widgets.dart';
-
-class MyFlutterApp {
-  MyFlutterApp._();
-
-  static const _kFontFam = 'MyFlutterApp';
-  static const String _kFontPkg = null;
-
-  static const IconData cup_100ml =
-      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cup_200ml =
-      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cup_300ml =
-      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cup_330ml =
-      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData emo_happy =
-      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cup_400ml =
-      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData emo_unhappy =
-      IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData emo_cry =
-      IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData emo_laugh =
-      IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-}

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:developer';
+import 'package:flutter/material.dart';
 
 class AverageCard extends StatelessWidget {
   final String subTitle;

@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+
+import '../Models/SettingsModel.dart';
 
 
 class QuickAddDialog extends StatefulWidget {

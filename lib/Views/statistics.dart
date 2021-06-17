@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Widgets/AverageCard.dart';
 import 'package:provider/provider.dart';
+
+import '../Widgets/AverageCard.dart';
 import '../Models/WaterModel.dart';
 
 class Statistics extends StatefulWidget {

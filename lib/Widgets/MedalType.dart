@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 enum MedalType { Gold, Silver, Bronze }
 const Color silver1 = Color(0XFFEEEEEE);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
+
+import '../Models/SettingsModel.dart';
 
 class GenderSelection extends StatefulWidget {
   @override

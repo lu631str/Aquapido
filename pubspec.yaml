@@ -29,7 +29,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   sensors: ^2.0.0
   shake: ^1.0.0
-  geofencing: ^0.1.0
   intl: ^0.17.0
   numberpicker: ^2.1.1
   google_fonts: ^2.0.0
@@ -42,7 +41,6 @@ dependencies:
   easy_localization: ^3.0.0
   time_range_picker: ^2.0.1
   provider: ^5.0.0
-  introduction_screen: ^2.1.0
   rive: ^0.7.13
   flare_flutter: ^3.0.1
   auto_size_text: ^2.1.0

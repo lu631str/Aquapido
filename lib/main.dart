@@ -1,24 +1,19 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Views/Onbording.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
+
 import 'Views/goals.dart';
 import 'Views/settings.dart';
 import 'Views/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/Views/goals.dart';
-import 'package:water_tracker/Views/settings.dart';
-import 'package:water_tracker/Views/home.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'Views/Onbording.dart';
 import 'Views/statistics.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:provider/provider.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
-
-import 'dart:async';
-
 
 SharedPreferences prefs;
 
