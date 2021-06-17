@@ -91,6 +91,7 @@ class ReminderNotification {
     int startTimeMinutes = prefs.getInt('startTimeMinutes') ?? 0;
     int endTimeHours = prefs.getInt('endTimeHours') ?? 8;
     int endTimeMinutes = prefs.getInt('endTimeMinutes') ?? 0;
+    int cupSize = prefs.getInt('size') ?? 300;
 
     if (isCurrentTimeOfDayOutsideTimes(
         TimeOfDay.now(),
@@ -102,12 +103,12 @@ class ReminderNotification {
               channelKey: 'basic_channel',
               title: 'Stay Hydrated - Drink water now',
               body: 'Don\'t forget to drink water!',
-              payload: {'cupSize': '${prefs.getInt('size') ?? 300}'},),
+              payload: {'cupSize': '$cupSize'},),
           actionButtons: [
             NotificationActionButton(
                 enabled: true,
                 key: 'addWaterButton',
-                label: 'Add Water - ${prefs.getInt('size') ?? 300}ml',
+                label: 'Add Water - $cupSize ml',
                 buttonType: ActionButtonType.Default)
           ],
           schedule: NotificationInterval(

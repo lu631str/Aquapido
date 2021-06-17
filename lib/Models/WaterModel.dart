@@ -23,7 +23,7 @@ class WaterModel with ChangeNotifier {
       history.clear();
     }
     history.insert(index, water);
-    _insertWater(water);
+    insertWater(water);
     notifyListeners();
   }
 
@@ -86,7 +86,7 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
-  Future<void> _insertWater(Water water) async {
+  Future<void> insertWater(Water water) async {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
@@ -102,6 +102,7 @@ class WaterModel with ChangeNotifier {
       water.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    notifyListeners();
   }
 
   Future<void> _clearWaterTable() async {

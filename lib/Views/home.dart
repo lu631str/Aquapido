@@ -47,25 +47,6 @@ class _HomeState extends State<Home> {
     ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
 
-    try {
-    AwesomeNotifications().actionStream.listen(
-            (receivedNotification){
-              if(receivedNotification.buttonKeyPressed == 'addWaterButton') {
-                _addWaterCup(
-                    Water(
-                        dateTime: DateTime.now(),
-                        cupSize: int.parse(receivedNotification.payload['cupSize'])),
-                    0,
-                    1);
-              }
-        }
-    );
-    } catch (error) {
-      // Bad state exception because the action stream is already listened to.
-      // This also happens if cancel all subscription and trying to close the streams
-    }
-
-
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
