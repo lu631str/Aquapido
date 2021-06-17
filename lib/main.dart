@@ -41,24 +41,18 @@ void main() async {
 }
 
 class WaterTrackerApp extends StatelessWidget {
-  final int currentChild;
   bool introSeen;
-
-  WaterTrackerApp({Key key, this.currentChild, this.introSeen})
-      : super(key: key);
+  WaterTrackerApp({this.introSeen});
 
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
-        debugShowCheckedModeBanner: false,
         locale: context.locale,
-        builder: (context, child) => MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child),
         title: 'Quick Water Tracker',
         theme: ThemeData(
           // This is the theme of your application.
@@ -84,7 +78,7 @@ class WaterTrackerApp extends StatelessWidget {
           ),
         ),
         home:
-            (introSeen != true) ? Splash() : Main(currentChild: currentChild));
+            (introSeen != true) ? Splash() : Main());
   }
 }
 
@@ -163,7 +157,7 @@ class SplashState extends State<Splash> {
 }
 
 class Main extends StatefulWidget {
-  Main({Key key, this.title, this.currentChild}) : super(key: key);
+  Main({Key key, this.title}) : super(key: key);
   static String id = 'MainScreen';
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -176,19 +170,13 @@ class Main extends StatefulWidget {
   // always marked "final".
 
   final String title;
-  final int currentChild;
 
   @override
-  _MainState createState() => _MainState(currentChild: currentChild);
+  _MainState createState() => _MainState();
 }
 
 class _MainState extends State<Main> {
-  final int currentChild;
   int _currentIndex = 0;
-
-  _MainState({this.currentChild}) {
-    _currentIndex = (currentChild == null) ? 0 : currentChild;
-  }
 
   List<Widget> _children = [
     Home(),

@@ -596,7 +596,6 @@ class _SettingsState extends State<Settings> {
                       }).toList(),
                       onChanged: (langLocale) {
                         context.setLocale(langLocale);
-                        print(langLocale.languageCode);
                         context
                             .read<SettingsModel>()
                             .updateLanguage(langLocale.languageCode);
