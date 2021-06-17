@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:water_tracker/Utils/Constants.dart';
 import 'package:water_tracker/Widgets/QuickAddDialog.dart';
-import '../Persistence/Database.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
+import '../Utils/Constants.dart';
 
 import 'package:rive/rive.dart';
 

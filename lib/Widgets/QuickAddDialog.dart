@@ -5,12 +5,6 @@ import 'package:water_tracker/Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class Constants {
-  Constants._();
-
-  static const double padding = 20;
-  static const double avatarRadius = 45;
-}
 
 class QuickAddDialog extends StatefulWidget {
   final String title, descriptions, text;

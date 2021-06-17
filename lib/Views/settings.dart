@@ -9,7 +9,6 @@ import 'package:water_tracker/Utils/Constants.dart';
 import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import '../Utils/utils.dart';
 import '../Widgets/CupSizeElement.dart';
 
 import '../main.dart';
@@ -63,6 +62,7 @@ class _SettingsState extends State<Settings> {
     setData();
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
     Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
+    context.read<SettingsModel>().updateDialogSeen(false);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
