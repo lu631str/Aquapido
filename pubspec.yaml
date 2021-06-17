@@ -46,7 +46,6 @@ dependencies:
   rive: ^0.7.13
   flare_flutter: ^3.0.1
   awesome_notifications: any
-  flutter_background_service: ^0.1.5
 
 dev_dependencies:
   flutter_test:

@@ -11,7 +11,6 @@ import '../Models/Water.dart';
 import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import '../src/ReminderNotification.dart';
 
 import 'package:rive/rive.dart';
@@ -295,7 +294,6 @@ class _HomeState extends State<Home> {
               0,
               1);
           _updateWaterGlass();
-                  FlutterBackgroundService().sendData({"action": "startReminder"});
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

@@ -12,7 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../Utils/utils.dart';
 import '../Widgets/CupSizeElement.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 
 import '../main.dart';
 
