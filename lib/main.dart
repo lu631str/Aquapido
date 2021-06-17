@@ -6,11 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
-import 'Views/goals.dart';
-import 'Views/settings.dart';
-import 'Views/home.dart';
+import 'Views/Goals.dart';
+import 'Views/Settings.dart';
+import 'Views/Home.dart';
 import 'Views/Onbording.dart';
-import 'Views/statistics.dart';
+import 'Views/Statistics.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';

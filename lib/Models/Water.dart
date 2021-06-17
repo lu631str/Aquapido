@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../Utils/utils.dart';
+import '../Utils/Utils.dart';
 
 class Water {
   final DateTime dateTime;

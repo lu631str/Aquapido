@@ -65,33 +65,13 @@ class _SettingsState extends State<Settings> {
         .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
-  void saveCustomSize(customSize, dialogContext) {
+  void saveCustomSize(customSize, dialogContext, mainContext) {
     setState(() {
       _myController.text = '0';
-      Provider.of<SettingsModel>(context, listen: false)
+      Provider.of<SettingsModel>(mainContext, listen: false)
           .addCustomCupSize(customSize);
       Navigator.pop(dialogContext);
     });
-  }
-
-  List<Widget> createCupSizeDialogOptions(
-      mainContext, dialogContext, settingstState) {
-    List<Widget> sizeOptions = [];
-
-    Provider.of<SettingsModel>(context, listen: true).cupSizes.forEach((size) {
-      return sizeOptions.add(
-        SimpleDialogOption(
-            onPressed: () {
-              settingstState.updateCupSize(size);
-              Navigator.pop(dialogContext);
-            },
-            child: CupSizeElement(
-              size: size,
-              isCustom: !Constants.cupSizes.contains(size),
-            )),
-      );
-    });
-    return sizeOptions;
   }
 
   bool isCustomSizeValid(TextEditingController controller) {
@@ -99,48 +79,60 @@ class _SettingsState extends State<Settings> {
     if (customSize >= 50 && customSize <= 5000) {
       return true;
     }
-    return true;
+    return false;
   }
 
   void showCustomSizeAddDialog(mainContext) {
+    bool isInputValid = false;
     showDialog(
-      context: mainContext,
-      builder: (dialogContext) => SimpleDialog(
-        contentPadding: EdgeInsets.all(16),
-        title: const Text('Add Size'),
-        children: [
-          TextFormField(
-            controller: _myController,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Custom Cup Size (ml)',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-            TextButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  _myController.text = '0';
-                  Navigator.pop(dialogContext);
-                }), // button 1
-            ElevatedButton(
-              child: const Text('Save'),
-              onPressed: (isCustomSizeValid(_myController))
-                  ? () => saveCustomSize(
-                      int.parse(_myController.text), dialogContext)
-                  : null,
-            ), // button 2
-          ])
-        ],
-      ),
-    );
+        context: mainContext,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return SimpleDialog(
+                contentPadding: EdgeInsets.all(16),
+                title: const Text('Add Size'),
+                children: [
+                  TextFormField(
+                    controller: _myController,
+                    onChanged: (value) { setState(() {
+                      isInputValid = isCustomSizeValid(_myController);
+                    });},
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Custom Cup Size (ml)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              _myController.text = '0';
+                              Navigator.pop(context);
+                            }), // button 1
+                        ElevatedButton(
+                          child: const Text('Save'),
+                          onPressed: (isInputValid)
+                              ? () => saveCustomSize(
+                                  int.parse(_myController.text),
+                                  context,
+                                  mainContext)
+                              : null,
+                        ), // button 2
+                      ])
+                ],
+              );
+            },
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    var settingsState = Provider.of<SettingsModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -164,32 +156,47 @@ class _SettingsState extends State<Settings> {
                     });
                   }),
               ListTile(
-                title: const Text('settings.reminder_settings.reminderMode').tr(),
+                title:
+                    const Text('settings.reminder_settings.reminderMode').tr(),
                 trailing: OutlinedButton(
                   child: RichText(
                     text: TextSpan(children: [
                       WidgetSpan(
-                        child: Provider.of<SettingsModel>(context, listen: true).reminderVibration ? Icon(
-                          Icons.vibration,
-                          size: 20,
-                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
-                        ) : Icon(
-                          Icons.mobile_off,
-                          size: 20,
-                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
-                        ),
+                        child: Provider.of<SettingsModel>(context, listen: true)
+                                .reminderVibration
+                            ? Icon(
+                                Icons.vibration,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              )
+                            : Icon(
+                                Icons.mobile_off,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              ),
                       ),
                       TextSpan(text: ' '),
                       WidgetSpan(
-                        child: Provider.of<SettingsModel>(context, listen: true).reminderSound ? Icon(
-                          Icons.volume_up,
-                          size: 20,
-                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
-                        ) : Icon(
-                          Icons.volume_off,
-                          size: 20,
-                          color: context.watch<SettingsModel>().reminder ? Colors.blue : Colors.black26,
-                        ),
+                        child: Provider.of<SettingsModel>(context, listen: true)
+                                .reminderSound
+                            ? Icon(
+                                Icons.volume_up,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              )
+                            : Icon(
+                                Icons.volume_off,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              ),
                       )
                     ]),
                   ),
@@ -203,21 +210,38 @@ class _SettingsState extends State<Settings> {
                                   contentPadding: const EdgeInsets.all(16),
                                   title: const Text('Set Reminder Mode'),
                                   children: [
-                                    ListTile(title: Text('Choose how we should remind you in addition to show a notification'),),
-                                    Column(children: [
-                                      CheckboxListTile(
-                                          value: Provider.of<SettingsModel>(context, listen: true).reminderVibration,
-                                          title: Text('Vibration'),
-                                          onChanged: (bool value) {
-                                            Provider.of<SettingsModel>(context, listen: false).setReminderVibration(value);
-                                          }),
-                                      CheckboxListTile(
-                                          value: Provider.of<SettingsModel>(context, listen: true).reminderSound,
-                                          title: Text('Sound'),
-                                          onChanged: (bool value) {
-                                            Provider.of<SettingsModel>(context, listen: false).setReminderSound(value);
-                                          }),
-                                    ],),
+                                    ListTile(
+                                      title: Text(
+                                          'Choose how we should remind you in addition to show a notification'),
+                                    ),
+                                    Column(
+                                      children: [
+                                        CheckboxListTile(
+                                            value: Provider.of<SettingsModel>(
+                                                    context,
+                                                    listen: true)
+                                                .reminderVibration,
+                                            title: Text('Vibration'),
+                                            onChanged: (bool value) {
+                                              Provider.of<SettingsModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .setReminderVibration(value);
+                                            }),
+                                        CheckboxListTile(
+                                            value: Provider.of<SettingsModel>(
+                                                    context,
+                                                    listen: true)
+                                                .reminderSound,
+                                            title: Text('Sound'),
+                                            onChanged: (bool value) {
+                                              Provider.of<SettingsModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .setReminderSound(value);
+                                            }),
+                                      ],
+                                    ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
@@ -372,43 +396,46 @@ class _SettingsState extends State<Settings> {
                         context.watch<SettingsModel>().cupSize.toString() +
                             ' ml'),
                     onPressed: () {
-                      setState(() {
-                        showDialog(
+                      showDialog(
                           context: context,
-                          builder: (dialogContext) =>
-                              ChangeNotifierProvider<SettingsModel>.value(
-                            value: settingsState,
-                            child: SimpleDialog(
-                              contentPadding: const EdgeInsets.all(16),
-                              title: Text('Choose Size'),
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.6,
-                                  child: Scrollbar(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: createCupSizeDialogOptions(
-                                            context,
-                                            dialogContext,
-                                            settingsState),
-                                      ),
+                          builder: (BuildContext dialogContext) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return SimpleDialog(
+                                contentPadding: const EdgeInsets.all(16),
+                                title: Text('Choose Size'),
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.6,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    child: GridView.count(
+                                      crossAxisCount: 3,
+                                      children: Provider.of<SettingsModel>(
+                                              context,
+                                              listen: true)
+                                          .cupSizes
+                                          .map((size) => CupSizeElement(
+                                                size: size,
+                                                isCustom: !Constants.cupSizes
+                                                    .contains(size),
+                                                mainContext: context,
+                                                dialogContext: dialogContext,
+                                              ))
+                                          .toList(),
                                     ),
                                   ),
-                                ),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
+                                  OutlinedButton(
+                                    onPressed: () {
                                       showCustomSizeAddDialog(context);
-                                    });
-                                  },
-                                  child: const Text('Add'),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      });
+                                    },
+                                    child: const Text('Add'),
+                                  )
+                                ],
+                              );
+                            });
+                          });
                     }),
               ),
               const Divider(

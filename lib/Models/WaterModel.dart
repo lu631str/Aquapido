@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../Models/Water.dart';
 import '../Persistence/Database.dart';
-import '../Utils/utils.dart';
+import '../Utils/Utils.dart';
 
 class WaterModel with ChangeNotifier {
   WaterModel() {

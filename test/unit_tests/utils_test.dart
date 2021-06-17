@@ -1,4 +1,4 @@
-import 'package:water_tracker/Utils/utils.dart';
+import 'package:water_tracker/Utils/Utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

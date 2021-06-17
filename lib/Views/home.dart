@@ -9,7 +9,7 @@ import '../Widgets/QuickAddDialog.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
-import '../Utils/utils.dart';
+import '../Utils/Utils.dart';
 import '../Models/WaterModel.dart';
 import '../Utils/Constants.dart';
 import '../src/ReminderNotification.dart';

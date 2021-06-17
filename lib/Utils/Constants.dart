@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const double IMAGE_HEIGHT = 100.0;
+  static const double IMAGE_HEIGHT = 60.0;
   static const List<int> cupSizes = [100, 200, 300, 330, 400, 500];
 
   static final List<Image> cupImages = [
