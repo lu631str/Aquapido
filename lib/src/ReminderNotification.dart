@@ -104,13 +104,6 @@ class ReminderNotification {
               title: 'Stay Hydrated - Drink water now',
               body: 'Don\'t forget to drink water!',
               payload: {'cupSize': '$cupSize'},),
-          actionButtons: [
-            NotificationActionButton(
-                enabled: true,
-                key: 'addWaterButton',
-                label: 'Add Water - $cupSize ml',
-                buttonType: ActionButtonType.Default)
-          ],
           schedule: NotificationInterval(
               interval: interval, timeZone: localTimeZone, repeats: true));
       log('ReminderNotification: scheduled');
