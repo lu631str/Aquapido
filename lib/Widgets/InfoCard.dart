@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -25,7 +24,7 @@ class InfoCard extends StatelessWidget {
             child: Image.asset('assets/images/ausrufezeichen.png', scale: 10),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0,10,0,10),
+          //margin: EdgeInsets.fromLTRB(0,10,0,10),
             width: MediaQuery.of(context).size.width / 1.5 ,
             height: MediaQuery.of(context).size.height / 7,
             // height: SizeConfig.screenHeight,

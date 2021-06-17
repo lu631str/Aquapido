@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Constants {
   Constants._();
@@ -36,32 +36,50 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
             color: const Color(0xFFFFFF),
             borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
           ),
+          child:SingleChildScrollView(
           child: Column(
             children: [
-              Text(
+              AutoSizeText(
                 'Try out our ‘Quick Add’ functions!',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700),
+                maxLines: 1,
+                minFontSize: 10,
               ),
-              Image.asset('assets/images/shake.png', scale: 1.6),
+              Container(
+                child: Image.asset('assets/images/shake.png'),
+                width: MediaQuery.of(context).size.width / 1.3,
+                height: MediaQuery.of(context).size.height / 5,
+
+              ),
+
               SwitchListTile(
                   value: context.watch<SettingsModel>().shakeSettings,
-                  title: Text(
-                    'settings.quick_settings.quick_shaking',
+                  title: AutoSizeText(
+                    'Quick add Shaking',
+                    maxLines: 1,
+                    minFontSize: 10,
                     style:
                         TextStyle(fontSize: 14.0),
-                  ).tr(),
+
+                  ),
                   onChanged: (value) {
                     setState(() {
                       context.read<SettingsModel>().updateShakeSettings(value);
                     });
                   }),
-              Image.asset('assets/images/powerbutton.jpg', scale: 1.6),
+              Container(
+                child:Image.asset('assets/images/powerbutton.jpg'),
+                width: MediaQuery.of(context).size.width / 1.3,
+                height: MediaQuery.of(context).size.height / 5
+              ),
               SwitchListTile(
                   value: context.watch<SettingsModel>().powerSettings,
-                  title: Text('settings.quick_settings.quick_power',
+                  title: AutoSizeText('Quick add 2x Power Button',
+                    maxLines: 1,
+                    minFontSize: 6,
                     style:
-                    TextStyle(fontSize: 14.0),).tr(),
+                    TextStyle(fontSize: 14.0),),
                   onChanged: (value) {
                     setState(() {
                       context.read<SettingsModel>().updatePowerSettings(value);
@@ -84,6 +102,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
             ],
           ) //Contents here
           ),
+      ),
     ]);
   }
 }
