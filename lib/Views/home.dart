@@ -13,6 +13,8 @@ import '../Utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../Models/WaterModel.dart';
 import '../Utils/Constants.dart';
+import '../src/ReminderNotification.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'package:rive/rive.dart';
 
@@ -44,6 +46,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    ReminderNotification.initialize();
+    ReminderNotification.checkPermission(context);
 
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
@@ -137,9 +141,13 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _addWaterCup(water, index, amountOfCups) async {
-    if(amountOfCups != 0) {
-      Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+  Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
+    if (amountOfCups != 0) {
+      if(mounted) {
+        Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+      } else {
+        print('not mounted');
+      }
     }
   }
 
@@ -274,14 +282,19 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: Provider.of<WaterModel>(context, listen: true).history.length,
+                    itemCount: Provider.of<WaterModel>(context, listen: true)
+                        .history
+                        .length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            Constants.cupImages[getImageIndex(Provider.of<WaterModel>(context, listen: true).history[index]
-                                .cupSize)],
-                            Provider.of<WaterModel>(context, listen: true).history[index],
+                            Constants.cupImages[getImageIndex(
+                                Provider.of<WaterModel>(context, listen: true)
+                                    .history[index]
+                                    .cupSize)],
+                            Provider.of<WaterModel>(context, listen: true)
+                                .history[index],
                             _delete),
                       );
                     }),
@@ -292,7 +305,7 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           _addWaterCup(
               Water(
                   dateTime: DateTime.now(),

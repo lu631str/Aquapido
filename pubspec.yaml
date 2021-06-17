@@ -47,6 +47,7 @@ dependencies:
   flare_flutter: ^3.0.1
   auto_size_text: ^2.1.0
   sizer: ^2.0.13
+  awesome_notifications: any
 
 dev_dependencies:
   flutter_test:
