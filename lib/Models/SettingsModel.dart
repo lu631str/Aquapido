@@ -14,6 +14,7 @@ class SettingsModel with ChangeNotifier {
   List<int> get cupSizes => _getAllCupSizes();
   int get cupSize => prefs.getInt('size') ?? 300;
   bool get shakeSettings => prefs.getBool('shake') ?? false;
+  bool get dialogSeen => prefs.getBool('dialogSeen') ?? false;
   bool get powerSettings => prefs.getBool('power') ?? false;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
@@ -66,6 +67,12 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateShakeSettings(bool newValue) {
     prefs.setBool('shake', newValue);
+    notifyListeners();
+  }
+
+  /// Saves [newValue] to sharedPreferences.
+  void updateDialogSeen(bool newValue) {
+    prefs.setBool('dialogSeen', newValue);
     notifyListeners();
   }
 

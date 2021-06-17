@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:water_tracker/Views/Onbording.dart';
 import 'Views/goals.dart';
 import 'Views/settings.dart';
 import 'Views/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/Views/goals.dart';
-import 'package:water_tracker/Views/introductionScreen.dart';
 import 'package:water_tracker/Views/settings.dart';
 import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
+
 
 SharedPreferences prefs;
 
@@ -112,7 +113,7 @@ class SplashState extends State<Splash> {
     } else {
       // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
       //await prefs.setBool('seen', true);
-      return IntroScreen.id;
+      return Onbording.id;
     }
   }
 
@@ -154,7 +155,7 @@ class SplashState extends State<Splash> {
               ),
               initialRoute: snapshot.data,
               routes: {
-                IntroScreen.id: (context) => IntroScreen(),
+                Onbording.id: (context) => Onbording(),
                 Main.id: (context) => Main(),
               },
             );
