@@ -7,21 +7,14 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.0"
   async:
     dependency: transitive
     description:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
-  auto_size_text:
-    dependency: "direct main"
-    description:
-      name: auto_size_text
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
+    version: "2.6.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -70,7 +63,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.2"
   dots_indicator:
     dependency: transitive
     description:
@@ -105,14 +98,14 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.0.0"
   file:
     dependency: transitive
     description:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.0"
   flare_flutter:
     dependency: "direct main"
     description:
@@ -167,7 +160,7 @@ packages:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.0.0"
   grafpix:
     dependency: "direct main"
     description:
@@ -188,7 +181,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3"
+    version: "0.13.1"
   http_parser:
     dependency: transitive
     description:
@@ -265,7 +258,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -293,14 +286,14 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.0"
   pedantic:
     dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.0"
   percent_indicator:
     dependency: "direct main"
     description:
@@ -342,28 +335,28 @@ packages:
       name: rive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.18"
+    version: "0.7.13"
   sensors:
     dependency: "direct main"
     description:
       name: sensors
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.0"
   shake:
     dependency: "direct main"
     description:
       name: shake
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.0"
   shared_preferences:
     dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.5"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -399,13 +392,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  sizer:
-    dependency: "direct main"
-    description:
-      name: sizer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.13"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -417,7 +403,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   sqflite:
     dependency: "direct main"
     description:
@@ -473,7 +459,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   time_range_picker:
     dependency: "direct main"
     description:
