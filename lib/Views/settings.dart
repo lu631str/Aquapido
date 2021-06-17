@@ -402,12 +402,12 @@ class _SettingsState extends State<Settings> {
                             return StatefulBuilder(
                                 builder: (context, setState) {
                               return SimpleDialog(
-                                contentPadding: const EdgeInsets.all(16),
+                                contentPadding: const EdgeInsets.all(14),
                                 title: Text('Choose Size'),
                                 children: [
                                   Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.6,
+                                        0.55,
                                     width:
                                         MediaQuery.of(context).size.width * 0.8,
                                     child: GridView.count(

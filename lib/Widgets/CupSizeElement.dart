@@ -31,10 +31,10 @@ class _CupSizeElementState extends State<CupSizeElement> {
       children: [
         TextButton(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Constants.cupImages[getImageIndex(size)],
-              Padding(
-                  padding: EdgeInsets.only(top: 4), child: Text('$size ml')),
+              Text('$size ml')
             ],
           ),
           onPressed: () {
