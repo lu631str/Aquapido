@@ -5,24 +5,13 @@ import '../Utils/Constants.dart';
 import '../Utils/Utils.dart';
 import '../Models/SettingsModel.dart';
 
-class CupSizeElement extends StatefulWidget {
+class CupSizeElement extends StatelessWidget {
   final int size;
   final bool isCustom;
   final BuildContext mainContext;
   final BuildContext dialogContext;
 
-  CupSizeElement({Key key, this.size, this.isCustom, this.mainContext, this.dialogContext}) : super(key: key);
-  @override
-  _CupSizeElementState createState() => _CupSizeElementState(size: size, isCustom: isCustom, mainContext: mainContext, dialogContext: dialogContext);
-}
-
-class _CupSizeElementState extends State<CupSizeElement> {
-  int size;
-  bool isCustom;
-  BuildContext mainContext;
-  BuildContext dialogContext;
-
-  _CupSizeElementState(
+  CupSizeElement(
       {this.size, this.isCustom, this.mainContext, this.dialogContext});
 
   @override
@@ -34,7 +23,7 @@ class _CupSizeElementState extends State<CupSizeElement> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Constants.cupImages[getImageIndex(size)],
-              Text('$size ml')
+              Text('$size ml'),
             ],
           ),
           onPressed: () {
@@ -52,10 +41,8 @@ class _CupSizeElementState extends State<CupSizeElement> {
                       data: IconThemeData(color: Colors.black87),
                       child: Icon(Icons.clear)),
                   onPressed: () {
-                    setState(() {
                       Provider.of<SettingsModel>(mainContext, listen: false)
                           .deleteCustomCupSize(size);
-                    });
                   },
                 )
               : Text(''),
