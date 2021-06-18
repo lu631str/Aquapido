@@ -10,12 +10,13 @@
     },
     "settings": {
         "title": "Settings",
-        "general_settings": {
-            "title": "General Settings",
+        "reminder_settings": {
+            "title": "Reminder Settings",
+            "reminder": "Enable Reminder",
+            "reminderMode": "Reminder Mode",
             "sleep_time": "Sleep time",
             "reminder_interval": "Reminder interval",
-            "cup_size": "Cup size",
-            "language": "Language"
+            "cup_size": "Cup size"
         },
         "quick_settings": {
             "title": "Quick Add Settings",
@@ -26,7 +27,8 @@
         "personal_settings": {
             "title": "Personal Settings",
             "weight": "Weight",
-            "gender": "Gender"
+            "gender": "Gender",
+            "language": "Language"
         }
     }
 }

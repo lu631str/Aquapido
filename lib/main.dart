@@ -1,28 +1,27 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'Views/goals.dart';
-import 'Views/settings.dart';
-import 'Views/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/Views/goals.dart';
-import 'package:water_tracker/Views/introductionScreen.dart';
-import 'package:water_tracker/Views/settings.dart';
-import 'package:water_tracker/Views/home.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'Views/statistics.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
+
+import 'Views/Goals.dart';
+import 'Views/Settings.dart';
+import 'Views/Home.dart';
+import 'Views/Onbording.dart';
+import 'Views/Statistics.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
+import 'Persistence/Database.dart';
 
 SharedPreferences prefs;
-
-// Praeferenzen festlegen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  DatabaseHelper.database = await DatabaseHelper().initDatabaseConnection();
 
   runApp(
     EasyLocalization(
@@ -44,21 +43,17 @@ void main() async {
 class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
   bool introSeen;
-
-  WaterTrackerApp({Key key, this.currentChild, this.introSeen})
-      : super(key: key);
+  WaterTrackerApp({Key key, this.currentChild, this.introSeen});
 
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        builder: (context, child) => MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child),
         title: 'Quick Water Tracker',
         theme: ThemeData(
           // This is the theme of your application.
@@ -111,7 +106,7 @@ class SplashState extends State<Splash> {
     } else {
       // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
       //await prefs.setBool('seen', true);
-      return IntroScreen.id;
+      return Onbording.id;
     }
   }
 
@@ -126,6 +121,7 @@ class SplashState extends State<Splash> {
             );
           } else {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 // This is the theme of your application.
                 //
@@ -152,7 +148,7 @@ class SplashState extends State<Splash> {
               ),
               initialRoute: snapshot.data,
               routes: {
-                IntroScreen.id: (context) => IntroScreen(),
+                Onbording.id: (context) => Onbording(),
                 Main.id: (context) => Main(),
               },
             );
@@ -162,9 +158,6 @@ class SplashState extends State<Splash> {
 }
 
 class Main extends StatefulWidget {
-  Main({Key key, this.title, this.currentChild}) : super(key: key);
-  static String id = 'MainScreen';
-
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -174,8 +167,11 @@ class Main extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
+  Main({Key key, this.title, this.currentChild}) : super(key: key);
+
   final String title;
   final int currentChild;
+  static String id = 'MainScreen';
 
   @override
   _MainState createState() => _MainState(currentChild: currentChild);
@@ -231,30 +227,36 @@ class _MainState extends State<Main> {
           title: const Text('Aquapido - Quick Water Tracker'),
         ),
         body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'home.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.timeline),
-              label: 'statistics.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'goals.title'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings.title'.tr(),
-            ),
-          ],
-          selectedItemColor: Colors.white,
-          backgroundColor: Colors.blue,
-          onTap: _onItemTapped,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'home.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.timeline),
+                label: 'statistics.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.star),
+                label: 'goals.title'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'settings.title'.tr(),
+              ),
+            ],
+            selectedItemColor: Colors.white,
+            backgroundColor: Colors.blue,
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );

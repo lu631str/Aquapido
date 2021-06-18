@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import '../Models/SettingsModel.dart';
 import 'package:provider/provider.dart';
+
+import '../Models/SettingsModel.dart';
 
 class DailyGoal extends StatelessWidget {
   final double _minGoal = 2000;

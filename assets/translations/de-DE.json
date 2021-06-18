@@ -10,13 +10,13 @@
     },
     "settings": {
         "title": "Einstellungen",
-        "general_settings": {
-            "title": "Allgemeine Einstellungen",
+        "reminder_settings": {
+            "title": "Benachrichtigungs Einstellungen",
+            "reminder": "Benachrichtigung aktivieren",
+            "reminderMode": "Erinnerungs Modus",
             "sleep_time": "Schlafenszeit",
             "reminder_interval": "Errinnerungs Intervall",
-            
-            "cup_size": "Glas Größe",
-            "language": "Sprache"
+            "cup_size": "Glas Größe"
         },
         "quick_settings": {
             "title": "Schnell speichern Einstellungen",
@@ -27,7 +27,8 @@
         "personal_settings": {
             "title": "Persönliche Einstellungen",
             "weight": "Gewicht",
-            "gender": "Geschlecht"
+            "gender": "Geschlecht",
+            "language": "Sprache"
         }
     }
 }

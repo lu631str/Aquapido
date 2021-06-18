@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:grafpix/icons.dart';
-
 import 'MedalType.dart';
 
 class AchievementCircle extends StatelessWidget {

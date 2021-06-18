@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../icons/my_flutter_app_icons.dart';
-import '../Persistence/Database.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
-import '../Models/SettingsModel.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
+import '../Models/WaterModel.dart';
+import '../Utils/Constants.dart';
+import '../src/ReminderNotification.dart';
+import '../Models/SettingsModel.dart';
+import '../Widgets/CupSizeElement.dart';
 import '../main.dart';
 
 class Settings extends StatefulWidget {
@@ -21,16 +24,10 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  List<int> _cupSizes = [100, 200, 300, 330, 400, 500];
-  final List<Icon> _icons = [
-    Icon(MyFlutterApp.cup_100ml),
-    Icon(MyFlutterApp.cup_200ml),
-    Icon(MyFlutterApp.cup_300ml),
-    Icon(MyFlutterApp.cup_330ml),
-    Icon(MyFlutterApp.cup_400ml),
-    Icon(MyFlutterApp.cup_400ml)
-  ];
-  final Map<String, String> _languageCodeMap = {'en': 'English', 'de': 'Deutsch'};
+  final Map<String, String> _languageCodeMap = {
+    'en': 'English',
+    'de': 'Deutsch'
+  };
 
   final List<ClockLabel> _clockLabels = [
     ClockLabel.fromTime(time: TimeOfDay(hour: 3, minute: 0), text: '3'),
@@ -43,12 +40,8 @@ class _SettingsState extends State<Settings> {
     ClockLabel.fromTime(time: TimeOfDay(hour: 24, minute: 0), text: '0')
   ];
 
-  TimeOfDay _timePickerStart = TimeOfDay(hour: 23, minute: 0);
-  TimeOfDay _timePickerEnd = TimeOfDay(hour: 8, minute: 0);
-
   final String _weightUnit = 'kg';
 
-  String _language = 'en';
   final _myController = TextEditingController(text: '0');
 
   @override
@@ -57,93 +50,89 @@ class _SettingsState extends State<Settings> {
     _myController.dispose();
     super.dispose();
   }
+
   setData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', false);
   }
 
   void _reset() {
-    //saveCurrentCupCounter(0);
     setData();
-    clearWaterTable();
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => WaterTrackerApp()));
+    Provider.of<WaterModel>(context, listen: false).removeAllWater();
+    Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
+    context.read<SettingsModel>().updateDialogSeen(false);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
 
-  void saveCustomSize(customSize) {
+  void saveCustomSize(customSize, dialogContext, mainContext) {
     setState(() {
-      this._cupSizes.add(customSize);
-      this._icons.add(Icon(MyFlutterApp.cup_400ml));
+      _myController.text = '0';
+      Provider.of<SettingsModel>(mainContext, listen: false)
+          .addCustomCupSize(customSize);
+      Navigator.pop(dialogContext);
     });
   }
 
-  List<Widget> createDialogOptions(context, reportState) {
-    List<Widget> sizeOptions = [];
-
-    // asMap() to get index and item
-    _cupSizes.asMap().forEach((index, size) {
-      return sizeOptions.add(
-        SimpleDialogOption(
-          onPressed: () {
-            Navigator.pop(context);
-            reportState.updateCupSize(size);
-          },
-          child: ListTile(
-            title: Text('$size ml'),
-            leading: _icons[index],
-          ),
-        ),
-      );
-    });
-    sizeOptions.add(OutlinedButton(
-        onPressed: () {
-          setState(() {
-            showCustomSizeAddDialog();
-          });
-        },
-        child: const Text('Add')));
-    return sizeOptions;
+  bool isCustomSizeValid(TextEditingController controller) {
+    int customSize = int.tryParse(controller.text) ?? -1;
+    if (customSize >= 50 && customSize <= 5000) {
+      return true;
+    }
+    return false;
   }
 
-  void showCustomSizeAddDialog() {
+  void showCustomSizeAddDialog(mainContext) {
+    bool isInputValid = false;
     showDialog(
-        context: context,
-        builder: (_) => SimpleDialog(
-              contentPadding: EdgeInsets.all(16),
-              title: const Text('Add Size'),
-              children: [
-                TextFormField(
-                  controller: _myController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Custom Cup Size (ml)',
-                    border: OutlineInputBorder(),
+        context: mainContext,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return SimpleDialog(
+                contentPadding: EdgeInsets.all(16),
+                title: const Text('Add Size'),
+                children: [
+                  TextFormField(
+                    controller: _myController,
+                    onChanged: (value) { setState(() {
+                      isInputValid = isCustomSizeValid(_myController);
+                    });},
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Custom Cup Size (ml)',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () => Navigator.pop(context)), // button 1
-                      ElevatedButton(
-                        child: const Text('Save'),
-                        onPressed: () {
-                          setState(() {
-                            saveCustomSize(int.parse(_myController.text));
-                            _myController.clear();
-                            Navigator.pop(context);
-                          });
-                        },
-                      ), // button 2
-                    ])
-              ],
-            ));
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              _myController.text = '0';
+                              Navigator.pop(context);
+                            }), // button 1
+                        ElevatedButton(
+                          child: const Text('Save'),
+                          onPressed: (isInputValid)
+                              ? () => saveCustomSize(
+                                  int.parse(_myController.text),
+                                  context,
+                                  mainContext)
+                              : null,
+                        ), // button 2
+                      ])
+                ],
+              );
+            },
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    var reportState = Provider.of<SettingsModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -153,134 +142,301 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'settings.general_settings.title',
+                  'settings.reminder_settings.title',
                   style: Theme.of(context).textTheme.headline5,
                 ).tr(),
               ),
+              SwitchListTile(
+                  value: context.watch<SettingsModel>().reminder,
+                  title: Text('settings.reminder_settings.reminder').tr(),
+                  onChanged: (value) {
+                    setState(() {
+                      context.read<SettingsModel>().updateReminder(value);
+                      ReminderNotification.updateNotification();
+                    });
+                  }),
               ListTile(
-                title: Text('settings.general_settings.sleep_time').tr(),
-                trailing: TextButton(
-                  child: Text(this._timePickerStart.format(context) +
-                      ' - ' +
-                      this._timePickerEnd.format(context)),
-                  onPressed: () async {
-                    TimeRange result = await showTimeRangePicker(
-                        context: context,
-                        labels: this._clockLabels,
-                        rotateLabels: false,
-                        ticks: 24,
-                        ticksLength: 8.0,
-                        ticksWidth: 2.0,
-                        ticksOffset: 5.0,
-                        ticksColor: Colors.black45,
-                        start: _timePickerStart,
-                        end: _timePickerEnd,
-                        use24HourFormat: true);
-                    if (result != null) {
-                      this._timePickerStart = result.startTime;
-                      this._timePickerEnd = result.endTime;
-                    }
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('settings.general_settings.reminder_interval').tr(),
-                trailing: TextButton(
-                  child: Text(
-                      context.watch<SettingsModel>().interval.toString() +
-                          ' min'),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              return SimpleDialog(
-                                contentPadding: const EdgeInsets.all(16),
-                                title: const Text('Set Interval'),
-                                children: [
-                                  NumberPicker(
-                                    value:
-                                        context.read<SettingsModel>().interval,
-                                    minValue: 15,
-                                    maxValue: 180,
-                                    haptics: true,
-                                    itemCount: 5,
-                                    itemHeight: 32,
-                                    step: 15,
-                                    textMapper: (numberText) =>
-                                        numberText + ' min',
-                                    onChanged: (value) => setState(() => context
-                                        .read<SettingsModel>()
-                                        .setInterval(value)),
-                                  ),
-                                  Row(
+                title:
+                    const Text('settings.reminder_settings.reminderMode').tr(),
+                trailing: OutlinedButton(
+                  child: RichText(
+                    text: TextSpan(children: [
+                      WidgetSpan(
+                        child: Provider.of<SettingsModel>(context, listen: true)
+                                .reminderVibration
+                            ? Icon(
+                                Icons.vibration,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              )
+                            : Icon(
+                                Icons.mobile_off,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              ),
+                      ),
+                      TextSpan(text: ' '),
+                      WidgetSpan(
+                        child: Provider.of<SettingsModel>(context, listen: true)
+                                .reminderSound
+                            ? Icon(
+                                Icons.volume_up,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              )
+                            : Icon(
+                                Icons.volume_off,
+                                size: 20,
+                                color: context.watch<SettingsModel>().reminder
+                                    ? Colors.blue
+                                    : Colors.black26,
+                              ),
+                      )
+                    ]),
+                  ),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () => showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return SimpleDialog(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: const Text('Set Reminder Mode'),
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                          'Choose how we should remind you in addition to show a notification'),
+                                    ),
+                                    Column(
+                                      children: [
+                                        CheckboxListTile(
+                                            value: Provider.of<SettingsModel>(
+                                                    context,
+                                                    listen: true)
+                                                .reminderVibration,
+                                            title: Text('Vibration'),
+                                            onChanged: (bool value) {
+                                              Provider.of<SettingsModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .setReminderVibration(value);
+                                            }),
+                                        CheckboxListTile(
+                                            value: Provider.of<SettingsModel>(
+                                                    context,
+                                                    listen: true)
+                                                .reminderSound,
+                                            title: Text('Sound'),
+                                            onChanged: (bool value) {
+                                              Provider.of<SettingsModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .setReminderSound(value);
+                                            }),
+                                      ],
+                                    ),
+                                    Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         TextButton(
                                             child: const Text('Cancel'),
                                             onPressed: () {
-                                              context.read<SettingsModel>().reset();
-                                              Navigator.pop(context);
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .reset();
+                                              Navigator.pop(dialogContext);
                                             }), // button 1
                                         ElevatedButton(
                                           child: const Text('Save'),
                                           onPressed: () {
                                             context
                                                 .read<SettingsModel>()
-                                                .saveInterval();
-                                            Navigator.pop(context);
+                                                .saveReminderSound();
+                                            context
+                                                .read<SettingsModel>()
+                                                .saveReminderVibration();
+                                            ReminderNotification
+                                                .updateNotificationChannel();
+                                            Navigator.pop(dialogContext);
                                           },
                                         ), // button 2
-                                      ])
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          })
+                      : null,
+                ),
+              ),
+              ListTile(
+                title: Text('settings.reminder_settings.sleep_time').tr(),
+                trailing: TextButton(
+                  child: Text(context
+                          .read<SettingsModel>()
+                          .startSleepTime
+                          .format(context) +
+                      ' - ' +
+                      context
+                          .read<SettingsModel>()
+                          .endSleepTime
+                          .format(context)),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () async {
+                          TimeRange result = await showTimeRangePicker(
+                            context: context,
+                            labels: this._clockLabels,
+                            rotateLabels: false,
+                            ticks: 24,
+                            ticksLength: 8.0,
+                            ticksWidth: 2.0,
+                            ticksOffset: 5.0,
+                            ticksColor: Colors.black45,
+                            start: context.read<SettingsModel>().startSleepTime,
+                            end: context.read<SettingsModel>().endSleepTime,
+                            use24HourFormat: true,
+                          );
+                          if (result != null) {
+                            context
+                                .read<SettingsModel>()
+                                .setStartSleepTime(result.startTime);
+                            context
+                                .read<SettingsModel>()
+                                .setEndSleepTime(result.endTime);
+                            ReminderNotification.updateNotification();
+                          }
+                        }
+                      : null,
+                ),
+              ),
+              ListTile(
+                title:
+                    const Text('settings.reminder_settings.reminder_interval')
+                        .tr(),
+                trailing: TextButton(
+                  child: Text(
+                      context.watch<SettingsModel>().interval.toString() +
+                          ' min'),
+                  onPressed: (context.watch<SettingsModel>().reminder)
+                      ? () => showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return SimpleDialog(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: const Text('Set Interval'),
+                                  children: [
+                                    NumberPicker(
+                                      value: context
+                                          .read<SettingsModel>()
+                                          .interval,
+                                      minValue: 15,
+                                      maxValue: 180,
+                                      haptics: true,
+                                      itemCount: 5,
+                                      itemHeight: 32,
+                                      step: 15,
+                                      textMapper: (numberText) =>
+                                          numberText + ' min',
+                                      onChanged: (value) {
+                                        setState(() {
+                                          context
+                                              .read<SettingsModel>()
+                                              .setInterval(value);
+                                          ReminderNotification
+                                              .updateNotification();
+                                        });
+                                      },
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          TextButton(
+                                              child: const Text('Cancel'),
+                                              onPressed: () {
+                                                context
+                                                    .read<SettingsModel>()
+                                                    .reset();
+                                                Navigator.pop(dialogContext);
+                                              }), // button 1
+                                          ElevatedButton(
+                                            child: const Text('Save'),
+                                            onPressed: () {
+                                              context
+                                                  .read<SettingsModel>()
+                                                  .saveInterval();
+                                              ReminderNotification
+                                                  .updateNotification();
+                                              Navigator.pop(dialogContext);
+                                            },
+                                          ), // button 2
+                                        ])
+                                  ],
+                                );
+                              },
+                            );
+                          })
+                      : null,
+                ),
+              ),
+              ListTile(
+                title: Text('settings.reminder_settings.cup_size').tr(),
+                trailing: TextButton(
+                    child: Text(
+                        context.watch<SettingsModel>().cupSize.toString() +
+                            ' ml'),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return SimpleDialog(
+                                contentPadding: const EdgeInsets.all(14),
+                                title: Text('Choose Size'),
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.55,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    child: GridView.count(
+                                      crossAxisCount: 3,
+                                      children: Provider.of<SettingsModel>(
+                                              context,
+                                              listen: true)
+                                          .cupSizes
+                                          .map((size) => CupSizeElement(
+                                                size: size,
+                                                isCustom: !Constants.cupSizes
+                                                    .contains(size),
+                                                mainContext: context,
+                                                dialogContext: dialogContext,
+                                              ))
+                                          .toList(),
+                                    ),
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      showCustomSizeAddDialog(context);
+                                    },
+                                    child: const Text('Add'),
+                                  )
                                 ],
                               );
-                            },
-                          );
-                        });
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('settings.general_settings.cup_size').tr(),
-                trailing: TextButton(
-                    child: Text(context.watch<SettingsModel>().cupSize.toString() + ' ml'),
-                    onPressed: () {
-                      setState(() {
-                        showDialog(
-                            context: context,
-                            builder: (_) =>
-                                ChangeNotifierProvider<SettingsModel>.value(
-                                  value: reportState,
-                                  child: SimpleDialog(
-                                    contentPadding: const EdgeInsets.all(16),
-                                    title: Text('Choose Size'),
-                                    children: createDialogOptions(context, reportState),
-                                  ),
-                                ));
-                      });
+                            });
+                          });
                     }),
-              ),
-              ListTile(
-                title: Text('settings.general_settings.language').tr(),
-                trailing: DropdownButton<Locale>(
-                  value: context.supportedLocales.firstWhere((langLocale) =>
-                      langLocale.languageCode == this._language),
-                  items: context.supportedLocales
-                      .map<DropdownMenuItem<Locale>>((Locale langLocale) {
-                    return DropdownMenuItem<Locale>(
-                      value: langLocale,
-                      child: Text(_languageCodeMap[langLocale.languageCode]),
-                    );
-                  }).toList(),
-                  onChanged: (langLocale) {
-                    context.setLocale(langLocale);
-                    this._language = langLocale.languageCode;
-                    context
-                        .read<SettingsModel>()
-                        .updateLanguage(langLocale.languageCode);
-                  },
-                ),
               ),
               const Divider(
                 height: 40,
@@ -311,7 +467,9 @@ class _SettingsState extends State<Settings> {
                       title: Text('settings.quick_settings.quick_shaking').tr(),
                       onChanged: (value) {
                         setState(() {
-                          context.read<SettingsModel>().updateShakeSettings(value);
+                          context
+                              .read<SettingsModel>()
+                              .updateShakeSettings(value);
                         });
                       }),
                   SwitchListTile(
@@ -344,7 +502,7 @@ class _SettingsState extends State<Settings> {
                       onPressed: () {
                         showDialog(
                             context: context,
-                            builder: (context) {
+                            builder: (dialogContext) {
                               return StatefulBuilder(
                                 builder: (context, setState) {
                                   return SimpleDialog(
@@ -373,8 +531,10 @@ class _SettingsState extends State<Settings> {
                                             TextButton(
                                                 child: Text('Cancel'),
                                                 onPressed: () {
-                                                  context.read<SettingsModel>().reset();
-                                                  Navigator.pop(context);
+                                                  context
+                                                      .read<SettingsModel>()
+                                                      .reset();
+                                                  Navigator.pop(dialogContext);
                                                 }), // button 1
                                             ElevatedButton(
                                               child: Text('Save'),
@@ -382,7 +542,7 @@ class _SettingsState extends State<Settings> {
                                                 context
                                                     .read<SettingsModel>()
                                                     .saveWeight();
-                                                Navigator.pop(context);
+                                                Navigator.pop(dialogContext);
                                               },
                                             ), // button 2
                                           ])
@@ -419,6 +579,29 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                   ),
+                  ListTile(
+                    title: Text('settings.personal_settings.language').tr(),
+                    trailing: DropdownButton<Locale>(
+                      value: context.supportedLocales.firstWhere((langLocale) =>
+                          langLocale.languageCode ==
+                          Provider.of<SettingsModel>(context, listen: false)
+                              .language),
+                      items: context.supportedLocales
+                          .map<DropdownMenuItem<Locale>>((Locale langLocale) {
+                        return DropdownMenuItem<Locale>(
+                          value: langLocale,
+                          child:
+                              Text(_languageCodeMap[langLocale.languageCode]),
+                        );
+                      }).toList(),
+                      onChanged: (langLocale) {
+                        context.setLocale(langLocale);
+                        context
+                            .read<SettingsModel>()
+                            .updateLanguage(langLocale.languageCode);
+                      },
+                    ),
+                  ),
                 ],
               ),
               const Divider(
@@ -443,7 +626,7 @@ class _SettingsState extends State<Settings> {
                     onPressed: () => {
                           showDialog(
                               context: context,
-                              builder: (context) {
+                              builder: (dialogContext) {
                                 return StatefulBuilder(
                                   builder: (context, setState) {
                                     return SimpleDialog(
@@ -459,13 +642,14 @@ class _SettingsState extends State<Settings> {
                                               TextButton(
                                                   child: Text('Cancel'),
                                                   onPressed: () {
-                                                    Navigator.pop(context);
+                                                    Navigator.pop(
+                                                        dialogContext);
                                                   }), // button 1
                                               ElevatedButton(
                                                 child: const Text('Reset'),
                                                 onPressed: () {
                                                   this._reset();
-                                                  Navigator.pop(context);
+                                                  Navigator.pop(dialogContext);
                                                 },
                                               ), // button 2
                                             ])

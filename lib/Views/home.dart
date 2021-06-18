@@ -1,17 +1,20 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
-import '../Persistence/Database.dart';
+import 'package:provider/provider.dart';
+
+import '../Widgets/QuickAddDialog.dart';
 import '../Widgets/HistoryListElement.dart';
-import '../icons/my_flutter_app_icons.dart';
 import '../Models/SettingsModel.dart';
 import '../Models/Water.dart';
-import '../Utils/utils.dart';
-import 'package:provider/provider.dart';
+import '../Utils/Utils.dart';
 import '../Models/WaterModel.dart';
+import '../Utils/Constants.dart';
+import '../src/ReminderNotification.dart';
+
+import 'package:rive/rive.dart';
 
 typedef void DeleteCallback(int index);
 
@@ -25,11 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentCupCounter = 5;
-  int _totalWaterAmount = 0;
   String _unit = 'ml';
-
-  List<Water> _history = [];
 
   static const platform =
       const MethodChannel('com.example.flutter_application_1/powerBtnCount');
@@ -38,15 +37,32 @@ class _HomeState extends State<Home> {
 
   StreamSubscription _buttonEventStream;
 
+  Artboard _riveArtboard;
+  RiveAnimationController _controller;
+  SimpleAnimation _animation = SimpleAnimation('100%');
+
   @override
   void initState() {
     super.initState();
-    _loadData();
+    ReminderNotification.initialize();
+    ReminderNotification.checkPermission(context);
 
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
+
+    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => QuickAddDialog(
+            text: "rgdfg",
+            title: "dfgdfg",
+            descriptions: "44",
+          )
+        );
+      });
     }
 
     ShakeDetector.autoStart(onPhoneShake: () {
@@ -57,15 +73,40 @@ class _HomeState extends State<Home> {
           0,
           1);
     });
+
+    // Load the animation file from the bundle, note that you could also
+    // download this. The RiveFile just expects a list of bytes.
+    rootBundle.load('assets/animations/water-glass.riv').then(
+      (data) async {
+        // Load the RiveFile from the binary data.
+        final file = RiveFile.import(data);
+        // The artboard is the root of the animation and gets drawn in the
+        // Rive widget.
+        final artboard = file.mainArtboard;
+        // Add a controller to play back a known animation on the main/default
+        // artboard.We store a reference to it so we can toggle playback.
+        artboard.addController(_controller = _animation);
+        setState(() => {
+              _riveArtboard = artboard,
+              this._controller.isActive = false,
+            });
+        _updateWaterGlass();
+      },
+    );
   }
 
-  _loadData() async {
-    var history = await waterList();
-    setState(() {
-      this._history = history.reversed.toList();
-      _calculateTotalWaterAmount();
-      getPowerButtonCount();
-    });
+  void _updateWaterGlass() {
+    if (_controller != null) {
+      setState(() {
+        //_controller.isActive = true;
+        double currentWater = Provider.of<WaterModel>(context, listen: false)
+                .totalWaterAmountPerDay() /
+            Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+        _animation.instance.reset();
+        _animation.instance.advance(currentWater);
+        _controller.apply(_riveArtboard, currentWater);
+      });
+    }
   }
 
   @override
@@ -75,19 +116,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> getPowerButtonCount() async {
-    int counter;
-    try {
-      final int result = await platform.invokeMethod('getPowerBtnCount');
-      counter = result;
-    } on PlatformException catch (e) {
-      debugPrint(e.message);
-      counter = -1;
-    }
-
-    _currentCupCounter += counter;
-  }
-
   Future<void> evaluateEvent(event) async {
     var arr = event.split(',');
     debugPrint(event);
@@ -95,7 +123,8 @@ class _HomeState extends State<Home> {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
-              cupSize: context.watch<SettingsModel>().cupSize),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize),
           0,
           int.parse(arr[1]));
     }
@@ -103,38 +132,27 @@ class _HomeState extends State<Home> {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
-              cupSize: context.watch<SettingsModel>().cupSize),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize),
           0,
           int.parse(arr[1]));
     }
   }
 
-  Future<void> _addWaterCup(water, index, amountOfCups) async {
-    if (this._history.first.isPlaceholder) {
-      this._history.clear();
+  Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
+    if (amountOfCups != 0) {
+      if(mounted) {
+        Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+      } else {
+        print('not mounted');
+      }
     }
-    Provider.of<WaterModel>(context, listen: false).addWater(water);
-    this._history.insert(index, water);
-    setState(() {
-      _currentCupCounter += amountOfCups;
-      _calculateTotalWaterAmount();
-    });
   }
 
   void _delete(index) async {
-    Water water = this._history[index];
-    Provider.of<WaterModel>(context, listen: false).removeWater(water);
-
-    this._history.removeAt(index);
-    setState(() {
-      if (_currentCupCounter > 0) {
-        _currentCupCounter--;
-      }
-      _calculateTotalWaterAmount();
-    });
-    if (this._history.isEmpty) {
-      this._loadData();
-    }
+    Water water =
+        Provider.of<WaterModel>(context, listen: false).removeWater(index);
+    _updateWaterGlass();
     this._showUndoSnackBar(index, water);
   }
 
@@ -161,20 +179,9 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void _calculateTotalWaterAmount() {
-    num sum = 0;
-    this._history.forEach((water) {
-      if (isToday(water.dateTime)) {
-        sum += water.cupSize;
-      }
-    });
-    this._totalWaterAmount = sum;
-  }
-
-  String _formatDailyTotalWaterAmount() {
-    dynamic water = _totalWaterAmount;
-    if (_totalWaterAmount >= 1000) {
-      water = _totalWaterAmount / 1000.0;
+  String _formatDailyTotalWaterAmount(dynamic water) {
+    if (water >= 1000) {
+      water = water / 1000.0;
       _unit = 'L';
     } else {
       _unit = 'ml';
@@ -210,14 +217,10 @@ class _HomeState extends State<Home> {
               'Stay Hydrated',
               style: Theme.of(context).textTheme.headline1,
             ),
-            Text(
-              'Water today:',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             SizedBox(
-              height: 170,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -241,8 +244,15 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.23,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: _riveArtboard == null
+                            ? const Text('Loading')
+                            : Rive(artboard: _riveArtboard),
+                      ),
                       Text(
-                        '${_formatDailyTotalWaterAmount()} $_unit',
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay())} $_unit',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                     ],
@@ -263,12 +273,6 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            ListTile(
-              title: Text(
-                'History',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ),
             Expanded(
               child: Card(
                 margin: const EdgeInsets.all(8),
@@ -276,13 +280,19 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: _history.length,
+                    itemCount: Provider.of<WaterModel>(context, listen: true)
+                        .history
+                        .length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         child: HistoryListElement(
                             index,
-                            MyFlutterApp.sizeIcons[_history[index].cupSize],
-                            _history[index],
+                            Constants.cupImages[getImageIndex(
+                                Provider.of<WaterModel>(context, listen: true)
+                                    .history[index]
+                                    .cupSize)],
+                            Provider.of<WaterModel>(context, listen: true)
+                                .history[index],
                             _delete),
                       );
                     }),
@@ -293,7 +303,7 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           _addWaterCup(
               Water(
                   dateTime: DateTime.now(),
@@ -301,6 +311,7 @@ class _HomeState extends State<Home> {
                       .cupSize),
               0,
               1);
+          _updateWaterGlass();
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

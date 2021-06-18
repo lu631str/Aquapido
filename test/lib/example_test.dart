@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tracker/Models/WaterModel.dart';
 import 'package:water_tracker/Models/SettingsModel.dart';
+import 'package:water_tracker/Persistence/Database.dart';
 
 
 import 'Devices.dart';
@@ -52,6 +53,7 @@ void main() {
     testGoldens('testStatistics', (tester) async {
       // Prepare
       SharedPreferences.setMockInitialValues(sharedPrefMock);
+      DatabaseHelper.database = await DatabaseHelper().initDatabaseConnection();
       WidgetsFlutterBinding.ensureInitialized();
       await loadAppFonts();
       await EasyLocalization.ensureInitialized();
