@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Widgets/BarChartWidget.dart';
 
 import '../Widgets/AverageCard.dart';
 import '../Models/WaterModel.dart';
@@ -19,8 +20,8 @@ class _StatisticsState extends State<Statistics> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: new AspectRatio(
+      body: SingleChildScrollView(child: 
+        AspectRatio(
           aspectRatio: 100 / 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -48,10 +49,12 @@ class _StatisticsState extends State<Statistics> {
                               .getAverageCupsPerDay()),
                 ],
               ),
+              Expanded(child: BarChartSample1()),
+              
             ],
           ),
-        ),
-      ),
+        ),),
+
     );
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   auto_size_text: ^2.1.0
   sizer: ^2.0.13
   awesome_notifications: any
+  fl_chart: ^0.36.2
 
 dev_dependencies:
   flutter_test:
