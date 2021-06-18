@@ -41,8 +41,9 @@ void main() async {
 }
 
 class WaterTrackerApp extends StatelessWidget {
+  final int currentChild;
   bool introSeen;
-  WaterTrackerApp({this.introSeen});
+  WaterTrackerApp({Key key, this.currentChild, this.introSeen});
 
   // This widget is the root of your application.
 
@@ -78,7 +79,7 @@ class WaterTrackerApp extends StatelessWidget {
           ),
         ),
         home:
-            (introSeen != true) ? Splash() : Main());
+            (introSeen != true) ? Splash() : Main(currentChild: currentChild));
   }
 }
 
@@ -157,9 +158,6 @@ class SplashState extends State<Splash> {
 }
 
 class Main extends StatefulWidget {
-  Main({Key key, this.title}) : super(key: key);
-  static String id = 'MainScreen';
-
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -169,14 +167,23 @@ class Main extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
+  Main({Key key, this.title, this.currentChild}) : super(key: key);
+
   final String title;
+  final int currentChild;
+  static String id = 'MainScreen';
 
   @override
-  _MainState createState() => _MainState();
+  _MainState createState() => _MainState(currentChild: currentChild);
 }
 
 class _MainState extends State<Main> {
+  final int currentChild;
   int _currentIndex = 0;
+
+  _MainState({this.currentChild}) {
+    _currentIndex = (currentChild == null) ? 0 : currentChild;
+  }
 
   List<Widget> _children = [
     Home(),
