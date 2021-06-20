@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Widgets/BarChartWidget.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
+import '../Widgets/WeeklyBarChart.dart';
+import '../Widgets/DailyLineChart.dart';
 import '../Widgets/AverageCard.dart';
 import '../Models/WaterModel.dart';
 
@@ -16,12 +18,14 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
+  bool isDayDiagram = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(child: 
-        AspectRatio(
+      body: SingleChildScrollView(
+        child: AspectRatio(
           aspectRatio: 100 / 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,12 +53,50 @@ class _StatisticsState extends State<Statistics> {
                               .getAverageCupsPerDay()),
                 ],
               ),
-              Expanded(child: BarChartSample1()),
-              
+              TextButton(
+                child: Text('Date'),
+                onPressed: () {
+                  showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.parse("2020-01-01 12:00:00"),
+                      lastDate: DateTime.now());
+                },
+              ),
+              ToggleSwitch(
+                minWidth: 80.0,
+                cornerRadius: 20.0,
+                activeBgColors: [
+                  [Color(0xFF91BBFB)],
+                  [Color(0xFF91BBFB)]
+                ],
+                activeFgColor: Colors.white,
+                inactiveBgColor: Color(0xFFb5b5b5),
+                inactiveFgColor: Colors.white,
+                initialLabelIndex: this.isDayDiagram ? 0 : 1,
+                totalSwitches: 2,
+                labels: ['Day', 'Week'],
+                radiusStyle: true,
+                onToggle: (index) {
+                  setState(() {
+                  if(index == 0) {
+                    this.isDayDiagram = true;
+                  } else {
+                    this.isDayDiagram = false;
+                  }
+                  });
+                },
+              ),
+              Expanded(
+                child: Padding(
+                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForToday()) : WeeklyBarChart(),
+                  padding: EdgeInsets.all(1),
+                ),
+              )
             ],
           ),
-        ),),
-
+        ),
+      ),
     );
   }
 }

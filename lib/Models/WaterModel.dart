@@ -19,12 +19,14 @@ class WaterModel with ChangeNotifier {
 
   List<Water> history = [];
 
+  // Public Methods
+
   void addWater(int index, Water water) {
     if (history.first.isPlaceholder) {
       history.clear();
     }
     history.insert(index, water);
-    insertWater(water);
+    _insertWater(water);
     notifyListeners();
   }
 
@@ -73,10 +75,6 @@ class WaterModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Water>> waterList() {
-    return _waterList();
-  }
-
   int totalWaterAmountPerDay() {
     num sum = 0;
     history.forEach((water) {
@@ -87,7 +85,17 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
-  Future<void> insertWater(Water water) async {
+  List<Water> getWaterListForToday() {
+    return history.map((water) {
+      if (isToday(water.dateTime)) {
+        return water;
+      }
+      }).toList().reversed.toList();
+  }
+
+  // Private Methods
+
+  Future<void> _insertWater(Water water) async {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
