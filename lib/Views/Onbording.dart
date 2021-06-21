@@ -169,12 +169,9 @@ class _OnbordingState extends State<Onbording> {
               Container(
                 width: MediaQuery.of(context).size.width / 1.1,
                 margin: EdgeInsets.all(5),
-
-                // padding:EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 10 ,0,0,) ,
-                //margin:EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 10 ,0,0,) ,
                 child: InfoCard(
-                  title: "Did you know that ...",
-                  text: tr("infos.info"+currentIndex.toString()),                      //infos[currentIndex],
+                  title: "\nDid you know that ...",
+                  text: tr("infos.info"+currentIndex.toString()),
                 ),
               ),
               Row(children: [
@@ -224,14 +221,6 @@ class _OnbordingState extends State<Onbording> {
                       shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(10),)
                     )
-                      //textStyle: const TextStyle(fontSize: 20)),
-
-
-                    // color: Theme.of(context).primaryColor,
-                    // textColor: Colors.white,
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //),
                   ),
                 ),
               ])
