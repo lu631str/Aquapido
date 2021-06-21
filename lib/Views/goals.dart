@@ -1,13 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/AchievementCircle.dart';
 import '../Widgets/DailyGoal.dart';
 import '../Widgets/MedalType.dart';
+import '../Widgets/InfoCard.dart';
+import 'dart:math';
 
 class Goals extends StatefulWidget {
   Goals({Key key, this.title}) : super(key: key);
 
   final String title;
+
 
   @override
   _GoalsState createState() => _GoalsState();
@@ -16,6 +20,8 @@ class Goals extends StatefulWidget {
 class _GoalsState extends State<Goals> {
   int _currentCupCounter = 4;
   int _totalWaterAmount = 2600;
+
+  int randomNumber =Random().nextInt(14) ;
   
   List<int> maxTotalWater = [10, 100, 300];
   List<int> maxCups = [5, 100, 300];
@@ -151,7 +157,10 @@ class _GoalsState extends State<Goals> {
                         ])),
                   ],
                 )),
-            DailyGoal()
+            DailyGoal(),
+            InfoCard(title: "Did you know that...",
+            text:tr("infos.info"+randomNumber.toString()),
+            )
           ],
         ),
       ),

@@ -11,7 +11,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //margin: EdgeInsets.all(4.0),
+      margin: EdgeInsets.all(4.0),
       color: Color.fromARGB(255, 219, 237, 255),
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -26,7 +26,7 @@ class InfoCard extends StatelessWidget {
           Container(
           //margin: EdgeInsets.fromLTRB(0,10,0,10),
             width: MediaQuery.of(context).size.width / 1.5 ,
-            height: MediaQuery.of(context).size.height / 7,
+            height: MediaQuery.of(context).size.height / 6.8,
             // height: SizeConfig.screenHeight,
             child: AutoSizeText.rich(
               //textAlign: TextAlign.start,
@@ -41,8 +41,8 @@ class InfoCard extends StatelessWidget {
                         )),
                     TextSpan(text: this.text, style: TextStyle(fontSize: 14))
                   ]),
-              maxLines: 6,
-              minFontSize: 10,
+              maxLines: 15,
+              minFontSize: 2,
             ),
           )
         ],
