@@ -30,8 +30,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _unit = 'ml';
 
-  static const platform =
-      const MethodChannel('com.example.flutter_application_1/powerBtnCount');
   static const stream =
       const EventChannel('com.example.flutter_application_1/stream');
 
@@ -52,7 +50,7 @@ class _HomeState extends State<Home> {
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
 
-    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
+    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen )
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog<String>(
           context: context,

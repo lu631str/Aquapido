@@ -7,7 +7,6 @@ import 'package:water_tracker/Widgets/ActivitySelection.dart';
 import 'package:water_tracker/Widgets/GenderSelection.dart';
 import 'package:water_tracker/Widgets/InfoCard.dart';
 import 'package:water_tracker/Widgets/WeightSelection.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../Models/SettingsModel.dart';
@@ -61,6 +60,7 @@ class _OnbordingState extends State<Onbording> {
   SetData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', true);
+    context.read<SettingsModel>().updateIntroSeen(true);
   }
 
   // setSelectGender(int val) {
@@ -182,18 +182,13 @@ class _OnbordingState extends State<Onbording> {
                   height: MediaQuery.of(context).size.height / 15,
                   margin: EdgeInsets.all(0),
                   width: MediaQuery.of(context).size.width / 3.5,
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text("LATER"),
                     onPressed: () {
                       context.read<SettingsModel>().updateGender("choose");
                       context.read<SettingsModel>().setWeight(70);
                       _onIntroEnd(context);
                     },
-                    color: Colors.transparent,
-                    textColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
                   ),
                 ),
                 Container(
@@ -211,7 +206,7 @@ class _OnbordingState extends State<Onbording> {
                   height: MediaQuery.of(context).size.height / 15,
                   //margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 4, 0, 0, 0),
                   width: MediaQuery.of(context).size.width / 3.5,
-                  child: FlatButton(
+                  child: ElevatedButton(
                     child: Text(currentIndex == 3 - 1 ? "START" : "NEXT"),
                     onPressed: () {
 
@@ -224,11 +219,19 @@ class _OnbordingState extends State<Onbording> {
                         curve: Curves.bounceIn,
                       );
                     },
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(10),)
+                    )
+                      //textStyle: const TextStyle(fontSize: 20)),
+
+
+                    // color: Theme.of(context).primaryColor,
+                    // textColor: Colors.white,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(10),
+                    //),
                   ),
                 ),
               ])

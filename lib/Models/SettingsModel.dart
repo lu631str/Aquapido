@@ -27,6 +27,7 @@ class SettingsModel with ChangeNotifier {
   int get cupSize => prefs.getInt('size') ?? 300;
   bool get shakeSettings => prefs.getBool('shake') ?? false;
   bool get dialogSeen => prefs.getBool('dialogSeen') ?? false;
+  bool get introSeen => prefs.getBool('introSeen') ?? false;
   bool get powerSettings => prefs.getBool('power') ?? false;
   bool get reminder => prefs.getBool('reminder') ?? false;
   bool get reminderVibration => _reminderVibration;
@@ -130,6 +131,12 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateDialogSeen(bool newValue) {
     prefs.setBool('dialogSeen', newValue);
+    notifyListeners();
+  }
+
+  /// Saves [newValue] to sharedPreferences.
+  void updateIntroSeen(bool newValue) {
+    prefs.setBool('introSeen', newValue);
     notifyListeners();
   }
 

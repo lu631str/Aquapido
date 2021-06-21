@@ -61,6 +61,7 @@ class _SettingsState extends State<Settings> {
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
     Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
     context.read<SettingsModel>().updateDialogSeen(false);
+    context.read<SettingsModel>().updateIntroSeen(false);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
   }
