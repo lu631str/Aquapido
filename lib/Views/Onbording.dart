@@ -7,6 +7,7 @@ import 'package:water_tracker/Widgets/GenderSelection.dart';
 import 'package:water_tracker/Widgets/InfoCard.dart';
 import 'package:water_tracker/Widgets/WeightSelection.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../main.dart';
 
@@ -167,7 +168,7 @@ class _OnbordingState extends State<Onbording> {
                 //margin:EdgeInsets.fromLTRB(0,MediaQuery.of(context).size.height / 10 ,0,0,) ,
                 child: InfoCard(
                   title: "Did you know that ...",
-                  text: infos[currentIndex],
+                  text: tr("infos.info"+currentIndex.toString()),                      //infos[currentIndex],
                 ),
               ),
               Row(children: [

@@ -116,7 +116,7 @@ class AchievementCircle extends StatelessWidget {
                       icon: PixIcon.drop,
                       medalType: medalType,
                       radius: MediaQuery.of(context).size.height / 45,
-                      iconSize: 10.0,
+                      iconSize: MediaQuery.of(context).size.height / 60,
                       iconColor: Colors.blue,
                     ),
                   ),
