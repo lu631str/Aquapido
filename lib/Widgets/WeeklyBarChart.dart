@@ -52,6 +52,59 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
         .toList();
   }
 
+  String _getWeekdayName(int index) {
+    int value = index % 7;
+    switch (value.toInt()) {
+                    case 0:
+                      return 'Su';
+                    case 1:
+                      return 'Mo';
+                    case 2:
+                      return 'Tu';
+                    case 3:
+                      return 'We';
+                    case 4:
+                      return 'Th';
+                    case 5:
+                      return 'Fr';
+                    case 6:
+                      return 'Sa';
+                    default:
+                      return '..';
+                  }
+  }
+
+  SideTitles _getBottomTitles() {
+    return SideTitles(
+                showTitles: true,
+                getTextStyles: (value) => const TextStyle(
+                    color: Color(0xffb4c4d9),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+                margin: 20,
+                getTitles: (double value) {
+                  switch (value.toInt()) {
+                    case 0:
+                      return _getWeekdayName(startDate.weekday);
+                    case 1:
+                      return _getWeekdayName(startDate.weekday + 1);
+                    case 2:
+                      return _getWeekdayName(startDate.weekday + 2);
+                    case 3:
+                      return _getWeekdayName(startDate.weekday + 3);
+                    case 4:
+                      return _getWeekdayName(startDate.weekday + 4);
+                    case 5:
+                      return _getWeekdayName(startDate.weekday + 5);
+                    case 6:
+                      return _getWeekdayName(startDate.weekday + 6);
+                    default:
+                      return '..';
+                  }
+                },
+              );
+  }
+
   BarChartData mainData() {
     return BarChartData(
             alignment: BarChartAlignment.spaceAround,
@@ -80,34 +133,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
             ),
             titlesData: FlTitlesData(
               show: true,
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (value) => const TextStyle(
-                    color: Color(0xffb4c4d9),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-                margin: 20,
-                getTitles: (double value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return 'Mo';
-                    case 1:
-                      return 'Di';
-                    case 2:
-                      return 'Mi';
-                    case 3:
-                      return 'Do';
-                    case 4:
-                      return 'Fr';
-                    case 5:
-                      return 'Sa';
-                    case 6:
-                      return 'So';
-                    default:
-                      return '..';
-                  }
-                },
-              ),
+              bottomTitles: _getBottomTitles(),
               leftTitles: SideTitles(
                 showTitles: true,
                 getTextStyles: (value) => const TextStyle(

@@ -19,6 +19,19 @@ class Statistics extends StatefulWidget {
 
 class _StatisticsState extends State<Statistics> {
   bool isDayDiagram = true;
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.parse("2020-01-01 12:00:00"),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +68,7 @@ class _StatisticsState extends State<Statistics> {
               ),
               TextButton(
                 child: Text('Date'),
-                onPressed: () {
-                  showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.parse("2020-01-01 12:00:00"),
-                      lastDate: DateTime.now());
-                },
+                onPressed: () => _selectDate(context),
               ),
               ToggleSwitch(
                 minWidth: 80.0,
@@ -89,7 +96,7 @@ class _StatisticsState extends State<Statistics> {
               ),
               Expanded(
                 child: Padding(
-                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForToday()) : WeeklyBarChart(Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(DateTime.parse("2021-06-20 10:00:00")), DateTime.parse("2021-06-20 10:00:00")),
+                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForToday()) : WeeklyBarChart(Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(selectedDate), selectedDate),
                   padding: EdgeInsets.all(1),
                 ),
               )

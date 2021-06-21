@@ -86,7 +86,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
     );
   }
 
-  SideTitles _getBottomSideTiles() {
+  SideTitles _getBottomSideTitles() {
     return SideTitles(
       showTitles: true,
       reservedSize: 22,
@@ -127,7 +127,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
     );
   }
 
-  SideTitles _getLeftSideTiles() {
+  SideTitles _getLeftSideTitles() {
     return SideTitles(
           showTitles: true,
           reservedSize: 22,
@@ -204,8 +204,8 @@ class _DailyLineChartState extends State<DailyLineChart> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        bottomTitles: _getBottomSideTiles(),
-        leftTitles: _getLeftSideTiles(),
+        bottomTitles: _getBottomSideTitles(),
+        leftTitles: _getLeftSideTitles(),
       ),
       borderData: FlBorderData(
           show: true,
