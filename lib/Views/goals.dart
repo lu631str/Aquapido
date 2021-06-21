@@ -158,7 +158,7 @@ class _GoalsState extends State<Goals> {
                   ],
                 )),
             DailyGoal(),
-            InfoCard(title: "Did you know that...",
+            InfoCard(title: "\nDid you know that...",
             text:tr("infos.info"+randomNumber.toString()),
             )
           ],
