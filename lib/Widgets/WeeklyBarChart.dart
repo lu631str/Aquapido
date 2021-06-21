@@ -148,7 +148,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
           getTextStyles: (value) => const TextStyle(
               color: Color(0xffb4c4d9),
               fontWeight: FontWeight.bold,
-              fontSize: 14),
+              fontSize: 15),
           margin: 12,
           reservedSize: 22,
           getTitles: (value) {

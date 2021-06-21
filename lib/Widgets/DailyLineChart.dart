@@ -40,6 +40,10 @@ class _DailyLineChartState extends State<DailyLineChart> {
   _DailyLineChartState(this.waterList) {
     _cummulatedWater = [];
 
+    if(waterList.isEmpty) {
+      return;
+    }
+
     // Get cummulated value for every moment
     waterList.forEach((water) {
       if (_cummulatedWater.isEmpty) {
@@ -86,7 +90,12 @@ class _DailyLineChartState extends State<DailyLineChart> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           color: const Color(0xff3546a6),
-          child: Container(
+          child: waterList.isEmpty ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+            Text('You drank no water today :(')
+          ]) : Container(
               child: Padding(
             padding: const EdgeInsets.only(
                 right: 18.0, left: 10.0, top: 24, bottom: 12),
