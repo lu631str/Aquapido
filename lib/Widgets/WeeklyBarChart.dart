@@ -40,7 +40,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.7,
+      aspectRatio: 1.9,
       child: Card(
           elevation: 2,
           shape:
@@ -152,29 +152,12 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
           margin: 12,
           reservedSize: 22,
           getTitles: (value) {
-            if (value == 1) {
-              return '1L';
-            } else if (value == 2) {
-              return '2L';
-            } else if (value == 3) {
-              return '3L';
-            } else if (value == 4) {
-              return '4L';
-            } else if (value == 5) {
-              return '5L';
-            } else if (value == 6) {
-              return '6L';
-            } else if (value == 7) {
-              return '7L';
-            } else if (value == 8) {
-              return '8L';
-            } else if (value == 9) {
-              return '9L';
-            } else if (value == 10) {
-              return '10L';
-            } else {
-              return '';
+            for (var i = 0; i < 10; i++) {
+              if(value.toInt() == i + 1) {
+                return value.toInt().toString() + 'L';
+              }
             }
+            return '';
           },
         ),
         rightTitles: SideTitles(

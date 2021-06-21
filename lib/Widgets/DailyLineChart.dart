@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../Models/Water.dart';
 
@@ -84,7 +85,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.7,
+      aspectRatio: 1.9,
       child: Card(
           elevation: 2,
           shape:
@@ -94,7 +95,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-            Text('You drank no water today :(')
+            Text('You drank no water this day :(',style: TextStyle(color: Colors.white)),
           ]) : Container(
               child: Padding(
             padding: const EdgeInsets.only(
@@ -196,6 +197,13 @@ class _DailyLineChartState extends State<DailyLineChart> {
       maxX: _maxX,
       minY: _minY,
       maxY: _maxY / 1000,
+      axisTitleData: FlAxisTitleData(
+              bottomTitle: AxisTitle(
+                  showTitle: true,
+                  margin: 0,
+                  titleText: 'Time of day',
+                  textStyle: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center)),
       lineBarsData: [
         LineChartBarData(
           curveSmoothness: 0.1,

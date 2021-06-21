@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:intl/intl.dart';
 
 import '../Widgets/WeeklyBarChart.dart';
 import '../Widgets/DailyLineChart.dart';
@@ -67,10 +68,13 @@ class _StatisticsState extends State<Statistics> {
                 ],
               ),
               TextButton(
-                child: Text('Date'),
+                child: Text('${DateFormat('dd.MM.yy').format(selectedDate)}'),
                 onPressed: () => _selectDate(context),
               ),
-              ToggleSwitch(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ToggleSwitch(
                 minWidth: 80.0,
                 cornerRadius: 20.0,
                 activeBgColors: [
@@ -94,6 +98,9 @@ class _StatisticsState extends State<Statistics> {
                   });
                 },
               ),
+                ],
+              ),
+              
               Expanded(
                 child: Padding(
                   child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForDay(selectedDate)) : WeeklyBarChart(Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(selectedDate), selectedDate),
