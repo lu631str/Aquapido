@@ -85,8 +85,8 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
-  List<Water> getWaterListForToday() {
-    return history.where((water) => isSameDay(water.dateTime, DateTime.now())).toList().reversed.toList();
+  List<Water> getWaterListForDay(DateTime dateTime) {
+    return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
   }
 
   List<double> getWaterListFor7Days(DateTime startDate) {

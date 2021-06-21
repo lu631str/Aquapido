@@ -39,6 +39,8 @@ class _DailyLineChartState extends State<DailyLineChart> {
 
   _DailyLineChartState(this.waterList) {
     _cummulatedWater = [];
+
+    // Get cummulated value for every moment
     waterList.forEach((water) {
       if (_cummulatedWater.isEmpty) {
         _cummulatedWater.add(water.cupSize.toDouble());
@@ -47,20 +49,29 @@ class _DailyLineChartState extends State<DailyLineChart> {
       }
     });
 
+    // get highest value
     int maxWaterValue = _cummulatedWater.last.ceil();
 
-    if(maxWaterValue > _lowerYBorder && maxWaterValue < _upperYBorder) {
+    // set Y height dependending on the maximum value
+    if(maxWaterValue >= _lowerYBorder && maxWaterValue < _upperYBorder) {
       _maxY = (maxWaterValue / 1000).ceil() * 1000.0;
     } else if(maxWaterValue >= _upperYBorder) {
       _maxY = _upperYBorder;
+    } else {
+      _maxY = _lowerYBorder;
     }
 
     DateTime firstTime = waterList.first.dateTime;
 
+    // set X width depending on the start date
     for (var i = 0; i < _dayTimes.length; i++) {
       if(firstTime.hour <= _dayTimes[i]) {
-        _dayTimesIndex = i;
-        _maxX = 24 - firstTime.hour.toDouble();
+        // if odd time, take next smaller even time
+        _dayTimesIndex = firstTime.hour % 2 == 0 ? i : i - 1;
+
+        int window = 24 - firstTime.hour;
+
+        _maxX = window % 2 == 0 ? window.toDouble() : window.toDouble() + 1;
         break;
       }
     }
@@ -90,40 +101,19 @@ class _DailyLineChartState extends State<DailyLineChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: 22,
+      margin: 8,
       getTextStyles: (value) => const TextStyle(
           color: Color(0xffb4c4d9), fontWeight: FontWeight.bold, fontSize: 16),
       getTitles: (value) {
-        switch (value.toInt()) {
-          case 0:
-            return _dayTimes[_dayTimesIndex].toString();
-          case 2:
-            return _dayTimes[_dayTimesIndex + 1].toString();
-          case 4:
-            return _dayTimes[_dayTimesIndex + 2].toString();
-          case 6:
-            return _dayTimes[_dayTimesIndex + 3].toString();
-          case 8:
-            return _dayTimes[_dayTimesIndex + 4].toString();
-          case 10:
-            return _dayTimes[_dayTimesIndex + 5].toString();
-          case 12:
-            return _dayTimes[_dayTimesIndex + 6].toString();
-          case 14:
-            return _dayTimes[_dayTimesIndex + 7].toString();
-          case 16:
-            return _dayTimes[_dayTimesIndex + 8].toString();
-          case 18:
-            return _dayTimes[_dayTimesIndex + 9].toString();
-          case 20:
-            return _dayTimes[_dayTimesIndex + 10].toString();
-          case 22:
-            return _dayTimes[_dayTimesIndex + 11].toString();
-          case 24:
-            return _dayTimes[_dayTimesIndex + 12].toString();
+        int compare = 0;
+        for (var i = 0; i < 13; i++) {
+          if(value.toInt() == compare) {
+            return _dayTimes[_dayTimesIndex + i].toString();
+          }
+          compare += 2;
         }
         return '';
       },
-      margin: 8,
     );
   }
 
@@ -138,27 +128,10 @@ class _DailyLineChartState extends State<DailyLineChart> {
             fontSize: 15,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '1L';
-              case 2:
-                return '2L';
-              case 3:
-                return '3L';
-              case 4:
-                return '4L';
-              case 5:
-                return '5L';
-              case 6:
-                return '6L';
-              case 7:
-                return '7L';
-              case 8:
-                return '8L';
-              case 9:
-                return '9L';
-              case 10:
-                return '10L';
+            for (var i = 0; i < 10; i++) {
+              if(value.toInt() == i + 1) {
+                return value.toInt().toString() + 'L';
+              }
             }
             return '';
           },
