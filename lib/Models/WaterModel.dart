@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../Models/Water.dart';
 import '../Persistence/Database.dart';
-import '../Utils/Utils.dart';
+import '../Utils/utils.dart';
 
 class WaterModel with ChangeNotifier {
   WaterModel() {
@@ -75,10 +75,10 @@ class WaterModel with ChangeNotifier {
     notifyListeners();
   }
 
-  int totalWaterAmountPerDay() {
+  int totalWaterAmountPerDay(DateTime dateTime) {
     num sum = 0;
     history.forEach((water) {
-      if (isToday(water.dateTime)) {
+      if (isSameDay(water.dateTime, dateTime)) {
         sum += water.cupSize;
       }
     });
@@ -86,7 +86,47 @@ class WaterModel with ChangeNotifier {
   }
 
   List<Water> getWaterListForToday() {
-    return history.where((water) => isToday(water.dateTime)).toList().reversed.toList();
+    return history.where((water) => isSameDay(water.dateTime, DateTime.now())).toList().reversed.toList();
+  }
+
+  List<double> getWaterListFor7Days(DateTime startDate) {
+    int dayCounter = 7;
+    List<double> waterListWeek = [];
+
+    // iterate over every water entry
+    for (var i = 0; i < history.length; i++) {
+      // if 0 days left, we have a week
+      if(dayCounter <= 0) {
+        break;
+      }
+      DateTime currentDate = history[i].dateTime;
+
+      // if we find the exact date, we have a start value
+      if(isSameDay(currentDate, startDate)) {
+        dayCounter -= 1;
+        waterListWeek.add(history[i]);
+      } else if(currentDate.isAfter(startDate)) {
+        
+        // else we need to find the difference and insert days with 0 Water (null)
+        int diff = currentDate.difference(startDate).inDays;
+
+        // if the difference is greater than weekdays are left, just fill the rest with null
+        if(diff > dayCounter) {
+          for (var j = 0; j < 7 - diff; j++) {
+            dayCounter -= 1;
+            waterListWeek.add(null);
+          }
+        } else {
+          // else fill the days with null until we reached that date
+          for (var j = 0; j < diff - 1; j++) {
+            dayCounter -= 1;
+            waterListWeek.add(null);
+          }
+          dayCounter -= 1;
+          waterListWeek.add(history[i]);
+        }
+      }
+    }
   }
 
   // Private Methods
@@ -279,7 +319,7 @@ class WaterModel with ChangeNotifier {
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
-    return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
+    return waterModelList.where((w) => isSameDay(w.dateTime, DateTime.now())).toList().length;
   }
 
   Future<List<Water>> _waterList() async {

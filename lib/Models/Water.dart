@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../Utils/Utils.dart';
+import '../Utils/utils.dart';
 
 class Water {
   final DateTime dateTime;
@@ -15,7 +15,7 @@ class Water {
         isPlaceholder = true;
 
   String _getDateString(DateTime dateTime) {
-    if (isToday(dateTime)) {
+    if (isSameDay(dateTime, DateTime.now())) {
       return 'Today';
     }
     return DateFormat('dd.MM.yy').format(dateTime);

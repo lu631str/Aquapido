@@ -1,13 +1,26 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../Models/Water.dart';
+
 class WeeklyBarChart extends StatefulWidget {
+
+  List<Water> waterListWeek;
+  DateTime startDate;
+
+  WeeklyBarChart(List<Water> this.waterListWeek, DateTime this.startDate);
+
   @override
-  State<StatefulWidget> createState() => WeeklyBarChartState();
+  State<StatefulWidget> createState() => WeeklyBarChartState(waterListWeek, startDate);
 }
 
 class WeeklyBarChartState extends State<WeeklyBarChart> {
   final double barWidth = 15;
+
+  List<Water> waterListWeek;
+  DateTime startDate;
+
+  WeeklyBarChartState(List<Water> this.waterListWeek, DateTime this.startDate);
 
   @override
   Widget build(BuildContext context) {

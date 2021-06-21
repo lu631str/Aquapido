@@ -89,7 +89,7 @@ class _StatisticsState extends State<Statistics> {
               ),
               Expanded(
                 child: Padding(
-                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForToday()) : WeeklyBarChart(),
+                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForToday()) : WeeklyBarChart(Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(DateTime.parse("2021-06-20 10:00:00")), DateTime.parse("2021-06-20 10:00:00")),
                   padding: EdgeInsets.all(1),
                 ),
               )

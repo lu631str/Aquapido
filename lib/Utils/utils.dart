@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 
-/// Checks [dateTime] if it is today.
-bool isToday(DateTime dateTime) {
-  final DateTime now = DateTime.now();
-  if (dateTime.day == now.day &&
-      dateTime.month == now.month &&
-      dateTime.year == now.year) {
+/// Checks if [dateTime1] and [dateTime2] are the same day.
+bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
+  if (dateTime1.day == dateTime2.day &&
+      dateTime1.month == dateTime2.month &&
+      dateTime1.year == dateTime2.year) {
     return true;
   }
   return false;
