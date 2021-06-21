@@ -1,14 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../Models/Water.dart';
-
 class WeeklyBarChart extends StatefulWidget {
 
-  List<Water> waterListWeek;
+  List<double> waterListWeek;
   DateTime startDate;
 
-  WeeklyBarChart(List<Water> this.waterListWeek, DateTime this.startDate);
+  WeeklyBarChart(List<double> this.waterListWeek, DateTime this.startDate);
 
   @override
   State<StatefulWidget> createState() => WeeklyBarChartState(waterListWeek, startDate);
@@ -17,10 +15,10 @@ class WeeklyBarChart extends StatefulWidget {
 class WeeklyBarChartState extends State<WeeklyBarChart> {
   final double barWidth = 15;
 
-  List<Water> waterListWeek;
+  List<double> waterListWeek;
   DateTime startDate;
 
-  WeeklyBarChartState(List<Water> this.waterListWeek, DateTime this.startDate);
+  WeeklyBarChartState(List<double> this.waterListWeek, DateTime this.startDate);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   }
 
   List<BarChartGroupData> _getBarChartGroupData(List<double> dataList) {
-    return dataList
+    return waterListWeek
         .asMap()
         .map((i, waterValue) => MapEntry(
             i,
@@ -45,7 +43,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
               barRods: [
                 BarChartRodData(
                     width: barWidth,
-                    y: waterValue,
+                    y: waterValue / 1000,
                     colors: [Colors.lightBlueAccent, Colors.greenAccent])
               ],
               showingTooltipIndicators: [0],

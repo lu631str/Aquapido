@@ -90,43 +90,13 @@ class WaterModel with ChangeNotifier {
   }
 
   List<double> getWaterListFor7Days(DateTime startDate) {
-    int dayCounter = 7;
     List<double> waterListWeek = [];
 
-    // iterate over every water entry
-    for (var i = 0; i < history.length; i++) {
-      // if 0 days left, we have a week
-      if(dayCounter <= 0) {
-        break;
-      }
-      DateTime currentDate = history[i].dateTime;
-
-      // if we find the exact date, we have a start value
-      if(isSameDay(currentDate, startDate)) {
-        dayCounter -= 1;
-        waterListWeek.add(history[i]);
-      } else if(currentDate.isAfter(startDate)) {
-        
-        // else we need to find the difference and insert days with 0 Water (null)
-        int diff = currentDate.difference(startDate).inDays;
-
-        // if the difference is greater than weekdays are left, just fill the rest with null
-        if(diff > dayCounter) {
-          for (var j = 0; j < 7 - diff; j++) {
-            dayCounter -= 1;
-            waterListWeek.add(null);
-          }
-        } else {
-          // else fill the days with null until we reached that date
-          for (var j = 0; j < diff - 1; j++) {
-            dayCounter -= 1;
-            waterListWeek.add(null);
-          }
-          dayCounter -= 1;
-          waterListWeek.add(history[i]);
-        }
-      }
+    for (var i = 0; i < 7; i++) {
+      waterListWeek.add(totalWaterAmountPerDay(startDate.add(Duration(days: i))).toDouble());
     }
+
+    return waterListWeek;
   }
 
   // Private Methods
