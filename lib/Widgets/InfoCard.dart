@@ -11,7 +11,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //margin: EdgeInsets.all(4.0),
+      margin: EdgeInsets.all(4.0),
       color: Color.fromARGB(255, 219, 237, 255),
       elevation: 2,
       shape: RoundedRectangleBorder(
