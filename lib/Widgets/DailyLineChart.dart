@@ -13,10 +13,10 @@ class DailyLineChart extends StatefulWidget {
 }
 
 class _DailyLineChartState extends State<DailyLineChart> {
-  List<int> _dayTimes = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
+  List<int> _dayTimes = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]; // #13
 
   double _minX = 0; // hours
-  double _maxX = 16; // hours
+  double _maxX = 16; // hours, default 14
   double _minY = 0; // ml
   double _maxY = 4000; // ml
 
@@ -27,7 +27,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
   //18h -> Max = 3
   //20h -> Max = 2
   // ...
-  int _dayTimesIndex = 4;
+  int _dayTimesIndex = 4; // default 4
   List<double> _cummulatedWater = [];
 
   List<Color> gradientColors = [
@@ -50,9 +50,19 @@ class _DailyLineChartState extends State<DailyLineChart> {
     int maxWaterValue = _cummulatedWater.last.ceil();
 
     if(maxWaterValue > _lowerYBorder && maxWaterValue < _upperYBorder) {
-      _maxY = maxWaterValue.toDouble();
+      _maxY = (maxWaterValue / 1000).ceil() * 1000.0;
     } else if(maxWaterValue >= _upperYBorder) {
       _maxY = _upperYBorder;
+    }
+
+    DateTime firstTime = waterList.first.dateTime;
+
+    for (var i = 0; i < _dayTimes.length; i++) {
+      if(firstTime.hour <= _dayTimes[i]) {
+        _dayTimesIndex = i;
+        _maxX = 24 - firstTime.hour.toDouble();
+        break;
+      }
     }
   }
 
@@ -206,6 +216,8 @@ class _DailyLineChartState extends State<DailyLineChart> {
       maxY: _maxY / 1000,
       lineBarsData: [
         LineChartBarData(
+          curveSmoothness: 0.1,
+          preventCurveOverShooting: true,
           spots: _getSpots(),
           isCurved: true,
           colors: gradientColors,
