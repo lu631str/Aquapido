@@ -16,6 +16,8 @@ class SettingsModel with ChangeNotifier {
   int _interval = 0;
   bool _reminderSound = false;
   bool _reminderVibration = true;
+  bool _isDayDiagramm = true;
+  DateTime _diagrammSelectedDate = DateTime.now();
 
   SettingsModel() {
     reset();
@@ -31,6 +33,8 @@ class SettingsModel with ChangeNotifier {
   bool get reminder => prefs.getBool('reminder') ?? false;
   bool get reminderVibration => _reminderVibration;
   bool get reminderSound => _reminderSound;
+  bool get dayDiagramm => _isDayDiagramm;
+  DateTime get selectedDate => _diagrammSelectedDate;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
   String get language => prefs.getString('language') ?? 'en';
@@ -159,6 +163,18 @@ class SettingsModel with ChangeNotifier {
   // =====================
   // Public set methods
   // =====================
+
+  /// Sets _isDayDiagramm to [newValue].
+  void setDayDiagramm(bool newValue) {
+    _isDayDiagramm = newValue;
+    notifyListeners();
+  }
+
+  /// Sets _diagrammSelectedDate to [newValue].
+  void setSelectedDate(DateTime newValue) {
+    _diagrammSelectedDate = newValue;
+    notifyListeners();
+  }
 
   /// Sets local interval to [newValue].
   void setInterval(int newValue) {

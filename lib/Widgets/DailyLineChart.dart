@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 import '../Models/Water.dart';
 
@@ -84,27 +83,9 @@ class _DailyLineChartState extends State<DailyLineChart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.9,
-      child: Card(
-          elevation: 2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          color: const Color(0xff3546a6),
-          child: waterList.isEmpty ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-            Text('You drank no water this day :(',style: TextStyle(color: Colors.white)),
-          ]) : Container(
-              child: Padding(
-            padding: const EdgeInsets.only(
-                right: 18.0, left: 10.0, top: 24, bottom: 12),
-            child: LineChart(
+    return LineChart(
               mainData(),
-            ),
-          ))),
-    );
+            );
   }
 
   SideTitles _getBottomSideTitles() {
@@ -189,6 +170,13 @@ class _DailyLineChartState extends State<DailyLineChart> {
         show: true,
         bottomTitles: _getBottomSideTitles(),
         leftTitles: _getLeftSideTitles(),
+        rightTitles: SideTitles(
+            showTitles: true,
+            margin: 10,
+            reservedSize: 5,
+            getTitles: (value) {
+              return '';
+            }),
       ),
       borderData: FlBorderData(
           show: true,

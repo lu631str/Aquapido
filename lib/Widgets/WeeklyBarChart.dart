@@ -39,20 +39,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.9,
-      child: Card(
-          elevation: 2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          color: const Color(0xff3546a6),
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, top: 24, bottom: 12),
-              child: BarChart(mainData()),
-            ),
-          )),
-    );
+    return BarChart(mainData());
   }
 
   List<BarChartGroupData> _getBarChartGroupData() {

@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart';
+import 'package:water_tracker/Widgets/Chart.dart';
 
-import '../Widgets/WeeklyBarChart.dart';
-import '../Widgets/DailyLineChart.dart';
+import '../Widgets/Chart.dart';
 import '../Widgets/AverageCard.dart';
 import '../Models/WaterModel.dart';
+import '../Models/SettingsModel.dart';
 
 class Statistics extends StatefulWidget {
   Statistics({Key key, this.title});
@@ -20,18 +21,22 @@ class Statistics extends StatefulWidget {
 
 class _StatisticsState extends State<Statistics> {
   bool isDayDiagram = true;
-  DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
+        initialDate:
+            Provider.of<SettingsModel>(context, listen: false).selectedDate,
         firstDate: DateTime.parse("2020-01-01 12:00:00"),
         lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate)
+    if (picked != null &&
+        picked !=
+            Provider.of<SettingsModel>(context, listen: false).selectedDate) {
       setState(() {
-        selectedDate = picked;
+        Provider.of<SettingsModel>(context, listen: false)
+            .setSelectedDate(picked);
       });
+    }
   }
 
   @override
@@ -68,42 +73,40 @@ class _StatisticsState extends State<Statistics> {
                 ],
               ),
               TextButton(
-                child: Text('${DateFormat('dd.MM.yy').format(selectedDate)}'),
-                onPressed: () => _selectDate(context),
-              ),
+                  child: Text(
+                      '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
+                  onPressed: () => _selectDate(context)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ToggleSwitch(
-                minWidth: 80.0,
-                cornerRadius: 20.0,
-                activeBgColors: [
-                  [Color(0xFF91BBFB)],
-                  [Color(0xFF91BBFB)]
+                    minWidth: 80.0,
+                    cornerRadius: 20.0,
+                    activeBgColors: [
+                      [Color(0xFF91BBFB)],
+                      [Color(0xFF91BBFB)]
+                    ],
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: Color(0xFFb5b5b5),
+                    inactiveFgColor: Colors.white,
+                    initialLabelIndex:
+                        Provider.of<SettingsModel>(context, listen: true)
+                                .dayDiagramm
+                            ? 0
+                            : 1,
+                    totalSwitches: 2,
+                    labels: ['Day', 'Week'],
+                    radiusStyle: true,
+                    onToggle: (index) {
+                      Provider.of<SettingsModel>(context, listen: false)
+                          .setDayDiagramm(index == 0);
+                    },
+                  ),
                 ],
-                activeFgColor: Colors.white,
-                inactiveBgColor: Color(0xFFb5b5b5),
-                inactiveFgColor: Colors.white,
-                initialLabelIndex: this.isDayDiagram ? 0 : 1,
-                totalSwitches: 2,
-                labels: ['Day', 'Week'],
-                radiusStyle: true,
-                onToggle: (index) {
-                  setState(() {
-                  if(index == 0) {
-                    this.isDayDiagram = true;
-                  } else {
-                    this.isDayDiagram = false;
-                  }
-                  });
-                },
               ),
-                ],
-              ),
-              
               Expanded(
                 child: Padding(
-                  child: isDayDiagram ? DailyLineChart(Provider.of<WaterModel>(context, listen: false).getWaterListForDay(selectedDate)) : WeeklyBarChart(Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(selectedDate), selectedDate),
+                  child: Chart(),
                   padding: EdgeInsets.all(1),
                 ),
               )
