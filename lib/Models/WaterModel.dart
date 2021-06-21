@@ -86,11 +86,7 @@ class WaterModel with ChangeNotifier {
   }
 
   List<Water> getWaterListForToday() {
-    return history.map((water) {
-      if (isToday(water.dateTime)) {
-        return water;
-      }
-      }).toList().reversed.toList();
+    return history.where((water) => isToday(water.dateTime)).toList().reversed.toList();
   }
 
   // Private Methods
