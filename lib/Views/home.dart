@@ -48,6 +48,8 @@ class _HomeState extends State<Home> {
     ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
 
+    _updateWaterGlass();
+
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
@@ -324,6 +326,7 @@ class _HomeState extends State<Home> {
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Container(
+                        margin: EdgeInsets.only(bottom: 8),
                         height: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.36,
                         child: _riveArtboard == null
@@ -359,7 +362,7 @@ class _HomeState extends State<Home> {
                               borderRadius: BorderRadius.circular(20)),
                           child: Container(
                             width: 134,
-                            height: 38,
+                            height: 42,
                             alignment: Alignment.center,
                             child: Text(
                               'Add',
