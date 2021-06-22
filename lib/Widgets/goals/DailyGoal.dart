@@ -3,6 +3,7 @@ import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/SettingsModel.dart';
+import '../../Utils/Constants.dart';
 
 class DailyGoal extends StatelessWidget {
   final double _minGoal = 2000;
@@ -54,9 +55,9 @@ class DailyGoal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: Constants.CARD_ELEVATION,
       color: Color.fromARGB(255, 219, 237, 255),
-      margin: EdgeInsets.all(6),
+      margin: Constants.CARD_MARGIN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -113,7 +114,7 @@ class DailyGoal extends StatelessWidget {
                 child: Material(
                   type: MaterialType.circle,
                   color: Colors.blue,
-                  elevation: 4,
+                  elevation: Constants.CARD_ELEVATION,
                   child: Container(
                       padding: EdgeInsets.all(5),
                       child: Icon(

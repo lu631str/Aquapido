@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:water_tracker/Utils/Constants.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
@@ -11,9 +12,9 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(4.0),
+      margin: Constants.CARD_MARGIN,
       color: Color.fromARGB(255, 219, 237, 255),
-      elevation: 2,
+      elevation: Constants.CARD_ELEVATION,
       shape: RoundedRectangleBorder(
     side: BorderSide(color: Colors.blue, width: 1),
     borderRadius: BorderRadius.circular(10),

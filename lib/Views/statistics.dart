@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart';
 
+import '../Utils/Constants.dart';
 import '../Widgets/statistics/Chart.dart';
 import '../Widgets/statistics/AverageCard.dart';
 import '../Models/WaterModel.dart';
@@ -71,22 +73,22 @@ class _StatisticsState extends State<Statistics> {
                     '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
                 onPressed: () => _selectDate(context)),
             Card(
-              elevation: 4,
-              margin: EdgeInsets.all(10),
+              elevation: Constants.CARD_ELEVATION,
+              margin: Constants.CARD_MARGIN,
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Total Liters per Day: 3.4L'),
+                        padding: EdgeInsets.only(top: 8, left: 9),
+                        child: Text('Total Water: ${Provider.of<WaterModel>(context).totalWaterAmountPerDay(Provider.of<SettingsModel>(context, listen: false).selectedDate) / 1000.0}L'),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(top: 9, right: 9),
                         child: ToggleSwitch(
-                          minHeight: 24.0,
-                          minWidth: 60.0,
+                          minHeight: 28.0,
+                          minWidth: 58.0,
                           cornerRadius: 14.0,
                           activeBgColors: [
                             [Color(0xFF91BBFB)],

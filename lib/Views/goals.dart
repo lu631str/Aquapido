@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:water_tracker/Utils/Constants.dart';
 
 import '../Widgets/goals/AchievementCircle.dart';
 import '../Widgets/goals/DailyGoal.dart';
@@ -77,9 +78,9 @@ class _GoalsState extends State<Goals> {
                 child: Column(
                   children: [
                     Card(
-                        elevation: 2,
+                        elevation: Constants.CARD_ELEVATION,
                         color: Color.fromARGB(255, 219, 237, 255),
-                        margin: EdgeInsets.all(6),
+                        margin: Constants.CARD_MARGIN,
                         child: Column(children: <Widget>[
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,

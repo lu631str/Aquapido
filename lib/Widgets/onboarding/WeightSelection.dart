@@ -4,6 +4,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/SettingsModel.dart';
+import '../../Utils/Constants.dart';
 
 class WeightSelection extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _WeightSelectionState extends State<WeightSelection> {
           width:MediaQuery.of(context).size.width /2 ,
           child: Card(
             color: Color.fromARGB(255, 219, 237, 255),
-            elevation: 2,
+            elevation: Constants.CARD_ELEVATION,
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: NumberPicker(
               value: _selectedWeight,

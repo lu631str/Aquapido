@@ -1,5 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+
+import '../../Utils/Constants.dart';
 
 class AverageCard extends StatelessWidget {
   final String subTitle;
@@ -18,7 +19,8 @@ class AverageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3.0,
+      margin: Constants.CARD_MARGIN,
+      elevation: Constants.CARD_ELEVATION,
       child: Padding(
         padding: EdgeInsets.all(5),
         child: Container(
@@ -45,7 +47,6 @@ class AverageCard extends StatelessWidget {
                           style: TextStyle(fontSize: fontSize),
                         );
                       else if (snapshot.hasError) {
-                        log('Error while fetching \'$subTitle\': ${snapshot.error}');
                         return Text('Error');
                       }
                       else

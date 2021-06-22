@@ -266,10 +266,11 @@ class _HomeState extends State<Home> {
     if (water >= 1000) {
       water = water / 1000.0;
       _unit = 'L';
+      return roundDouble(water.toDb, 2).toString();
     } else {
       _unit = 'ml';
+      return water.toString();
     }
-    return roundDouble(water, 2).toString();
   }
 
   @override
@@ -453,8 +454,8 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: Card(
-                margin: const EdgeInsets.only(top: 0, right: 12, bottom: 12, left: 12),
-                elevation: 2,
+                margin: const EdgeInsets.only(top: 0, right: 11, bottom: 11, left: 11),
+                elevation: Constants.CARD_ELEVATION,
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),

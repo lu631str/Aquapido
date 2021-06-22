@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class Constants {
   static const double IMAGE_HEIGHT = 60.0;
   static const List<int> cupSizes = [100, 200, 300, 330, 400, 500];
+  static const CARD_MARGIN = EdgeInsets.all(10);
+  static const CARD_ELEVATION = 2.5;
 
   static final List<Image> cupImages = [
     Image.asset(
