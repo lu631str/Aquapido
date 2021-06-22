@@ -40,7 +40,6 @@ class DailyGoal extends StatelessWidget {
   double _calcRecommend(weight) {
     // Kilogramm Körpergewicht x 30 bis 40 ml = empfohlene Trinkmenge pro Tag.
     // oder: 1ml Wasser pro 1 kcal pro Tag
-
     double recommended = weight * 40.0;
 
     if (recommended < _minGoal) {

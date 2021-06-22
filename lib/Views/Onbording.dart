@@ -24,7 +24,6 @@ class Onbording extends StatefulWidget {
 
 class _OnbordingState extends State<Onbording> {
   int currentIndex = 0;
-  int selectActivity;
   PageController _controller;
   List<String> subtitle = [
     "Please select your gender:",
@@ -46,7 +45,6 @@ class _OnbordingState extends State<Onbording> {
   void initState() {
     _controller = PageController(initialPage: 0);
     super.initState();
-    selectActivity = 0;
   }
 
   @override
@@ -63,17 +61,7 @@ class _OnbordingState extends State<Onbording> {
     context.read<SettingsModel>().updateIntroSeen(true);
   }
 
-  // setSelectGender(int val) {
-  //   setState(() {
-  //     selectGender = val;
-  //   });
-  // }
 
-  setSelectActivity(int val) {
-    setState(() {
-      selectActivity = val;
-    });
-  }
 
   void _onIntroEnd(context) {
     SetData();
@@ -183,6 +171,7 @@ class _OnbordingState extends State<Onbording> {
                     child: Text("LATER"),
                     onPressed: () {
                       context.read<SettingsModel>().updateGender("choose");
+                      context.read<SettingsModel>().updateActivity("normal");
                       context.read<SettingsModel>().setWeight(70);
                       _onIntroEnd(context);
                     },

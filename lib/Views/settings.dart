@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,10 +7,8 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:flutter/foundation.dart';
 
 import '../Models/WaterModel.dart';
-import '../Utils/Constants.dart';
 import '../src/ReminderNotification.dart';
 import '../Models/SettingsModel.dart';
-import '../Widgets/CupSizeElement.dart';
 import '../main.dart';
 import '../Widgets/QuickAddDialogInfo.dart';
 
@@ -348,16 +345,6 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   SwitchListTile(
-                      value: context.watch<SettingsModel>().powerSettings,
-                      title: Text('settings.quick_settings.quick_power').tr(),
-                      onChanged: (value) {
-                        setState(() {
-                          context
-                              .read<SettingsModel>()
-                              .updatePowerSettings(value);
-                        });
-                      }),
-                  SwitchListTile(
                       value: context.watch<SettingsModel>().shakeSettings,
                       title: Text('settings.quick_settings.quick_shaking').tr(),
                       onChanged: (value) {
@@ -367,6 +354,17 @@ class _SettingsState extends State<Settings> {
                               .updateShakeSettings(value);
                         });
                       }),
+                  SwitchListTile(
+                      value: context.watch<SettingsModel>().powerSettings,
+                      title: Text('settings.quick_settings.quick_power').tr(),
+                      onChanged: (value) {
+                        setState(() {
+                          context
+                              .read<SettingsModel>()
+                              .updatePowerSettings(value);
+                        });
+                      }),
+
                   SwitchListTile(
                       value: false,
                       title:
@@ -449,6 +447,36 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                   ),
+                  ListTile(
+                    title: Text('settings.personal_settings.activity').tr(),
+                    trailing: DropdownButton(
+                      value: context.watch<SettingsModel>().activity,
+                      items: <DropdownMenuItem>[
+                        DropdownMenuItem(
+                          value: 'low',
+                          child: Text('Low'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'normal',
+                          child: Text('Normal'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'high',
+                          child: Text('High'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'very_high',
+                          child: Text('Very High'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          context.read<SettingsModel>().updateActivity(value);
+                        });
+                      },
+                    ),
+                  ),
+
                   ListTile(
                     title: Text('settings.personal_settings.gender').tr(),
                     trailing: DropdownButton(
