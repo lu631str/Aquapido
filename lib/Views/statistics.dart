@@ -44,91 +44,84 @@ class _StatisticsState extends State<Statistics> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AverageCard(
+                    subTitle: 'Liters / Day',
+                    isMl: true,
+                    futureValue: Provider.of<WaterModel>(context, listen: false)
+                        .getAverageLitersPerDay()),
+                AverageCard(
+                    subTitle: 'Liters / Week',
+                    isMl: true,
+                    futureValue: Provider.of<WaterModel>(context, listen: false)
+                        .getAverageLitersPerWeek()),
+                AverageCard(
+                    subTitle: 'Cups / Day',
+                    isMl: false,
+                    futureValue: Provider.of<WaterModel>(context, listen: false)
+                        .getAverageCupsPerDay()),
+              ],
+            ),
+            TextButton(
+                child: Text(
+                    '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
+                onPressed: () => _selectDate(context)),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.all(10),
+              child: Column(
                 children: [
-                  AverageCard(
-                      subTitle: 'Liters / Day',
-                      isMl: true,
-                      futureValue:
-                          Provider.of<WaterModel>(context, listen: false)
-                              .getAverageLitersPerDay()),
-                  AverageCard(
-                      subTitle: 'Liters / Week',
-                      isMl: true,
-                      futureValue:
-                          Provider.of<WaterModel>(context, listen: false)
-                              .getAverageLitersPerWeek()),
-                  AverageCard(
-                      subTitle: 'Cups / Day',
-                      isMl: false,
-                      futureValue:
-                          Provider.of<WaterModel>(context, listen: false)
-                              .getAverageCupsPerDay()),
-                ],
-              ),
-              TextButton(
-                  child: Text(
-                      '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
-                  onPressed: () => _selectDate(context)),
-              Card(
-                  elevation: 4,
-                  margin: EdgeInsets.all(10),
-                  child: Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text('Total Liters per Day: 3.4L'),
-                        ),
-                            Padding(
-                          padding: EdgeInsets.all(5),
-                          child: ToggleSwitch(
-                              minHeight: 24.0,
-                              minWidth: 60.0,
-                              cornerRadius: 14.0,
-                              activeBgColors: [
-                                [Color(0xFF91BBFB)],
-                                [Color(0xFF91BBFB)]
-                              ],
-                              activeFgColor: Colors.white,
-                              inactiveBgColor: Color(0xFFb5b5b5),
-                              inactiveFgColor: Colors.white,
-                              initialLabelIndex: Provider.of<SettingsModel>(
-                                          context,
-                                          listen: true)
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Total Liters per Day: 3.4L'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: ToggleSwitch(
+                          minHeight: 24.0,
+                          minWidth: 60.0,
+                          cornerRadius: 14.0,
+                          activeBgColors: [
+                            [Color(0xFF91BBFB)],
+                            [Color(0xFF91BBFB)]
+                          ],
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Color(0xFFb5b5b5),
+                          inactiveFgColor: Colors.white,
+                          initialLabelIndex:
+                              Provider.of<SettingsModel>(context, listen: true)
                                       .dayDiagramm
                                   ? 0
                                   : 1,
-                              totalSwitches: 2,
-                              labels: ['Day', 'Week'],
-                              radiusStyle: true,
-                              onToggle: (index) {
-                                Provider.of<SettingsModel>(context,
-                                        listen: false)
-                                    .setDayDiagramm(index == 0);
-                              },
-                            ),
+                          totalSwitches: 2,
+                          labels: ['Day', 'Week'],
+                          radiusStyle: true,
+                          onToggle: (index) {
+                            Provider.of<SettingsModel>(context, listen: false)
+                                .setDayDiagramm(index == 0);
+                          },
                         ),
-                            
-                          ],
-                        ),
-                        Padding(
-                          child: Chart(),
-                          padding: EdgeInsets.all(5),
-                        ),
+                      ),
                     ],
                   ),
-                ),
-              
-            ],
-          ),
+                  Padding(
+                    child: Chart(),
+                    padding: EdgeInsets.all(5),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
