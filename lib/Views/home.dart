@@ -292,9 +292,9 @@ class _HomeState extends State<Home> {
               'Stay Hydrated',
               style: Theme.of(context).textTheme.headline1,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.38,
-              child: Row(
+            Expanded(
+              child: 
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
@@ -325,7 +325,7 @@ class _HomeState extends State<Home> {
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.23,
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.36,
                         child: _riveArtboard == null
                             ? const Text('Loading')
                             : Rive(artboard: _riveArtboard),
@@ -358,8 +358,8 @@ class _HomeState extends State<Home> {
                               ),
                               borderRadius: BorderRadius.circular(20)),
                           child: Container(
-                            width: 130,
-                            height: 36,
+                            width: 134,
+                            height: 38,
                             alignment: Alignment.center,
                             child: Text(
                               'Add',
@@ -437,13 +437,14 @@ class _HomeState extends State<Home> {
                                 });
                           }),
                     ],
-                  )
+                  ),
+                  
                 ],
               ),
             ),
             Expanded(
               child: Card(
-                margin: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(top: 0, right: 12, bottom: 12, left: 12),
                 elevation: 2,
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
