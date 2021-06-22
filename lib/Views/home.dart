@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
       setState(() {
         //_controller.isActive = true;
         double currentWater = Provider.of<WaterModel>(context, listen: false)
-                .totalWaterAmountPerDay() /
+                .totalWaterAmountPerDay(DateTime.now()) /
             Provider.of<SettingsModel>(context, listen: false).dailyGoal;
         _animation.instance.reset();
         _animation.instance.advance(currentWater);
@@ -250,7 +250,7 @@ class _HomeState extends State<Home> {
                             : Rive(artboard: _riveArtboard),
                       ),
                       Text(
-                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay())} $_unit',
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))} $_unit',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                     ],

@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../Models/Water.dart';
 import '../Persistence/Database.dart';
-import '../Utils/Utils.dart';
+import '../Utils/utils.dart';
 
 class WaterModel with ChangeNotifier {
   WaterModel() {
@@ -19,12 +19,14 @@ class WaterModel with ChangeNotifier {
 
   List<Water> history = [];
 
+  // Public Methods
+
   void addWater(int index, Water water) {
     if (history.first.isPlaceholder) {
       history.clear();
     }
     history.insert(index, water);
-    insertWater(water);
+    _insertWater(water);
     notifyListeners();
   }
 
@@ -73,21 +75,33 @@ class WaterModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Water>> waterList() {
-    return _waterList();
-  }
-
-  int totalWaterAmountPerDay() {
+  int totalWaterAmountPerDay(DateTime dateTime) {
     num sum = 0;
     history.forEach((water) {
-      if (isToday(water.dateTime)) {
+      if (isSameDay(water.dateTime, dateTime)) {
         sum += water.cupSize;
       }
     });
     return sum;
   }
 
-  Future<void> insertWater(Water water) async {
+  List<Water> getWaterListForDay(DateTime dateTime) {
+    return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
+  }
+
+  List<double> getWaterListFor7Days(DateTime startDate) {
+    List<double> waterListWeek = [];
+
+    for (var i = 0; i < 7; i++) {
+      waterListWeek.add(totalWaterAmountPerDay(startDate.add(Duration(days: i))).toDouble());
+    }
+
+    return waterListWeek;
+  }
+
+  // Private Methods
+
+  Future<void> _insertWater(Water water) async {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
@@ -275,7 +289,7 @@ class WaterModel with ChangeNotifier {
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
-    return waterModelList.where((w) => isToday(w.dateTime)).toList().length;
+    return waterModelList.where((w) => isSameDay(w.dateTime, DateTime.now())).toList().length;
   }
 
   Future<List<Water>> _waterList() async {
