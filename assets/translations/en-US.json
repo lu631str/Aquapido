@@ -28,6 +28,7 @@
             "title": "Personal Settings",
             "weight": "Weight",
             "gender": "Gender",
+            "activity":"Activity",
             "language": "Language"
         }
 

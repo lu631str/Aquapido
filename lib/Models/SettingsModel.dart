@@ -38,6 +38,7 @@ class SettingsModel with ChangeNotifier {
   DateTime get selectedDate => _diagrammSelectedDate;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
+  String get activity => prefs.getString('activity') ?? 'normal';
   String get language => prefs.getString('language') ?? 'en';
   int get interval => _interval;
   double get dailyGoal => prefs.getDouble('dailyGoal') ?? 2500.0;
@@ -164,6 +165,12 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateGender(String newValue) {
     prefs.setString('gender', newValue);
+    notifyListeners();
+  }
+
+  /// Saves [newValue] to sharedPreferences.
+  void updateActivity(String newValue) {
+    prefs.setString('activity', newValue);
     notifyListeners();
   }
 

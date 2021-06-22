@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:water_tracker/Models/SettingsModel.dart';
+import 'package:provider/provider.dart';
 
 class ActivitySelection extends StatefulWidget {
   @override
@@ -67,6 +69,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
               onChanged: (val) {
                 print("Radio $val");
                 setSelectActivity(val);
+                context.read<SettingsModel>().updateActivity("low");
               },
             ),
           ),
@@ -98,6 +101,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
                 onChanged: (val) {
                   print("Radio $val");
                   setSelectActivity(val);
+                  context.read<SettingsModel>().updateActivity("normal");
                 },
               )),
           Container(
@@ -128,6 +132,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
                 onChanged: (val) {
                   print("Radio $val");
                   setSelectActivity(val);
+                  context.read<SettingsModel>().updateActivity("high");
                 },
               )),
           Container(
@@ -157,6 +162,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
                 onChanged: (val) {
                   print("Radio $val");
                   setSelectActivity(val);
+                  context.read<SettingsModel>().updateActivity("very_high");
                 },
               )),
         ],
