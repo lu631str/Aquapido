@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 8),
+                        margin: EdgeInsets.only(bottom: 4),
                         height: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.36,
                         child: _riveArtboard == null
@@ -368,8 +368,8 @@ class _HomeState extends State<Home> {
                               ),
                               borderRadius: BorderRadius.circular(20)),
                           child: Container(
-                            width: 134,
-                            height: 42,
+                            width: MediaQuery.of(context).size.width * 0.32,
+                            height: MediaQuery.of(context).size.height * 0.06,
                             alignment: Alignment.center,
                             child: Text(
                               'Add',
@@ -454,7 +454,7 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: Card(
-                margin: const EdgeInsets.only(top: 0, right: 11, bottom: 11, left: 11),
+                margin: const EdgeInsets.only(top: 4, right: 11, bottom: 11, left: 11),
                 elevation: Constants.CARD_ELEVATION,
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(
