@@ -487,57 +487,52 @@ class _SettingsState extends State<Settings> {
                 indent: 10,
                 endIndent: 10,
               ),
-              new Container(
-                margin: const EdgeInsets.only(top: 2, bottom: 20),
-                padding: const EdgeInsets.only(
-                    top: 3, bottom: 3, left: 100, right: 100),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.red,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                          6.0) //                 <--- border radius here
+              Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      child: const Text('Reset'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.redAccent,
                       ),
-                ),
-                child: OutlinedButton(
-                    onPressed: () => {
-                          showDialog(
-                              context: context,
-                              builder: (dialogContext) {
-                                return StatefulBuilder(
-                                  builder: (context, setState) {
-                                    return SimpleDialog(
-                                      contentPadding: EdgeInsets.all(16),
-                                      title: Text('Reset - Are you sure?'),
-                                      children: [
-                                        Text(
-                                            'This action can NOT be undone. All data will be lost!'),
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              TextButton(
-                                                  child: Text('Cancel'),
-                                                  onPressed: () {
-                                                    Navigator.pop(
-                                                        dialogContext);
-                                                  }), // button 1
-                                              ElevatedButton(
-                                                child: const Text('Reset'),
+                      onPressed: () => {
+                        showDialog(
+                            context: context,
+                            builder: (dialogContext) {
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return SimpleDialog(
+                                    contentPadding: EdgeInsets.all(16),
+                                    title: Text('Reset - Are you sure?'),
+                                    children: [
+                                      Text(
+                                          'This action can NOT be undone. All data will be lost!'),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            TextButton(
+                                                child: Text('Cancel'),
                                                 onPressed: () {
-                                                  this._reset();
                                                   Navigator.pop(dialogContext);
-                                                },
-                                              ), // button 2
-                                            ])
-                                      ],
-                                    );
-                                  },
-                                );
-                              })
-                        },
-                    child: const Text('Reset')),
-              )
+                                                }), // button 1
+                                            ElevatedButton(
+                                              child: const Text('Reset'),
+                                              onPressed: () {
+                                                this._reset();
+                                                Navigator.pop(dialogContext);
+                                              },
+                                            ), // button 2
+                                          ])
+                                    ],
+                                  );
+                                },
+                              );
+                            })
+                      },
+                    ),
+                  ))
             ],
           ),
         ),
