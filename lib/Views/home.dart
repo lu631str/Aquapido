@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:provider/provider.dart';
 
+import '../Widgets/CupSizeElement.dart';
 import '../Widgets/QuickAddDialog.dart';
 import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
@@ -38,6 +39,7 @@ class _HomeState extends State<Home> {
   Artboard _riveArtboard;
   RiveAnimationController _controller;
   SimpleAnimation _animation = SimpleAnimation('100%');
+  final _myController = TextEditingController(text: '0');
 
   @override
   void initState() {
@@ -50,17 +52,16 @@ class _HomeState extends State<Home> {
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
 
-    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen )
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => QuickAddDialog(
-            text: "rgdfg",
-            title: "dfgdfg",
-            descriptions: "44",
-          )
-        );
-      });
+      if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => QuickAddDialog(
+                    text: "rgdfg",
+                    title: "dfgdfg",
+                    descriptions: "44",
+                  ));
+        });
     }
 
     ShakeDetector.autoStart(onPhoneShake: () {
@@ -91,6 +92,81 @@ class _HomeState extends State<Home> {
         _updateWaterGlass();
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _myController.dispose();
+    super.dispose();
+  }
+
+  void saveCustomSize(customSize, dialogContext, mainContext) {
+    setState(() {
+      _myController.text = '0';
+      Provider.of<SettingsModel>(mainContext, listen: false)
+          .addCustomCupSize(customSize);
+      Navigator.pop(dialogContext);
+    });
+  }
+
+  bool isCustomSizeValid(TextEditingController controller) {
+    int customSize = int.tryParse(controller.text) ?? -1;
+    if (customSize >= 50 && customSize <= 5000) {
+      return true;
+    }
+    return false;
+  }
+
+  void showCustomSizeAddDialog(mainContext) {
+    bool isInputValid = false;
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return SimpleDialog(
+                contentPadding: EdgeInsets.all(16),
+                title: const Text('Add Size'),
+                children: [
+                  TextFormField(
+                    controller: _myController,
+                    onChanged: (value) {
+                      setState(() {
+                        isInputValid = isCustomSizeValid(_myController);
+                      });
+                    },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Custom Cup Size (ml)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              _myController.text = '0';
+                              Navigator.pop(context);
+                            }), // button 1
+                        ElevatedButton(
+                          child: const Text('Save'),
+                          onPressed: (isInputValid)
+                              ? () => saveCustomSize(
+                                  int.parse(_myController.text),
+                                  context,
+                                  mainContext)
+                              : null,
+                        ), // button 2
+                      ])
+                ],
+              );
+            },
+          );
+        });
   }
 
   void _updateWaterGlass() {
@@ -139,7 +215,7 @@ class _HomeState extends State<Home> {
 
   Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
-      if(mounted) {
+      if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
       } else {
         print('not mounted');
@@ -262,10 +338,66 @@ class _HomeState extends State<Home> {
                         'Cup size:',
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      Text(
-                        '${context.watch<SettingsModel>().cupSize} ml',
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
+                      TextButton(
+                          child: Row(children: [
+                            Text(
+                              context
+                                      .watch<SettingsModel>()
+                                      .cupSize
+                                      .toString() +
+                                  'ml ',
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            Icon(Icons.edit, color: Colors.black),
+                          ]),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return SimpleDialog(
+                                      contentPadding: const EdgeInsets.all(14),
+                                      title: Text('Choose Size'),
+                                      children: [
+                                        Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.55,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
+                                          child: GridView.count(
+                                            crossAxisCount: 3,
+                                            children: Provider.of<
+                                                        SettingsModel>(context,
+                                                    listen: true)
+                                                .cupSizes
+                                                .map((size) => CupSizeElement(
+                                                      size: size,
+                                                      isCustom: !Constants
+                                                          .cupSizes
+                                                          .contains(size),
+                                                      mainContext: context,
+                                                      dialogContext:
+                                                          dialogContext,
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+                                        OutlinedButton(
+                                          onPressed: () {
+                                            showCustomSizeAddDialog(context);
+                                          },
+                                          child: const Text('Add'),
+                                        )
+                                      ],
+                                    );
+                                  });
+                                });
+                          }),
                     ],
                   )
                 ],

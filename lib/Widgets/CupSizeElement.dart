@@ -23,7 +23,7 @@ class CupSizeElement extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Constants.cupImages[getImageIndex(size)],
-              Text('$size ml'),
+              Text('${size}ml'),
             ],
           ),
           onPressed: () {

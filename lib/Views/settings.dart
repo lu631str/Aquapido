@@ -42,15 +42,6 @@ class _SettingsState extends State<Settings> {
 
   final String _weightUnit = 'kg';
 
-  final _myController = TextEditingController(text: '0');
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _myController.dispose();
-    super.dispose();
-  }
-
   setData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', false);
@@ -64,72 +55,6 @@ class _SettingsState extends State<Settings> {
     context.read<SettingsModel>().updateIntroSeen(false);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => WaterTrackerApp()));
-  }
-
-  void saveCustomSize(customSize, dialogContext, mainContext) {
-    setState(() {
-      _myController.text = '0';
-      Provider.of<SettingsModel>(mainContext, listen: false)
-          .addCustomCupSize(customSize);
-      Navigator.pop(dialogContext);
-    });
-  }
-
-  bool isCustomSizeValid(TextEditingController controller) {
-    int customSize = int.tryParse(controller.text) ?? -1;
-    if (customSize >= 50 && customSize <= 5000) {
-      return true;
-    }
-    return false;
-  }
-
-  void showCustomSizeAddDialog(mainContext) {
-    bool isInputValid = false;
-    showDialog(
-        context: mainContext,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return SimpleDialog(
-                contentPadding: EdgeInsets.all(16),
-                title: const Text('Add Size'),
-                children: [
-                  TextFormField(
-                    controller: _myController,
-                    onChanged: (value) { setState(() {
-                      isInputValid = isCustomSizeValid(_myController);
-                    });},
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Custom Cup Size (ml)',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        TextButton(
-                            child: const Text('Cancel'),
-                            onPressed: () {
-                              _myController.text = '0';
-                              Navigator.pop(context);
-                            }), // button 1
-                        ElevatedButton(
-                          child: const Text('Save'),
-                          onPressed: (isInputValid)
-                              ? () => saveCustomSize(
-                                  int.parse(_myController.text),
-                                  context,
-                                  mainContext)
-                              : null,
-                        ), // button 2
-                      ])
-                ],
-              );
-            },
-          );
-        });
   }
 
   @override
@@ -389,55 +314,6 @@ class _SettingsState extends State<Settings> {
                           })
                       : null,
                 ),
-              ),
-              ListTile(
-                title: Text('settings.reminder_settings.cup_size').tr(),
-                trailing: TextButton(
-                    child: Text(
-                        context.watch<SettingsModel>().cupSize.toString() +
-                            ' ml'),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return StatefulBuilder(
-                                builder: (context, setState) {
-                              return SimpleDialog(
-                                contentPadding: const EdgeInsets.all(14),
-                                title: Text('Choose Size'),
-                                children: [
-                                  Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.55,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    child: GridView.count(
-                                      crossAxisCount: 3,
-                                      children: Provider.of<SettingsModel>(
-                                              context,
-                                              listen: true)
-                                          .cupSizes
-                                          .map((size) => CupSizeElement(
-                                                size: size,
-                                                isCustom: !Constants.cupSizes
-                                                    .contains(size),
-                                                mainContext: context,
-                                                dialogContext: dialogContext,
-                                              ))
-                                          .toList(),
-                                    ),
-                                  ),
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      showCustomSizeAddDialog(context);
-                                    },
-                                    child: const Text('Add'),
-                                  )
-                                ],
-                              );
-                            });
-                          });
-                    }),
               ),
               const Divider(
                 height: 40,
