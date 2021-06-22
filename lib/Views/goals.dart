@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Widgets/AchievementCircle.dart';
-import '../Widgets/DailyGoal.dart';
-import '../Widgets/MedalType.dart';
-import '../Widgets/InfoCard.dart';
+
+import '../Widgets/goals/AchievementCircle.dart';
+import '../Widgets/goals/DailyGoal.dart';
+import '../Widgets/goals/MedalType.dart';
+import '../Widgets/shared/InfoCard.dart';
 import 'dart:math';
 
 class Goals extends StatefulWidget {

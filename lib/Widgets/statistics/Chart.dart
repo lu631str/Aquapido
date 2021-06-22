@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Models/Water.dart';
-import '../Models/WaterModel.dart';
-import '../Models/SettingsModel.dart';
-import '../Widgets/WeeklyBarChart.dart';
-import '../Widgets/DailyLineChart.dart';
+import '../../Models/Water.dart';
+import '../../Models/WaterModel.dart';
+import '../../Models/SettingsModel.dart';
+import 'WeeklyBarChart.dart';
+import 'DailyLineChart.dart';
 
 class Chart extends StatefulWidget {
   @override

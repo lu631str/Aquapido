@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
 
-import '../Widgets/CupSizeElement.dart';
-import '../Widgets/QuickAddDialog.dart';
-import '../Widgets/HistoryListElement.dart';
 import '../Models/SettingsModel.dart';
+import '../Widgets/home/CupSizeElement.dart';
+import '../Widgets/onboarding/QuickAddDialog.dart';
+import '../Widgets/home/HistoryListElement.dart';
 import '../Models/Water.dart';
 import '../Utils/Utils.dart';
 import '../Models/WaterModel.dart';
@@ -248,6 +249,11 @@ class _HomeState extends State<Home> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  double roundDouble(double value, int places){ 
+   double mod = pow(10.0, places); 
+   return ((value * mod).round().toDouble() / mod); 
+}
+
   void disableListener() {
     debugPrint('disable');
     if (_buttonEventStream != null) {
@@ -263,7 +269,7 @@ class _HomeState extends State<Home> {
     } else {
       _unit = 'ml';
     }
-    return water.toString();
+    return roundDouble(water, 2).toString();
   }
 
   @override

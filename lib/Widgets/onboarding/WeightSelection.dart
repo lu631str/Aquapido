@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 
-import '../Models/SettingsModel.dart';
+import '../../Models/SettingsModel.dart';
 
 class WeightSelection extends StatefulWidget {
   @override

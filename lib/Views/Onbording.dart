@@ -3,17 +3,17 @@ import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/Models/SettingsModel.dart';
-import 'package:water_tracker/Widgets/ActivitySelection.dart';
-import 'package:water_tracker/Widgets/GenderSelection.dart';
-import 'package:water_tracker/Widgets/InfoCard.dart';
-import 'package:water_tracker/Widgets/WeightSelection.dart';
+import 'package:water_tracker/Widgets/onboarding/ActivitySelection.dart';
+import 'package:water_tracker/Widgets/onboarding/GenderSelection.dart';
+import 'package:water_tracker/Widgets/shared/InfoCard.dart';
+import 'package:water_tracker/Widgets/onboarding/WeightSelection.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../Models/SettingsModel.dart';
-import '../Widgets/ActivitySelection.dart';
-import '../Widgets/GenderSelection.dart';
-import '../Widgets/InfoCard.dart';
-import '../Widgets/WeightSelection.dart';
+import '../Widgets/onboarding/ActivitySelection.dart';
+import '../Widgets/onboarding/GenderSelection.dart';
+import '../Widgets/shared/InfoCard.dart';
+import '../Widgets/onboarding/WeightSelection.dart';
 import '../main.dart';
 
 class Onbording extends StatefulWidget {

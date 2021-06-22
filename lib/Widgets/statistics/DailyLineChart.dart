@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../Models/Water.dart';
+import '../../Models/Water.dart';
 
 class DailyLineChart extends StatefulWidget {
   final List<Water> waterList;

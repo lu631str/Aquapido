@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart';
-import 'package:water_tracker/Widgets/Chart.dart';
 
-import '../Widgets/Chart.dart';
-import '../Widgets/AverageCard.dart';
+import '../Widgets/statistics/Chart.dart';
+import '../Widgets/statistics/AverageCard.dart';
 import '../Models/WaterModel.dart';
 import '../Models/SettingsModel.dart';
 
