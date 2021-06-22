@@ -44,7 +44,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 30, right: 10, bottom: 10, left: 10),
+        padding: EdgeInsets.only(top: 24, right: 8, bottom: 10, left: 7),
         child: BarChart(
               mainData(),
             ));

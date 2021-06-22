@@ -80,9 +80,15 @@ class _StatisticsState extends State<Statistics> {
                   child: Column(
                     children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ToggleSwitch(
+                            Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text('Total Liters per Day: 3.4L'),
+                        ),
+                            Padding(
+                          padding: EdgeInsets.all(5),
+                          child: ToggleSwitch(
                               minHeight: 24.0,
                               minWidth: 60.0,
                               cornerRadius: 14.0,
@@ -108,9 +114,14 @@ class _StatisticsState extends State<Statistics> {
                                     .setDayDiagramm(index == 0);
                               },
                             ),
+                        ),
+                            
                           ],
                         ),
-                        Chart()
+                        Padding(
+                          child: Chart(),
+                          padding: EdgeInsets.all(5),
+                        ),
                     ],
                   ),
                 ),
