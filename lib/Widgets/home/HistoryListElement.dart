@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Views/Home.dart';
+import '../../Views/home.dart';
 import '../../Models/Water.dart';
 
 class HistoryListElement extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
-import '../Utils/Utils.dart';
+import '../Utils/utils.dart';
 
 class ReminderNotification {
   static NotificationChannel _getNotificationChannel(

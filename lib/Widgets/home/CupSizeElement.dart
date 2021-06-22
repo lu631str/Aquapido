@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../Utils/Constants.dart';
-import '../../Utils/Utils.dart';
+import '../../Utils/utils.dart';
 import '../../Models/SettingsModel.dart';
 
 class CupSizeElement extends StatelessWidget {

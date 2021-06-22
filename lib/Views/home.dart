@@ -12,7 +12,7 @@ import '../Widgets/home/CupSizeElement.dart';
 import '../Widgets/onboarding/QuickAddDialog.dart';
 import '../Widgets/home/HistoryListElement.dart';
 import '../Models/Water.dart';
-import '../Utils/Utils.dart';
+import '../Utils/utils.dart';
 import '../Models/WaterModel.dart';
 import '../Utils/Constants.dart';
 import '../src/ReminderNotification.dart';
@@ -116,6 +116,9 @@ class _HomeState extends State<Home> {
 
   bool isCustomSizeValid(TextEditingController controller) {
     int customSize = int.tryParse(controller.text) ?? -1;
+    if (Constants.cupSizes.contains(customSize)) {
+      return false;
+    }
     if (customSize >= 50 && customSize <= 5000) {
       return true;
     }
@@ -234,14 +237,14 @@ class _HomeState extends State<Home> {
     this._showUndoSnackBar(index, water);
   }
 
-  void _showUndoSnackBar(index, waterModel) {
+  void _showUndoSnackBar(index, water) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
-      content: Text('Deleted: ${waterModel.toString()}'),
+      content: Text('Deleted: ${water.toString()}'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          this._addWaterCup(waterModel, index, 1);
+          this._addWaterCup(water, index, 1);
         },
       ),
     );
@@ -249,10 +252,10 @@ class _HomeState extends State<Home> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  double roundDouble(double value, int places){ 
-   double mod = pow(10.0, places); 
-   return ((value * mod).round().toDouble() / mod); 
-}
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
 
   void disableListener() {
     debugPrint('disable');
@@ -263,14 +266,8 @@ class _HomeState extends State<Home> {
   }
 
   String _formatDailyTotalWaterAmount(dynamic water) {
-    if (water >= 1000) {
       water = water / 1000.0;
-      _unit = 'L';
       return roundDouble(water.toDouble(), 2).toString();
-    } else {
-      _unit = 'ml';
-      return water.toString();
-    }
   }
 
   @override
@@ -302,8 +299,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context).textTheme.headline2,
             ),
             Expanded(
-              child: 
-              Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
@@ -329,16 +325,26 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))} $_unit',
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))}L',
                         style: Theme.of(context).textTheme.headline2,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 4),
-                        height: MediaQuery.of(context).size.height * 0.23,
-                        width: MediaQuery.of(context).size.width * 0.36,
-                        child: _riveArtboard == null
-                            ? const Text('Loading')
-                            : Rive(artboard: _riveArtboard),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 4),
+                            height: MediaQuery.of(context).size.height * 0.23,
+                            width: MediaQuery.of(context).size.width * 0.36,
+                            child: _riveArtboard == null
+                                ? const Text('Loading')
+                                : Rive(artboard: _riveArtboard),
+                          ),
+                          Positioned(
+                            left: 128.0,
+                            top: 12.0,
+                            child: Text('${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L', style: TextStyle(fontSize: 17),),
+                          ),
+                        ],
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -448,13 +454,13 @@ class _HomeState extends State<Home> {
                           }),
                     ],
                   ),
-                  
                 ],
               ),
             ),
             Expanded(
               child: Card(
-                margin: const EdgeInsets.only(top: 4, right: 11, bottom: 11, left: 11),
+                margin: const EdgeInsets.only(
+                    top: 4, right: 11, bottom: 11, left: 11),
                 elevation: Constants.CARD_ELEVATION,
                 color: Color(0xFFE7F3FF),
                 child: ListView.builder(

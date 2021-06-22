@@ -56,8 +56,8 @@ class AverageCard extends StatelessWidget {
               Text(subTitle),
             ],
           ),
-          width: cardSize,
-          height: cardSize,
+          width: MediaQuery.of(context).size.width * 0.25,
+          height: MediaQuery.of(context).size.width * 0.25,
         ),
       ),
     );
