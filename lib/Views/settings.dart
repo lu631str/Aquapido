@@ -13,6 +13,7 @@ import '../src/ReminderNotification.dart';
 import '../Models/SettingsModel.dart';
 import '../Widgets/CupSizeElement.dart';
 import '../main.dart';
+import '../Widgets/QuickAddDialogInfo.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key key, this.title}) : super(key: key);
@@ -328,6 +329,23 @@ class _SettingsState extends State<Settings> {
                       'settings.quick_settings.title',
                       style: Theme.of(context).textTheme.headline5,
                     ).tr(),
+                    trailing: IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return StatefulBuilder(builder: (context, setState) {
+
+                                return QuickAddDialogInfo(
+
+                                );
+                              });
+                            });
+                      },
+                      icon: Icon(Icons.info_outline),
+                      padding: const EdgeInsets.only(right: 6),
+                      constraints: BoxConstraints(),
+                    ),
                   ),
                   SwitchListTile(
                       value: context.watch<SettingsModel>().powerSettings,
