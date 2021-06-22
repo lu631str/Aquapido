@@ -26,7 +26,7 @@ class InfoCard extends StatelessWidget {
           ),
           Container(
           //margin: EdgeInsets.fromLTRB(0,10,0,10),
-            width: MediaQuery.of(context).size.width / 1.5 ,
+            width: MediaQuery.of(context).size.width / 1.4 ,
             height: MediaQuery.of(context).size.height / 6.8,
             // height: SizeConfig.screenHeight,
             child: AutoSizeText.rich(
@@ -35,7 +35,7 @@ class InfoCard extends StatelessWidget {
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text: this.title + '\n\n',
+                        text: this.title + '\n',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
