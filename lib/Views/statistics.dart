@@ -82,7 +82,7 @@ class _StatisticsState extends State<Statistics> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: 8, left: 9),
-                        child: Text('Total Water: ${Provider.of<WaterModel>(context).totalWaterAmountPerDay(Provider.of<SettingsModel>(context, listen: false).selectedDate) / 1000.0}L'),
+                        child: Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(Provider.of<SettingsModel>(context, listen: false).selectedDate) / 1000.0}L'),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 9, right: 9),

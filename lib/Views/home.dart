@@ -266,7 +266,7 @@ class _HomeState extends State<Home> {
     if (water >= 1000) {
       water = water / 1000.0;
       _unit = 'L';
-      return roundDouble(water.toDb, 2).toString();
+      return roundDouble(water.toDouble(), 2).toString();
     } else {
       _unit = 'ml';
       return water.toString();
@@ -299,7 +299,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Text(
               'Stay Hydrated',
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.headline2,
             ),
             Expanded(
               child: 
