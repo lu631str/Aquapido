@@ -459,20 +459,9 @@ class _SettingsState extends State<Settings> {
                             context: context,
                             builder: (context) {
                               return StatefulBuilder(builder: (context, setState) {
+
                                 return QuickAddDialogInfo(
-                                  // contentPadding: EdgeInsets.all(16),
-                                  // title: Text('Information'),
-                                  // children: [
-                                  //   Text(
-                                  //       'We calculate the recommended value based on your personal information.'),
-                                  //   SimpleDialogOption(
-                                  //     child: OutlinedButton(
-                                  //         onPressed: () {
-                                  //           Navigator.pop(context);
-                                  //         },
-                                  //         child: Text('Alright')),
-                                  //   )
-                                  // ],
+
                                 );
                               });
                             });
