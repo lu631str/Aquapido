@@ -18,34 +18,28 @@ class ChartState extends State<Chart> {
   DateTime selectedDate;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     selectedDate =
-        Provider.of<SettingsModel>(context, listen: false).selectedDate;
-    waterListWeek = Provider.of<WaterModel>(context, listen: false)
+        Provider.of<SettingsModel>(context, listen: true).selectedDate;
+    waterListWeek = Provider.of<WaterModel>(context, listen: true)
         .getWaterListFor7Days(selectedDate);
-    waterListDay = Provider.of<WaterModel>(context, listen: false)
+    waterListDay = Provider.of<WaterModel>(context, listen: true)
         .getWaterListForDay(selectedDate);
   }
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.9,
+      aspectRatio: 1.7,
       child: Card(
-          elevation: 2,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           color: const Color(0xff3546a6),
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, top: 24, bottom: 12),
-              child:
-                  Provider.of<SettingsModel>(context, listen: true).dayDiagramm
-                      ? DailyLineChart(waterListDay)
-                      : WeeklyBarChart(waterListWeek, selectedDate),
-            ),
-          )),
+          child: Provider.of<SettingsModel>(context, listen: true).dayDiagramm
+              ? DailyLineChart(waterListDay)
+              : WeeklyBarChart(waterListWeek, selectedDate)),
     );
   }
 }

@@ -24,6 +24,10 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   double _upperYBorder = 10000; // ml
 
   WeeklyBarChartState(this.waterListWeek, this.startDate) {
+    if(waterListWeek.isEmpty) {
+      waterListWeek = [0,0,0,0,0,0,0];
+      return;
+    }
     List<double> listCopy = waterListWeek.map((value) => value).toList();
     maxWaterValue = listCopy.reduce(max);
 
@@ -39,7 +43,12 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(mainData());
+    return Padding(
+        padding: EdgeInsets.only(top: 30, right: 10, bottom: 10, left: 10),
+        child: BarChart(
+              mainData(),
+            ));
+
   }
 
   List<BarChartGroupData> _getBarChartGroupData() {

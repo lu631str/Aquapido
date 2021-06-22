@@ -44,8 +44,6 @@ class _StatisticsState extends State<Statistics> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
-        child: AspectRatio(
-          aspectRatio: 100 / 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -76,44 +74,50 @@ class _StatisticsState extends State<Statistics> {
                   child: Text(
                       '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
                   onPressed: () => _selectDate(context)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ToggleSwitch(
-                    minWidth: 80.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Color(0xFF91BBFB)],
-                      [Color(0xFF91BBFB)]
+              Card(
+                  elevation: 4,
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ToggleSwitch(
+                              minHeight: 24.0,
+                              minWidth: 60.0,
+                              cornerRadius: 14.0,
+                              activeBgColors: [
+                                [Color(0xFF91BBFB)],
+                                [Color(0xFF91BBFB)]
+                              ],
+                              activeFgColor: Colors.white,
+                              inactiveBgColor: Color(0xFFb5b5b5),
+                              inactiveFgColor: Colors.white,
+                              initialLabelIndex: Provider.of<SettingsModel>(
+                                          context,
+                                          listen: true)
+                                      .dayDiagramm
+                                  ? 0
+                                  : 1,
+                              totalSwitches: 2,
+                              labels: ['Day', 'Week'],
+                              radiusStyle: true,
+                              onToggle: (index) {
+                                Provider.of<SettingsModel>(context,
+                                        listen: false)
+                                    .setDayDiagramm(index == 0);
+                              },
+                            ),
+                          ],
+                        ),
+                        Chart()
                     ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Color(0xFFb5b5b5),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex:
-                        Provider.of<SettingsModel>(context, listen: true)
-                                .dayDiagramm
-                            ? 0
-                            : 1,
-                    totalSwitches: 2,
-                    labels: ['Day', 'Week'],
-                    radiusStyle: true,
-                    onToggle: (index) {
-                      Provider.of<SettingsModel>(context, listen: false)
-                          .setDayDiagramm(index == 0);
-                    },
                   ),
-                ],
-              ),
-              Expanded(
-                child: Padding(
-                  child: Chart(),
-                  padding: EdgeInsets.all(1),
                 ),
-              )
+              
             ],
           ),
         ),
-      ),
     );
   }
 }

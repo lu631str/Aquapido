@@ -40,7 +40,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
   _DailyLineChartState(this.waterList) {
     _cummulatedWater = [];
 
-    if(waterList.isEmpty) {
+    if (waterList.isEmpty) {
       return;
     }
 
@@ -57,9 +57,9 @@ class _DailyLineChartState extends State<DailyLineChart> {
     int maxWaterValue = _cummulatedWater.last.ceil();
 
     // set Y height dependending on the maximum value
-    if(maxWaterValue >= _lowerYBorder && maxWaterValue < _upperYBorder) {
+    if (maxWaterValue >= _lowerYBorder && maxWaterValue < _upperYBorder) {
       _maxY = (maxWaterValue / 1000).ceil() * 1000.0;
-    } else if(maxWaterValue >= _upperYBorder) {
+    } else if (maxWaterValue >= _upperYBorder) {
       _maxY = _upperYBorder;
     } else {
       _maxY = _lowerYBorder;
@@ -69,7 +69,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
 
     // set X width depending on the start date
     for (var i = 0; i < _dayTimes.length; i++) {
-      if(firstTime.hour <= _dayTimes[i]) {
+      if (firstTime.hour <= _dayTimes[i]) {
         // if odd time, take next smaller even time
         _dayTimesIndex = firstTime.hour % 2 == 0 ? i : i - 1;
 
@@ -83,9 +83,11 @@ class _DailyLineChartState extends State<DailyLineChart> {
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-              mainData(),
-            );
+    return Padding(
+        padding: EdgeInsets.only(top: 30, right: 10, bottom: 10, left: 10),
+        child: LineChart(
+          mainData(),
+        ));
   }
 
   SideTitles _getBottomSideTitles() {
@@ -98,7 +100,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
       getTitles: (value) {
         int compare = 0;
         for (var i = 0; i < 13; i++) {
-          if(value.toInt() == compare) {
+          if (value.toInt() == compare) {
             return _dayTimes[_dayTimesIndex + i].toString();
           }
           compare += 2;
@@ -110,23 +112,23 @@ class _DailyLineChartState extends State<DailyLineChart> {
 
   SideTitles _getLeftSideTitles() {
     return SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          margin: 12,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xffb4c4d9),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-          getTitles: (value) {
-            for (var i = 0; i < 10; i++) {
-              if(value.toInt() == i + 1) {
-                return value.toInt().toString() + 'L';
-              }
-            }
-            return '';
-          },
-        );
+      showTitles: true,
+      reservedSize: 22,
+      margin: 12,
+      getTextStyles: (value) => const TextStyle(
+        color: Color(0xffb4c4d9),
+        fontWeight: FontWeight.bold,
+        fontSize: 15,
+      ),
+      getTitles: (value) {
+        for (var i = 0; i < 10; i++) {
+          if (value.toInt() == i + 1) {
+            return value.toInt().toString() + 'L';
+          }
+        }
+        return '';
+      },
+    );
   }
 
   List<FlSpot> _getSpots() {
@@ -137,9 +139,12 @@ class _DailyLineChartState extends State<DailyLineChart> {
           double hour = waterList[i].dateTime.hour.toDouble();
           double minutesNormalized = waterList[i].dateTime.minute / 60;
           double secondsNormalized = (waterList[i].dateTime.second / 60) / 100;
-          double xValue = hour + minutesNormalized + secondsNormalized - _dayTimes[_dayTimesIndex];
+          double xValue = hour +
+              minutesNormalized +
+              secondsNormalized -
+              _dayTimes[_dayTimesIndex];
 
-          if(waterValue > _maxY) {
+          if (waterValue > _maxY) {
             return MapEntry(i, FlSpot(xValue, _maxY / 1000));
           }
           return MapEntry(i, FlSpot(xValue, waterValue / 1000));
@@ -186,12 +191,12 @@ class _DailyLineChartState extends State<DailyLineChart> {
       minY: _minY,
       maxY: _maxY / 1000,
       axisTitleData: FlAxisTitleData(
-              bottomTitle: AxisTitle(
-                  showTitle: true,
-                  margin: 0,
-                  titleText: 'Time of day',
-                  textStyle: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center)),
+          bottomTitle: AxisTitle(
+              showTitle: true,
+              margin: 0,
+              titleText: 'Time of day',
+              textStyle: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center)),
       lineBarsData: [
         LineChartBarData(
           curveSmoothness: 0.1,
