@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/src/painting/gradient.dart' as gradient;
 
 import '../Widgets/CupSizeElement.dart';
 import '../Widgets/QuickAddDialog.dart';
@@ -292,7 +293,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context).textTheme.headline1,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.38,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -318,6 +319,10 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))} $_unit',
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.4,
@@ -325,9 +330,42 @@ class _HomeState extends State<Home> {
                             ? const Text('Loading')
                             : Rive(artboard: _riveArtboard),
                       ),
-                      Text(
-                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))} $_unit',
-                        style: Theme.of(context).textTheme.headline2,
+                      ElevatedButton(
+                        onPressed: () async {
+                          _addWaterCup(
+                              Water(
+                                  dateTime: DateTime.now(),
+                                  cupSize: Provider.of<SettingsModel>(context,
+                                          listen: false)
+                                      .cupSize),
+                              0,
+                              1);
+                          _updateWaterGlass();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: gradient.LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Colors.blue,
+                                  Colors.lightBlueAccent,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Container(
+                            width: 130,
+                            height: 36,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Add',
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -430,21 +468,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _addWaterCup(
-              Water(
-                  dateTime: DateTime.now(),
-                  cupSize: Provider.of<SettingsModel>(context, listen: false)
-                      .cupSize),
-              0,
-              1);
-          _updateWaterGlass();
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
