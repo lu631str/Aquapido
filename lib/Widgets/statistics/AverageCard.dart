@@ -20,7 +20,7 @@ class AverageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: Constants.CARD_MARGIN,
+      margin: EdgeInsets.all(MediaQuery.of(context).size.width /38.5),
       elevation: Constants.CARD_ELEVATION,
       child: Padding(
         padding: EdgeInsets.all(5),
@@ -31,7 +31,7 @@ class AverageCard extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/average_sign.png',
-                height: MediaQuery.of(context).size.height * 0.063,
+                height: MediaQuery.of(context).size.height * 0.061,
               ),
               Padding(
                 padding: EdgeInsets.all(4),
@@ -48,6 +48,7 @@ class AverageCard extends StatelessWidget {
                         return AutoSizeText(
                           '${isMl ? _formatValue(snapshot.data / 1000) : _formatValue(snapshot.data)}',
                           style: TextStyle(fontSize: fontSize),
+                          maxLines: 1,
                         );
                       else if (snapshot.hasError) {
                         return Text('Error');
@@ -55,7 +56,9 @@ class AverageCard extends StatelessWidget {
                         return Text('None');
                     }),
               ),
-              Text(subTitle),
+              AutoSizeText(subTitle,
+                maxLines: 1,
+              ),
             ],
           ),
         ),

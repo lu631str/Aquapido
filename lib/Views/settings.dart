@@ -345,16 +345,6 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   SwitchListTile(
-                      value: context.watch<SettingsModel>().powerSettings,
-                      title: Text('settings.quick_settings.quick_power').tr(),
-                      onChanged: (value) {
-                        setState(() {
-                          context
-                              .read<SettingsModel>()
-                              .updatePowerSettings(value);
-                        });
-                      }),
-                  SwitchListTile(
                       value: context.watch<SettingsModel>().shakeSettings,
                       title: Text('settings.quick_settings.quick_shaking').tr(),
                       onChanged: (value) {
@@ -364,6 +354,17 @@ class _SettingsState extends State<Settings> {
                               .updateShakeSettings(value);
                         });
                       }),
+                  SwitchListTile(
+                      value: context.watch<SettingsModel>().powerSettings,
+                      title: Text('settings.quick_settings.quick_power').tr(),
+                      onChanged: (value) {
+                        setState(() {
+                          context
+                              .read<SettingsModel>()
+                              .updatePowerSettings(value);
+                        });
+                      }),
+
                   SwitchListTile(
                       value: false,
                       title:
@@ -446,6 +447,36 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                   ),
+                  ListTile(
+                    title: Text('settings.personal_settings.activity').tr(),
+                    trailing: DropdownButton(
+                      value: context.watch<SettingsModel>().activity,
+                      items: <DropdownMenuItem>[
+                        DropdownMenuItem(
+                          value: 'low',
+                          child: Text('Low'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'normal',
+                          child: Text('Normal'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'high',
+                          child: Text('High'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'very_high',
+                          child: Text('Very High'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          context.read<SettingsModel>().updateActivity(value);
+                        });
+                      },
+                    ),
+                  ),
+
                   ListTile(
                     title: Text('settings.personal_settings.gender').tr(),
                     trailing: DropdownButton(
