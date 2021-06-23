@@ -13,7 +13,6 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: Constants.CARD_MARGIN,
-      color: Color.fromARGB(255, 219, 237, 255),
       elevation: Constants.CARD_ELEVATION,
       shape: RoundedRectangleBorder(
     side: BorderSide(color: Colors.blue, width: 1),

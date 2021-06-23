@@ -35,6 +35,8 @@ class _DailyLineChartState extends State<DailyLineChart> {
     const Color(0xff02d39a),
   ];
 
+  static const Color foregroundColor = Color(0xFFF2F2F2);
+
   List<Water> waterList;
 
   _DailyLineChartState(this.waterList) {
@@ -96,7 +98,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
       reservedSize: 22,
       margin: 8,
       getTextStyles: (value) => const TextStyle(
-          color: Color(0xffb4c4d9), fontWeight: FontWeight.bold, fontSize: 16),
+          color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16),
       getTitles: (value) {
         int compare = 0;
         for (var i = 0; i < 13; i++) {
@@ -116,7 +118,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
       reservedSize: 22,
       margin: 12,
       getTextStyles: (value) => const TextStyle(
-        color: Color(0xffb4c4d9),
+        color: foregroundColor,
         fontWeight: FontWeight.bold,
         fontSize: 15,
       ),
@@ -160,13 +162,13 @@ class _DailyLineChartState extends State<DailyLineChart> {
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
           return FlLine(
-            color: const Color(0xffe7e8ec),
+            color: foregroundColor,
             strokeWidth: 0.5,
           );
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
-            color: const Color(0xffe7e8ec),
+            color: foregroundColor,
             strokeWidth: 0.5,
           );
         },
@@ -185,7 +187,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
       ),
       borderData: FlBorderData(
           show: true,
-          border: Border.all(color: const Color(0xffe7e8ec), width: 1)),
+          border: Border.all(color: foregroundColor, width: 1)),
       minX: _minX,
       maxX: _maxX,
       minY: _minY,
@@ -195,7 +197,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
               showTitle: true,
               margin: 0,
               titleText: 'Time of day',
-              textStyle: TextStyle(color: Colors.white),
+              textStyle: TextStyle(color: foregroundColor),
               textAlign: TextAlign.center)),
       lineBarsData: [
         LineChartBarData(

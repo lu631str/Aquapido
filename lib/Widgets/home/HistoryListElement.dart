@@ -20,6 +20,7 @@ class HistoryListElement extends StatelessWidget {
         alignment: Alignment.center,
         child: Stack(children: [
           Card(
+            color: Colors.white,
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.black87, width: 1),
                 borderRadius: BorderRadius.circular(32),

@@ -79,7 +79,6 @@ class _GoalsState extends State<Goals> {
                   children: [
                     Card(
                         elevation: Constants.CARD_ELEVATION,
-                        color: Color.fromARGB(255, 219, 237, 255),
                         margin: Constants.CARD_MARGIN,
                         child: Column(children: <Widget>[
                           Row(
