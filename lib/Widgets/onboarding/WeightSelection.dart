@@ -38,7 +38,6 @@ class _WeightSelectionState extends State<WeightSelection> {
           //margin: EdgeInsets.fromLTRB(0, 18, 0, 22),
           width:MediaQuery.of(context).size.width /2 ,
           child: Card(
-            color: Color.fromARGB(255, 219, 237, 255),
             elevation: Constants.CARD_ELEVATION,
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: NumberPicker(

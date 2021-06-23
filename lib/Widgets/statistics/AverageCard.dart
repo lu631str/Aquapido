@@ -27,7 +27,7 @@ class AverageCard extends StatelessWidget {
           child: Column(
             children: [
               Image.asset(
-                'assets/images/average_sign.jpg',
+                'assets/images/average_sign.png',
                 height: MediaQuery.of(context).size.height * 0.065,
               ),
               Padding(

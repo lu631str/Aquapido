@@ -101,8 +101,8 @@ class _StatisticsState extends State<Statistics> {
                           minWidth: 58.0,
                           cornerRadius: 14.0,
                           activeBgColors: [
-                            [Color(0xFF91BBFB)],
-                            [Color(0xFF91BBFB)]
+                            [Color(0xFF5171C5)],
+                            [Color(0xFF5171C5)]
                           ],
                           activeFgColor: Colors.white,
                           inactiveBgColor: Color(0xFFb5b5b5),

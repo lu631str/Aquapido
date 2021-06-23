@@ -462,7 +462,6 @@ class _HomeState extends State<Home> {
                 margin: const EdgeInsets.only(
                     top: 4, right: 11, bottom: 11, left: 11),
                 elevation: Constants.CARD_ELEVATION,
-                color: Color(0xFFE7F3FF),
                 child: ListView.builder(
                     padding: const EdgeInsets.all(8),
                     itemCount: Provider.of<WaterModel>(context, listen: true)

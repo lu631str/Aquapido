@@ -36,7 +36,7 @@ class ChartState extends State<Chart> {
       child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          color: const Color(0xff3546a6),
+          color: const Color(0xff5171C5),
           child: Provider.of<SettingsModel>(context, listen: true).dayDiagramm
               ? DailyLineChart(waterListDay)
               : WeeklyBarChart(waterListWeek, selectedDate)),

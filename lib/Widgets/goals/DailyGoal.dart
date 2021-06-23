@@ -56,7 +56,6 @@ class DailyGoal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: Constants.CARD_ELEVATION,
-      color: Color.fromARGB(255, 219, 237, 255),
       margin: Constants.CARD_MARGIN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

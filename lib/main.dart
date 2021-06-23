@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
+import 'package:water_tracker/theme.dart';
 
 import 'Views/goals.dart';
 import 'Views/settings.dart';
@@ -54,6 +55,8 @@ class WaterTrackerApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         title: 'Quick Water Tracker',
+        //theme: lightTheme,
+        
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -66,6 +69,7 @@ class WaterTrackerApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.comfortaa().fontFamily,
+          cardColor: Color(0xFFEAF7FF),
 
           // Define the default TextTheme. Use this to specify the default
           // text styling for headlines, titles, bodies of text, and more.
@@ -77,6 +81,7 @@ class WaterTrackerApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 14.0),
           ),
         ),
+        
         home: Main(currentChild: currentChild));
   }
 }
@@ -137,10 +142,9 @@ class _MainState extends State<Main> {
     //
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: <Color>[color1, color2],
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
         ),
       ),
 
@@ -152,9 +156,9 @@ class _MainState extends State<Main> {
           :Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          centerTitle: true,
-          toolbarHeight: 30,
-          title: const Text('Aquapido - Quick Water Tracker'),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          toolbarHeight: 0.0,
         ),
         body: _children[_currentIndex],
         bottomNavigationBar: ClipRRect(
