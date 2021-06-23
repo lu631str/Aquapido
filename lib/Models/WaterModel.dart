@@ -314,6 +314,7 @@ class WaterModel with ChangeNotifier {
       return Water(
         dateTime: dateTime,
         cupSize: maps[i]['cup_size'],
+        addType: AddType.values.firstWhere((element) => element.toString() == maps[i]['add_type'])
       );
     });
   }

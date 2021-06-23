@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shake/shake.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
@@ -55,27 +54,18 @@ class _HomeState extends State<Home> {
       debugPrint('initialize stream');
       _buttonEventStream =
           stream.receiveBroadcastStream().listen(evaluateEvent);
-
-      if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => QuickAddDialog(
-                    text: "rgdfg",
-                    title: "dfgdfg",
-                    descriptions: "44",
-                  ));
-        });
     }
 
-    ShakeDetector.autoStart(onPhoneShake: () {
-      _addWaterCup(
-          Water(
-              dateTime: DateTime.now(),
-              cupSize: context.watch<SettingsModel>().cupSize),
-          0,
-          1);
-    });
+    if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => QuickAddDialog(
+                  text: "rgdfg",
+                  title: "dfgdfg",
+                  descriptions: "44",
+                ));
+      });
 
     // Load the animation file from the bundle, note that you could also
     // download this. The RiveFile just expects a list of bytes.
@@ -104,6 +94,50 @@ class _HomeState extends State<Home> {
     _myController.dispose();
     super.dispose();
   }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  // ====== Handle Shake and Power Button Events
+
+  Future<void> evaluateEvent(event) async {
+    var arr = event.split(',');
+    debugPrint(event);
+    if (arr[0] == 'power') {
+      _addWaterCup(
+          Water(
+              dateTime: DateTime.now(),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize,
+                  addType: AddType.power),
+          0,
+          int.parse(arr[1]));
+    }
+    if (arr[0] == 'shake') {
+      _addWaterCup(
+          Water(
+              dateTime: DateTime.now(),
+              cupSize:
+                  Provider.of<SettingsModel>(context, listen: false).cupSize,
+                  addType: AddType.shake),
+          0,
+          int.parse(arr[1]));
+    }
+  }
+
+  void disableListener() {
+    debugPrint('disable');
+    if (_buttonEventStream != null) {
+      _buttonEventStream.cancel();
+      _buttonEventStream = null;
+    }
+  }
+
+  // ======
 
   void saveCustomSize(customSize, dialogContext, mainContext) {
     setState(() {
@@ -190,36 +224,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  @override
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  Future<void> evaluateEvent(event) async {
-    var arr = event.split(',');
-    debugPrint(event);
-    if (arr[0] == 'power') {
-      _addWaterCup(
-          Water(
-              dateTime: DateTime.now(),
-              cupSize:
-                  Provider.of<SettingsModel>(context, listen: false).cupSize),
-          0,
-          int.parse(arr[1]));
-    }
-    if (arr[0] == 'shake') {
-      _addWaterCup(
-          Water(
-              dateTime: DateTime.now(),
-              cupSize:
-                  Provider.of<SettingsModel>(context, listen: false).cupSize),
-          0,
-          int.parse(arr[1]));
-    }
-  }
-
   Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
       if (mounted) {
@@ -257,17 +261,9 @@ class _HomeState extends State<Home> {
     return ((value * mod).round().toDouble() / mod);
   }
 
-  void disableListener() {
-    debugPrint('disable');
-    if (_buttonEventStream != null) {
-      _buttonEventStream.cancel();
-      _buttonEventStream = null;
-    }
-  }
-
   String _formatDailyTotalWaterAmount(dynamic water) {
-      water = water / 1000.0;
-      return roundDouble(water.toDouble(), 2).toString();
+    water = water / 1000.0;
+    return roundDouble(water.toDouble(), 2).toString();
   }
 
   @override
@@ -342,7 +338,10 @@ class _HomeState extends State<Home> {
                           Positioned(
                             left: 128.0,
                             top: 12.0,
-                            child: Text('${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L', style: TextStyle(fontSize: 17),),
+                            child: Text(
+                              '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
+                              style: TextStyle(fontSize: 17),
+                            ),
                           ),
                         ],
                       ),
@@ -353,7 +352,8 @@ class _HomeState extends State<Home> {
                                   dateTime: DateTime.now(),
                                   cupSize: Provider.of<SettingsModel>(context,
                                           listen: false)
-                                      .cupSize),
+                                      .cupSize,
+                                      addType: AddType.button),
                               0,
                               1);
                           _updateWaterGlass();

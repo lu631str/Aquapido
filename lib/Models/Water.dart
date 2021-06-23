@@ -5,13 +5,14 @@ import '../Utils/utils.dart';
 class Water {
   final DateTime dateTime;
   final int cupSize;
+  final AddType addType;
 
   bool isPlaceholder = false;
 
-  Water({this.dateTime, this.cupSize});
+  Water({this.dateTime, this.cupSize, this.addType});
 
   Water.placeholder(this.cupSize)
-      : dateTime = DateTime.now(),
+      : dateTime = DateTime.now(), addType = AddType.button,
         isPlaceholder = true;
 
   String _getDateString(DateTime dateTime) {
@@ -29,6 +30,13 @@ class Water {
     return '${cupSize}ml';
   }
 
+  String getAddType() {
+    if(isPlaceholder) {
+      return '';
+    }
+    return addType.toString().substring(addType.toString().indexOf('.') + 1);
+  }
+
   /// Returns Date String Representation.
   String toDateString() {
     if(isPlaceholder) {
@@ -44,5 +52,12 @@ class Water {
   Map<String, dynamic> toMap() => {
         'date_time': dateTime.millisecondsSinceEpoch,
         'cup_size': cupSize,
+        'add_type': addType.toString()
       };
+}
+
+enum AddType {  
+   button,
+   shake,
+   power 
 }

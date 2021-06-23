@@ -34,6 +34,7 @@ class HistoryListElement extends StatelessWidget {
                       child: Text(this._water.toCupSizeString()),
                       margin: const EdgeInsets.only(left: 60),
                     ),
+                    Text(_water.getAddType().toString()),
                     Text(this._water.toDateString()),
                     Row(
                       children: [
