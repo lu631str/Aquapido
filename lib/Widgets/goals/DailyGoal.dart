@@ -11,8 +11,8 @@ class DailyGoal extends StatelessWidget {
 
   DailyGoal({Key key}) : super(key: key);
 
-  double _calcRecommendedPercentage(weight) {
-    var normalizedRecommended = this._calcRecommend(weight) - this._minGoal;
+  double _calcRecommendedPercentage(weight,gender,activity) {
+    var normalizedRecommended = this._calcRecommend(weight,gender,activity) - this._minGoal;
     var range = this._maxGoal - this._minGoal;
     return (normalizedRecommended / range) * 100;
   }
@@ -38,10 +38,34 @@ class DailyGoal extends StatelessWidget {
     }
   }
 
-  double _calcRecommend(weight) {
+  double _calcGender(gender){
+    if (gender =="female"){
+      return 39.0;
+    }
+      return 40.0;
+  }
+
+  double _calcActivity(activity) {
+    if (activity == "low") {
+      return -130;
+    } else if (activity == "normal") {
+      return 0;
+    } else if (activity == "high") {
+      return 500;
+    } else if (activity == "very_high") {
+      return 1000;
+    }
+  }
+
+  double _calcRecommend(weight,gender,activity) {
     // Kilogramm Körpergewicht x 30 bis 40 ml = empfohlene Trinkmenge pro Tag.
     // oder: 1ml Wasser pro 1 kcal pro Tag
-    double recommended = weight * 40.0;
+    double recommended = weight * _calcGender(gender) + _calcActivity(activity);
+    
+
+
+
+
 
     if (recommended < _minGoal) {
       return _minGoal;
@@ -156,7 +180,7 @@ class DailyGoal extends StatelessWidget {
                   FlutterSliderHatchMarkLabel(
                       percent: 0, label: Text('${_minGoal.toInt()}')),
                   FlutterSliderHatchMarkLabel(
-                    percent: _calcRecommendedPercentage(context.watch<SettingsModel>().weight),
+                    percent: _calcRecommendedPercentage(context.watch<SettingsModel>().weight,context.watch<SettingsModel>().gender,context.watch<SettingsModel>().activity),
                     label: Container(
                       child: Container(
                           height: 16,
@@ -176,7 +200,7 @@ class DailyGoal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4, bottom: 4),
             child: Align(
                 alignment: Alignment(
-                    _getAlignXValueFromPrecentage(_calcRecommendedPercentage(context.watch<SettingsModel>().weight)),
+                    _getAlignXValueFromPrecentage(_calcRecommendedPercentage(context.watch<SettingsModel>().weight,context.watch<SettingsModel>().gender,context.watch<SettingsModel>().activity)),
                     0),
                 child: Wrap(
                   children: [
