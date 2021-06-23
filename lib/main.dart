@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
-import 'Views/Goals.dart';
-import 'Views/Settings.dart';
-import 'Views/Home.dart';
+import 'Views/goals.dart';
+import 'Views/settings.dart';
+import 'Views/home.dart';
 import 'Views/Onbording.dart';
-import 'Views/Statistics.dart';
+import 'Views/statistics.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
@@ -71,7 +71,7 @@ class WaterTrackerApp extends StatelessWidget {
           // text styling for headlines, titles, bodies of text, and more.
           textTheme: TextTheme(
             headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
-            headline2: TextStyle(fontSize: 42.0),
+            headline2: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
             headline3: TextStyle(fontSize: 32.0),
             headline4: TextStyle(fontSize: 24.0),
             bodyText2: TextStyle(fontSize: 14.0),

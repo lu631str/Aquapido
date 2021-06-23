@@ -40,6 +40,16 @@ class _StatisticsState extends State<Statistics> {
     }
   }
 
+  Widget _getStringForDiagramm() {
+    DateTime startDate = Provider.of<SettingsModel>(context, listen: false).selectedDate;
+    if(Provider.of<SettingsModel>(context, listen: true).dayDiagramm) {
+      return Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L');
+    } else {
+      return Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L');
+    }
+                                       
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +92,7 @@ class _StatisticsState extends State<Statistics> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: 8, left: 9),
-                        child: Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(Provider.of<SettingsModel>(context, listen: false).selectedDate) / 1000.0}L'),
+                        child: _getStringForDiagramm(),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 9, right: 9),

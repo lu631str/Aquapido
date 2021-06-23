@@ -321,7 +321,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.0"
   percent_indicator:
     dependency: "direct main"
     description:
@@ -370,7 +370,7 @@ packages:
       name: rive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.20"
+    version: "0.7.17"
   sensors:
     dependency: "direct main"
     description:
@@ -515,7 +515,7 @@ packages:
       name: toggle_switch
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   typed_data:
     dependency: transitive
     description:
@@ -543,7 +543,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -566,5 +566,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.13.0 <3.0.0"
   flutter: ">=2.0.4"

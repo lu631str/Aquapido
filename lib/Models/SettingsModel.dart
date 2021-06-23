@@ -92,9 +92,6 @@ class SettingsModel with ChangeNotifier {
 
   /// Saves custom [cupSize] to sharedPreferences within a string array.
   void addCustomCupSize(int cupSize) {
-    if (Constants.cupSizes.contains(cupSize)) {
-      return;
-    }
     List<String> cupSizesStringList =
         (prefs.getStringList('customCupSizes') ?? []);
     cupSizesStringList.add(cupSize.toString());
