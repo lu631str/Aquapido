@@ -108,6 +108,7 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == 'power') {
+      if(Provider.of<SettingsModel>(context,listen: true).powerSettings) {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -116,8 +117,10 @@ class _HomeState extends State<Home> {
                   addType: AddType.power),
           0,
           int.parse(arr[1]));
+      }
     }
     if (arr[0] == 'shake') {
+      if(Provider.of<SettingsModel>(context,listen: true).shakeSettings) {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -126,6 +129,7 @@ class _HomeState extends State<Home> {
                   addType: AddType.shake),
           0,
           int.parse(arr[1]));
+      }
     }
   }
 
