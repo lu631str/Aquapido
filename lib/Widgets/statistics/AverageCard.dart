@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../Utils/Constants.dart';
 
@@ -24,11 +25,13 @@ class AverageCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(5),
         child: Container(
+          width: MediaQuery.of(context).size.width * 0.25,
+          height: MediaQuery.of(context).size.width * 0.25,
           child: Column(
             children: [
               Image.asset(
                 'assets/images/average_sign.png',
-                height: MediaQuery.of(context).size.height * 0.065,
+                height: MediaQuery.of(context).size.height * 0.063,
               ),
               Padding(
                 padding: EdgeInsets.all(4),
@@ -42,22 +45,19 @@ class AverageCard extends StatelessWidget {
                           style: TextStyle(fontSize: fontSize),
                         );
                       else if (snapshot.hasData)
-                        return Text(
+                        return AutoSizeText(
                           '${isMl ? _formatValue(snapshot.data / 1000) : _formatValue(snapshot.data)}',
                           style: TextStyle(fontSize: fontSize),
                         );
                       else if (snapshot.hasError) {
                         return Text('Error');
-                      }
-                      else
+                      } else
                         return Text('None');
                     }),
               ),
               Text(subTitle),
             ],
           ),
-          width: MediaQuery.of(context).size.width * 0.25,
-          height: MediaQuery.of(context).size.width * 0.25,
         ),
       ),
     );
