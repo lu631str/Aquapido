@@ -23,6 +23,8 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   double _lowerYBorder = 4000; // ml
   double _upperYBorder = 10000; // ml
 
+  static const Color foregroundColor = Color(0xFFF2F2F2);
+
   WeeklyBarChartState(this.waterListWeek, this.startDate) {
     if(waterListWeek.isEmpty) {
       waterListWeek = [0,0,0,0,0,0,0];
@@ -78,7 +80,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
     return SideTitles(
       showTitles: true,
       getTextStyles: (value) => const TextStyle(
-          color: Color(0xffb4c4d9), fontWeight: FontWeight.bold, fontSize: 14),
+          color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 14),
       margin: 26,
       reservedSize: 12,
       getTitles: (double value) {
@@ -129,7 +131,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
             return BarTooltipItem(
               rod.y.toString(),
               TextStyle(
-                color: Colors.white,
+                color: foregroundColor,
                 fontWeight: FontWeight.bold,
               ),
             );
@@ -142,7 +144,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
-              color: Color(0xffb4c4d9),
+              color: foregroundColor,
               fontWeight: FontWeight.bold,
               fontSize: 15),
           margin: 12,
@@ -168,7 +170,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
         show: true,
         checkToShowHorizontalLine: (value) => (value % 1 == 0),
         getDrawingHorizontalLine: (value) => FlLine(
-          color: const Color(0xffe7e8ec),
+          color: foregroundColor,
           strokeWidth: 0.5,
         ),
       ),
