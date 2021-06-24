@@ -101,11 +101,21 @@ class WaterModel with ChangeNotifier {
         return 0;
       else
          sum++;
-
-
     });
     return sum;
   }
+
+  int quickAddUsed() {
+
+    num sum = 0;
+    history.forEach((Water) {
+   if(Water.addType == AddType.shake || Water.addType == AddType.power)
+        sum++;
+    });
+    return sum;
+  }
+
+
 
 
   List<Water> getWaterListForDay(DateTime dateTime) {

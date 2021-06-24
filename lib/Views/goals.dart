@@ -29,6 +29,9 @@ class _GoalsState extends State<Goals> {
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
 
+
+  List<int> maxQuickAddUsed = [100, 360, 500];
+
   MedalType getMedal(List<int> max, int current) {
     if (current < max[0]) {
       return MedalType.Bronze;
@@ -82,6 +85,7 @@ class _GoalsState extends State<Goals> {
 
     int _totalWaterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmount();
     int _totalCups = Provider.of<WaterModel>(context, listen: false).totalCups();
+    int _quickAddUsed = Provider.of<WaterModel>(context, listen: false).quickAddUsed();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -155,8 +159,8 @@ class _GoalsState extends State<Goals> {
                                         Color.fromARGB(255, 168, 93, 30),
                                     medalType: MedalType.Bronze,
                                     isCurrentInt: true,
-                                    currentInt: 5,
-                                    max: 10,
+                                    currentInt: _quickAddUsed,
+                                    max: getMax(maxQuickAddUsed, _quickAddUsed),
                                     unit: 'Times',
                                     subtitle: 'Quick Add\n Used'),
                                 //mus nach implementierung von Streaks eingefügt werden
