@@ -14,7 +14,7 @@ class ReminderNotification {
         channelKey: 'basic_channel',
         channelName: 'Basic notifications',
         channelDescription: 'Notification channel for basic tests',
-        defaultColor: Color(0xFF9D50DD),
+        defaultColor: Color(0xFF275e85),
         ledColor: Colors.white,
         playSound: playSound,
         soundSource: 'resource://raw/res_bonez_water_reminder',
@@ -24,7 +24,8 @@ class ReminderNotification {
   static void initialize() {
     AwesomeNotifications().initialize(
         // set the icon to null if you want to use the default app icon
-        'resource://drawable/launcher_icon',
+
+        'resource://drawable/notification_icon_done',
         [
           _getNotificationChannel(false, true),
         ]);
