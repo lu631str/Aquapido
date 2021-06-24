@@ -48,8 +48,6 @@ class _HomeState extends State<Home> {
     ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
 
-    _updateWaterGlass();
-
     if (_buttonEventStream == null) {
       debugPrint('initialize stream');
       _buttonEventStream =
@@ -83,7 +81,7 @@ class _HomeState extends State<Home> {
               _riveArtboard = artboard,
               this._controller.isActive = false,
             });
-        _updateWaterGlass();
+        _updateGlassAnimation();
       },
     );
   }
@@ -108,7 +106,7 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == 'power') {
-      if(Provider.of<SettingsModel>(context,listen: true).powerSettings) {
+      if(Provider.of<SettingsModel>(context,listen: false).powerSettings) {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -120,7 +118,7 @@ class _HomeState extends State<Home> {
       }
     }
     if (arr[0] == 'shake') {
-      if(Provider.of<SettingsModel>(context,listen: true).shakeSettings) {
+      if(Provider.of<SettingsModel>(context,listen: false).shakeSettings) {
       _addWaterCup(
           Water(
               dateTime: DateTime.now(),
@@ -214,7 +212,7 @@ class _HomeState extends State<Home> {
         });
   }
 
-  void _updateWaterGlass() {
+  void _updateGlassAnimation() {
     if (_controller != null) {
       setState(() {
         //_controller.isActive = true;
@@ -224,6 +222,7 @@ class _HomeState extends State<Home> {
         _animation.instance.reset();
         _animation.instance.advance(currentWater);
         _controller.apply(_riveArtboard, currentWater);
+        print('ANIMATION UPDATE');
       });
     }
   }
@@ -241,7 +240,7 @@ class _HomeState extends State<Home> {
   void _delete(index) async {
     Water water =
         Provider.of<WaterModel>(context, listen: false).removeWater(index);
-    _updateWaterGlass();
+    _updateGlassAnimation();
     this._showUndoSnackBar(index, water);
   }
 
@@ -360,7 +359,7 @@ class _HomeState extends State<Home> {
                                       addType: AddType.button),
                               0,
                               1);
-                          _updateWaterGlass();
+                          _updateGlassAnimation();
                         },
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.zero,

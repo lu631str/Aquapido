@@ -30,7 +30,11 @@ class Water {
     return '${cupSize}ml';
   }
 
-  String getAddType() {
+  AddType getAddType() {
+    return addType;
+  }
+
+  String toAddTypeString() {
     if(isPlaceholder) {
       return '';
     }

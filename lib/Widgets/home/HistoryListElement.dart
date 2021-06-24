@@ -14,13 +14,31 @@ class HistoryListElement extends StatelessWidget {
   HistoryListElement(
       this._index, this._image, this._water, this._deleteCallback);
 
+  Widget _getAddTypeIcon(AddType addType, BuildContext context) {
+    if (addType == AddType.shake) {
+      return Image.asset(
+        'assets/images/shake_icon.png',
+        height: MediaQuery.of(context).size.height * 0.048,
+      );
+    } else if (addType == AddType.power) {
+      return Image.asset(
+        'assets/images/power_icon.png',
+        height: MediaQuery.of(context).size.height * 0.048,
+      );
+    }
+    return Image.asset(
+        'assets/images/button_icon.png',
+        height: MediaQuery.of(context).size.height * 0.048,
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
         alignment: Alignment.center,
         child: Stack(children: [
           Card(
-            color: Colors.white,
+              color: Colors.white,
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.black87, width: 1),
                 borderRadius: BorderRadius.circular(32),
@@ -34,7 +52,7 @@ class HistoryListElement extends StatelessWidget {
                       child: Text(this._water.toCupSizeString()),
                       margin: const EdgeInsets.only(left: 60),
                     ),
-                    Text(_water.getAddType().toString()),
+                    !_water.isPlaceholder ? _getAddTypeIcon(_water.getAddType(), context) : Text(''),
                     Text(this._water.toDateString()),
                     Row(
                       children: [

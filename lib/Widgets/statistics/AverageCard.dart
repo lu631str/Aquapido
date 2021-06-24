@@ -20,7 +20,7 @@ class AverageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(MediaQuery.of(context).size.width /38.5),
+      margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.025),
       elevation: Constants.CARD_ELEVATION,
       child: Padding(
         padding: EdgeInsets.all(5),
