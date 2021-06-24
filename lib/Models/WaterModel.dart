@@ -351,4 +351,19 @@ class WaterModel with ChangeNotifier {
       );
     });
   }
+
+  Future<List<Water>> _dailyGoalList() async {
+    final Database db = DatabaseHelper.database;
+
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps =
+    await db.query(DatabaseHelper.WATER_TABLE_NAME);
+
+    if (maps.isEmpty) {
+      log('WaterModel: Table ${DatabaseHelper.WATER_TABLE_NAME} is EMPTY!');
+      return List.generate(1, (index) => Water.placeholder(0));
+    }
+
+    return _waterModelListFromMap(maps);
+  }
 }
