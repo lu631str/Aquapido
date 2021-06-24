@@ -20,8 +20,9 @@ class DatabaseHelper {
           'CREATE TABLE $WATER_TABLE_NAME(date_time INTEGER PRIMARY KEY, cup_size INTEGER, add_type TEXT)',
         );
 
+        // goal_reached is used as a boolean
         return db.execute(
-          'CREATE TABLE $DAILY_GOAL_TABLE_NAME(date_time INTEGER PRIMARY KEY, daily_goal INTEGER)',
+          'CREATE TABLE $DAILY_GOAL_TABLE_NAME(date_time STRING PRIMARY KEY, goal_reached INTEGER)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
