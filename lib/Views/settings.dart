@@ -403,8 +403,8 @@ class _SettingsState extends State<Settings> {
                                           value: context
                                               .read<SettingsModel>()
                                               .weight,
-                                          minValue: 40,
-                                          maxValue: 150,
+                                          minValue: 35,
+                                          maxValue: 180,
                                           haptics: true,
                                           itemCount: 5,
                                           itemHeight: 32,
@@ -531,9 +531,7 @@ class _SettingsState extends State<Settings> {
               ),
               Padding(
                   padding: EdgeInsets.only(bottom: 16),
-                  child: SizedBox(
-                    width: 135,
-                    child: ElevatedButton(
+                  child: ElevatedButton(
                       child: const Text('dialog.reset').tr(),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.redAccent,
@@ -574,7 +572,7 @@ class _SettingsState extends State<Settings> {
                             })
                       },
                     ),
-                  ))
+                  )
             ],
           ),
         ),
