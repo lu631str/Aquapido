@@ -173,7 +173,7 @@ class _GoalsState extends State<Goals> {
                                     currentInt: 123,
                                     max: 250,
                                     unit: 'Times',
-                                    subtitle: 'Drinks after\n reminder')
+                                    subtitle: 'Drinks After\n Remind')
                               ])
                         ])),
                   ],

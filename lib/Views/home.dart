@@ -57,12 +57,13 @@ class _HomeState extends State<Home> {
     if (!Provider.of<SettingsModel>(context, listen: false).dialogSeen)
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => QuickAddDialog(
-                  text: "rgdfg",
-                  title: "dfgdfg",
-                  descriptions: "44",
-                ),);
+          context: context,
+          builder: (BuildContext context) => QuickAddDialog(
+            text: "rgdfg",
+            title: "dfgdfg",
+            descriptions: "44",
+          ),
+        );
       });
 
     // Load the animation file from the bundle, note that you could also
@@ -78,9 +79,9 @@ class _HomeState extends State<Home> {
         // artboard.We store a reference to it so we can toggle playback.
         artboard.addController(_controller = _animation);
         setState(() {
-              _riveArtboard = artboard;
-              this._controller.isActive = false;
-          });
+          _riveArtboard = artboard;
+          this._controller.isActive = false;
+        });
       },
     );
   }
@@ -105,27 +106,27 @@ class _HomeState extends State<Home> {
     var arr = event.split(',');
     debugPrint(event);
     if (arr[0] == 'power') {
-      if(Provider.of<SettingsModel>(context,listen: false).powerSettings) {
-      _addWaterCup(
-          Water(
-              dateTime: DateTime.now(),
-              cupSize:
-                  Provider.of<SettingsModel>(context, listen: false).cupSize,
-                  addType: AddType.power),
-          0,
-          int.parse(arr[1]));
+      if (Provider.of<SettingsModel>(context, listen: false).powerSettings) {
+        _addWaterCup(
+            Water(
+                dateTime: DateTime.now(),
+                cupSize:
+                    Provider.of<SettingsModel>(context, listen: false).cupSize,
+                addType: AddType.power),
+            0,
+            int.parse(arr[1]));
       }
     }
     if (arr[0] == 'shake') {
-      if(Provider.of<SettingsModel>(context,listen: false).shakeSettings) {
-      _addWaterCup(
-          Water(
-              dateTime: DateTime.now(),
-              cupSize:
-                  Provider.of<SettingsModel>(context, listen: false).cupSize,
-                  addType: AddType.shake),
-          0,
-          int.parse(arr[1]));
+      if (Provider.of<SettingsModel>(context, listen: false).shakeSettings) {
+        _addWaterCup(
+            Water(
+                dateTime: DateTime.now(),
+                cupSize:
+                    Provider.of<SettingsModel>(context, listen: false).cupSize,
+                addType: AddType.shake),
+            0,
+            int.parse(arr[1]));
       }
     }
   }
@@ -220,7 +221,6 @@ class _HomeState extends State<Home> {
         _animation.instance.reset();
         _animation.instance.advance(currentWater);
         _controller.apply(_riveArtboard, currentWater);
-        print('ANIMATION UPDATE');
       });
     }
   }
@@ -310,22 +310,23 @@ class _HomeState extends State<Home> {
                       FutureBuilder(
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
-                          builder:
-                              (BuildContext context, AsyncSnapshot<int> snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting)
-                        return Text(
-                              '0',
-                              style: Theme.of(context).textTheme.headline5,
-                            );
-                      else if (snapshot.hasData)
-                        return Text(
-                              snapshot.data.toString(),
-                              style: Theme.of(context).textTheme.headline5,
-                            );
-                      else if (snapshot.hasError) {
-                        return Text('Error');
-                      } else
-                        return Text('None');
+                          builder: (BuildContext context,
+                              AsyncSnapshot<int> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting)
+                              return Text(
+                                '0',
+                                style: Theme.of(context).textTheme.headline5,
+                              );
+                            else if (snapshot.hasData)
+                              return Text(
+                                snapshot.data.toString(),
+                                style: Theme.of(context).textTheme.headline5,
+                              );
+                            else if (snapshot.hasError) {
+                              return Text('Error');
+                            } else
+                              return Text('None');
                           }),
                     ],
                   ),
@@ -344,15 +345,28 @@ class _HomeState extends State<Home> {
                             height: MediaQuery.of(context).size.height * 0.23,
                             width: MediaQuery.of(context).size.width * 0.36,
                             child: _riveArtboard == null
-                                ? SizedBox(height: 40, width: 40, child: CircularProgressIndicator())
+                                ? SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: Text('Loading'))
                                 : Rive(artboard: _riveArtboard),
                           ),
                           Positioned(
                             left: MediaQuery.of(context).size.width * 0.33,
-                            top: MediaQuery.of(context).size.height * 0.02,
-                            child: Text(
-                              '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
-                              style: TextStyle(fontSize: 17, color: Color(0xFF49873C)),
+                            top: MediaQuery.of(context).size.height * 0.017,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.outlined_flag_outlined,
+                                  color: Color(0xFF49873C),
+                                  size: 20,
+                                ),
+                                Text(
+                                  '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
+                                  style: TextStyle(
+                                      fontSize: 17, color: Color(0xFF49873C)),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -365,7 +379,7 @@ class _HomeState extends State<Home> {
                                   cupSize: Provider.of<SettingsModel>(context,
                                           listen: false)
                                       .cupSize,
-                                      addType: AddType.button),
+                                  addType: AddType.button),
                               0,
                               1);
                           _updateGlassAnimation();
@@ -407,12 +421,8 @@ class _HomeState extends State<Home> {
                       TextButton(
                           child: Row(children: [
                             Text(
-                              context
-                                      .watch<SettingsModel>()
-                                      .cupSize
-                                      .toString() +
-                                  'ml ',
-                              style: Theme.of(context).textTheme.headline5,
+                              '${context.watch<SettingsModel>().cupSize}ml ',
+                              style: Theme.of(context).textTheme.headline6,
                             ),
                             Icon(Icons.edit, color: Colors.black),
                           ]),

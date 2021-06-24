@@ -49,10 +49,11 @@ class HistoryListElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
+                      width: _water.isPlaceholder ? 210 : MediaQuery.of(context).size.width * 0.16,
                       child: Text(this._water.toCupSizeString()),
-                      margin: const EdgeInsets.only(left: 60),
+                      margin: const EdgeInsets.only(left: 50),
                     ),
-                    !_water.isPlaceholder ? _getAddTypeIcon(_water.getAddType(), context) : Text(''),
+                    _water.isPlaceholder ? Text('') : _getAddTypeIcon(_water.getAddType(), context),
                     Text(this._water.toDateString()),
                     Row(
                       children: [

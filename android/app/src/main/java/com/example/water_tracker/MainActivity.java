@@ -177,7 +177,7 @@ public class MainActivity extends FlutterActivity {
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
-                if (mAccel > 11) {
+                if (mAccel > 10) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Device has shaken.", Toast.LENGTH_SHORT);
                     toast.show();
                     vibrate();

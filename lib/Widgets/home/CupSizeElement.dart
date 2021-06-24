@@ -33,8 +33,8 @@ class CupSizeElement extends StatelessWidget {
           },
         ),
         Positioned(
-          top: -10,
-          right: 5,
+          bottom: MediaQuery.of(context).size.height * 0.073,
+          left: MediaQuery.of(context).size.width * 0.108,
           child: isCustom
               ? IconButton(
                   icon: IconTheme(
