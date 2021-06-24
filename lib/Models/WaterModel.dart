@@ -85,6 +85,14 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
+  int totalWaterAmount() {
+    num sum = 0;
+    history.forEach((water) {
+        sum += water.cupSize;
+    });
+    return sum;
+  }
+
   List<Water> getWaterListForDay(DateTime dateTime) {
     return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
   }
