@@ -2,12 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:water_tracker/Utils/Constants.dart';
+import 'package:provider/provider.dart';
+import 'dart:math';
 
 import '../Widgets/goals/AchievementCircle.dart';
 import '../Widgets/goals/DailyGoal.dart';
 import '../Widgets/goals/MedalType.dart';
 import '../Widgets/shared/InfoCard.dart';
-import 'dart:math';
+import '../Models/WaterModel.dart';
 
 class Goals extends StatefulWidget {
   Goals({Key key, this.title}) : super(key: key);
@@ -20,21 +22,26 @@ class Goals extends StatefulWidget {
 }
 
 class _GoalsState extends State<Goals> {
-  int _currentCupCounter = 4;
-  int _totalWaterAmount = 2600;
 
   int randomNumber =Random().nextInt(14) ;
   
-  List<int> maxTotalWater = [10, 100, 300];
+  List<int> maxTotalWater = [10, 100, 300, 999];
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
+
+
+  List<int> maxQuickAddUsed = [100, 360, 500];
 
   MedalType getMedal(List<int> max, int current) {
     if (current < max[0]) {
       return MedalType.Bronze;
     } else if (current >= max[0] && current < max[1]) {
       return MedalType.Silver;
-    } else if (current >= max[1]) {
+    } else if (current >= max[1]&& current < max[2]) {
+      return MedalType.Gold;}
+
+
+    else if (current >= max[2]) {
       return MedalType.Gold;
     } else {
       return MedalType.Gold; // error case
@@ -48,7 +55,11 @@ class _GoalsState extends State<Goals> {
       return Color.fromARGB(255, 193, 193, 194);
     } else if (current >= max[1]) {
       return Color.fromARGB(255, 199, 177, 70);
-    } else {
+
+    }else if (current >= max[2]) {
+      return Color.fromARGB(255, 199, 177, 70);
+    }
+    else {
       return Color.fromARGB(153, 255, 0, 0); // error case
     }
   }
@@ -58,15 +69,24 @@ class _GoalsState extends State<Goals> {
       return max[0];
     } else if (current >= max[0] && current < max[1]) {
       return max[1];
-    } else if (current >= max[1]) {
+    } else if (current >= max[1]&& current < max[2]) {
       return max[2];
-    } else {
+    }
+    else if (current >= max[2]) {
+      return max[3];
+    }
+      else {
       return -1; // error case
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
+    int _totalWaterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmount();
+    int _totalCups = Provider.of<WaterModel>(context, listen: false).totalCups();
+    int _quickAddUsed = Provider.of<WaterModel>(context, listen: false).quickAddUsed();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
@@ -88,23 +108,23 @@ class _GoalsState extends State<Goals> {
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder: getRingColor(
-                                        maxTotalWater, _totalWaterAmount),
+                                        maxTotalWater, (_totalWaterAmount~/1000).toInt()),
                                     medalType: getMedal(
-                                        maxTotalWater, _totalWaterAmount),
+                                        maxTotalWater,  (_totalWaterAmount~/1000).toInt()),
                                     isCurrentInt: false,
-                                    currentDouble: _totalWaterAmount / 1000,
-                                    max: maxTotalWater[0],
+                                    currentDouble: (_totalWaterAmount / 1000).toDouble(),
+                                    max: getMax(maxTotalWater, (_totalWaterAmount~/1000).toInt()),
                                     unit: 'Liter',
                                     subtitle: 'Total Water'),
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder: getRingColor(
-                                        maxCups, _currentCupCounter),
+                                        maxCups, _totalCups),
                                     medalType:
-                                        getMedal(maxCups, _currentCupCounter),
+                                        getMedal(maxCups, _totalCups),
                                     isCurrentInt: true,
-                                    currentInt: _currentCupCounter.round(),
-                                    max: getMax(maxCups, _currentCupCounter),
+                                    currentInt: _totalCups,
+                                    max: getMax(maxCups, _totalCups),
                                     unit: 'Cups',
                                     subtitle: 'Total Cups'),
                                 //mus nach implementierung von Streaks eingefügt werden
@@ -139,8 +159,8 @@ class _GoalsState extends State<Goals> {
                                         Color.fromARGB(255, 168, 93, 30),
                                     medalType: MedalType.Bronze,
                                     isCurrentInt: true,
-                                    currentInt: 5,
-                                    max: 10,
+                                    currentInt: _quickAddUsed,
+                                    max: getMax(maxQuickAddUsed, _quickAddUsed),
                                     unit: 'Times',
                                     subtitle: 'Quick Add\n Used'),
                                 //mus nach implementierung von Streaks eingefügt werden

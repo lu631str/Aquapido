@@ -85,6 +85,39 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
+  int totalWaterAmount() {
+    num sum = 0;
+    history.forEach((water) {
+        sum += water.cupSize;
+    });
+    return sum;
+  }
+
+  int totalCups() {
+
+    num sum = 0;
+    history.forEach((water) {
+      if(history[0].isPlaceholder == true)
+        return 0;
+      else
+         sum++;
+    });
+    return sum;
+  }
+
+  int quickAddUsed() {
+
+    num sum = 0;
+    history.forEach((Water) {
+   if(Water.addType == AddType.shake || Water.addType == AddType.power)
+        sum++;
+    });
+    return sum;
+  }
+
+
+
+
   List<Water> getWaterListForDay(DateTime dateTime) {
     return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
   }
