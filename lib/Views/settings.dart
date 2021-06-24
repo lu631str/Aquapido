@@ -544,10 +544,10 @@ class _SettingsState extends State<Settings> {
                                 builder: (context, setState) {
                                   return SimpleDialog(
                                     contentPadding: EdgeInsets.all(16),
-                                    title: Text('reset_dialog.title').tr(),
+                                    title: Text('settings.reset_dialog.title').tr(),
                                     children: [
                                       Text(
-                                          'reset_dialog.content').tr(),
+                                          'settings.reset_dialog.content').tr(),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
