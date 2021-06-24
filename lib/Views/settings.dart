@@ -560,8 +560,8 @@ class _SettingsState extends State<Settings> {
                                             ElevatedButton(
                                               child: const Text('dialog.reset').tr(),
                                               onPressed: () {
-                                                this._reset();
                                                 Navigator.pop(dialogContext);
+                                                this._reset();
                                               },
                                             ), // button 2
                                           ])

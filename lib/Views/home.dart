@@ -348,7 +348,7 @@ class _HomeState extends State<Home> {
                                 ? SizedBox(
                                     height: 40,
                                     width: 40,
-                                    child: CircularProgressIndicator())
+                                    child: Text('Loading'))
                                 : Rive(artboard: _riveArtboard),
                           ),
                           Positioned(
