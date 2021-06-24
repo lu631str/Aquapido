@@ -25,6 +25,11 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   static const Color foregroundColor = Color(0xFFF2F2F2);
 
+  List<Color> gradientColors = [
+    const Color(0xff8d60bd),
+    const Color(0xffb941bf),
+  ];
+
   WeeklyBarChartState(this.waterListWeek, this.startDate) {
     if(waterListWeek.isEmpty) {
       waterListWeek = [0,0,0,0,0,0,0];
@@ -66,7 +71,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     width: barWidth,
                     y: waterValue > _maxY ? _maxY / 1000 : waterValue / 1000,
-                    colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                    colors: gradientColors)
               ],
               showingTooltipIndicators: [0],
             ),
@@ -114,6 +119,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   BarChartData mainData() {
     return BarChartData(
+
       alignment: BarChartAlignment.spaceAround,
       maxY: _maxY / 1000,
       barTouchData: BarTouchData(
@@ -166,6 +172,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
               return '';
             }),
       ),
+      
       gridData: FlGridData(
         show: true,
         checkToShowHorizontalLine: (value) => (value % 1 == 0),

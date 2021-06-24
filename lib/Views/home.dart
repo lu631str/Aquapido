@@ -230,16 +230,18 @@ class _HomeState extends State<Home> {
       if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
 
-        double dailyGoal = Provider.of<SettingsModel>(context, listen: false).dailyGoal;
-        int waterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(DateTime.now());
-        if(waterAmount >= dailyGoal) {
+        double dailyGoal =
+            Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+        int waterAmount = Provider.of<WaterModel>(context, listen: false)
+            .totalWaterAmountPerDay(DateTime.now());
+        if (waterAmount >= dailyGoal) {
           final snackBar = SnackBar(
             backgroundColor: Colors.green,
-          behavior: SnackBarBehavior.floating,
-          content: Text('Nice One! You reached your daily Goal!'),
-    );
+            behavior: SnackBarBehavior.floating,
+            content: Text('Nice One! You reached your daily Goal!'),
+          );
 
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
         print('not mounted');
@@ -305,7 +307,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Stay Hydrated',
+              'Stay Hydrated!',
               style: Theme.of(context).textTheme.headline2,
             ),
             Expanded(
@@ -492,11 +494,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    top: 4, right: 11, bottom: 11, left: 11),
-                elevation: Constants.CARD_ELEVATION,
-                child: ListView.builder(
+              child:  ListView.builder(
                     padding: const EdgeInsets.all(8),
                     itemCount: Provider.of<WaterModel>(context, listen: true)
                         .history
@@ -515,7 +513,7 @@ class _HomeState extends State<Home> {
                       );
                     }),
               ),
-            ),
+            
           ],
         ),
       ),

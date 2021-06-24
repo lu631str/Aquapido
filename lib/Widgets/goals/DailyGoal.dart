@@ -72,10 +72,7 @@ class DailyGoal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: Constants.CARD_ELEVATION,
-      margin: Constants.CARD_MARGIN,
-      child: Column(
+    return  Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Row(
@@ -214,7 +211,7 @@ class DailyGoal extends StatelessWidget {
                 )),
           ),
         ],
-      ),
+      
     );
   }
 }

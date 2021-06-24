@@ -77,10 +77,7 @@ class _GoalsState extends State<Goals> {
                 alignment: Alignment(0.60, -0.80),
                 child: Column(
                   children: [
-                    Card(
-                        elevation: Constants.CARD_ELEVATION,
-                        margin: Constants.CARD_MARGIN,
-                        child: Column(children: <Widget>[
+                     Column(children: <Widget>[
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,10 +152,22 @@ class _GoalsState extends State<Goals> {
                                     unit: 'Times',
                                     subtitle: 'Drinks After\n Remind')
                               ])
-                        ])),
+                        ])
                   ],
                 )),
+             const Divider(
+                height: 20,
+                thickness: 1,
+                indent: 10,
+                endIndent: 5,
+              ),
             DailyGoal(),
+             const Divider(
+                height: 20,
+                thickness: 1,
+                indent: 5,
+                endIndent: 10,
+              ),
             InfoCard(title: "\nDid you know that...",
             text:tr("infos.info"+randomNumber.toString()),
             )
