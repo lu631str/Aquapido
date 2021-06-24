@@ -22,7 +22,6 @@ class Goals extends StatefulWidget {
 }
 
 class _GoalsState extends State<Goals> {
-  int _currentCupCounter = 4;
 
   int randomNumber =Random().nextInt(14) ;
   
@@ -82,6 +81,7 @@ class _GoalsState extends State<Goals> {
   Widget build(BuildContext context) {
 
     int _totalWaterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmount();
+    int _totalCups = Provider.of<WaterModel>(context, listen: false).totalCups();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -115,12 +115,12 @@ class _GoalsState extends State<Goals> {
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder: getRingColor(
-                                        maxCups, _currentCupCounter),
+                                        maxCups, _totalCups),
                                     medalType:
-                                        getMedal(maxCups, _currentCupCounter),
+                                        getMedal(maxCups, _totalCups),
                                     isCurrentInt: true,
-                                    currentInt: _currentCupCounter.round(),
-                                    max: getMax(maxCups, _currentCupCounter),
+                                    currentInt: _totalCups,
+                                    max: getMax(maxCups, _totalCups),
                                     unit: 'Cups',
                                     subtitle: 'Total Cups'),
                                 //mus nach implementierung von Streaks eingefügt werden

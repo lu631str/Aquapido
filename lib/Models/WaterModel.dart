@@ -93,6 +93,21 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
+  int totalCups() {
+
+    num sum = 0;
+    history.forEach((water) {
+      if(history[0].isPlaceholder == true)
+        return 0;
+      else
+         sum++;
+
+
+    });
+    return sum;
+  }
+
+
   List<Water> getWaterListForDay(DateTime dateTime) {
     return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
   }
