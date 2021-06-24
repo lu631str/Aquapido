@@ -77,11 +77,10 @@ class _HomeState extends State<Home> {
         // Add a controller to play back a known animation on the main/default
         // artboard.We store a reference to it so we can toggle playback.
         artboard.addController(_controller = _animation);
-        setState(() => {
-              _riveArtboard = artboard,
-              this._controller.isActive = false,
-            });
-        _updateGlassAnimation();
+        setState(() {
+              _riveArtboard = artboard;
+              this._controller.isActive = false;
+          });
       },
     );
   }
@@ -91,6 +90,12 @@ class _HomeState extends State<Home> {
     // Clean up the controller when the widget is disposed.
     _myController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _updateGlassAnimation();
+    super.didChangeDependencies();
   }
 
   @override
@@ -339,8 +344,8 @@ class _HomeState extends State<Home> {
                                 : Rive(artboard: _riveArtboard),
                           ),
                           Positioned(
-                            left: 128.0,
-                            top: 12.0,
+                            left: MediaQuery.of(context).size.width * 0.33,
+                            top: MediaQuery.of(context).size.height * 0.02,
                             child: Text(
                               '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
                               style: TextStyle(fontSize: 17),
