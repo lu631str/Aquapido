@@ -65,7 +65,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
                 BarChartRodData(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     width: barWidth,
-                    y: waterValue / 1000,
+                    y: waterValue > _maxY ? _maxY / 1000 : waterValue / 1000,
                     colors: [Colors.lightBlueAccent, Colors.greenAccent])
               ],
               showingTooltipIndicators: [0],
