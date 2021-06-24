@@ -132,11 +132,11 @@ class _SettingsState extends State<Settings> {
                               builder: (context, setState) {
                                 return SimpleDialog(
                                   contentPadding: const EdgeInsets.all(16),
-                                  title: const Text('Set Reminder Mode'),
+                                  title: const Text('settings.reminder_mode_dialog.title').tr(),
                                   children: [
                                     ListTile(
                                       title: Text(
-                                          'Choose how we should remind you in addition to show a notification'),
+                                          'settings.reminder_mode_dialog.content').tr(),
                                     ),
                                     Column(
                                       children: [
@@ -145,7 +145,7 @@ class _SettingsState extends State<Settings> {
                                                     context,
                                                     listen: true)
                                                 .reminderVibration,
-                                            title: Text('Vibration'),
+                                            title: Text('settings.reminder_mode_dialog.vibration').tr(),
                                             onChanged: (bool value) {
                                               Provider.of<SettingsModel>(
                                                       context,
@@ -157,7 +157,7 @@ class _SettingsState extends State<Settings> {
                                                     context,
                                                     listen: true)
                                                 .reminderSound,
-                                            title: Text('Sound'),
+                                            title: Text('settings.reminder_mode_dialog.sound').tr(),
                                             onChanged: (bool value) {
                                               Provider.of<SettingsModel>(
                                                       context,
@@ -170,7 +170,7 @@ class _SettingsState extends State<Settings> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         TextButton(
-                                            child: const Text('Cancel'),
+                                            child: const Text('dialog.cancel').tr(),
                                             onPressed: () {
                                               context
                                                   .read<SettingsModel>()
@@ -178,7 +178,7 @@ class _SettingsState extends State<Settings> {
                                               Navigator.pop(dialogContext);
                                             }), // button 1
                                         ElevatedButton(
-                                          child: const Text('Save'),
+                                          child: const Text('dialog.save').tr(),
                                           onPressed: () {
                                             context
                                                 .read<SettingsModel>()
@@ -257,7 +257,7 @@ class _SettingsState extends State<Settings> {
                               builder: (context, setState) {
                                 return SimpleDialog(
                                   contentPadding: const EdgeInsets.all(16),
-                                  title: const Text('Set Interval'),
+                                  title: const Text('settings.reminder_interval_dialog.title').tr(),
                                   children: [
                                     NumberPicker(
                                       value: context
@@ -286,7 +286,7 @@ class _SettingsState extends State<Settings> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           TextButton(
-                                              child: const Text('Cancel'),
+                                              child: const Text('dialog.cancel').tr(),
                                               onPressed: () {
                                                 context
                                                     .read<SettingsModel>()
@@ -294,7 +294,7 @@ class _SettingsState extends State<Settings> {
                                                 Navigator.pop(dialogContext);
                                               }), // button 1
                                           ElevatedButton(
-                                            child: const Text('Save'),
+                                            child: const Text('dialog.save').tr(),
                                             onPressed: () {
                                               context
                                                   .read<SettingsModel>()
@@ -331,11 +331,9 @@ class _SettingsState extends State<Settings> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return StatefulBuilder(builder: (context, setState) {
-
-                                return QuickAddDialogInfo(
-
-                                );
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return QuickAddDialogInfo();
                               });
                             });
                       },
@@ -364,7 +362,6 @@ class _SettingsState extends State<Settings> {
                               .updatePowerSettings(value);
                         });
                       }),
-
                   SwitchListTile(
                       value: false,
                       title:
@@ -400,7 +397,7 @@ class _SettingsState extends State<Settings> {
                                 builder: (context, setState) {
                                   return SimpleDialog(
                                     contentPadding: EdgeInsets.all(16),
-                                    title: Text('Set Weight'),
+                                    title: Text('settings.weight.title').tr(),
                                     children: [
                                       NumberPicker(
                                           value: context
@@ -422,7 +419,7 @@ class _SettingsState extends State<Settings> {
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             TextButton(
-                                                child: Text('Cancel'),
+                                                child: Text('dialog.cancel').tr(),
                                                 onPressed: () {
                                                   context
                                                       .read<SettingsModel>()
@@ -430,7 +427,7 @@ class _SettingsState extends State<Settings> {
                                                   Navigator.pop(dialogContext);
                                                 }), // button 1
                                             ElevatedButton(
-                                              child: Text('Save'),
+                                              child: Text('dialog.save').tr(),
                                               onPressed: () {
                                                 context
                                                     .read<SettingsModel>()
@@ -454,19 +451,19 @@ class _SettingsState extends State<Settings> {
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
                           value: 'low',
-                          child: Text('Low'),
+                          child: Text('settings.activity.low').tr(),
                         ),
                         DropdownMenuItem(
                           value: 'normal',
-                          child: Text('Normal'),
+                          child: Text('settings.activity.normal').tr(),
                         ),
                         DropdownMenuItem(
                           value: 'high',
-                          child: Text('High'),
+                          child: Text('settings.activity.high').tr(),
                         ),
                         DropdownMenuItem(
                           value: 'very_high',
-                          child: Text('Very High'),
+                          child: Text('settings.activity.very_high').tr(),
                         ),
                       ],
                       onChanged: (value) {
@@ -476,7 +473,6 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                   ),
-
                   ListTile(
                     title: Text('settings.personal_settings.gender').tr(),
                     trailing: DropdownButton(
@@ -484,15 +480,15 @@ class _SettingsState extends State<Settings> {
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
                           value: 'choose',
-                          child: Text('Choose'),
+                          child: Text('settings.gender.choose').tr(),
                         ),
                         DropdownMenuItem(
                           value: 'male',
-                          child: Text('Male'),
+                          child: Text('settings.gender.male').tr(),
                         ),
                         DropdownMenuItem(
                           value: 'female',
-                          child: Text('Female'),
+                          child: Text('settings.gender.female').tr(),
                         ),
                       ],
                       onChanged: (value) {
@@ -536,9 +532,9 @@ class _SettingsState extends State<Settings> {
               Padding(
                   padding: EdgeInsets.only(bottom: 16),
                   child: SizedBox(
-                    width: 120,
+                    width: 135,
                     child: ElevatedButton(
-                      child: const Text('Reset'),
+                      child: const Text('dialog.reset').tr(),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.redAccent,
                       ),
@@ -550,21 +546,21 @@ class _SettingsState extends State<Settings> {
                                 builder: (context, setState) {
                                   return SimpleDialog(
                                     contentPadding: EdgeInsets.all(16),
-                                    title: Text('Reset - Are you sure?'),
+                                    title: Text('reset_dialog.title').tr(),
                                     children: [
                                       Text(
-                                          'This action can NOT be undone. All data will be lost!'),
+                                          'reset_dialog.content').tr(),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             TextButton(
-                                                child: Text('Cancel'),
+                                                child: Text('dialog.cancel').tr(),
                                                 onPressed: () {
                                                   Navigator.pop(dialogContext);
                                                 }), // button 1
                                             ElevatedButton(
-                                              child: const Text('Reset'),
+                                              child: const Text('dialog.reset').tr(),
                                               onPressed: () {
                                                 this._reset();
                                                 Navigator.pop(dialogContext);

@@ -106,7 +106,7 @@ class ReminderNotification {
           content: NotificationContent(
               id: 10,
               channelKey: 'basic_channel',
-              title: 'Stay Hydrated - Drink water now',
+              title: 'Stay Hydrated',
               body: 'Don\'t forget to drink water!',
               payload: {'cupSize': '$cupSize'},),
           schedule: NotificationInterval(

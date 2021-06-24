@@ -30,8 +30,46 @@
             "gender": "Gender",
             "activity":"Activity",
             "language": "Language"
+        },
+        "reminder_mode_dialog" : {
+            "title": "Set Reminder Mode",
+            "content": "Choose how we should remind you in addition to show a notification",
+            "vibration": "Vibration",
+            "Sound": "Sound"
+        },
+        "reminder_interval_dialog" : {
+            "title": "Set Reminder Interval"
+        },
+        "quick_add_dialog" : {
+            "title": "Quick Add functions"
+        },
+        "weight" : {
+            "title": "Set weight",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "activity" : {
+            "low": "Low",
+            "normal": "Normal",
+            "high": "High",
+            "very_high": "Very High"
+        },
+        "gender" : {
+            "choose": "Choose",
+            "male": "Male",
+            "female": "Female"
+        },
+        "reset_dialog": {
+            "title": "Reset - Are you sure?",
+            "content": "This action can NOT be undone. All data will be lost!"
         }
+    },
 
+    "dialog": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close",
+        "reset": "Reset"
     },
 
     "infos": {

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../Models/SettingsModel.dart';
 
@@ -44,9 +45,9 @@ class _CustomDialogBoxState extends State<QuickAddDialogInfo> {
                 child: Column(
           children: [
             AutoSizeText(
-              '‘Quick Add’ functions!',
+              tr('settings.quick_add_dialog.title'),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
               maxLines: 1,
               minFontSize: 10,
             ),
@@ -88,7 +89,7 @@ class _CustomDialogBoxState extends State<QuickAddDialogInfo> {
               endIndent: 0,
             ),
             ElevatedButton(
-              child: const Text('Close'),
+              child: const Text('dialog.close').tr(),
               onPressed: () {
                 Navigator.pop(context);
                 Provider.of<SettingsModel>(context, listen: false)
