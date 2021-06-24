@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:provider/provider.dart';
 
 import '../Utils/utils.dart';
+import '../Models/SettingsModel.dart';
 
 class ReminderNotification {
   static NotificationChannel _getNotificationChannel(
@@ -29,8 +31,9 @@ class ReminderNotification {
   }
 
   static void checkPermission(BuildContext context) {
+    bool permissionDialogSeen = Provider.of<SettingsModel>(context, listen: false).permissionNote;
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) {
+      if (!isAllowed && !permissionDialogSeen) {
         showDialog(
             context: context,
             builder: (dialogContext) {
@@ -38,21 +41,22 @@ class ReminderNotification {
                 builder: (context, setState) {
                   return SimpleDialog(
                     contentPadding: const EdgeInsets.all(16),
-                    title: const Text('Alert'),
+                    title: const Text('Important Note'),
                     children: [
                       Text(
-                          'Currently this App do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the next dialog.'),
+                          'Currently this App do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the settings.'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           ElevatedButton(
                             child: const Text('I understand'),
                             onPressed: () {
+                              Provider.of<SettingsModel>(context, listen: false).updatePermissionNoteSeen(true);
                               Navigator.pop(dialogContext);
                               AwesomeNotifications()
                                   .requestPermissionToSendNotifications();
                             },
-                          ), // button 2
+                          ),
                         ],
                       )
                     ],

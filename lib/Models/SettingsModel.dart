@@ -35,6 +35,7 @@ class SettingsModel with ChangeNotifier {
   bool get reminderVibration => _reminderVibration;
   bool get reminderSound => _reminderSound;
   bool get dayDiagramm => _isDayDiagramm;
+  bool get permissionNote => prefs.getBool('permissionNoteSeen') ?? false;
   DateTime get selectedDate => _diagrammSelectedDate;
   int get weight => _weight;
   String get gender => prefs.getString('gender') ?? 'choose';
@@ -168,6 +169,12 @@ class SettingsModel with ChangeNotifier {
   /// Saves [newValue] to sharedPreferences.
   void updateActivity(String newValue) {
     prefs.setString('activity', newValue);
+    notifyListeners();
+  }
+
+  /// Saves [newValue] to sharedPreferences.
+  void updatePermissionNoteSeen(bool newValue) {
+    prefs.setBool('permissionNoteSeen', newValue);
     notifyListeners();
   }
 

@@ -17,7 +17,7 @@ class DailyGoal extends StatelessWidget {
     return (normalizedRecommended / range) * 100;
   }
 
-  double _getAlignXValueFromPrecentage(percentage) {
+  double _getAlignXValueFromPercentage(percentage) {
     // 1.0 = 100%
     // 0.5 = 75%
     // 0.0 = 50%
@@ -48,12 +48,12 @@ class DailyGoal extends StatelessWidget {
   double _calcActivity(activity) {
     if (activity == "low") {
       return -130;
-    } else if (activity == "normal") {
-      return 0;
     } else if (activity == "high") {
       return 500;
     } else if (activity == "very_high") {
       return 1000;
+    } else {
+      return 0;
     }
   }
 
@@ -61,11 +61,6 @@ class DailyGoal extends StatelessWidget {
     // Kilogramm Körpergewicht x 30 bis 40 ml = empfohlene Trinkmenge pro Tag.
     // oder: 1ml Wasser pro 1 kcal pro Tag
     double recommended = weight * _calcGender(gender) + _calcActivity(activity);
-    
-
-
-
-
 
     if (recommended < _minGoal) {
       return _minGoal;
@@ -200,7 +195,7 @@ class DailyGoal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4, bottom: 4),
             child: Align(
                 alignment: Alignment(
-                    _getAlignXValueFromPrecentage(_calcRecommendedPercentage(context.watch<SettingsModel>().weight,context.watch<SettingsModel>().gender,context.watch<SettingsModel>().activity)),
+                    _getAlignXValueFromPercentage(_calcRecommendedPercentage(context.watch<SettingsModel>().weight,context.watch<SettingsModel>().gender,context.watch<SettingsModel>().activity)),
                     0),
                 child: Wrap(
                   children: [

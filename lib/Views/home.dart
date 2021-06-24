@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                   text: "rgdfg",
                   title: "dfgdfg",
                   descriptions: "44",
-                ));
+                ),);
       });
 
     // Load the animation file from the bundle, note that you could also
@@ -90,12 +90,6 @@ class _HomeState extends State<Home> {
     // Clean up the controller when the widget is disposed.
     _myController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    _updateGlassAnimation();
-    super.didChangeDependencies();
   }
 
   @override
@@ -199,7 +193,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               _myController.text = '0';
                               Navigator.pop(context);
-                            }), // button 1
+                            }),
                         ElevatedButton(
                           child: const Text('Save'),
                           onPressed: (isInputValid)
@@ -208,7 +202,7 @@ class _HomeState extends State<Home> {
                                   context,
                                   mainContext)
                               : null,
-                        ), // button 2
+                        ),
                       ])
                 ],
               );
@@ -220,7 +214,6 @@ class _HomeState extends State<Home> {
   void _updateGlassAnimation() {
     if (_controller != null) {
       setState(() {
-        //_controller.isActive = true;
         double currentWater = Provider.of<WaterModel>(context, listen: false)
                 .totalWaterAmountPerDay(DateTime.now()) /
             Provider.of<SettingsModel>(context, listen: false).dailyGoal;
@@ -276,6 +269,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    _updateGlassAnimation();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -317,11 +311,21 @@ class _HomeState extends State<Home> {
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
                           builder:
-                              (BuildContext context, AsyncSnapshot<int> text) {
-                            return new Text(
-                              text.data.toString(),
+                              (BuildContext context, AsyncSnapshot<int> snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting)
+                        return Text(
+                              '0',
                               style: Theme.of(context).textTheme.headline5,
                             );
+                      else if (snapshot.hasData)
+                        return Text(
+                              snapshot.data.toString(),
+                              style: Theme.of(context).textTheme.headline5,
+                            );
+                      else if (snapshot.hasError) {
+                        return Text('Error');
+                      } else
+                        return Text('None');
                           }),
                     ],
                   ),
@@ -340,7 +344,7 @@ class _HomeState extends State<Home> {
                             height: MediaQuery.of(context).size.height * 0.23,
                             width: MediaQuery.of(context).size.width * 0.36,
                             child: _riveArtboard == null
-                                ? const Text('Loading')
+                                ? SizedBox(height: 40, width: 40, child: CircularProgressIndicator())
                                 : Rive(artboard: _riveArtboard),
                           ),
                           Positioned(
@@ -348,7 +352,7 @@ class _HomeState extends State<Home> {
                             top: MediaQuery.of(context).size.height * 0.02,
                             child: Text(
                               '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
-                              style: TextStyle(fontSize: 17),
+                              style: TextStyle(fontSize: 17, color: Color(0xFF49873C)),
                             ),
                           ),
                         ],

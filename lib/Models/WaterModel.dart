@@ -48,7 +48,7 @@ class WaterModel with ChangeNotifier {
   }
 
   Future<int> getTotalCupsToday() async {
-    return await _totalCupsToday();
+    return _totalCupsToday();
   }
 
   Future<double> getAverageCupsPerDay() async {
