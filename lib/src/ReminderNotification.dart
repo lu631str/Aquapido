@@ -93,16 +93,26 @@ class ReminderNotification {
         await AwesomeNotifications().getLocalTimeZoneIdentifier();
 
     int interval = prefs.getInt('interval') ?? 60;
-    int startTimeHours = prefs.getInt('startTimeHours') ?? 20;
-    int startTimeMinutes = prefs.getInt('startTimeMinutes') ?? 0;
-    int endTimeHours = prefs.getInt('endTimeHours') ?? 8;
-    int endTimeMinutes = prefs.getInt('endTimeMinutes') ?? 0;
+    int startTimeSleepHours = prefs.getInt('startTimeHours') ?? 20;
+    int startTimeSleepMinutes = prefs.getInt('startTimeMinutes') ?? 0;
+    int endTimeSleepHours = prefs.getInt('endTimeHours') ?? 8;
+    int endTimeSleepMinutes = prefs.getInt('endTimeMinutes') ?? 0;
     int cupSize = prefs.getInt('size') ?? 300;
 
-    if (isCurrentTimeOfDayOutsideTimes(
-        TimeOfDay.now(),
-        TimeOfDay(hour: startTimeHours, minute: startTimeMinutes),
-        TimeOfDay(hour: endTimeHours, minute: endTimeMinutes))) {
+    TimeOfDay startTimeRemind = TimeOfDay(hour: endTimeSleepHours, minute: endTimeSleepMinutes);
+    TimeOfDay endTimeRemind = TimeOfDay(hour: startTimeSleepHours, minute: startTimeSleepMinutes);
+    TimeOfDay currentTime = startTimeRemind;
+
+    List<TimeOfDay> reminderTimes = [];
+
+    double numberOfReminds = getTimeOfDayRange(startTimeRemind, endTimeRemind) / (interval / 60);
+
+    for (var i = 0; i <= numberOfReminds; i++) {
+      reminderTimes.add(currentTime);
+      currentTime.plusMinutes(interval);
+    }
+
+    reminderTimes.forEach((time) {
       AwesomeNotifications().createNotification(
           content: NotificationContent(
               id: 10,
@@ -110,9 +120,9 @@ class ReminderNotification {
               title: 'Stay Hydrated!',
               body: 'notification.body'.tr(),
               payload: {'cupSize': '$cupSize'},),
-          schedule: NotificationInterval(
-              interval: interval, timeZone: localTimeZone, repeats: true, ));
-      log('ReminderNotification: scheduled');
-    }
+          schedule: 
+              NotificationCalendar(hour: time.hour, minute: time.minute, second: 0, millisecond: 0, timeZone: localTimeZone, repeats: true));
+          log('ReminderNotification: scheduled');
+    });
   }
 }
