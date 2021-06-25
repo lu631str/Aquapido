@@ -44,7 +44,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
 
     if (_buttonEventStream == null) {

@@ -22,13 +22,13 @@ class ReminderNotification {
         enableVibration: enableVibration);
   }
 
-  static void initialize() {
+  static void initialize(bool reminderSound, bool reminderVibration) {
     AwesomeNotifications().initialize(
         // set the icon to null if you want to use the default app icon
 
         'resource://drawable/notification_icon_done',
         [
-          _getNotificationChannel(false, true),
+          _getNotificationChannel(reminderSound, reminderVibration),
         ]);
   }
 
@@ -109,13 +109,14 @@ class ReminderNotification {
 
     for (var i = 0; i <= numberOfReminds; i++) {
       reminderTimes.add(currentTime);
-      currentTime.plusMinutes(interval);
+      currentTime = currentTime.plusMinutes(interval);
     }
 
+    int notificationId = 10;
     reminderTimes.forEach((time) {
       AwesomeNotifications().createNotification(
           content: NotificationContent(
-              id: 10,
+              id: notificationId++,
               channelKey: 'basic_channel',
               title: 'Stay Hydrated!',
               body: 'notification.body'.tr(),

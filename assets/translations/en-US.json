@@ -55,7 +55,7 @@
             "title": "Set Reminder Mode",
             "content": "Choose how we should remind you in addition to show a notification",
             "vibration": "Vibration",
-            "Sound": "Sound"
+            "sound": "Sound"
         },
         "sleep_time": {
             "from": "From:",

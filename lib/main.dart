@@ -13,6 +13,7 @@ import 'Views/statistics.dart';
 import 'Models/SettingsModel.dart';
 import 'Models/WaterModel.dart';
 import 'Persistence/Database.dart';
+import 'src/ReminderNotification.dart';
 
 SharedPreferences prefs;
 
@@ -21,6 +22,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   DatabaseHelper.database = await DatabaseHelper().initDatabaseConnection();
+  ReminderNotification.initialize(prefs.getBool('reminderSound') ?? false, prefs.getBool('reminderVibration') ?? true);
 
   runApp(
     EasyLocalization(
