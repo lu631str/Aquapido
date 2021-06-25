@@ -102,7 +102,7 @@
 
     "notification_permission": {
         "title": "Important Note",
-        "body": "Currently this App do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the settings.",
+        "body": "Currently Aquapido do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the settings.",
         "button": "I understand"
     },
 
