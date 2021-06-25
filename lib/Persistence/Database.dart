@@ -6,17 +6,23 @@ class DatabaseHelper {
   static Database database;
 
   static const String WATER_TABLE_NAME = 'water';
+  static const String DAILY_GOAL_TABLE_NAME = 'dailyGoal';
 
   Future<Database> initDatabaseConnection() async {
     return openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
-      join(await getDatabasesPath(), 'aquapido_water.db'),
-      onCreate: (db, version) {
+      join(await getDatabasesPath(), 'aquapido_water_1.db'),
+      onCreate: (db, version) async {
         // Run the CREATE TABLE statement on the database.
-        return db.execute(
+        await db.execute(
           'CREATE TABLE $WATER_TABLE_NAME(date_time INTEGER PRIMARY KEY, cup_size INTEGER, add_type TEXT)',
+        );
+
+        // goal_reached is used as a boolean
+        return db.execute(
+          'CREATE TABLE $DAILY_GOAL_TABLE_NAME(date_time INTEGER PRIMARY KEY, goal_reached INTEGER)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
