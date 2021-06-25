@@ -15,7 +15,7 @@ class InfoCard extends StatelessWidget {
       margin: EdgeInsets.only(top: 10, left: 5, bottom: 20, right: 5),
       elevation: Constants.CARD_ELEVATION,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.blue, width: 1),
+        side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

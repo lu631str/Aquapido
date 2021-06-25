@@ -31,8 +31,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _unit = 'ml';
-
   static const stream =
       const EventChannel('com.example.flutter_application_1/stream');
 
@@ -104,7 +102,7 @@ class _HomeState extends State<Home> {
   // ====== Handle Shake and Power Button Events
 
   Future<void> evaluateEvent(event) async {
-    var arr = event.split(',');
+    final arr = event.split(',');
     debugPrint(event);
     if (arr[0] == 'power') {
       if (Provider.of<SettingsModel>(context, listen: false).powerSettings) {
@@ -226,7 +224,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
+  void _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
       if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
@@ -409,8 +407,8 @@ class _HomeState extends State<Home> {
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
                                 colors: [
-                                  Colors.blue,
-                                  Colors.lightBlueAccent,
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).accentColor
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(20)),

@@ -23,7 +23,7 @@ class AverageCard extends StatelessWidget {
       margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.025),
       elevation: Constants.CARD_ELEVATION,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.blue, width: 1),
+        side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(

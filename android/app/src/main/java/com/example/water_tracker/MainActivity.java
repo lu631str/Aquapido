@@ -1,7 +1,5 @@
 package com.example.water_tracker;
 
-import java.util.Observable;
-
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -14,10 +12,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.util.Log;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.widget.Toast;

@@ -127,7 +127,7 @@ class DailyGoal extends StatelessWidget {
                 decoration: BoxDecoration(),
                 child: Material(
                   type: MaterialType.circle,
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                   elevation: Constants.CARD_ELEVATION,
                   child: Container(
                       padding: EdgeInsets.all(5),

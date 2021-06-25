@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Utils/Constants.dart';
 
 import '../Widgets/goals/AchievementCircle.dart';
 import '../Widgets/goals/DailyGoal.dart';

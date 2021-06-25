@@ -42,8 +42,8 @@ class ChartState extends State<Chart> {
                                 end: Alignment.bottomLeft,
                                 tileMode: TileMode.clamp,
                                 colors: [
-                                  Colors.blue,
-                                  Colors.lightBlueAccent,
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).accentColor,
                                 ],
                               ),),
         child: Card(

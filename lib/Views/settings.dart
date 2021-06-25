@@ -92,14 +92,14 @@ class _SettingsState extends State<Settings> {
                                 Icons.vibration,
                                 size: 20,
                                 color: context.watch<SettingsModel>().reminder
-                                    ? Colors.blue
+                                    ? Theme.of(context).primaryColor
                                     : Colors.black26,
                               )
                             : Icon(
                                 Icons.mobile_off,
                                 size: 20,
                                 color: context.watch<SettingsModel>().reminder
-                                    ? Colors.blue
+                                    ? Theme.of(context).primaryColor
                                     : Colors.black26,
                               ),
                       ),
@@ -111,14 +111,14 @@ class _SettingsState extends State<Settings> {
                                 Icons.volume_up,
                                 size: 20,
                                 color: context.watch<SettingsModel>().reminder
-                                    ? Colors.blue
+                                    ? Theme.of(context).primaryColor
                                     : Colors.black26,
                               )
                             : Icon(
                                 Icons.volume_off,
                                 size: 20,
                                 color: context.watch<SettingsModel>().reminder
-                                    ? Colors.blue
+                                    ? Theme.of(context).primaryColor
                                     : Colors.black26,
                               ),
                       )

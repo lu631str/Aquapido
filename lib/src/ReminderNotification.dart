@@ -111,7 +111,7 @@ class ReminderNotification {
               body: 'notification.body'.tr(),
               payload: {'cupSize': '$cupSize'},),
           schedule: NotificationInterval(
-              interval: interval, timeZone: localTimeZone, repeats: true));
+              interval: interval, timeZone: localTimeZone, repeats: true, ));
       log('ReminderNotification: scheduled');
     }
   }

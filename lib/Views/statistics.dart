@@ -86,7 +86,7 @@ class _StatisticsState extends State<Statistics> {
               elevation: Constants.CARD_ELEVATION,
               margin: Constants.CARD_MARGIN,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.blue, width: 1),
+                side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -105,8 +105,8 @@ class _StatisticsState extends State<Statistics> {
                           minWidth: 58.0,
                           cornerRadius: 14.0,
                           activeBgColors: [
-                            [Colors.blue],
-                            [Colors.blue]
+                            [Theme.of(context).primaryColor],
+                            [Theme.of(context).primaryColor]
                           ],
                           activeFgColor: Colors.white,
                           inactiveBgColor: Color(0xFFb5b5b5),

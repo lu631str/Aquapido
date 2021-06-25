@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:water_tracker/theme.dart';
 
 import 'Views/goals.dart';
 import 'Views/settings.dart';
@@ -67,6 +66,8 @@ class WaterTrackerApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
+          primaryColor: Colors.blue,
+          accentColor: Colors.lightBlueAccent,
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.comfortaa().fontFamily,
           cardColor: Color(0xFFEAF7FF),
@@ -131,8 +132,6 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    const color1 = const Color(0xff91ceff);
-    const color2 = const Color(0xfffafdff);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
