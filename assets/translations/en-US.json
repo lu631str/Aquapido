@@ -1,6 +1,26 @@
 {
     "home": {
-        "title": "Home"
+        "title": "Home",
+        "heading": "Stay Hydrated!",
+        "cups_today": "Cups today:",
+        "cup_size": "Cup size:",
+        "add": "Add",
+        "today": "Today",
+        "placeholder": "Add your first glass of water!",
+        "choose_size": {
+            "title": "Choose Size",
+            "add": "Add"
+        },
+        "add_size": {
+            "title": "Add Size",
+            "add": "Add",
+            "hint": "Custom Cup Size (ml)"
+        },
+        "undo": {
+            "button": "Undo",
+            "deleted": "Deleted:"
+        },
+        "daily_goal_reached": "Nice One! You reached your daily Goal!"
     },
     "statistics": {
         "title": "Statistics"
@@ -37,6 +57,10 @@
             "vibration": "Vibration",
             "Sound": "Sound"
         },
+        "sleep_time": {
+            "from": "From:",
+            "to": "To:"
+        },
         "reminder_interval_dialog" : {
             "title": "Set Reminder Interval"
         },
@@ -70,6 +94,16 @@
         "cancel": "Cancel",
         "close": "Close",
         "reset": "Reset"
+    },
+
+    "notification": {
+        "body": "Don't forget to drink water!"
+    },
+
+    "notification_permission": {
+        "title": "Important Note",
+        "body": "Currently this App do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the settings.",
+        "button": "I understand"
     },
 
     "infos": {

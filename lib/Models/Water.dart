@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../Utils/utils.dart';
 
@@ -17,7 +18,7 @@ class Water {
 
   String _getDateString(DateTime dateTime) {
     if (isSameDay(dateTime, DateTime.now())) {
-      return 'Today';
+      return 'home.today'.tr();
     }
     return DateFormat('dd.MM.yy').format(dateTime);
   }
