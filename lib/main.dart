@@ -22,7 +22,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   DatabaseHelper.database = await DatabaseHelper().initDatabaseConnection();
-  ReminderNotification.initialize(prefs.getBool('reminderSound') ?? false, prefs.getBool('reminderVibration') ?? true);
+  ReminderNotification.initialize(prefs.getBool('reminderSound') ?? false,
+      prefs.getBool('reminderVibration') ?? true);
 
   runApp(
     EasyLocalization(
@@ -57,7 +58,7 @@ class WaterTrackerApp extends StatelessWidget {
         locale: context.locale,
         title: 'Quick Water Tracker',
         //theme: lightTheme,
-        
+
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -78,17 +79,18 @@ class WaterTrackerApp extends StatelessWidget {
           // text styling for headlines, titles, bodies of text, and more.
           textTheme: TextTheme(
             headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
-            headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black),
+            headline2: TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
             headline3: TextStyle(fontSize: 32.0),
             headline4: TextStyle(fontSize: 24.0),
             bodyText2: TextStyle(fontSize: 14.0),
           ),
         ),
-        
         home: Main(currentChild: currentChild));
   }
 }
-
 
 class Main extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
@@ -125,7 +127,6 @@ class _MainState extends State<Main> {
     Settings(),
   ];
 
-
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -148,70 +149,62 @@ class _MainState extends State<Main> {
           fit: BoxFit.cover,
         ),
       ),
-
-
-      child:(!Provider.of<SettingsModel>(context, listen: false).introSeen)
-
-          ?Onbording()
-
-          :Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          toolbarHeight: 0.0,
-        ),
-        body: _children[_currentIndex],
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
-          child:
-          Container(
-            
-            decoration:  BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                tileMode: TileMode.clamp,
-                                colors: [
-                                  Colors.blue,
-                                  Colors.lightBlueAccent,
-                                ],
-                              ),),
-            child: 
-          
-          
-           BottomNavigationBar(
-             elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentIndex,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'home.title'.tr(),
+      child: (!Provider.of<SettingsModel>(context, listen: false).introSeen)
+          ? Onbording()
+          : Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                toolbarHeight: 0.0,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.timeline),
-                label: 'statistics.title'.tr(),
+              body: _children[_currentIndex],
+              bottomNavigationBar: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      tileMode: TileMode.clamp,
+                      colors: [
+                        Colors.blue,
+                        Colors.lightBlueAccent,
+                      ],
+                    ),
+                  ),
+                  child: BottomNavigationBar(
+                    elevation: 0,
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: _currentIndex,
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'home.title'.tr(),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.timeline),
+                        label: 'statistics.title'.tr(),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.star),
+                        label: 'goals.title'.tr(),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.settings),
+                        label: 'settings.title'.tr(),
+                      ),
+                    ],
+                    selectedItemColor: Colors.white,
+                    backgroundColor: Colors.transparent,
+                    onTap: _onItemTapped,
+                  ),
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.star),
-                label: 'goals.title'.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'settings.title'.tr(),
-              ),
-            ],
-            selectedItemColor: Colors.white,
-            backgroundColor: Colors.transparent,
-
-            onTap: _onItemTapped,
-          ),),
-        ),
-      ),
+            ),
     );
   }
 }

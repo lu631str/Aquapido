@@ -73,8 +73,7 @@ public class MainActivity extends FlutterActivity {
                     }
 
                     @Override
-                    public void onCancel(Object args) {
-                    }
+                    public void onCancel(Object args) {}
 
                 });
     }
@@ -124,7 +123,7 @@ public class MainActivity extends FlutterActivity {
         if (SystemIntentReceiver.wasScreenOn) {
             // this is the case when onPause() is called by the system due to a screen state
             // change
-            System.out.println("SCREEN TURNED OFF");
+            System.out.println("App onPause");
 
         } else {
             // this is when onPause() is called when the screen state has not changed
@@ -134,13 +133,14 @@ public class MainActivity extends FlutterActivity {
 
     @Override
     protected void onResume() {
+        System.out.println("App onResume");
         if (mEvents != null) {
             mEvents.success("power," + getPowerBtnCounter());
         }
         // only when screen turns on
         if (!SystemIntentReceiver.wasScreenOn) {
             // this is when onResume() is called due to a screen state change
-            System.out.println("SCREEN TURNED ON");
+            System.out.println("SCREEN WAS OFF");
         } else {
             // this is when onResume() is called when the screen state has not changed
         }
@@ -173,18 +173,19 @@ public class MainActivity extends FlutterActivity {
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
-                if (mAccel > 10) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Device has shaken.", Toast.LENGTH_SHORT);
-                    toast.show();
+                if (mAccel > 5) {
                     vibrate();
-                    mEvents.success("shake,1");
+                    if (mEvents != null) {
+                        mEvents.success("shake,1");
+                    } else {
+                        Log.d("sensorListener", "mEvents is null");
+                    }
                 }
             }
 
         }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
         public void vibrate() {
             Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
