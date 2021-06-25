@@ -104,6 +104,7 @@ class _HomeState extends State<Home> {
   Future<void> evaluateEvent(event) async {
     final arr = event.split(',');
     debugPrint(event);
+    if(int.parse(arr[1]) <= 0) return;
     if (arr[0] == 'power') {
       if (Provider.of<SettingsModel>(context, listen: false).powerSettings) {
         _addWaterCup(
@@ -220,18 +221,17 @@ class _HomeState extends State<Home> {
     if (amountOfCups != 0) {
       if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
-
         double dailyGoal =
             Provider.of<SettingsModel>(context, listen: false).dailyGoal;
         int waterAmount = Provider.of<WaterModel>(context, listen: false)
             .totalWaterAmountPerDay(DateTime.now());
         if (waterAmount >= dailyGoal) {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           final snackBar = SnackBar(
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             content: Text('home.daily_goal_reached').tr(),
           );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
