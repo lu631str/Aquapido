@@ -24,11 +24,11 @@ class _GoalsState extends State<Goals> {
 
   int randomNumber =Random().nextInt(14) ;
 
-  List<int> maxTotalWater = [10, 100, 300, 999];
-  List<int> maxCups = [5, 100, 300];
-  List<int> maxStreak = [3, 28, 360];
-  List<int> maxGoalReached = [7, 30, 360];
-  List<int> maxQuickAddUsed = [100, 360, 500];
+  List<int> maxTotalWater = [20, 100, 1000 ];
+  List<int> maxCups = [5, 280, 1000];
+  List<int> maxStreak = [3, 28, 364];
+  List<int> maxGoalReached = [7, 30, 364];
+  List<int> maxQuickAddUsed = [5, 280, 1000];
 
   MedalType getMedal(List<int> max, int current) {
     if (current < max[0]) {
