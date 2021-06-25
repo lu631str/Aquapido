@@ -26,8 +26,8 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   static const Color foregroundColor = Color(0xFFF2F2F2);
 
   List<Color> gradientColors = [
-    const Color(0xff8d60bd),
-    const Color(0xffb941bf),
+    const Color(0xffed882f),
+    const Color(0xfff54831)
   ];
 
   WeeklyBarChartState(this.waterListWeek, this.startDate) {
