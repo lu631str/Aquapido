@@ -64,7 +64,6 @@ class _GoalsState extends State<Goals> {
 
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
-      print(max[0]);
       return max[0];
     } else if (current >= max[0] && current < max[1]) {
       return max[1];

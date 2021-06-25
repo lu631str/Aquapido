@@ -457,7 +457,6 @@ class WaterModel with ChangeNotifier {
     }
 
     return List.generate(maps.length, (i) {
-      print(maps);
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
 
