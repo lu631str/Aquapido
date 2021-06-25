@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 
 import '../Utils/Constants.dart';
@@ -43,9 +44,9 @@ class _StatisticsState extends State<Statistics> {
   Widget _getStringForDiagramm() {
     DateTime startDate = Provider.of<SettingsModel>(context, listen: false).selectedDate;
     if(Provider.of<SettingsModel>(context, listen: true).dayDiagramm) {
-      return Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L');
+      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L');
     } else {
-      return Text('Total Water: ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L');
+      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L');
     }
                                        
   }
@@ -62,17 +63,17 @@ class _StatisticsState extends State<Statistics> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AverageCard(
-                    subTitle: 'Liters / Day',
+                    subTitle: 'statistics.stats_1'.tr(),
                     isMl: true,
                     futureValue: Provider.of<WaterModel>(context, listen: false)
                         .getAverageLitersPerDay()),
                 AverageCard(
-                    subTitle: 'Liters / Week',
+                    subTitle: 'statistics.stats_2'.tr(),
                     isMl: true,
                     futureValue: Provider.of<WaterModel>(context, listen: false)
                         .getAverageLitersPerWeek()),
                 AverageCard(
-                    subTitle: 'Cups / Day',
+                    subTitle: 'statistics.stats_3'.tr(),
                     isMl: false,
                     futureValue: Provider.of<WaterModel>(context, listen: false)
                         .getAverageCupsPerDay()),
@@ -102,7 +103,7 @@ class _StatisticsState extends State<Statistics> {
                         padding: EdgeInsets.only(top: 9, right: 9),
                         child: ToggleSwitch(
                           minHeight: 28.0,
-                          minWidth: 58.0,
+                          minWidth: 68.0,
                           cornerRadius: 14.0,
                           activeBgColors: [
                             [Theme.of(context).primaryColor],
@@ -117,7 +118,7 @@ class _StatisticsState extends State<Statistics> {
                                   ? 0
                                   : 1,
                           totalSwitches: 2,
-                          labels: ['Day', 'Week'],
+                          labels: [tr('statistics.chart.switch_day'), tr('statistics.chart.switch_week')],
                           radiusStyle: true,
                           onToggle: (index) {
                             Provider.of<SettingsModel>(context, listen: false)

@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../Models/Water.dart';
 
@@ -196,7 +197,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
           bottomTitle: AxisTitle(
               showTitle: true,
               margin: 0,
-              titleText: 'Time of day',
+              titleText: 'statistics.chart.label_time'.tr(),
               textStyle: TextStyle(color: foregroundColor),
               textAlign: TextAlign.center)),
       lineBarsData: [

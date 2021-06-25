@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:math';
 
 class WeeklyBarChart extends StatefulWidget {
@@ -94,19 +95,19 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
             int newValue = (startDate.weekday + i) % 7;
             switch (newValue) {
               case 0:
-                return 'Su';
+                return 'statistics.chart.sunday'.tr();
               case 1:
-                return 'Mo';
+                return 'statistics.chart.monday'.tr();
               case 2:
-                return 'Tu';
+                return 'statistics.chart.tuesday'.tr();
               case 3:
-                return 'We';
+                return 'statistics.chart.wednesday'.tr();
               case 4:
-                return 'Th';
+                return 'statistics.chart.thursday'.tr();
               case 5:
-                return 'Fr';
+                return 'statistics.chart.friday'.tr();
               case 6:
-                return 'Sa';
+                return 'statistics.chart.saturday'.tr();
               default:
                 return '..';
             }

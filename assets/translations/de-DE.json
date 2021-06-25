@@ -23,7 +23,24 @@
         "daily_goal_reached": "Sehr gut! Du hast dein tägliches Ziel erreicht!"
     },
     "statistics": {
-        "title": "Statistiken"
+        "title": "Statistiken",
+        "stats_1": "Liter / Tag",
+        "stats_2": "Liter / Woche",
+        "stats_3": "Gläser / Tag",
+        "chart": {
+            "header": "Gesamte Menge:",
+            "switch_day": "Tag",
+            "switch_week": "Woche",
+            "label_time": "Uhrzeit",
+            "monday": "Mo",
+            "tuesday": "Di",
+            "wednesday": "Mi",
+            "thursday": "Do",
+            "friday": "Fr",
+            "saturday": "Sa",
+            "sunday": "So"
+
+        }
     },
     "goals": {
         "title": "Ziele"

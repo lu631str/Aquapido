@@ -23,7 +23,24 @@
         "daily_goal_reached": "Nice One! You reached your daily Goal!"
     },
     "statistics": {
-        "title": "Statistics"
+        "title": "Statistics",
+        "stats_1": "Liters / Day",
+        "stats_2": "Liters / Week",
+        "stats_3": "Cups / Day",
+        "chart": {
+            "header": "Total Water:",
+            "switch_day": "Day",
+            "switch_week": "Week",
+            "label_time": "Time of day",
+            "monday": "Mo",
+            "tuesday": "Tu",
+            "wednesday": "We",
+            "thursday": "Th",
+            "friday": "Fr",
+            "saturday": "Sa",
+            "sunday": "Su"
+
+        }
     },
     "goals": {
         "title": "Goals"
