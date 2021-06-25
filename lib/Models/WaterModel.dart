@@ -32,8 +32,11 @@ class WaterModel with ChangeNotifier {
     _insertWater(water);
 
     double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
-    DateTime newDateTime = DateTime(water.dateTime.year,water.dateTime.month,water.dateTime.day);
-    _updateDailyGoal(DailyGoal(dateTime: newDateTime, dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
+    DateTime newDateTime =
+        DateTime(water.dateTime.year, water.dateTime.month, water.dateTime.day);
+    _updateDailyGoal(DailyGoal(
+        dateTime: newDateTime,
+        dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
 
     notifyListeners();
   }
@@ -46,8 +49,11 @@ class WaterModel with ChangeNotifier {
       _loadHistoryFromDB();
     }
     double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
-    DateTime newDateTime = DateTime(water.dateTime.year,water.dateTime.month,water.dateTime.day);
-    _updateDailyGoal(DailyGoal(dateTime: newDateTime, dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
+    DateTime newDateTime =
+        DateTime(water.dateTime.year, water.dateTime.month, water.dateTime.day);
+    _updateDailyGoal(DailyGoal(
+        dateTime: newDateTime,
+        dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
     notifyListeners();
     return water;
   }
@@ -104,19 +110,18 @@ class WaterModel with ChangeNotifier {
   int totalWaterAmount() {
     num sum = 0;
     history.forEach((water) {
-        sum += water.cupSize;
+      sum += water.cupSize;
     });
     return sum;
   }
 
   int totalCups() {
-
     num sum = 0;
     history.forEach((water) {
-      if(history[0].isPlaceholder == true)
+      if (history[0].isPlaceholder == true)
         return 0;
       else
-         sum++;
+        sum++;
     });
     return sum;
   }
@@ -124,7 +129,7 @@ class WaterModel with ChangeNotifier {
   int quickAddUsed() {
     num sum = 0;
     history.forEach((Water) {
-   if(Water.addType == AddType.shake || Water.addType == AddType.power)
+      if (Water.addType == AddType.shake || Water.addType == AddType.power)
         sum++;
     });
     return sum;
@@ -132,31 +137,50 @@ class WaterModel with ChangeNotifier {
 
   Future<int> getStreakDays() async {
     List<DailyGoal> dailyGoalList = await _dailyGoalList();
-    //TODO: Logik für streak days
+
+    int count = 1;
+    int max = 0;
+
+    for (int i = 1; i < dailyGoalList.length ; i++) {
+      if (dailyGoalList[i].dateTime.difference(dailyGoalList[i-1].dateTime).inDays ==1 && (dailyGoalList[i].dailyGoalReached == true && dailyGoalList[i-1].dailyGoalReached == true)) {
+        count++;
+      }else {
+        count = 1;
+      }
+      if (count > max) {
+        max = count;
+      }
+
+
+      //(dailyGoalList.elementAt(i+1).dateTime.microsecondsSinceEpoch.toInt() - dailyGoalList.elementAt(i).dateTime.microsecondsSinceEpoch.toInt() ) >=0
+    }
+    return max;
   }
 
   Future<int> getGoalsReached() async {
-
     List<DailyGoal> dailyGoalList = await _dailyGoalList();
 
     num sum = 0;
-    dailyGoalList.forEach((dailygoal)  {
-      if(dailygoal.dailyGoalReached == true)
-        sum++;
+    dailyGoalList.forEach((dailygoal) {
+      if (dailygoal.dailyGoalReached == true) sum++;
     });
     return sum;
-
   }
 
   List<Water> getWaterListForDay(DateTime dateTime) {
-    return history.where((water) => isSameDay(water.dateTime, dateTime)).toList().reversed.toList();
+    return history
+        .where((water) => isSameDay(water.dateTime, dateTime))
+        .toList()
+        .reversed
+        .toList();
   }
 
   List<double> getWaterListFor7Days(DateTime startDate) {
     List<double> waterListWeek = [];
 
     for (var i = 0; i < 7; i++) {
-      waterListWeek.add(totalWaterAmountPerDay(startDate.add(Duration(days: i))).toDouble());
+      waterListWeek.add(
+          totalWaterAmountPerDay(startDate.add(Duration(days: i))).toDouble());
     }
 
     return waterListWeek;
@@ -199,7 +223,6 @@ class WaterModel with ChangeNotifier {
     );
   }
 
-
   Future<void> _clearDaylyGoalTable() async {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
@@ -215,9 +238,6 @@ class WaterModel with ChangeNotifier {
       DatabaseHelper.DAILY_GOAL_TABLE_NAME,
     );
   }
-
-
-
 
   Future<void> _deleteWater(Water water) async {
     // Get a reference to the database.
@@ -372,7 +392,10 @@ class WaterModel with ChangeNotifier {
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
-    return waterModelList.where((w) => isSameDay(w.dateTime, DateTime.now())).toList().length;
+    return waterModelList
+        .where((w) => isSameDay(w.dateTime, DateTime.now()))
+        .toList()
+        .length;
   }
 
   Future<List<Water>> _waterList() async {
@@ -395,10 +418,10 @@ class WaterModel with ChangeNotifier {
       final dateTime =
           DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
       return Water(
-        dateTime: dateTime,
-        cupSize: maps[i]['cup_size'],
-        addType: AddType.values.firstWhere((element) => element.toString() == maps[i]['add_type'])
-      );
+          dateTime: dateTime,
+          cupSize: maps[i]['cup_size'],
+          addType: AddType.values.firstWhere(
+              (element) => element.toString() == maps[i]['add_type']));
     });
   }
 
@@ -420,18 +443,20 @@ class WaterModel with ChangeNotifier {
 
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
-    await db.query(DatabaseHelper.DAILY_GOAL_TABLE_NAME);
+        await db.query(DatabaseHelper.DAILY_GOAL_TABLE_NAME);
 
     if (maps.isEmpty) {
       log('WaterModel: Table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} is EMPTY!');
-      return List.generate(1, (index) => DailyGoal(dateTime: DateTime.now(), dailyGoalReached: false));
-
+      return List.generate(
+          1,
+          (index) =>
+              DailyGoal(dateTime: DateTime.now(), dailyGoalReached: false));
     }
 
     return List.generate(maps.length, (i) {
       print(maps);
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
 
       bool goalReached;
       if (maps[i]['goal_reached'] == 0) {

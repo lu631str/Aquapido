@@ -29,8 +29,6 @@ class _GoalsState extends State<Goals> {
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
   List<int> maxGoalReached = [7, 30, 360];
-
-
   List<int> maxQuickAddUsed = [100, 360, 500];
 
   MedalType getMedal(List<int> max, int current) {
@@ -129,18 +127,66 @@ class _GoalsState extends State<Goals> {
                                     max: getMax(maxCups, _totalCups),
                                     unit: 'Cups',
                                     subtitle: 'Total Cups'),
-                                //mus nach implementierung von Streaks eingefügt werden
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder:
-                                        Color.fromARGB(255, 199, 177, 70),
-                                    medalType: MedalType.Gold,
-                                    isCurrentInt: true,
-                                    currentInt: 60,
-                                    max: maxStreak[0],
-                                    unit: 'Days',
-                                    subtitle: 'Streak')
-                              ]),
+                                FutureBuilder(
+
+                                    future:
+                                    context.watch<WaterModel>().getStreakDays(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<int> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting)
+                                        return AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:
+                                            Color.fromARGB(255, 199, 177, 70),
+                                            medalType: MedalType.Gold,
+                                            isCurrentInt: true,
+                                            currentInt:0,
+                                            max: getMax(maxStreak, snapshot.data),
+                                            unit: 'Days',
+                                            subtitle: 'Streak');
+                                      else if (snapshot.hasData)
+                                        return AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:getRingColor(maxGoalReached, snapshot.data),
+                                            medalType: getMedal(maxGoalReached, snapshot.data),
+                                            isCurrentInt: true,
+                                            currentInt: snapshot.data,
+                                            max: getMax(maxStreak, snapshot.data),
+                                            unit: 'Days',
+                                            subtitle: 'Streak');
+                                      else if (snapshot.hasError) {
+                                        return  AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:
+                                            Color.fromARGB(255, 252, 13, 13),
+                                            medalType: MedalType.Gold,
+                                            isCurrentInt: true,
+                                            currentInt: 0,
+                                            max: 0,
+                                            unit: 'Error',
+                                            subtitle: 'Error');
+                                      } else
+                                        return   AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:
+                                            Color.fromARGB(255, 255, 17, 36),
+                                            medalType: MedalType.Gold,
+                                            isCurrentInt: true,
+                                            currentInt: 0,
+                                            max: 0,
+                                            unit: 'none',
+                                            subtitle: 'none');
+                                    }
+
+                                ),
+                              ]
+
+                          ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,9 +222,6 @@ class _GoalsState extends State<Goals> {
                                             unit: 'Times',
                                             subtitle: 'Goals\nReached');
                                       else if (snapshot.hasError) {
-                                        print(snapshot.error);
-                                        print(snapshot.data);
-                                        print(context.watch<WaterModel>().getGoalsReached() );
                                         return  AchievementCircle(
                                             color: Color.fromRGBO(
                                                 255, 255, 255, 1.0),
