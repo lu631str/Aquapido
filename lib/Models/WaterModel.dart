@@ -32,8 +32,8 @@ class WaterModel with ChangeNotifier {
     _insertWater(water);
 
     double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
-
-    _updateDailyGoal(DailyGoal(dateTime: water.dateTime, dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
+    DateTime newDateTime = DateTime(water.dateTime.year,water.dateTime.month,water.dateTime.day);
+    _updateDailyGoal(DailyGoal(dateTime: newDateTime, dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
 
     notifyListeners();
   }
@@ -45,6 +45,9 @@ class WaterModel with ChangeNotifier {
     if (history.isEmpty) {
       _loadHistoryFromDB();
     }
+    double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
+    DateTime newDateTime = DateTime(water.dateTime.year,water.dateTime.month,water.dateTime.day);
+    _updateDailyGoal(DailyGoal(dateTime: newDateTime, dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
     notifyListeners();
     return water;
   }
@@ -80,6 +83,11 @@ class WaterModel with ChangeNotifier {
   void removeAllWater() {
     _clearWaterTable();
     _loadHistoryFromDB();
+    notifyListeners();
+  }
+
+  void removeAllDailyGoal() {
+    _clearDaylyGoalTable();
     notifyListeners();
   }
 
@@ -128,8 +136,16 @@ class WaterModel with ChangeNotifier {
   }
 
   Future<int> getGoalsReached() async {
+
     List<DailyGoal> dailyGoalList = await _dailyGoalList();
-    //TODO: Logik für total goals reached
+
+    num sum = 0;
+    dailyGoalList.forEach((dailygoal)  {
+      if(dailygoal.dailyGoalReached == true)
+        sum++;
+    });
+    return sum;
+
   }
 
   List<Water> getWaterListForDay(DateTime dateTime) {
@@ -182,6 +198,26 @@ class WaterModel with ChangeNotifier {
       DatabaseHelper.WATER_TABLE_NAME,
     );
   }
+
+
+  Future<void> _clearDaylyGoalTable() async {
+    // Get a reference to the database.
+    final Database db = DatabaseHelper.database;
+
+    // Insert the Dog into the correct table. You might also specify the
+    // `conflictAlgorithm` to use in case the same dog is inserted twice.
+    //
+    // In this case, replace any previous data.
+
+    log('WaterModel: CLEAR table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME}');
+
+    await db.delete(
+      DatabaseHelper.DAILY_GOAL_TABLE_NAME,
+    );
+  }
+
+
+
 
   Future<void> _deleteWater(Water water) async {
     // Get a reference to the database.
@@ -368,7 +404,15 @@ class WaterModel with ChangeNotifier {
 
   void _updateDailyGoal(DailyGoal dailyGoal) async {
     final Database db = DatabaseHelper.database;
-    db.rawQuery('INSERT OR REPLACE INTO ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} (date_time, goal_reached) values((SELECT date_time FROM ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} WHERE date_time = "${dailyGoal.getDateString()}"), "${dailyGoal.getGoalReachedAsInteger()}");');
+
+    await db.insert(
+      DatabaseHelper.DAILY_GOAL_TABLE_NAME,
+      dailyGoal.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    //db.rawQuery('INSERT OR REPLACE INTO ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} (date_time, goal_reached) values((SELECT date_time FROM ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} WHERE date_time = "${dailyGoal.getDateString()}"), "${dailyGoal.getGoalReachedAsInteger()}");');
+    log('WaterModel: UPDATE DailyGoal - dateTime: ${dailyGoal.getDateString()}, dailyGoalReached: ${dailyGoal.dailyGoalReached}');
   }
 
   Future<List<DailyGoal>> _dailyGoalList() async {
@@ -381,11 +425,20 @@ class WaterModel with ChangeNotifier {
     if (maps.isEmpty) {
       log('WaterModel: Table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} is EMPTY!');
       return List.generate(1, (index) => DailyGoal(dateTime: DateTime.now(), dailyGoalReached: false));
+
     }
 
     return List.generate(maps.length, (i) {
-      DateTime dateTime = DateTime.tryParse(maps[i]['date_time']);
-      bool goalReached = int.parse(maps[i]['goal_reached']) == 0 ? false : true;
+      print(maps);
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
+
+
+      bool goalReached;
+      if (maps[i]['goal_reached'] == 0) {
+        goalReached = false;
+      } else {
+        goalReached = true;
+      }
       return DailyGoal(dateTime: dateTime, dailyGoalReached: goalReached);
     });
   }

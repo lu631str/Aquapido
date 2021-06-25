@@ -24,10 +24,11 @@ class Goals extends StatefulWidget {
 class _GoalsState extends State<Goals> {
 
   int randomNumber =Random().nextInt(14) ;
-  
+
   List<int> maxTotalWater = [10, 100, 300, 999];
   List<int> maxCups = [5, 100, 300];
   List<int> maxStreak = [100, 360, 500];
+  List<int> maxGoalReached = [7, 30, 360];
 
 
   List<int> maxQuickAddUsed = [100, 360, 500];
@@ -79,6 +80,7 @@ class _GoalsState extends State<Goals> {
       return -1; // error case
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,16 +145,66 @@ class _GoalsState extends State<Goals> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder:
-                                        Color.fromARGB(255, 193, 193, 194),
-                                    medalType: MedalType.Silver,
-                                    isCurrentInt: true,
-                                    currentInt: 260,
-                                    max: 300,
-                                    unit: 'Times',
-                                    subtitle: 'Goals\nReached'),
+                                FutureBuilder(
+
+                                    future:
+                                    context.watch<WaterModel>().getGoalsReached(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<int> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting)
+                                        return AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:
+                                            Color.fromARGB(255, 199, 177, 70),
+                                            medalType: MedalType.Gold,
+                                            isCurrentInt: true,
+                                            currentInt:0,
+                                            max: maxStreak[0],
+                                            unit: 'Times',
+                                            subtitle: 'Goals\nReached');
+                                      else if (snapshot.hasData)
+                                        return AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:getRingColor(maxGoalReached, snapshot.data),
+                                            medalType: getMedal(maxGoalReached, snapshot.data),
+                                            isCurrentInt: true,
+                                            currentInt: snapshot.data,
+                                            max: getMax(maxGoalReached, snapshot.data),
+                                            unit: 'Times',
+                                            subtitle: 'Goals\nReached');
+                                      else if (snapshot.hasError) {
+                                        print(snapshot.error);
+                                        print(snapshot.data);
+                                        print(context.watch<WaterModel>().getGoalsReached() );
+                                        return  AchievementCircle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1.0),
+                                            colorBoarder:
+                                            Color.fromARGB(255, 252, 13, 13),
+                                            medalType: MedalType.Gold,
+                                            isCurrentInt: true,
+                                            currentInt: 0,
+                                            max: 0,
+                                            unit: 'Error',
+                                            subtitle: 'Error');
+                                      } else
+                                        return   AchievementCircle(
+                                          color: Color.fromRGBO(
+                                              255, 255, 255, 1.0),
+                                          colorBoarder:
+                                          Color.fromARGB(255, 255, 17, 36),
+                                          medalType: MedalType.Gold,
+                                          isCurrentInt: true,
+                                          currentInt: 0,
+                                          max: 0,
+                                          unit: 'none',
+                                          subtitle: 'none');
+                                    }
+
+                                ),
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder:

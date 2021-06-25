@@ -13,7 +13,7 @@ class DatabaseHelper {
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
-      join(await getDatabasesPath(), 'aquapido_water.db'),
+      join(await getDatabasesPath(), 'aquapido_water_1.db'),
       onCreate: (db, version) async {
         // Run the CREATE TABLE statement on the database.
         await db.execute(
@@ -22,7 +22,7 @@ class DatabaseHelper {
 
         // goal_reached is used as a boolean
         return db.execute(
-          'CREATE TABLE $DAILY_GOAL_TABLE_NAME(date_time STRING PRIMARY KEY, goal_reached INTEGER)',
+          'CREATE TABLE $DAILY_GOAL_TABLE_NAME(date_time INTEGER PRIMARY KEY, goal_reached INTEGER)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
