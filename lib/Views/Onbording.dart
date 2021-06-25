@@ -55,7 +55,7 @@ class _OnbordingState extends State<Onbording> {
 
   final introKey = GlobalKey<_OnbordingState>();
 
-  SetData() async {
+  setData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', true);
     context.read<SettingsModel>().updateIntroSeen(true);
@@ -64,7 +64,7 @@ class _OnbordingState extends State<Onbording> {
 
 
   void _onIntroEnd(context) {
-    SetData();
+    setData();
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => WaterTrackerApp()),
     );

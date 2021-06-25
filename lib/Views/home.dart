@@ -31,8 +31,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _unit = 'ml';
-
   static const stream =
       const EventChannel('com.example.flutter_application_1/stream');
 
@@ -46,7 +44,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    ReminderNotification.initialize();
     ReminderNotification.checkPermission(context);
 
     if (_buttonEventStream == null) {
@@ -91,6 +88,7 @@ class _HomeState extends State<Home> {
   void dispose() {
     // Clean up the controller when the widget is disposed.
     _myController.dispose();
+    _buttonEventStream.cancel();
     super.dispose();
   }
 
@@ -104,8 +102,9 @@ class _HomeState extends State<Home> {
   // ====== Handle Shake and Power Button Events
 
   Future<void> evaluateEvent(event) async {
-    var arr = event.split(',');
+    final arr = event.split(',');
     debugPrint(event);
+    if(int.parse(arr[1]) <= 0) return;
     if (arr[0] == 'power') {
       if (Provider.of<SettingsModel>(context, listen: false).powerSettings) {
         _addWaterCup(
@@ -129,14 +128,6 @@ class _HomeState extends State<Home> {
             0,
             int.parse(arr[1]));
       }
-    }
-  }
-
-  void disableListener() {
-    debugPrint('disable');
-    if (_buttonEventStream != null) {
-      _buttonEventStream.cancel();
-      _buttonEventStream = null;
     }
   }
 
@@ -226,21 +217,22 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _addWaterCup(Water water, int index, int amountOfCups) async {
+  void _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
       if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
-
-        double dailyGoal = Provider.of<SettingsModel>(context, listen: false).dailyGoal;
-        int waterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(DateTime.now());
-        if(waterAmount >= dailyGoal) {
+        double dailyGoal =
+            Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+        int waterAmount = Provider.of<WaterModel>(context, listen: false)
+            .totalWaterAmountPerDay(DateTime.now());
+        if (waterAmount >= dailyGoal) {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           final snackBar = SnackBar(
             backgroundColor: Colors.green,
-          behavior: SnackBarBehavior.floating,
-          content: Text('home.daily_goal_reached').tr(),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            behavior: SnackBarBehavior.floating,
+            content: Text('home.daily_goal_reached').tr(),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
         print('not mounted');
@@ -407,8 +399,8 @@ class _HomeState extends State<Home> {
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
                                 colors: [
-                                  Colors.blue,
-                                  Colors.lightBlueAccent,
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).accentColor
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(20)),
@@ -447,7 +439,8 @@ class _HomeState extends State<Home> {
                                       builder: (context, setState) {
                                     return SimpleDialog(
                                       contentPadding: const EdgeInsets.all(14),
-                                      title: Text('home.choose_size.title').tr(),
+                                      title:
+                                          Text('home.choose_size.title').tr(),
                                       children: [
                                         Container(
                                           height: MediaQuery.of(context)
@@ -480,7 +473,9 @@ class _HomeState extends State<Home> {
                                           onPressed: () {
                                             showCustomSizeAddDialog(context);
                                           },
-                                          child: const Text('home.choose_size.add').tr(),
+                                          child:
+                                              const Text('home.choose_size.add')
+                                                  .tr(),
                                         )
                                       ],
                                     );
@@ -493,29 +488,24 @@ class _HomeState extends State<Home> {
               ),
             ),
             Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    top: 4, right: 11, bottom: 11, left: 11),
-                elevation: Constants.CARD_ELEVATION,
-                child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: Provider.of<WaterModel>(context, listen: true)
-                        .history
-                        .length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: HistoryListElement(
-                            index,
-                            Constants.cupImages[getImageIndex(
-                                Provider.of<WaterModel>(context, listen: true)
-                                    .history[index]
-                                    .cupSize)],
-                            Provider.of<WaterModel>(context, listen: true)
-                                .history[index],
-                            _delete),
-                      );
-                    }),
-              ),
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: Provider.of<WaterModel>(context, listen: true)
+                      .history
+                      .length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: HistoryListElement(
+                          index,
+                          Constants.cupImages[getImageIndex(
+                              Provider.of<WaterModel>(context, listen: true)
+                                  .history[index]
+                                  .cupSize)],
+                          Provider.of<WaterModel>(context, listen: true)
+                              .history[index],
+                          _delete),
+                    );
+                  }),
             ),
           ],
         ),

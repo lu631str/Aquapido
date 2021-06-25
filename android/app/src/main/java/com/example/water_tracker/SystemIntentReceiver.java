@@ -30,8 +30,7 @@ class SystemIntentReceiver extends BroadcastReceiver {
         if (currTime > 0 && prevTime > 0) {
             if ((currTime - prevTime) < doublePressThreshold && (currTime - prevTime) > -doublePressThreshold) {
                 count++;
-                Toast.makeText(context, "Power button double click", Toast.LENGTH_LONG).show();
-                Log.e("reciver ", "double Clicked power button");
+                Log.e("receiver ", "double Clicked power button");
                 currTime = 0;
                 prevTime = 0;
             }

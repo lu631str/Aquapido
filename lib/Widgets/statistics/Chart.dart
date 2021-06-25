@@ -33,13 +33,28 @@ class ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.7,
-      child: Card(
+      child: Container(
+        
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                tileMode: TileMode.clamp,
+                                colors: [
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).accentColor,
+                                ],
+                              ),),
+        child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          color: const Color(0xff5171C5),
+          color: Colors.transparent,
+          elevation: 0,
           child: Provider.of<SettingsModel>(context, listen: true).dayDiagramm
               ? DailyLineChart(waterListDay)
               : WeeklyBarChart(waterListWeek, selectedDate)),
-    );
+    ),
+      ); 
   }
 }
