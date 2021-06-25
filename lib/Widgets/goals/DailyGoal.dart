@@ -96,7 +96,7 @@ class DailyGoal extends StatelessWidget {
                             title: Text('Information'),
                             children: [
                               Text(
-                                  'We calculate the recommended value based on your personal information.'),
+                                  'We calculate the recommended value based on your personal information. For example if you are very active, we recommend you to drink more water.'),
                               SimpleDialogOption(
                                 child: OutlinedButton(
                                     onPressed: () {

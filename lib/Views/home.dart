@@ -229,6 +229,18 @@ class _HomeState extends State<Home> {
     if (amountOfCups != 0) {
       if (mounted) {
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+
+        double dailyGoal = Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+        int waterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(DateTime.now());
+        if(waterAmount >= dailyGoal) {
+          final snackBar = SnackBar(
+            backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          content: Text('Nice One! You reached your daily Goal!'),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       } else {
         print('not mounted');
       }
