@@ -142,7 +142,10 @@ class WaterModel with ChangeNotifier {
     int max = 0;
 
     for (int i = 1; i < dailyGoalList.length ; i++) {
-      if (dailyGoalList[i].dateTime.difference(dailyGoalList[i-1].dateTime).inDays ==1 && (dailyGoalList[i].dailyGoalReached == true && dailyGoalList[i-1].dailyGoalReached == true)) {
+      if(dailyGoalList.isEmpty)
+        max =0;
+
+      else if (dailyGoalList[i].dateTime.difference(dailyGoalList[i-1].dateTime).inDays ==1 && (dailyGoalList[i].dailyGoalReached == true && dailyGoalList[i-1].dailyGoalReached == true)) {
         count++;
       }else {
         count = 1;

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:water_tracker/Utils/Constants.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
@@ -27,7 +26,7 @@ class _GoalsState extends State<Goals> {
 
   List<int> maxTotalWater = [10, 100, 300, 999];
   List<int> maxCups = [5, 100, 300];
-  List<int> maxStreak = [100, 360, 500];
+  List<int> maxStreak = [3, 28, 360];
   List<int> maxGoalReached = [7, 30, 360];
   List<int> maxQuickAddUsed = [100, 360, 500];
 
@@ -65,6 +64,7 @@ class _GoalsState extends State<Goals> {
 
   int getMax(List<int> max, int current) {
     if (current < max[0]) {
+      print(max[0]);
       return max[0];
     } else if (current >= max[0] && current < max[1]) {
       return max[1];
@@ -140,7 +140,7 @@ class _GoalsState extends State<Goals> {
                                             medalType: MedalType.Gold,
                                             isCurrentInt: true,
                                             currentInt:0,
-                                            max: getMax(maxStreak, snapshot.data),
+                                            max: maxStreak[0],
                                             unit: 'Days',
                                             subtitle: 'Streak');
                                       else if (snapshot.hasData)
@@ -204,7 +204,7 @@ class _GoalsState extends State<Goals> {
                                             medalType: MedalType.Gold,
                                             isCurrentInt: true,
                                             currentInt:0,
-                                            max: maxStreak[0],
+                                            max: maxGoalReached[0],
                                             unit: 'Times',
                                             subtitle: 'Goals\nReached');
                                       else if (snapshot.hasData)
