@@ -364,10 +364,6 @@ class _SettingsState extends State<Settings> {
                               .updatePowerSettings(value);
                         });
                       }),
-                  SwitchListTile(
-                      value: false,
-                      title:
-                          Text('settings.quick_settings.quick_gesture').tr()),
                 ],
               ),
               const Divider(

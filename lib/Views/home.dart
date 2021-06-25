@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
   RiveAnimationController _controller;
   SimpleAnimation _animation = SimpleAnimation('100%');
   final _myController = TextEditingController(text: '0');
+  final int _MAX_ITEM_COUNT = 50;
 
   @override
   void initState() {
@@ -491,6 +492,8 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: Provider.of<WaterModel>(context, listen: true)
+                      .history
+                      .length > _MAX_ITEM_COUNT ? _MAX_ITEM_COUNT : Provider.of<WaterModel>(context, listen: true)
                       .history
                       .length,
                   itemBuilder: (BuildContext context, int index) {
