@@ -48,6 +48,7 @@ class _SettingsState extends State<Settings> {
   void _reset() {
     setData();
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
+    Provider.of<WaterModel>(context, listen: false).removeAllDailyGoal();
     Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
     context.read<SettingsModel>().updateDialogSeen(false);
     context.read<SettingsModel>().updateIntroSeen(false);
