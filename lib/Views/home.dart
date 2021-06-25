@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
 
 import '../Models/SettingsModel.dart';
@@ -170,7 +171,7 @@ class _HomeState extends State<Home> {
             builder: (context, setState) {
               return SimpleDialog(
                 contentPadding: EdgeInsets.all(16),
-                title: const Text('Add Size'),
+                title: const Text('home.add_size.title').tr(),
                 children: [
                   TextFormField(
                     controller: _myController,
@@ -182,7 +183,7 @@ class _HomeState extends State<Home> {
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'Custom Cup Size (ml)',
+                      labelText: 'home.add_size.hint'.tr(),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -190,13 +191,13 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         TextButton(
-                            child: const Text('Cancel'),
+                            child: const Text('dialog.cancel').tr(),
                             onPressed: () {
                               _myController.text = '0';
                               Navigator.pop(context);
                             }),
                         ElevatedButton(
-                          child: const Text('Save'),
+                          child: const Text('dialog.save').tr(),
                           onPressed: (isInputValid)
                               ? () => saveCustomSize(
                                   int.parse(_myController.text),
@@ -236,7 +237,7 @@ class _HomeState extends State<Home> {
           final snackBar = SnackBar(
             backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          content: Text('Nice One! You reached your daily Goal!'),
+          content: Text('home.daily_goal_reached').tr(),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -257,9 +258,9 @@ class _HomeState extends State<Home> {
   void _showUndoSnackBar(index, water) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
-      content: Text('Deleted: ${water.toString()}'),
+      content: Text('home.undo.deleted'.tr() + ' ${water.toString()}'),
       action: SnackBarAction(
-        label: 'Undo',
+        label: 'home.undo.button'.tr(),
         onPressed: () {
           this._addWaterCup(water, index, 1);
         },
@@ -305,9 +306,9 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Stay Hydrated',
+              'home.heading',
               style: Theme.of(context).textTheme.headline2,
-            ),
+            ).tr(),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -316,9 +317,9 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Cups today:',
+                        'home.cups_today',
                         style: Theme.of(context).textTheme.headline6,
-                      ),
+                      ).tr(),
                       FutureBuilder(
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
@@ -416,8 +417,8 @@ class _HomeState extends State<Home> {
                             height: MediaQuery.of(context).size.height * 0.06,
                             alignment: Alignment.center,
                             child: Text(
-                              'Add',
-                            ),
+                              'home.add',
+                            ).tr(),
                           ),
                         ),
                       ),
@@ -427,9 +428,9 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Cup size:',
+                        'home.cup_size',
                         style: Theme.of(context).textTheme.headline6,
-                      ),
+                      ).tr(),
                       TextButton(
                           child: Row(children: [
                             Text(
@@ -446,7 +447,7 @@ class _HomeState extends State<Home> {
                                       builder: (context, setState) {
                                     return SimpleDialog(
                                       contentPadding: const EdgeInsets.all(14),
-                                      title: Text('Choose Size'),
+                                      title: Text('home.choose_size.title').tr(),
                                       children: [
                                         Container(
                                           height: MediaQuery.of(context)
@@ -479,7 +480,7 @@ class _HomeState extends State<Home> {
                                           onPressed: () {
                                             showCustomSizeAddDialog(context);
                                           },
-                                          child: const Text('Add'),
+                                          child: const Text('home.choose_size.add').tr(),
                                         )
                                       ],
                                     );

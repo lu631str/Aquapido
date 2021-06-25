@@ -1,6 +1,26 @@
 {
     "home": {
-        "title": "Start"
+        "title": "Start",
+        "heading": "Stay Hydrated!",
+        "cups_today": "Gläser heute:",
+        "cup_size": "Glas größe:",
+        "add": "Hinzufügen",
+        "today": "Heute",
+        "placeholder": "Füg dein erstes Wasser hinzu!",
+        "choose_size": {
+            "title": "Größe wählen",
+            "add": "Hinzufügen"
+        },
+        "add_size": {
+            "title": "Glas hinzufügen",
+            "add": "Hinzufügen",
+            "hint": "Eigene Glas Größe (ml)"
+        },
+        "undo": {
+            "button": "Rückgängig",
+            "deleted": "Gelöscht:"
+        },
+        "daily_goal_reached": "Sehr gut! Du hast dein tägliches Ziel erreicht!"
     },
     "statistics": {
         "title": "Statistiken"
@@ -37,6 +57,10 @@
             "vibration": "Vibration",
             "sound": "Ton"
         },
+        "sleep_time": {
+            "from": "Von:",
+            "to": "Bis:"
+        },
         "reminder_interval_dialog" : {
             "title": "Erinnerungsintervall ändern"
         },
@@ -70,8 +94,18 @@
         "reset": "Zurücksetzen"
     },
 
+    "notification": {
+        "body": "Vergiss nicht, Wasser zu trinken!"
+    },
+
+    "notification_permission": {
+        "title": "Wichtige Information",
+        "body": "Momentan hat Aquapido nicht die Berechtigung Benachrichtigungen zu senden. Falls du Erinngerungen nutzen möchtest, solltest du die Benachrichtigungen in den Einstellungen aktivieren.",
+        "button": "Ich verstehe"
+    },
+
     "infos": {
-        "info0":"With dehydration, the skin can become more vulnerable to skin disorders and premature wrinkling.",
+        "info0": "With dehydration, the skin can become more vulnerable to skin disorders and premature wrinkling.",
         "info1": "A lack of water can cause blood to become thicker, increasing blood pressure.",
         "info2": "Blood is more than 90 percent water, and blood carries oxygen to different parts of the body.",
         "info3": "Cartilage, found in joints and the disks of the spine, contains around 80 percent water. Long-term dehydration can reduce the joints’ shock-absorbing ability, leading to joint pain.",

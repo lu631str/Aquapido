@@ -223,6 +223,8 @@ class _SettingsState extends State<Settings> {
                             ticksLength: 8.0,
                             ticksWidth: 2.0,
                             ticksOffset: 5.0,
+                            fromText: 'settings.sleep_time.from'.tr(),
+                            toText: 'settings.sleep_time.to'.tr(),
                             ticksColor: Colors.black45,
                             start: context.read<SettingsModel>().startSleepTime,
                             end: context.read<SettingsModel>().endSleepTime,

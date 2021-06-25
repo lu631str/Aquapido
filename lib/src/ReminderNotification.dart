@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../Utils/utils.dart';
 import '../Models/SettingsModel.dart';
@@ -14,7 +15,7 @@ class ReminderNotification {
         channelKey: 'basic_channel',
         channelName: 'Basic notifications',
         channelDescription: 'Notification channel for basic tests',
-        defaultColor: Color(0xFF275e85),
+        defaultColor: Colors.blue,
         ledColor: Colors.white,
         playSound: playSound,
         soundSource: 'resource://raw/res_bonez_water_reminder',
@@ -42,15 +43,15 @@ class ReminderNotification {
                 builder: (context, setState) {
                   return SimpleDialog(
                     contentPadding: const EdgeInsets.all(16),
-                    title: const Text('Important Note'),
+                    title: const Text('notification_permission.title').tr(),
                     children: [
                       Text(
-                          'Currently this App do not have the permission to send notifications. If you would like to use notifications you should grant the permission in the settings.'),
+                          'notification_permission.body').tr(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           ElevatedButton(
-                            child: const Text('I understand'),
+                            child: const Text('notification_permission.button').tr(),
                             onPressed: () {
                               Provider.of<SettingsModel>(context, listen: false).updatePermissionNoteSeen(true);
                               Navigator.pop(dialogContext);
@@ -106,8 +107,8 @@ class ReminderNotification {
           content: NotificationContent(
               id: 10,
               channelKey: 'basic_channel',
-              title: 'Stay Hydrated',
-              body: 'Don\'t forget to drink water!',
+              title: 'Stay Hydrated!',
+              body: 'notification.body'.tr(),
               payload: {'cupSize': '$cupSize'},),
           schedule: NotificationInterval(
               interval: interval, timeZone: localTimeZone, repeats: true));
