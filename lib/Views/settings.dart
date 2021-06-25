@@ -536,7 +536,7 @@ class _SettingsState extends State<Settings> {
                   child: ElevatedButton(
                       child: const Text('dialog.reset').tr(),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.redAccent,
+                        primary: Color(0xFFf54831),
                       ),
                       onPressed: () => {
                         showDialog(

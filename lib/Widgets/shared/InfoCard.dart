@@ -12,20 +12,20 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: Constants.CARD_MARGIN,
+      margin: EdgeInsets.only(top: 10, left: 5, bottom: 20, right: 5),
       elevation: Constants.CARD_ELEVATION,
       shape: RoundedRectangleBorder(
-    side: BorderSide(color: Colors.blue, width: 1),
-    borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.blue, width: 1),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: <Widget>[
           Container(
-            child: Image.asset('assets/images/ausrufezeichen.png', scale: 10),
+            child: Image.asset('assets/images/ausrufezeichen.png', scale: 7),
           ),
           Container(
-          //margin: EdgeInsets.fromLTRB(0,10,0,10),
-            width: MediaQuery.of(context).size.width / 1.44 ,
+            //margin: EdgeInsets.fromLTRB(0,10,0,10),
+            width: MediaQuery.of(context).size.width / 1.44,
             height: MediaQuery.of(context).size.height / 6.8,
             // height: SizeConfig.screenHeight,
             child: AutoSizeText.rich(

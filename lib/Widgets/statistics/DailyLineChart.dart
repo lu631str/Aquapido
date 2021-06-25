@@ -31,8 +31,8 @@ class _DailyLineChartState extends State<DailyLineChart> {
   List<double> _cummulatedWater = [];
 
   List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
+    const Color(0xffed882f),
+    const Color(0xfff54831),
   ];
 
   static const Color foregroundColor = Color(0xFFF2F2F2);

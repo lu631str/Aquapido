@@ -75,7 +75,7 @@ class WaterTrackerApp extends StatelessWidget {
           // text styling for headlines, titles, bodies of text, and more.
           textTheme: TextTheme(
             headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
-            headline2: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+            headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black),
             headline3: TextStyle(fontSize: 32.0),
             headline4: TextStyle(fontSize: 24.0),
             bodyText2: TextStyle(fontSize: 14.0),
@@ -166,7 +166,24 @@ class _MainState extends State<Main> {
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
-          child: BottomNavigationBar(
+          child:
+          Container(
+            
+            decoration:  BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                tileMode: TileMode.clamp,
+                                colors: [
+                                  Colors.blue,
+                                  Colors.lightBlueAccent,
+                                ],
+                              ),),
+            child: 
+          
+          
+           BottomNavigationBar(
+             elevation: 0,
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
             items: <BottomNavigationBarItem>[
@@ -188,9 +205,10 @@ class _MainState extends State<Main> {
               ),
             ],
             selectedItemColor: Colors.white,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.transparent,
+
             onTap: _onItemTapped,
-          ),
+          ),),
         ),
       ),
     );

@@ -38,7 +38,7 @@ class AchievementCircle extends StatelessWidget {
             children: <Widget>[
               //Container(height: 10.0), // Space Top
               Stack(
-                overflow: Overflow.visible,
+                clipBehavior: Clip.none,
                 //mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
@@ -131,7 +131,7 @@ class AchievementCircle extends StatelessWidget {
                 minFontSize: 6,
                 style: TextStyle(
                   color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
-                      ? Colors.black54
+                      ? Colors.black
                       : Colors.blue[100],
                   fontSize: 16.0,
                 ),
