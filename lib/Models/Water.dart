@@ -26,7 +26,7 @@ class Water {
   /// Returns CupSize String Representation.
   String toCupSizeString() {
     if(isPlaceholder) {
-      return 'Add your first glass of water!';
+      return 'home.placeholder'.tr();
     }
     return '${cupSize}ml';
   }
