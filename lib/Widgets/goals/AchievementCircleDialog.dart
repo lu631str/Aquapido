@@ -90,7 +90,7 @@ class _CustomDialogBoxState extends State<AchievementCircleDialog> {
                                   )),
                             ])),
                     AutoSizeText(
-                      tr('Use the App to get Better Medals!'),
+                      tr('goals.goals_dialog.better_medals'),
                       textAlign: TextAlign.center,
 
                     ),
@@ -104,7 +104,7 @@ class _CustomDialogBoxState extends State<AchievementCircleDialog> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Alright')),
+                        child: Text(tr('goals.goals_dialog.alright'))),
                   ],
                 ) //Contents here
                 )),

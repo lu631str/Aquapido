@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:provider/provider.dart';
@@ -92,14 +93,14 @@ class DailyGoal extends StatelessWidget {
                             contentPadding: EdgeInsets.all(16),
                             title: Text('Information'),
                             children: [
-                              Text(
-                                  'We calculate the recommended value based on your personal information. For example if you are very active, we recommend you to drink more water.'),
+                              Text(tr('goals.goals_dialog.calculation_info')),
+
                               SimpleDialogOption(
                                 child: OutlinedButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text('Alright')),
+                                    child: Text(tr('goals.goals_dialog.alright'))),
                               )
                             ],
                           );
@@ -200,7 +201,7 @@ class DailyGoal extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Recommended',
+                            text: tr('goals.daily_goal.recommended'),
                             style:
                                 TextStyle(color: Colors.black, fontSize: 13.0),
                           ),

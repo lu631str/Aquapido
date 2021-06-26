@@ -43,7 +43,28 @@
         }
     },
     "goals": {
-        "title": "Ziele"
+        "title": "Ziele",
+        "goals":{
+            "total_water": "Wasser gesamt",
+            "total_cups": "Gläser gesamt",
+            "streak": "Streak",
+            "goals_reached": "Ziele\nerreicht",
+            "total_quick_add_used": "'Quick Add' benutzt",
+            "cups": "Gläser",
+            "days": "Tage",
+            "times": "mal"
+
+        },
+        "goals_dialog": {
+            "better_medals": "Benutze die App um bessere Medalien zu bekommen!",
+            "calculation_info": "Wir berechnen den empfohlenen Wert anhand deiner persönlichen Daten. Wenn du beispielsweise sehr aktiv bist, empfehlen wir dir mehr Wasser zu trinken..",
+            "alright": "OK"
+        },
+        "daily_goal": {
+            "title": "Tägliches Ziel",
+            "recommended": "empfolen"
+        }
+
     },
     "settings": {
         "title": "Einstellungen",
@@ -122,20 +143,20 @@
     },
 
     "infos": {
-        "info0": "With dehydration, the skin can become more vulnerable to skin disorders and premature wrinkling.",
-        "info1": "A lack of water can cause blood to become thicker, increasing blood pressure.",
+        "title": "Wusstest du, dass...",
+        "info0": "bei Dehydration die Haut anfälliger für Hauterkrankungen und vorzeitige Faltenbildung ist.",
+        "info1": "ein Wassermangel dazu führen kann, dass das Blut dicker wird und der Blutdruck steigt.",
         "info2": "Blood is more than 90 percent water, and blood carries oxygen to different parts of the body.",
-        "info3": "Cartilage, found in joints and the disks of the spine, contains around 80 percent water. Long-term dehydration can reduce the joints’ shock-absorbing ability, leading to joint pain.",
+        "info3": "Blut zu mehr als 90 Prozent aus Wasser besteht und Blut den Sauerstoff zu verschiedenen Teilen des Körpers transportiert.",
         "info4": "Dehydration can affect brain structure and function. It is also involved in the production of hormones and neurotransmitters. Prolonged dehydration can lead to problems with thinking and reasoning.",
-        "info5": "Water that is stored in the middle layers of the skin comes to the skin’s surface as sweat when the body heats up. As it evaporates, it cools the body. In sport.",
-        "info6": "The bowel needs water to work properly. Dehydration can lead to digestive problems, constipation, and an overly acidic stomach. This increases the risk of heartburn and stomach ulcers.",
-        "info7": "Water is needed in the processes of sweating and removal of urine and feces.",
-        "info8": "Saliva helps us digest our food and keeps the mouth, nose, and eyes moist. This prevents friction and damage. Drinking water also keeps the mouth clean. Consumed instead of sweetened beverages, it can also reduce tooth decay.",
-        "info9": "When dehydrated, airways are restricted by the body in an effort to minimize water loss. This can make asthma and allergies worse.",
-        "info10": "These dissolve in water, which makes it possible for them to reach different parts of the body.",
-        "info11": "The kidneys regulate fluid in the body. Insufficient water can lead to kidney stones and other problems.",
-        "info12": "Some scientists have proposed that consuming more water might enhance performance during strenuous activity. More research is needed to confirm this, but one review found that dehydration reduces performance in activities lasting longer than 30 minutes.",
-        "info13": "Water may also help with weight loss, if it is consumed instead of sweetened juices and sodas. “Preloading” with water before meals can help prevent overeating by creating a sense of fullness.",
-        "info14": "When partying, unsweetened soda water with ice and lemon alternated with alcoholic drinks can help prevent overconsumption of alcohol."
+        "info5": "Dehydration die Struktur und Funktion des Gehirns beeinträchtigen kann. Das Gehirn ist auch an der Produktion von Hormonen und Neurotransmittern beteiligt. Längerer Flüssigkeitsmangel kann zu Denkproblemen führen.",
+        "info6": "der Darm Wasser braucht um richtig zu funktionieren. Dehydration kann zu Verdauungsproblemen, Verstopfung und einem übermäßig sauren Magen führen. Dies erhöht das Risiko von Sodbrennen und Magengeschwüren.",
+        "info7": "Wasser für das Schwitzen und die Entfernung von Urin und Kot benötigt wird.",
+        "info8": "Speichel uns hilft, unsere Nahrung zu verdauen und hält Mund, Nase und Augen feucht. Dies verhindert Reibung und Beschädigung. Auch das Trinken von Wasser hält den Mund sauber. Anstelle von gesüßten Getränken, kann es auch Karies reduzieren.",
+        "info9": "bei Dehydration die Atemwege vom Körper eingeschränkt werden, um den Wasserverlust zu minimieren. Dies kann Asthma und Allergien verschlimmern.",
+        "info10": "die Nieren die Flüssigkeit im Körper regulieren. Zu wenig Wasser kann zu Nierensteinen und anderen Problemen führen.",
+        "info11": "einige Wissenschaftler vermuten, dass der Konsum von mehr Wasser die Leistung bei anstrengender Aktivität verbessern könnte. Um dies zu bestätigen, sind weitere Untersuchungen erforderlich, aber eine Überprüfung ergab, dass Dehydration die Leistung bei Aktivitäten verringert, die länger als 30 Minuten dauern.",
+        "info12": "Wasser auch beim Abnehmen helfen kann, wenn es anstelle von gesüßten Säften und Limonaden konsumiert wird. Das „Vorladen“ mit Wasser vor den Mahlzeiten kann helfen, Überessen zu vermeiden, indem es ein Sättigungsgefühl erzeugt.",
+        "info13": "beim Feiern ungesüßtes Sodawasser mit Eis und Zitrone im Wechsel mit alkoholischen Getränken helfen kann, übermäßigen Alkoholkonsum zu verhindern."
     }
 }
