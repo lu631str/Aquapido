@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
           child: Column(
             children: [
               AutoSizeText(
-                'Try out our ‘Quick Add’ functions!',
+                tr('settings.quick_add_dialog.title'),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700),
                 maxLines: 1,
@@ -68,7 +69,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
               SwitchListTile(
                   value: context.watch<SettingsModel>().shakeSettings,
                   title: AutoSizeText(
-                    'Quick add Shaking',
+                    tr('quick_add_dialog.shake'),
                     maxLines: 1,
                     minFontSize: 10,
                     style:
@@ -87,7 +88,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
               ),
               SwitchListTile(
                   value: context.watch<SettingsModel>().powerSettings,
-                  title: AutoSizeText('Quick add 2x Power Button',
+                  title: AutoSizeText(tr('quick_add_dialog.power'),
                     maxLines: 1,
                     minFontSize: 6,
                     style:
@@ -106,7 +107,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
               Container(
                 margin: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
               child:ElevatedButton(
-                child: const Text('Save'),
+                child:  Text(tr('quick_add_dialog.save')),
                 onPressed: () {
                   Navigator.pop(context);
                   Provider.of<SettingsModel>(context, listen: false)

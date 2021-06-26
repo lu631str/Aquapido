@@ -62,7 +62,7 @@ class _CustomDialogBoxState extends State<QuickAddDialogInfo> {
               height: MediaQuery.of(context).size.height / 4.5,
             ),
             AutoSizeText(
-              'Quick add Shaking',
+              tr('quick_add_dialog.shake'),
               maxLines: 1,
               minFontSize: 10,
               style: TextStyle(fontSize: 14.0),
@@ -77,7 +77,7 @@ class _CustomDialogBoxState extends State<QuickAddDialogInfo> {
                 width: MediaQuery.of(context).size.width / 1.6,
                 height: MediaQuery.of(context).size.height / 4.7),
             AutoSizeText(
-              'Quick add 2x Power Button',
+              tr('quick_add_dialog.power'),
               maxLines: 1,
               minFontSize: 6,
               style: TextStyle(fontSize: 14.0),

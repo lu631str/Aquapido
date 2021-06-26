@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -12,6 +13,7 @@ class GenderSelection extends StatefulWidget {
 
 class _GenderSelectionState extends State<GenderSelection> {
   int selectGender;
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +50,7 @@ class _GenderSelectionState extends State<GenderSelection> {
             dense: true,
             value: 1,
             title: AutoSizeText(
-              "Male",
+              tr('settings.gender.male'),
               minFontSize: 6,
               maxLines: 1,
               style: (selectGender == 1)
@@ -79,7 +81,7 @@ class _GenderSelectionState extends State<GenderSelection> {
               dense: true,
               value: 2,
               title: AutoSizeText(
-                "Female",
+                tr('settings.gender.female'),
                 minFontSize: 6,
                 maxLines: 1,
                 textAlign: TextAlign.start,

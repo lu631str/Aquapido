@@ -71,6 +71,13 @@
         "title": "Did you know that..."
     },
 
+    "quick_add_dialog": {
+        "shake": "Quick add shaking",
+        "power": "Quick add 2x Power Button",
+        "save": "save"
+
+    },
+
     "settings": {
         "title": "Settings",
         "reminder_settings": {
@@ -153,16 +160,32 @@
         "title": "Did you know that...",
         "info0":"With dehydration, the skin can become more vulnerable to skin disorders and premature wrinkling.",
         "info1": "A lack of water can cause blood to become thicker, increasing blood pressure.",
-        "info2": "Blood is more than 90 percent water, and blood carries oxygen to different parts of the body.",
-        "info3": "Cartilage, found in joints and the disks of the spine, contains around 80 percent water. Long-term dehydration can reduce the joints’ shock-absorbing ability, leading to joint pain.",
-        "info4": "Water that is stored in the middle layers of the skin comes to the skin’s surface as sweat when the body heats up. As it evaporates, it cools the body. In sport.",
-        "info5": "The bowel needs water to work properly. Dehydration can lead to digestive problems, constipation, and an overly acidic stomach. This increases the risk of heartburn and stomach ulcers.",
-        "info6": "Water is needed in the processes of sweating and removal of urine and feces.",
-        "info7": "Saliva helps us digest our food and keeps the mouth, nose, and eyes moist. This prevents friction and damage. Drinking water also keeps the mouth clean. Consumed instead of sweetened beverages, it can also reduce tooth decay.",
-        "info8": "When dehydrated, airways are restricted by the body in an effort to minimize water loss. This can make asthma and allergies worse.",
-        "info9": "The kidneys regulate fluid in the body. Insufficient water can lead to kidney stones and other problems.",
-        "info10": "Some scientists have proposed that consuming more water might enhance performance during strenuous activity. More research is needed to confirm this, but one review found that dehydration reduces performance in activities lasting longer than 30 minutes.",
-        "info11": "Water may also help with weight loss, if it is consumed instead of sweetened juices and sodas. “Preloading” with water before meals can help prevent overeating by creating a sense of fullness.",
-        "info12": "When partying, unsweetened soda water with ice and lemon alternated with alcoholic drinks can help prevent overconsumption of alcohol."
+        "info2": "Cartilage, found in joints and the disks of the spine, contains around 80 percent water. Long-term dehydration can reduce the joints’ shock-absorbing ability, leading to joint pain.",
+        "info3": "Water that is stored in the middle layers of the skin comes to the skin’s surface as sweat when the body heats up. As it evaporates, it cools the body. In sport.",
+        "info4": "The bowel needs water to work properly. Dehydration can lead to digestive problems, constipation, and an overly acidic stomach. This increases the risk of heartburn and stomach ulcers.",
+        "info5": "Water is needed in the processes of sweating and removal of urine and feces.",
+        "info6": "Saliva helps us digest our food and keeps the mouth, nose, and eyes moist. This prevents friction and damage. Drinking water also keeps the mouth clean. Consumed instead of sweetened beverages, it can also reduce tooth decay.",
+        "info7": "When dehydrated, airways are restricted by the body in an effort to minimize water loss. This can make asthma and allergies worse.",
+        "info8": "The kidneys regulate fluid in the body. Insufficient water can lead to kidney stones and other problems.",
+        "info9": "Some scientists have proposed that consuming more water might enhance performance during strenuous activity. More research is needed to confirm this, but one review found that dehydration reduces performance in activities lasting longer than 30 minutes.",
+        "info10": "Water may also help with weight loss, if it is consumed instead of sweetened juices and sodas. “Preloading” with water before meals can help prevent overeating by creating a sense of fullness.",
+        "info11": "When partying, unsweetened soda water with ice and lemon alternated with alcoholic drinks can help prevent overconsumption of alcohol."
+    },
+
+    "onbording": {
+        "title": "Welcome to Aquapido",
+        "subtitle":"\nWe need some information about you, to give you the best advise and a wonderful experience.",
+        "title_widget1": "Please select your gender",
+        "title_widget2": "Please select your weight",
+        "title_widget3": "Your Lifestyle activity level",
+
+        "activity" : {
+            "low": "Low (sitting)",
+            "normal": "Normal (active)",
+            "high": "High (very active)",
+            "very_high": "Very High (Hustler)"
+        }
     }
+
+
 }

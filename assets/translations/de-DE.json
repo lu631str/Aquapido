@@ -66,6 +66,17 @@
         }
 
     },
+
+    "info_card": {
+        "title": "Wusstest du, dass ..."
+    },
+
+    "quick_add_dialog": {
+        "shake": "'Quick add' schütteln",
+        "power": "'Quick add' 2x An Knopf",
+        "save": "speichern"
+
+    },
     "settings": {
         "title": "Einstellungen",
         "reminder_settings": {
@@ -146,16 +157,30 @@
         "title": "Wusstest du, dass...",
         "info0": "bei Dehydration die Haut anfälliger für Hauterkrankungen und vorzeitige Faltenbildung ist.",
         "info1": "ein Wassermangel dazu führen kann, dass das Blut dicker wird und der Blutdruck steigt.",
-        "info2": "Blood is more than 90 percent water, and blood carries oxygen to different parts of the body.",
-        "info3": "Blut zu mehr als 90 Prozent aus Wasser besteht und Blut den Sauerstoff zu verschiedenen Teilen des Körpers transportiert.",
-        "info4": "Dehydration die Struktur und Funktion des Gehirns beeinträchtigen kann. Das Gehirn ist auch an der Produktion von Hormonen und Neurotransmittern beteiligt. Längerer Flüssigkeitsmangel kann zu Denkproblemen führen.",
-        "info5": "der Darm Wasser braucht um richtig zu funktionieren. Dehydration kann zu Verdauungsproblemen, Verstopfung und einem übermäßig sauren Magen führen. Dies erhöht das Risiko von Sodbrennen und Magengeschwüren.",
-        "info6": "Wasser für das Schwitzen und die Entfernung von Urin und Kot benötigt wird.",
-        "info7": "Speichel uns hilft, unsere Nahrung zu verdauen und hält Mund, Nase und Augen feucht. Dies verhindert Reibung und Beschädigung. Auch das Trinken von Wasser hält den Mund sauber. Anstelle von gesüßten Getränken, kann es auch Karies reduzieren.",
-        "info8": "bei Dehydration die Atemwege vom Körper eingeschränkt werden, um den Wasserverlust zu minimieren. Dies kann Asthma und Allergien verschlimmern.",
-        "info9": "die Nieren die Flüssigkeit im Körper regulieren. Zu wenig Wasser kann zu Nierensteinen und anderen Problemen führen.",
-        "info10": "einige Wissenschaftler vermuten, dass der Konsum von mehr Wasser die Leistung bei anstrengender Aktivität verbessern könnte. Um dies zu bestätigen, sind weitere Untersuchungen erforderlich, aber eine Überprüfung ergab, dass Dehydration die Leistung bei Aktivitäten verringert, die länger als 30 Minuten dauern.",
-        "info11": "Wasser auch beim Abnehmen helfen kann, wenn es anstelle von gesüßten Säften und Limonaden konsumiert wird. Das „Vorladen“ mit Wasser vor den Mahlzeiten kann helfen, Überessen zu vermeiden, indem es ein Sättigungsgefühl erzeugt.",
-        "info12": "beim Feiern ungesüßtes Sodawasser mit Eis und Zitrone im Wechsel mit alkoholischen Getränken helfen kann, übermäßigen Alkoholkonsum zu verhindern."
+        "info2": "Blut zu mehr als 90 Prozent aus Wasser besteht und Blut den Sauerstoff zu verschiedenen Teilen des Körpers transportiert.",
+        "info3": "Dehydration die Struktur und Funktion des Gehirns beeinträchtigen kann. Das Gehirn ist auch an der Produktion von Hormonen und Neurotransmittern beteiligt. Längerer Flüssigkeitsmangel kann zu Denkproblemen führen.",
+        "info4": "der Darm Wasser braucht um richtig zu funktionieren. Dehydration kann zu Verdauungsproblemen, Verstopfung und einem übermäßig sauren Magen führen. Dies erhöht das Risiko von Sodbrennen und Magengeschwüren.",
+        "info5": "Wasser für das Schwitzen und die Entfernung von Urin und Kot benötigt wird.",
+        "info6": "Speichel uns hilft, unsere Nahrung zu verdauen und hält Mund, Nase und Augen feucht. Dies verhindert Reibung und Beschädigung. Auch das Trinken von Wasser hält den Mund sauber. Anstelle von gesüßten Getränken, kann es auch Karies reduzieren.",
+        "info7": "bei Dehydration die Atemwege vom Körper eingeschränkt werden, um den Wasserverlust zu minimieren. Dies kann Asthma und Allergien verschlimmern.",
+        "info8": "die Nieren die Flüssigkeit im Körper regulieren. Zu wenig Wasser kann zu Nierensteinen und anderen Problemen führen.",
+        "info9": "einige Wissenschaftler vermuten, dass der Konsum von mehr Wasser die Leistung bei anstrengender Aktivität verbessern könnte. Um dies zu bestätigen, sind weitere Untersuchungen erforderlich, aber eine Überprüfung ergab, dass Dehydration die Leistung bei Aktivitäten verringert, die länger als 30 Minuten dauern.",
+        "info10": "Wasser auch beim Abnehmen helfen kann, wenn es anstelle von gesüßten Säften und Limonaden konsumiert wird. Das „Vorladen“ mit Wasser vor den Mahlzeiten kann helfen, Überessen zu vermeiden, indem es ein Sättigungsgefühl erzeugt.",
+        "info11": "beim Feiern ungesüßtes Sodawasser mit Eis und Zitrone im Wechsel mit alkoholischen Getränken helfen kann, übermäßigen Alkoholkonsum zu verhindern."
+    },
+
+    "onbording": {
+        "title": "Willkommen bei Aquapido",
+        "subtitle":"\nWir brauchen ein paar Informationen über dich, um dir die beste Erfahrung und ein wunderbares Erlebnis bieten zu können.",
+        "title_widget1": "Bitte wähle dein Geschlecht",
+        "title_widget2": "Bitte wähle dein Gewicht",
+        "title_widget3": "Dein Aktivitäts-Level",
+
+        "activity" : {
+            "low": "Wenig (sitzen)",
+            "normal": "Normal (aktiv)",
+            "high": "Viel (sehr aktiv)",
+            "very_high": "Sehr Viel (Hustler)"
+        }
     }
 }

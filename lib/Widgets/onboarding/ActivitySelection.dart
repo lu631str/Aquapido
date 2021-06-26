@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:water_tracker/Models/SettingsModel.dart';
@@ -58,7 +59,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
             child: RadioListTile(
               value: 1,
               title: Text(
-                "Low (sitting)",
+                tr('onbording.activity.low'),
                 style: (selectActivity == 1)
                     ? TextStyle(color: Colors.white)
                     : TextStyle(color: Colors.black),
@@ -90,7 +91,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
               child: RadioListTile(
                 value: 2,
                 title: Text(
-                  "Normal (active)",
+                  tr('onbording.activity.normal'),
                   textAlign: TextAlign.start,
                   style: (selectActivity == 2)
                       ? TextStyle(color: Colors.white)
@@ -121,7 +122,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
               child: RadioListTile(
                 value: 3,
                 title: Text(
-                  "High (very active)",
+                  tr('onbording.activity.high'),
                   textAlign: TextAlign.start,
                   style: (selectActivity == 3)
                       ? TextStyle(color: Colors.white)
@@ -151,7 +152,7 @@ class _ActivitySelectionState extends State<ActivitySelection> {
               child: RadioListTile(
                 value: 4,
                 title: Text(
-                  "Very High (Hustler)",
+                  tr('onbording.activity.very_high'),
                   textAlign: TextAlign.start,
                   style: (selectActivity == 4)
                       ? TextStyle(color: Colors.white)

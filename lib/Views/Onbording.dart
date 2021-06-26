@@ -26,9 +26,9 @@ class _OnbordingState extends State<Onbording> {
   int currentIndex = 0;
   PageController _controller;
   List<String> subtitle = [
-    "Please select your gender:",
-    "Please select your weight:",
-    "Your Lifestyle activity level:"
+    tr('onbording.title_widget1'),
+    tr('onbording.title_widget2'),
+    tr('onbording.title_widget3')
   ];
 
   List<String> infos = [
@@ -97,7 +97,7 @@ class _OnbordingState extends State<Onbording> {
                         children: [
                           Container(
                               child: AutoSizeText(
-                            "Welcome to Aquapido",
+                                tr('onbording.title'),
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -105,7 +105,7 @@ class _OnbordingState extends State<Onbording> {
                           )),
                           Container(
                               child: AutoSizeText(
-                            "\nWe need some information about you, to give you the best advise and a wonderful experience.",
+                                tr('onbording.subtitle'),
                             maxLines: 3,
                             minFontSize: 10,
                             textAlign: TextAlign.center,
@@ -159,7 +159,7 @@ class _OnbordingState extends State<Onbording> {
                 width: MediaQuery.of(context).size.width / 1.1,
                 margin: EdgeInsets.all(5),
                 child: InfoCard(
-                  title: "\nDid you know that ...",
+                  title: "\n"+tr('infos.title'),
                   text: tr("infos.info"+currentIndex.toString()),
                 ),
               ),
