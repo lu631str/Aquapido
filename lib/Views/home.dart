@@ -310,12 +310,15 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AutoSizeText(
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                      child:AutoSizeText(
                         'home.cups_today'.tr(),
-                        maxLines: 2,
+                        maxLines: 1,
                         minFontSize: 7,
                         style: Theme.of(context).textTheme.headline6,
-                      ),
+                      )),
                       FutureBuilder(
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
@@ -424,8 +427,8 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          height: MediaQuery.of(context).size.height * 0.038,
+                          height: MediaQuery.of(context).size.height * 0.03,
+                          width: MediaQuery.of(context).size.width * 0.3,
                       child: AutoSizeText(
                         'home.cup_size'.tr(),
                         maxLines: 2,
