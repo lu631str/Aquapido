@@ -85,7 +85,8 @@ class CalendarState extends State<Calendar> {
             _focusedDay = focusedDay;
           },
           eventLoader: (day) {
-             return [DateTime.utc(2010, 10, 16)];
+
+                return [DateTime.now()];
           },
           headerStyle: HeaderStyle(
               formatButtonDecoration:BoxDecoration(

@@ -423,12 +423,15 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AutoSizeText(
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.038,
+                      child: AutoSizeText(
                         'home.cup_size'.tr(),
                         maxLines: 2,
                         minFontSize: 7,
                         style: Theme.of(context).textTheme.headline6,
-                      ),
+                      )),
                       TextButton(
                           child: Row(children: [
                             Text(

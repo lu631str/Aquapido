@@ -29,29 +29,29 @@ class _StatisticsState extends State<Statistics> {
 
 
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate:
-            Provider.of<SettingsModel>(context, listen: false).selectedDate,
-        firstDate: DateTime.parse("2020-01-01 12:00:00"),
-        lastDate: DateTime.now());
-    if (picked != null &&
-        picked !=
-            Provider.of<SettingsModel>(context, listen: false).selectedDate) {
-      setState(() {
-        Provider.of<SettingsModel>(context, listen: false)
-            .setSelectedDate(picked);
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate:
+  //           Provider.of<SettingsModel>(context, listen: false).selectedDate,
+  //       firstDate: DateTime.parse("2020-01-01 12:00:00"),
+  //       lastDate: DateTime.now());
+  //   if (picked != null &&
+  //       picked !=
+  //           Provider.of<SettingsModel>(context, listen: false).selectedDate) {
+  //     setState(() {
+  //       Provider.of<SettingsModel>(context, listen: false)
+  //           .setSelectedDate(picked);
+  //     });
+  //   }
+  // }
 
   Widget _getStringForDiagramm() {
     DateTime startDate = Provider.of<SettingsModel>(context, listen: false).selectedDate;
     if(Provider.of<SettingsModel>(context, listen: true).dayDiagramm) {
-      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L');
+      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L',textScaleFactor: 0.8,);
     } else {
-      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L');
+      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L',textScaleFactor: 0.8);
     }
 
   }
