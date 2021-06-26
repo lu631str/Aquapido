@@ -170,6 +170,19 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
+  Future<List<DateTime>> getDailyGoalReachedList() async{
+    List<DailyGoal> dailyGoalList = await _dailyGoalList();
+    List<DateTime> dailyGoalReachDates;
+    dailyGoalList.forEach((dailygoal) {
+      if (dailygoal.dailyGoalReached == true) {
+        dailyGoalReachDates.add(dailygoal.dateTime);
+      }
+
+    });
+
+  }
+
+
   List<Water> getWaterListForDay(DateTime dateTime) {
     return history
         .where((water) => isSameDay(water.dateTime, dateTime))
