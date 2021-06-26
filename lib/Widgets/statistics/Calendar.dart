@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:water_tracker/Models/SettingsModel.dart';
+
 
 class Calendar extends StatefulWidget {
   //  final List<DateTime> dailyGoalReachedDates;
@@ -13,10 +16,20 @@ class Calendar extends StatefulWidget {
 }
 
 class CalendarState extends State<Calendar> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay;
   List<DateTime> dailyGoalReachDates ;
+
+  List<Color> gradientColors = [
+    const Color(0xffed882f),
+    const Color(0xfff54831),
+  ];
+
+  List<Color> gradientColorsGreen = [
+    const Color(0xFF49873C),
+    const Color(0xff09ff16),
+  ];
 
 
 
@@ -25,7 +38,6 @@ class CalendarState extends State<Calendar> {
     return Padding(
         padding: EdgeInsets.only(top: 24, right: 8, bottom: 10, left: 7),
         child: TableCalendar(
-
          // rowHeight: MediaQuery.of(context).size.height / 24,
             locale:'en_US' ,
             firstDay: DateTime.utc(2010, 10, 16),
@@ -46,6 +58,8 @@ class CalendarState extends State<Calendar> {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
+                Provider.of<SettingsModel>(context, listen: false)
+                    .setSelectedDate(_selectedDay);
               });
             }
           },
@@ -61,10 +75,34 @@ class CalendarState extends State<Calendar> {
             // No need to call `setState()` here
             _focusedDay = focusedDay;
           },
-
           eventLoader: (day) {
-            return [ ] ;
+             return [DateTime.utc(2010, 10, 16)];
           },
+
+          calendarStyle: CalendarStyle(
+            selectedDecoration:   BoxDecoration(gradient: LinearGradient(
+          begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Theme.of(context).primaryColor,
+              Theme.of(context).accentColor
+            ],
+          ), shape: BoxShape.circle),
+              todayDecoration: BoxDecoration(gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                   Theme.of(context).primaryColor.withOpacity(0.4),
+                   Theme.of(context).accentColor.withOpacity(0.4),
+                ],
+              ), shape: BoxShape.circle),
+            markerDecoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorsGreen), shape: BoxShape.circle,  ),
+              markersAutoAligned: true,
+            markerSizeScale:0.4
+
+
+          ),
+
         ),
     );
   }
