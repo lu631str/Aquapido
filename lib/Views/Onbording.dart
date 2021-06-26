@@ -126,8 +126,9 @@ class _OnbordingState extends State<Onbording> {
                   },
                   itemBuilder: (_, i) {
                     return Padding(
-                      padding: const EdgeInsets.all(40),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
                               //margin:EdgeInsets.fromLTRB(0,0,0,MediaQuery.of(context).size.height / 80,) ,
