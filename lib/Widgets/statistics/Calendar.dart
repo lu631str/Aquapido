@@ -87,7 +87,14 @@ class CalendarState extends State<Calendar> {
           eventLoader: (day) {
              return [DateTime.utc(2010, 10, 16)];
           },
-
+          headerStyle: HeaderStyle(
+              formatButtonDecoration:BoxDecoration(
+                color:Theme.of(context).primaryColor,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              formatButtonTextStyle: TextStyle(color: Colors.white)
+          ),
         calendarStyle: CalendarStyle(
             selectedDecoration: BoxDecoration(
                 gradient: LinearGradient(

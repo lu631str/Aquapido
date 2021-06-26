@@ -466,7 +466,6 @@ class WaterModel with ChangeNotifier {
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
         await db.query(DatabaseHelper.DAILY_GOAL_TABLE_NAME);
-
     if (maps.isEmpty) {
       log('WaterModel: Table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} is EMPTY!');
       return List.generate(
