@@ -135,14 +135,14 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
-  Future<List<DateTime>> getGoalsReachDaysList() async {
+  Future<List<DateTime>> getGoalsReachedDaysList() async {
     List<DailyGoal> dailyGoalList = await _dailyGoalList();
-    List<DateTime> dateTimeList;
+    List<DateTime> dateTimeList = [];
     if (dailyGoalList.isEmpty) {
       return dateTimeList;
     } else{
       dailyGoalList.forEach((dailygoal) {
-        if (dailygoal.dailyGoalReached == true) {
+        if (dailygoal.dailyGoalReached) {
           dateTimeList.add(dailygoal.dateTime);
         }
       });}

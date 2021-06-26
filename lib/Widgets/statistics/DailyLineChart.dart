@@ -114,7 +114,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
           color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16),
       getTitles: (value) {
         int compare = 0;
-        for (var i = 0; i < 13; i++) {
+        for (var i = 0; i < (13 - _dayTimesIndex); i++) {
           if (value.toInt() == compare) {
             return _dayTimes[_dayTimesIndex + i].toString();
           }
