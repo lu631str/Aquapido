@@ -44,8 +44,7 @@ void main() async {
 
 class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
-  bool introSeen;
-  WaterTrackerApp({Key key, this.currentChild, this.introSeen});
+  WaterTrackerApp({Key key, this.currentChild});
 
   // This widget is the root of your application.
 

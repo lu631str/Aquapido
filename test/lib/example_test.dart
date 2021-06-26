@@ -62,7 +62,7 @@ void main() {
         ..overrideDevicesForAllScenarios(
           devices: devicesWithDifferentTextScales,
         )
-        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 1, introSeen: true,)));
+        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 1,)));
       await tester.pumpDeviceBuilder(builder);
       await screenMatchesGolden(tester, 'statistics');
     });
@@ -78,7 +78,7 @@ void main() {
         ..overrideDevicesForAllScenarios(
           devices: devicesWithDifferentTextScales,
         )
-        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 2,introSeen: true,)));
+        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 2,)));
       await tester.pumpDeviceBuilder(builder);
       await screenMatchesGolden(tester, 'goals');
     });
@@ -94,7 +94,7 @@ void main() {
         ..overrideDevicesForAllScenarios(
           devices: devicesWithDifferentTextScales,
         )
-        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 3,introSeen: true,)));
+        ..addScenario(widget: makeTestableWidget(WaterTrackerApp(currentChild: 3,)));
       await tester.pumpDeviceBuilder(builder);
       await tester.pumpAndSettle();
       await screenMatchesGolden(tester, 'settings');

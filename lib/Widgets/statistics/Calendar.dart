@@ -31,6 +31,13 @@ class CalendarState extends State<Calendar> {
     Colors.green[300],
   ];
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay = Provider.of<SettingsModel>(context, listen: false).selectedDate;
+  }
+
 
 
   @override
@@ -41,7 +48,7 @@ class CalendarState extends State<Calendar> {
          // rowHeight: MediaQuery.of(context).size.height / 24,
             locale:'en_US' ,
             firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
+          lastDay: DateTime.now(),
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
           selectedDayPredicate: (day) {

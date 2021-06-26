@@ -95,7 +95,7 @@ class HistoryListElement extends StatelessWidget {
                       color: Color(0xF2000000),
                     ),
                     BoxShadow(
-                        color: Colors.lightBlueAccent,
+                        color: Theme.of(context).accentColor,
                         spreadRadius: -1,
                         blurRadius: 1.0,
                         offset: Offset(0, 1)),
