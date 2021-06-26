@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
 
 import '../Models/SettingsModel.dart';
@@ -105,7 +106,7 @@ class _HomeState extends State<Home> {
   Future<void> evaluateEvent(event) async {
     final arr = event.split(',');
     debugPrint(event);
-    if(int.parse(arr[1]) <= 0) return;
+    if (int.parse(arr[1]) <= 0) return;
     if (arr[0] == 'power') {
       if (Provider.of<SettingsModel>(context, listen: false).powerSettings) {
         _addWaterCup(
@@ -309,10 +310,12 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'home.cups_today',
+                      AutoSizeText(
+                        'home.cups_today'.tr(),
+                        maxLines: 2,
+                        minFontSize: 7,
                         style: Theme.of(context).textTheme.headline6,
-                      ).tr(),
+                      ),
                       FutureBuilder(
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
@@ -420,10 +423,12 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'home.cup_size',
+                      AutoSizeText(
+                        'home.cup_size'.tr(),
+                        maxLines: 2,
+                        minFontSize: 7,
                         style: Theme.of(context).textTheme.headline6,
-                      ).tr(),
+                      ),
                       TextButton(
                           child: Row(children: [
                             Text(
@@ -492,10 +497,13 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: Provider.of<WaterModel>(context, listen: true)
-                      .history
-                      .length > _MAX_ITEM_COUNT ? _MAX_ITEM_COUNT : Provider.of<WaterModel>(context, listen: true)
-                      .history
-                      .length,
+                              .history
+                              .length >
+                          _MAX_ITEM_COUNT
+                      ? _MAX_ITEM_COUNT
+                      : Provider.of<WaterModel>(context, listen: true)
+                          .history
+                          .length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       child: HistoryListElement(
