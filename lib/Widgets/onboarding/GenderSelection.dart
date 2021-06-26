@@ -12,7 +12,6 @@ class GenderSelection extends StatefulWidget {
 
 class _GenderSelectionState extends State<GenderSelection> {
   int selectGender;
-
   @override
   void initState() {
     super.initState();

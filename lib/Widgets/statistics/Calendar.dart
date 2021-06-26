@@ -87,7 +87,7 @@ class CalendarState extends State<Calendar> {
           eventLoader: (day) {
 
                 return [DateTime.now()];
-          },
+              },
           headerStyle: HeaderStyle(
               formatButtonDecoration:BoxDecoration(
                 color:Theme.of(context).primaryColor,
