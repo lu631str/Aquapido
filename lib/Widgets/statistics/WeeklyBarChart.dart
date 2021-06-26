@@ -1,17 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 import 'dart:math';
 
-class WeeklyBarChart extends StatefulWidget {
-  final List<double> waterListWeek;
-  final DateTime startDate;
+import '../../Models/SettingsModel.dart';
+import '../../Models/WaterModel.dart';
 
-  WeeklyBarChart(this.waterListWeek, this.startDate);
+class WeeklyBarChart extends StatefulWidget {
+  WeeklyBarChart();
 
   @override
   State<StatefulWidget> createState() =>
-      WeeklyBarChartState(waterListWeek, startDate);
+      WeeklyBarChartState();
 }
 
 class WeeklyBarChartState extends State<WeeklyBarChart> {
@@ -19,7 +20,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   List<double> waterListWeek;
   double maxWaterValue = 0.0;
-  DateTime startDate;
+  DateTime selectedDate;
   double _maxY = 4000;
   double _lowerYBorder = 4000; // ml
   double _upperYBorder = 10000; // ml
@@ -31,9 +32,17 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
     const Color(0xfff54831)
   ];
 
-  WeeklyBarChartState(this.waterListWeek, this.startDate) {
-    if(waterListWeek.isEmpty) {
-      waterListWeek = [0,0,0,0,0,0,0];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedDate =
+          Provider.of<SettingsModel>(context, listen: true).selectedDate;
+
+      waterListWeek = Provider.of<WaterModel>(context, listen: true)
+          .getWaterListFor7Days(selectedDate);
+
+          if (waterListWeek.isEmpty) {
+      waterListWeek = [0, 0, 0, 0, 0, 0, 0];
       return;
     }
     List<double> listCopy = waterListWeek.map((value) => value).toList();
@@ -52,11 +61,11 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 24, right: 8, bottom: 10, left: 7),
-        child: BarChart(
-              mainData(),
-            ));
-
+      padding: EdgeInsets.only(top: 24, right: 8, bottom: 10, left: 7),
+      child: BarChart(
+        mainData(),
+      ),
+    );
   }
 
   List<BarChartGroupData> _getBarChartGroupData() {
@@ -92,7 +101,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
       getTitles: (double value) {
         for (var i = 0; i < 7; i++) {
           if (value.toInt() == i) {
-            int newValue = (startDate.weekday + i) % 7;
+            int newValue = (selectedDate.weekday + i) % 7;
             switch (newValue) {
               case 0:
                 return 'statistics.chart.sunday'.tr();
@@ -120,7 +129,6 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
 
   BarChartData mainData() {
     return BarChartData(
-
       alignment: BarChartAlignment.spaceAround,
       maxY: _maxY / 1000,
       barTouchData: BarTouchData(
@@ -158,7 +166,7 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
           reservedSize: 22,
           getTitles: (value) {
             for (var i = 0; i < 10; i++) {
-              if(value.toInt() == i + 1) {
+              if (value.toInt() == i + 1) {
                 return value.toInt().toString() + 'L';
               }
             }
@@ -173,7 +181,6 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
               return '';
             }),
       ),
-      
       gridData: FlGridData(
         show: true,
         checkToShowHorizontalLine: (value) => (value % 1 == 0),

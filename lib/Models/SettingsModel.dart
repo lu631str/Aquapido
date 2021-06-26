@@ -184,7 +184,9 @@ class SettingsModel with ChangeNotifier {
 
   /// Sets _isDayDiagramm to [newValue].
   void setDayDiagramm(bool newValue) {
-    _isDayDiagramm = newValue;
+    if(newValue != null) {
+      _isDayDiagramm = newValue;
+    }
     notifyListeners();
   }
 

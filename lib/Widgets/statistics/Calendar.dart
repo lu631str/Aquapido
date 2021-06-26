@@ -27,8 +27,8 @@ class CalendarState extends State<Calendar> {
   ];
 
   List<Color> gradientColorsGreen = [
-    const Color(0xFF49873C),
-    const Color(0xff09ff16),
+    Colors.green,
+    Colors.green[300],
   ];
 
 
@@ -60,6 +60,8 @@ class CalendarState extends State<Calendar> {
                 _focusedDay = focusedDay;
                 Provider.of<SettingsModel>(context, listen: false)
                     .setSelectedDate(_selectedDay);
+                    Provider.of<SettingsModel>(context, listen: false)
+                    .setDayDiagramm(null);
               });
             }
           },
