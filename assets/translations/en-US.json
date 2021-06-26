@@ -43,7 +43,16 @@
         }
     },
     "goals": {
-        "title": "Goals"
+        "title": "Goals",
+        "Goals":{
+            "total_water": "Total Water",
+            "total_cups": "Total Cups",
+            "streak": "Streak",
+            "goals_reached": "Goals Reached",
+            "total_quick_add_used": "Quick Add Used"
+
+        }
+
     },
     "settings": {
         "title": "Settings",

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:water_tracker/Widgets/goals/AchievementCircleDialog.dart';
 import 'dart:math';
 
 import '../Widgets/goals/AchievementCircle.dart';
@@ -93,10 +94,31 @@ class _GoalsState extends State<Goals> {
         child: Column(
           children: [
             Align(
-                alignment: Alignment(0.60, -0.80),
+                alignment: Alignment(0.40, -0.80),
                 child: Column(
                   children: [
                      Column(children: <Widget>[
+                       Row(
+                         children: [
+                         IconButton(
+                           onPressed: () {
+                             showDialog(
+                                 context: context,
+                                 builder: (context) {
+                                   return StatefulBuilder(builder: (context, setState) {
+                                     return AchievementCircleDialog();
+
+
+                                   });
+                                 });
+                           },
+                           icon: Icon(Icons.info_outline),
+                           padding: const EdgeInsets.only(right: 6),
+                           constraints: BoxConstraints(),
+                         )
+                       ],
+                       mainAxisAlignment: MainAxisAlignment.end,
+                       ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,6 +266,7 @@ class _GoalsState extends State<Goals> {
                                     }
 
                                 ),
+
                                 AchievementCircle(
                                     color: Color.fromRGBO(255, 255, 255, 1.0),
                                     colorBoarder:
@@ -254,17 +277,7 @@ class _GoalsState extends State<Goals> {
                                     max: getMax(maxQuickAddUsed, _quickAddUsed),
                                     unit: 'Times',
                                     subtitle: 'Quick Add\n Used'),
-                                //mus nach implementierung von Streaks eingefügt werden
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder:
-                                        Color.fromARGB(255, 193, 193, 194),
-                                    medalType: MedalType.Silver,
-                                    isCurrentInt: true,
-                                    currentInt: 123,
-                                    max: 250,
-                                    unit: 'Times',
-                                    subtitle: 'Drinks After\n Remind')
+
                               ])
                         ])
                   ],
