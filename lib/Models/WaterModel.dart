@@ -135,25 +135,44 @@ class WaterModel with ChangeNotifier {
     return sum;
   }
 
+  Future<List<DateTime>> getGoalsReachDaysList() async {
+    List<DailyGoal> dailyGoalList = await _dailyGoalList();
+    List<DateTime> dateTimeList;
+    if (dailyGoalList.isEmpty) {
+      return dateTimeList;
+    } else{
+      dailyGoalList.forEach((dailygoal) {
+        if (dailygoal.dailyGoalReached == true) {
+          dateTimeList.add(dailygoal.dateTime);
+        }
+      });}
+
+    return dateTimeList;
+  }
+
   Future<int> getStreakDays() async {
     List<DailyGoal> dailyGoalList = await _dailyGoalList();
 
     int count = 1;
     int max = 0;
 
-    for (int i = 1; i < dailyGoalList.length ; i++) {
-      if(dailyGoalList.isEmpty)
-        max =0;
-
-      else if (dailyGoalList[i].dateTime.difference(dailyGoalList[i-1].dateTime).inDays ==1 && (dailyGoalList[i].dailyGoalReached == true && dailyGoalList[i-1].dailyGoalReached == true)) {
+    for (int i = 1; i < dailyGoalList.length; i++) {
+      if (dailyGoalList.isEmpty)
+        max = 0;
+      else if (dailyGoalList[i]
+                  .dateTime
+                  .difference(dailyGoalList[i - 1].dateTime)
+                  .inDays ==
+              1 &&
+          (dailyGoalList[i].dailyGoalReached == true &&
+              dailyGoalList[i - 1].dailyGoalReached == true)) {
         count++;
-      }else {
+      } else {
         count = 1;
       }
       if (count > max) {
         max = count;
       }
-
 
       //(dailyGoalList.elementAt(i+1).dateTime.microsecondsSinceEpoch.toInt() - dailyGoalList.elementAt(i).dateTime.microsecondsSinceEpoch.toInt() ) >=0
     }
@@ -169,19 +188,6 @@ class WaterModel with ChangeNotifier {
     });
     return sum;
   }
-
-  Future<List<DateTime>> getDailyGoalReachedList() async{
-    List<DailyGoal> dailyGoalList = await _dailyGoalList();
-    List<DateTime> dailyGoalReachDates;
-    dailyGoalList.forEach((dailygoal) {
-      if (dailygoal.dailyGoalReached == true) {
-        dailyGoalReachDates.add(dailygoal.dateTime);
-      }
-
-    });
-
-  }
-
 
   List<Water> getWaterListForDay(DateTime dateTime) {
     return history
