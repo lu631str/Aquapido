@@ -23,7 +23,7 @@ class Goals extends StatefulWidget {
 
 class _GoalsState extends State<Goals> {
 
-  int randomNumber =Random().nextInt(14) ;
+  int randomNumber =Random().nextInt(11) ;
 
   List<int> maxTotalWater = [20, 100, 1000 ];
   List<int> maxCups = [5, 280, 1000];
