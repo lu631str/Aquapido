@@ -58,18 +58,8 @@ class _StatisticsState extends State<Statistics> {
 
   }
 
-  void rebuildAllChildren(BuildContext context) {
-    void rebuild(Element el) {
-      el.markNeedsBuild();
-      el.visitChildren(rebuild);
-    }
-    (context as Element).visitChildren(rebuild);
-  }
-
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -98,20 +88,6 @@ class _StatisticsState extends State<Statistics> {
             ),
             Container(
             child:Calendar()),
-
-            // FutureBuilder<List<DateTime>>(
-            //     future: context.watch<WaterModel>().getDailyGoalReachedList(),
-            //     builder: (context, snapshot) {
-            //       if (snapshot.hasData) {
-            //         return Calendar(snapshot.data);
-            //       }
-            //       return CircularProgressIndicator();
-            //     }
-            // ),
-
-
-
-
               // TextButton(
                 // Text(
                 //     '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),

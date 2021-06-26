@@ -19,7 +19,7 @@ class CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay;
-  List<DateTime> dailyGoalReachDates ;
+  List<DateTime> dailyGoalReachDates;
 
   List<Color> gradientColors = [
     const Color(0xffed882f),
@@ -31,7 +31,7 @@ class CalendarState extends State<Calendar> {
     Colors.green[300],
   ];
 
-  
+
   @override
   void initState() {
     super.initState();
@@ -88,31 +88,34 @@ class CalendarState extends State<Calendar> {
              return [DateTime.utc(2010, 10, 16)];
           },
 
-          calendarStyle: CalendarStyle(
-            selectedDecoration:   BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).accentColor
-            ],
-          ), shape: BoxShape.circle),
-              todayDecoration: BoxDecoration(gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                   Theme.of(context).primaryColor.withOpacity(0.4),
-                   Theme.of(context).accentColor.withOpacity(0.4),
-                ],
-              ), shape: BoxShape.circle),
-            markerDecoration: BoxDecoration(gradient: LinearGradient(colors: gradientColorsGreen), shape: BoxShape.circle,  ),
-              markersAutoAligned: true,
-            markerSizeScale:0.4
-
-
-          ),
-
-        ),
+        calendarStyle: CalendarStyle(
+            selectedDecoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor
+                  ],
+                ),
+                shape: BoxShape.circle),
+            todayDecoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Theme.of(context).primaryColor.withOpacity(0.4),
+                    Theme.of(context).accentColor.withOpacity(0.4),
+                  ],
+                ),
+                shape: BoxShape.circle),
+            markerDecoration: BoxDecoration(
+              gradient: LinearGradient(colors: gradientColorsGreen),
+              shape: BoxShape.circle,
+            ),
+            markersAutoAligned: true,
+            markerSizeScale: 0.4),
+      ),
     );
   }
 }
