@@ -18,7 +18,7 @@ class ReminderNotification {
         defaultColor: Colors.blue,
         ledColor: Colors.white,
         playSound: playSound,
-        soundSource: 'resource://raw/res_bonez_water_reminder',
+        soundSource: 'resource://raw/drop',
         enableVibration: enableVibration);
   }
 

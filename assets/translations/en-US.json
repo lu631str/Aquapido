@@ -44,16 +44,33 @@
     },
     "goals": {
         "title": "Goals",
-        "Goals":{
+        "goals":{
             "total_water": "Total Water",
             "total_cups": "Total Cups",
             "streak": "Streak",
-            "goals_reached": "Goals Reached",
-            "total_quick_add_used": "Quick Add Used"
+            "goals_reached": "Goals\nReached",
+            "total_quick_add_used": "Quick Add\n Used",
+            "cups": "cups",
+            "days": "Days",
+            "times": "Times"
+        },
+        "goals_dialog": {
+            "better_medals": "Use the App to get better medals!",
+            "calculation_info": "We calculate the recommended value based on your personal information. For example if you are very active, we recommend you to drink more water.",
+            "alright": "alright"
 
+        },
+        "daily_goal": {
+            "title": "Daily Goal",
+            "recommended": "recommended"
         }
 
     },
+
+    "info_card": {
+        "title": "Did you know that..."
+    },
+
     "settings": {
         "title": "Settings",
         "reminder_settings": {
@@ -133,6 +150,7 @@
     },
 
     "infos": {
+        "title": "Did you know that...",
         "info0":"With dehydration, the skin can become more vulnerable to skin disorders and premature wrinkling.",
         "info1": "A lack of water can cause blood to become thicker, increasing blood pressure.",
         "info2": "Blood is more than 90 percent water, and blood carries oxygen to different parts of the body.",
@@ -143,10 +161,9 @@
         "info7": "Water is needed in the processes of sweating and removal of urine and feces.",
         "info8": "Saliva helps us digest our food and keeps the mouth, nose, and eyes moist. This prevents friction and damage. Drinking water also keeps the mouth clean. Consumed instead of sweetened beverages, it can also reduce tooth decay.",
         "info9": "When dehydrated, airways are restricted by the body in an effort to minimize water loss. This can make asthma and allergies worse.",
-        "info10": "These dissolve in water, which makes it possible for them to reach different parts of the body.",
-        "info11": "The kidneys regulate fluid in the body. Insufficient water can lead to kidney stones and other problems.",
-        "info12": "Some scientists have proposed that consuming more water might enhance performance during strenuous activity. More research is needed to confirm this, but one review found that dehydration reduces performance in activities lasting longer than 30 minutes.",
-        "info13": "Water may also help with weight loss, if it is consumed instead of sweetened juices and sodas. “Preloading” with water before meals can help prevent overeating by creating a sense of fullness.",
-        "info14": "When partying, unsweetened soda water with ice and lemon alternated with alcoholic drinks can help prevent overconsumption of alcohol."
+        "info10": "The kidneys regulate fluid in the body. Insufficient water can lead to kidney stones and other problems.",
+        "info11": "Some scientists have proposed that consuming more water might enhance performance during strenuous activity. More research is needed to confirm this, but one review found that dehydration reduces performance in activities lasting longer than 30 minutes.",
+        "info12": "Water may also help with weight loss, if it is consumed instead of sweetened juices and sodas. “Preloading” with water before meals can help prevent overeating by creating a sense of fullness.",
+        "info13": "When partying, unsweetened soda water with ice and lemon alternated with alcoholic drinks can help prevent overconsumption of alcohol."
     }
 }

@@ -123,6 +123,7 @@ class AchievementCircle extends StatelessWidget {
                 ],
               ),
               Container(
+                  width: MediaQuery.of(context).size.width / 3.4,
                   child: AutoSizeText(
                 '\n' + this.subtitle,
                 textAlign: TextAlign.center,
