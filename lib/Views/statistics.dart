@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:intl/intl.dart';
+import 'package:water_tracker/Widgets/statistics/Calendar.dart';
 
 import '../Utils/Constants.dart';
 import '../Widgets/statistics/Chart.dart';
@@ -23,6 +23,13 @@ class Statistics extends StatefulWidget {
 
 class _StatisticsState extends State<Statistics> {
   bool isDayDiagram = true;
+
+
+
+
+
+
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -48,11 +55,21 @@ class _StatisticsState extends State<Statistics> {
     } else {
       return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L');
     }
-                                       
+
+  }
+
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (context as Element).visitChildren(rebuild);
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -79,10 +96,26 @@ class _StatisticsState extends State<Statistics> {
                         .getAverageCupsPerDay()),
               ],
             ),
-            TextButton(
-                child: Text(
-                    '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
-                onPressed: () => _selectDate(context)),
+            Container(
+            child:Calendar()),
+
+            // FutureBuilder<List<DateTime>>(
+            //     future: context.watch<WaterModel>().getDailyGoalReachedList(),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return Calendar(snapshot.data);
+            //       }
+            //       return CircularProgressIndicator();
+            //     }
+            // ),
+
+
+
+
+              // TextButton(
+                // Text(
+                //     '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
+                // onPressed: () => _selectDate(context)),
             Card(
               elevation: Constants.CARD_ELEVATION,
               margin: Constants.CARD_MARGIN,
