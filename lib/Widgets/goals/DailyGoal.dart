@@ -81,7 +81,7 @@ class DailyGoal extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20),
-                child: Text('Daily Goal: ${context.watch<SettingsModel>().dailyGoal.toInt()} ml'),
+                child: Text( tr('goals.daily_goal.title')+': ${context.watch<SettingsModel>().dailyGoal.toInt()} ml'),
               ),
               IconButton(
                 onPressed: () {
