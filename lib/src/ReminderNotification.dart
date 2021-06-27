@@ -13,6 +13,8 @@ class ReminderNotification {
       bool playSound, bool enableVibration) {
     return NotificationChannel(
         channelKey: 'basic_channel',
+        importance: NotificationImportance.High,
+
         channelName: 'Basic notifications',
         channelDescription: 'Notification channel for basic tests',
         defaultColor: Colors.blue,

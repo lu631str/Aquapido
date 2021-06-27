@@ -198,6 +198,8 @@ class _SettingsState extends State<Settings> {
                                                 .saveReminderVibration();
                                             ReminderNotification
                                                 .updateNotificationChannel();
+                                            ReminderNotification
+                                                .updateNotification();
                                             Navigator.pop(dialogContext);
                                           },
                                         ), // button 2
