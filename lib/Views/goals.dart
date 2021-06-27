@@ -140,8 +140,8 @@ class _GoalsState extends State<Goals> {
                                 subtitle: tr('goals.goals.total_cups')),
                             AchievementCircle(
                                 color: Color.fromRGBO(255, 255, 255, 1.0),
-                                colorBoarder: Color.fromARGB(255, 168, 93, 30),
-                                medalType: MedalType.Bronze,
+                                colorBoarder: getRingColor(maxQuickAddUsed, _quickAddUsed),
+                                medalType: getMedal(maxQuickAddUsed, _quickAddUsed),
                                 isCurrentInt: true,
                                 currentInt: _quickAddUsed,
                                 max: getMax(maxQuickAddUsed, _quickAddUsed),
