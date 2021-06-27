@@ -90,7 +90,7 @@ class _HomeState extends State<Home> {
   void dispose() {
     // Clean up the controller when the widget is disposed.
     _myController.dispose();
-    _buttonEventStream.cancel();
+    //_buttonEventStream.cancel();
     super.dispose();
   }
 
