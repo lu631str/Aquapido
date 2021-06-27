@@ -36,69 +36,69 @@ class _CustomDialogBoxState extends State<QuickAddDialogInfo> {
         ),
         child: Scrollbar(
           controller: _scrollController,
-            isAlwaysShown: (MediaQuery.of(context).size.height < 760)
-                ?true
-                :false,
-            child: SingleChildScrollView(
-                controller: _scrollController,
+          isAlwaysShown:
+              (MediaQuery.of(context).size.height < 760) ? true : false,
+          child: SingleChildScrollView(
+              controller: _scrollController,
               dragStartBehavior: DragStartBehavior.start,
-                child: Column(
-          children: [
-            AutoSizeText(
-              tr('settings.quick_add_dialog.title'),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
-              maxLines: 1,
-              minFontSize: 10,
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                  0,
-                  MediaQuery.of(context).size.height / 80,
-                  0,
-                  MediaQuery.of(context).size.height / 80),
-              child: Image.asset('assets/images/shake.png'),
-              width: MediaQuery.of(context).size.width / 1.4,
-              height: MediaQuery.of(context).size.height / 4.5,
-            ),
-            AutoSizeText(
-              tr('quick_add_dialog.shake'),
-              maxLines: 1,
-              minFontSize: 10,
-              style: TextStyle(fontSize: 14.0),
-            ),
-            Container(
-                margin: EdgeInsets.fromLTRB(
-                    0,
-                    MediaQuery.of(context).size.height / 80,
-                    0,
-                    MediaQuery.of(context).size.height / 80),
-                child: Image.asset('assets/images/powerbutton.jpg'),
-                width: MediaQuery.of(context).size.width / 1.6,
-                height: MediaQuery.of(context).size.height / 4.7),
-            AutoSizeText(
-              tr('quick_add_dialog.power'),
-              maxLines: 1,
-              minFontSize: 6,
-              style: TextStyle(fontSize: 14.0),
-            ),
-            const Divider(
-              height: 40,
-              thickness: 1,
-              indent: 0,
-              endIndent: 0,
-            ),
-            ElevatedButton(
-              child: const Text('dialog.close').tr(),
-              onPressed: () {
-                Navigator.pop(context);
-                Provider.of<SettingsModel>(context, listen: false)
-                    .updateDialogSeen(true);
-              },
-            ),
-          ],
-        ) //Contents here
-                )),
+              child: Column(
+                children: [
+                  AutoSizeText(
+                    tr('settings.quick_add_dialog.title'),
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+                    maxLines: 1,
+                    minFontSize: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(
+                        0,
+                        MediaQuery.of(context).size.height / 80,
+                        0,
+                        MediaQuery.of(context).size.height / 80),
+                    child: Image.asset('assets/images/shake.png'),
+                    width: MediaQuery.of(context).size.width / 1.4,
+                    height: MediaQuery.of(context).size.height / 4.5,
+                  ),
+                  AutoSizeText(
+                    tr('quick_add_dialog.shake'),
+                    maxLines: 1,
+                    minFontSize: 10,
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0,
+                          MediaQuery.of(context).size.height / 80,
+                          0,
+                          MediaQuery.of(context).size.height / 80),
+                      child: Image.asset('assets/images/powerbutton.jpg'),
+                      width: MediaQuery.of(context).size.width / 1.6,
+                      height: MediaQuery.of(context).size.height / 4.7),
+                  AutoSizeText(
+                    tr('quick_add_dialog.power'),
+                    maxLines: 1,
+                    minFontSize: 6,
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  const Divider(
+                    height: 40,
+                    thickness: 1,
+                    indent: 0,
+                    endIndent: 0,
+                  ),
+                  ElevatedButton(
+                    child: const Text('dialog.close').tr(),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Provider.of<SettingsModel>(context, listen: false)
+                          .updateDialogSeen(true);
+                    },
+                  ),
+                ],
+              )),
+        ),
       ),
     ]);
   }

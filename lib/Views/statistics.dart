@@ -24,36 +24,21 @@ class Statistics extends StatefulWidget {
 class _StatisticsState extends State<Statistics> {
   bool isDayDiagram = true;
 
-
-
-
-
-
-  // Future<void> _selectDate(BuildContext context) async {
-  //   final DateTime picked = await showDatePicker(
-  //       context: context,
-  //       initialDate:
-  //           Provider.of<SettingsModel>(context, listen: false).selectedDate,
-  //       firstDate: DateTime.parse("2020-01-01 12:00:00"),
-  //       lastDate: DateTime.now());
-  //   if (picked != null &&
-  //       picked !=
-  //           Provider.of<SettingsModel>(context, listen: false).selectedDate) {
-  //     setState(() {
-  //       Provider.of<SettingsModel>(context, listen: false)
-  //           .setSelectedDate(picked);
-  //     });
-  //   }
-  // }
-
   Widget _getStringForDiagramm() {
-    DateTime startDate = Provider.of<SettingsModel>(context, listen: false).selectedDate;
-    if(Provider.of<SettingsModel>(context, listen: true).dayDiagramm) {
-      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L',textScaleFactor: 0.8,);
+    DateTime startDate =
+        Provider.of<SettingsModel>(context, listen: false).selectedDate;
+    if (Provider.of<SettingsModel>(context, listen: true).dayDiagramm) {
+      return Text(
+        'statistics.chart.header'.tr() +
+            ' ${Provider.of<WaterModel>(context, listen: false).totalWaterAmountPerDay(startDate) / 1000.0}L',
+        textScaleFactor: 0.8,
+      );
     } else {
-      return Text('statistics.chart.header'.tr() + ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L',textScaleFactor: 0.8);
+      return Text(
+          'statistics.chart.header'.tr() +
+              ' ${Provider.of<WaterModel>(context, listen: false).getWaterListFor7Days(startDate).reduce((a, b) => a + b) / 1000.0}L',
+          textScaleFactor: 0.8);
     }
-
   }
 
   @override
@@ -84,17 +69,13 @@ class _StatisticsState extends State<Statistics> {
                         .getAverageCupsPerDay()),
               ],
             ),
-            Container(
-            child:Calendar()),
-              // TextButton(
-                // Text(
-                //     '${DateFormat('dd.MM.yy').format(Provider.of<SettingsModel>(context, listen: false).selectedDate)}'),
-                // onPressed: () => _selectDate(context)),
+            Container(child: Calendar()),
             Card(
               elevation: Constants.CARD_ELEVATION,
               margin: Constants.CARD_MARGIN,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                side:
+                    BorderSide(color: Theme.of(context).primaryColor, width: 1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -125,7 +106,10 @@ class _StatisticsState extends State<Statistics> {
                                   ? 0
                                   : 1,
                           totalSwitches: 2,
-                          labels: [tr('statistics.chart.switch_day'), tr('statistics.chart.switch_week')],
+                          labels: [
+                            tr('statistics.chart.switch_day'),
+                            tr('statistics.chart.switch_week')
+                          ],
                           radiusStyle: true,
                           onToggle: (index) {
                             Provider.of<SettingsModel>(context, listen: false)

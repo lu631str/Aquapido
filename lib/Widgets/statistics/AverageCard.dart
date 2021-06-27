@@ -60,7 +60,8 @@ class AverageCard extends StatelessWidget {
                         return Text('None');
                     }),
               ),
-              AutoSizeText(subTitle,
+              AutoSizeText(
+                subTitle,
                 maxLines: 1,
               ),
             ],

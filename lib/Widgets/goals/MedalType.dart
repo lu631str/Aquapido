@@ -17,7 +17,6 @@ const Color bronze3 = Color(0XFF77410E);
 const Color bronze4 = Color(0XFF5C340C);
 const Color bronze5 = Color(0XFFE77012);
 
-
 class PixMedal extends StatelessWidget {
   final Key key;
   final MedalType medalType;
@@ -77,17 +76,17 @@ class PixMedal extends StatelessWidget {
               child: Icon(icon,
                   color: Colors.white.withOpacity(0.6),
                   size:
-                  (iconSize <= radius) ? iconSize * 1.005 : radius * 1.005),
+                      (iconSize <= radius) ? iconSize * 1.005 : radius * 1.005),
             ),
             Align(
               alignment: Alignment(0.0 + iconOffsetX, 0.0 + iconOffsetY),
               child: Icon(icon,
                   color:
-                  ((iconColor != null) && (iconColor != Colors.transparent))
-                      ? iconColor.withOpacity(0.8)
-                      : defColor.withOpacity(0.8),
+                      ((iconColor != null) && (iconColor != Colors.transparent))
+                          ? iconColor.withOpacity(0.8)
+                          : defColor.withOpacity(0.8),
                   size:
-                  (iconSize <= radius) ? iconSize * 1.005 : radius * 1.005),
+                      (iconSize <= radius) ? iconSize * 1.005 : radius * 1.005),
             ),
           ]),
         ),

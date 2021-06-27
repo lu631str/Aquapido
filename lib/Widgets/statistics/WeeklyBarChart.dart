@@ -11,8 +11,7 @@ class WeeklyBarChart extends StatefulWidget {
   WeeklyBarChart();
 
   @override
-  State<StatefulWidget> createState() =>
-      WeeklyBarChartState();
+  State<StatefulWidget> createState() => WeeklyBarChartState();
 }
 
 class WeeklyBarChartState extends State<WeeklyBarChart> {
@@ -36,12 +35,12 @@ class WeeklyBarChartState extends State<WeeklyBarChart> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     selectedDate =
-          Provider.of<SettingsModel>(context, listen: true).selectedDate;
+        Provider.of<SettingsModel>(context, listen: true).selectedDate;
 
-      waterListWeek = Provider.of<WaterModel>(context, listen: true)
-          .getWaterListFor7Days(selectedDate);
+    waterListWeek = Provider.of<WaterModel>(context, listen: true)
+        .getWaterListFor7Days(selectedDate);
 
-          if (waterListWeek.isEmpty) {
+    if (waterListWeek.isEmpty) {
       waterListWeek = [0, 0, 0, 0, 0, 0, 0];
       return;
     }

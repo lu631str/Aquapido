@@ -47,13 +47,13 @@ class _DailyLineChartState extends State<DailyLineChart> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-      DateTime selectedDate =
-          Provider.of<SettingsModel>(context, listen: true).selectedDate;
+    DateTime selectedDate =
+        Provider.of<SettingsModel>(context, listen: true).selectedDate;
 
-      waterList = Provider.of<WaterModel>(context, listen: true)
-          .getWaterListForDay(selectedDate);
+    waterList = Provider.of<WaterModel>(context, listen: true)
+        .getWaterListForDay(selectedDate);
 
-          _cummulatedWater = [];
+    _cummulatedWater = [];
 
     if (waterList.isEmpty) {
       return;
@@ -199,8 +199,7 @@ class _DailyLineChartState extends State<DailyLineChart> {
             }),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: foregroundColor, width: 1)),
+          show: true, border: Border.all(color: foregroundColor, width: 1)),
       minX: _minX,
       maxX: _maxX,
       minY: _minY,

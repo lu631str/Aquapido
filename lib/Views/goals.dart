@@ -214,8 +214,9 @@ class _GoalsState extends State<Goals> {
                                         subtitle: 'none');
                                 }),
                             FutureBuilder(
-                                future:
-                                    context.watch<DailyGoalModel>().getStreakDays(),
+                                future: context
+                                    .watch<DailyGoalModel>()
+                                    .getStreakDays(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<int> snapshot) {
                                   if (snapshot.connectionState ==

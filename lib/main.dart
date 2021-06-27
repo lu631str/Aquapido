@@ -29,8 +29,7 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
-      path:
-          'assets/translations', // <-- change the path of the translation files
+      path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
       child: MultiProvider(
         providers: [
@@ -48,8 +47,6 @@ class WaterTrackerApp extends StatelessWidget {
   final int currentChild;
   WaterTrackerApp({Key key, this.currentChild});
 
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,26 +55,12 @@ class WaterTrackerApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         title: 'Quick Water Tracker',
-        //theme: lightTheme,
-
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
           primaryColor: Colors.blue,
           accentColor: Colors.lightBlueAccent,
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.comfortaa().fontFamily,
           cardColor: Color(0xFFEAF7FF),
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
           textTheme: TextTheme(
             headline1: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
             headline2: TextStyle(
@@ -94,15 +77,6 @@ class WaterTrackerApp extends StatelessWidget {
 }
 
 class Main extends StatefulWidget {
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   Main({Key key, this.title, this.currentChild}) : super(key: key);
 
   final String title;
@@ -136,13 +110,6 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    //
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(

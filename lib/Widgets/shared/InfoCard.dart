@@ -25,12 +25,9 @@ class InfoCard extends StatelessWidget {
             child: Image.asset('assets/images/ausrufezeichen.png', scale: 7),
           ),
           Container(
-            //margin: EdgeInsets.fromLTRB(0,10,0,10),
             width: MediaQuery.of(context).size.width / 1.44,
             height: MediaQuery.of(context).size.height / 6.8,
-            // height: SizeConfig.screenHeight,
             child: AutoSizeText.rich(
-              //textAlign: TextAlign.start,
               TextSpan(
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[

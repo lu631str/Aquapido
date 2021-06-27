@@ -17,7 +17,6 @@ class Event {
 }
 
 class Calendar extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => CalendarState();
 }
@@ -33,9 +32,9 @@ class CalendarState extends State<Calendar> {
   List<DateTime> dailyGoalReachDates;
 
   LinkedHashMap<DateTime, List<Event>> events = LinkedHashMap(
-      equals: isSameDay,
-      hashCode: getHashCode,
-    );
+    equals: isSameDay,
+    hashCode: getHashCode,
+  );
   List<Color> gradientColors = [
     const Color(0xffed882f),
     const Color(0xfff54831),
@@ -81,18 +80,16 @@ class CalendarState extends State<Calendar> {
             if (snapshot.hasData) events = snapshot.data;
 
             return TableCalendar(
-              // rowHeight: MediaQuery.of(context).size.height / 24,
-              // locale: 'en_US',
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.now(),
               focusedDay: _focusedDay,
               calendarFormat: _calendarFormat,
-                availableCalendarFormats: {
-                  CalendarFormat.month: tr('calendar.month'),
-                  CalendarFormat.week: tr('calendar.week'),
-                  CalendarFormat.twoWeeks:tr('calendar.two_weeks')
-                },
-                selectedDayPredicate: (day) {
+              availableCalendarFormats: {
+                CalendarFormat.month: tr('calendar.month'),
+                CalendarFormat.week: tr('calendar.week'),
+                CalendarFormat.twoWeeks: tr('calendar.two_weeks')
+              },
+              selectedDayPredicate: (day) {
                 // Use `selectedDayPredicate` to determine which day is currently selected.
                 // If this returns true, then `day` will be marked as selected.
 

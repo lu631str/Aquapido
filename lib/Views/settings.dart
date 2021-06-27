@@ -135,11 +135,14 @@ class _SettingsState extends State<Settings> {
                               builder: (context, setState) {
                                 return SimpleDialog(
                                   contentPadding: const EdgeInsets.all(16),
-                                  title: const Text('settings.reminder_mode_dialog.title').tr(),
+                                  title: const Text(
+                                          'settings.reminder_mode_dialog.title')
+                                      .tr(),
                                   children: [
                                     ListTile(
                                       title: Text(
-                                          'settings.reminder_mode_dialog.content').tr(),
+                                              'settings.reminder_mode_dialog.content')
+                                          .tr(),
                                     ),
                                     Column(
                                       children: [
@@ -148,7 +151,9 @@ class _SettingsState extends State<Settings> {
                                                     context,
                                                     listen: true)
                                                 .reminderVibration,
-                                            title: Text('settings.reminder_mode_dialog.vibration').tr(),
+                                            title: Text(
+                                                    'settings.reminder_mode_dialog.vibration')
+                                                .tr(),
                                             onChanged: (bool value) {
                                               Provider.of<SettingsModel>(
                                                       context,
@@ -160,7 +165,9 @@ class _SettingsState extends State<Settings> {
                                                     context,
                                                     listen: true)
                                                 .reminderSound,
-                                            title: Text('settings.reminder_mode_dialog.sound').tr(),
+                                            title: Text(
+                                                    'settings.reminder_mode_dialog.sound')
+                                                .tr(),
                                             onChanged: (bool value) {
                                               Provider.of<SettingsModel>(
                                                       context,
@@ -173,7 +180,8 @@ class _SettingsState extends State<Settings> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         TextButton(
-                                            child: const Text('dialog.cancel').tr(),
+                                            child: const Text('dialog.cancel')
+                                                .tr(),
                                             onPressed: () {
                                               context
                                                   .read<SettingsModel>()
@@ -262,7 +270,9 @@ class _SettingsState extends State<Settings> {
                               builder: (context, setState) {
                                 return SimpleDialog(
                                   contentPadding: const EdgeInsets.all(16),
-                                  title: const Text('settings.reminder_interval_dialog.title').tr(),
+                                  title: const Text(
+                                          'settings.reminder_interval_dialog.title')
+                                      .tr(),
                                   children: [
                                     NumberPicker(
                                       value: context
@@ -291,7 +301,8 @@ class _SettingsState extends State<Settings> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           TextButton(
-                                              child: const Text('dialog.cancel').tr(),
+                                              child: const Text('dialog.cancel')
+                                                  .tr(),
                                               onPressed: () {
                                                 context
                                                     .read<SettingsModel>()
@@ -299,7 +310,8 @@ class _SettingsState extends State<Settings> {
                                                 Navigator.pop(dialogContext);
                                               }), // button 1
                                           ElevatedButton(
-                                            child: const Text('dialog.save').tr(),
+                                            child:
+                                                const Text('dialog.save').tr(),
                                             onPressed: () {
                                               context
                                                   .read<SettingsModel>()
@@ -420,7 +432,8 @@ class _SettingsState extends State<Settings> {
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             TextButton(
-                                                child: Text('dialog.cancel').tr(),
+                                                child:
+                                                    Text('dialog.cancel').tr(),
                                                 onPressed: () {
                                                   context
                                                       .read<SettingsModel>()
@@ -531,49 +544,48 @@ class _SettingsState extends State<Settings> {
                 endIndent: 10,
               ),
               Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: ElevatedButton(
-                      child: const Text('dialog.reset').tr(),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFf54831),
-                      ),
-                      onPressed: () => {
-                        showDialog(
-                            context: context,
-                            builder: (dialogContext) {
-                              return StatefulBuilder(
-                                builder: (context, setState) {
-                                  return SimpleDialog(
-                                    contentPadding: EdgeInsets.all(16),
-                                    title: Text('settings.reset_dialog.title').tr(),
-                                    children: [
-                                      Text(
-                                          'settings.reset_dialog.content').tr(),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            TextButton(
-                                                child: Text('dialog.cancel').tr(),
-                                                onPressed: () {
-                                                  Navigator.pop(dialogContext);
-                                                }), // button 1
-                                            ElevatedButton(
-                                              child: const Text('dialog.reset').tr(),
-                                              onPressed: () {
-                                                Navigator.pop(dialogContext);
-                                                this._reset();
-                                              },
-                                            ), // button 2
-                                          ])
-                                    ],
-                                  );
-                                },
+                padding: EdgeInsets.only(bottom: 16),
+                child: ElevatedButton(
+                  child: const Text('dialog.reset').tr(),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFf54831),
+                  ),
+                  onPressed: () => {
+                    showDialog(
+                        context: context,
+                        builder: (dialogContext) {
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return SimpleDialog(
+                                contentPadding: EdgeInsets.all(16),
+                                title: Text('settings.reset_dialog.title').tr(),
+                                children: [
+                                  Text('settings.reset_dialog.content').tr(),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        TextButton(
+                                            child: Text('dialog.cancel').tr(),
+                                            onPressed: () {
+                                              Navigator.pop(dialogContext);
+                                            }), // button 1
+                                        ElevatedButton(
+                                          child:
+                                              const Text('dialog.reset').tr(),
+                                          onPressed: () {
+                                            Navigator.pop(dialogContext);
+                                            this._reset();
+                                          },
+                                        ), // button 2
+                                      ])
+                                ],
                               );
-                            })
-                      },
-                    ),
-                  )
+                            },
+                          );
+                        })
+                  },
+                ),
+              )
             ],
           ),
         ),
