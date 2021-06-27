@@ -42,6 +42,11 @@
 
         }
     },
+    "calendar": {
+        "month": "Monat",
+        "week": "Woche",
+        "two_weeks": "2 Wochen"
+    },
     "goals": {
         "title": "Ziele",
         "goals":{

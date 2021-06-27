@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -39,7 +40,6 @@ class CalendarState extends State<Calendar> {
       equals: isSameDay,
       hashCode: getHashCode,
     );
-
   List<Color> gradientColors = [
     const Color(0xffed882f),
     const Color(0xfff54831),
@@ -86,12 +86,17 @@ class CalendarState extends State<Calendar> {
 
             return TableCalendar(
               // rowHeight: MediaQuery.of(context).size.height / 24,
-              locale: 'en_US',
+              // locale: 'en_US',
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.now(),
               focusedDay: _focusedDay,
               calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
+                availableCalendarFormats: {
+                  CalendarFormat.month: tr('calendar.month'),
+                  CalendarFormat.week: tr('calendar.week'),
+                  CalendarFormat.twoWeeks:tr('calendar.two_weeks')
+                },
+                selectedDayPredicate: (day) {
                 // Use `selectedDayPredicate` to determine which day is currently selected.
                 // If this returns true, then `day` will be marked as selected.
 
