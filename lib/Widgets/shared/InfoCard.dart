@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:water_tracker/Utils/Constants.dart';
+
+import '../../src/Utils/Constants.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;

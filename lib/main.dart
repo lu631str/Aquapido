@@ -10,9 +10,9 @@ import 'Views/settings.dart';
 import 'Views/home.dart';
 import 'Views/Onbording.dart';
 import 'Views/statistics.dart';
-import 'Models/SettingsModel.dart';
-import 'Models/WaterModel.dart';
-import 'Persistence/Database.dart';
+import 'src/Models/SettingsModel.dart';
+import 'src/Models/WaterModel.dart';
+import 'src/Persistence/Database.dart';
 import 'src/ReminderNotification.dart';
 
 SharedPreferences prefs;

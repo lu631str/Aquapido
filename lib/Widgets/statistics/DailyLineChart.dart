@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
-import '../../Models/Water.dart';
-import '../../Models/SettingsModel.dart';
-import '../../Models/WaterModel.dart';
+import '../../src/Water.dart';
+import '../../src/Models/SettingsModel.dart';
+import '../../src/Models/WaterModel.dart';
 
 class DailyLineChart extends StatefulWidget {
   //final List<Water> waterList;

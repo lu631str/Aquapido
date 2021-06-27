@@ -6,11 +6,11 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:water_tracker/Widgets/statistics/Calendar.dart';
 
-import '../Utils/Constants.dart';
+import '../src/Utils/Constants.dart';
 import '../Widgets/statistics/Chart.dart';
 import '../Widgets/statistics/AverageCard.dart';
-import '../Models/WaterModel.dart';
-import '../Models/SettingsModel.dart';
+import '../src/Models/WaterModel.dart';
+import '../src/Models/SettingsModel.dart';
 
 class Statistics extends StatefulWidget {
   Statistics({Key key, this.title});

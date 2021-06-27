@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
-import 'package:water_tracker/Widgets/onboarding/ActivitySelection.dart';
-import 'package:water_tracker/Widgets/onboarding/GenderSelection.dart';
-import 'package:water_tracker/Widgets/shared/InfoCard.dart';
-import 'package:water_tracker/Widgets/onboarding/WeightSelection.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../Models/SettingsModel.dart';
+import '../src/Models/SettingsModel.dart';
 import '../Widgets/onboarding/ActivitySelection.dart';
 import '../Widgets/onboarding/GenderSelection.dart';
 import '../Widgets/shared/InfoCard.dart';
@@ -31,15 +26,7 @@ class _OnbordingState extends State<Onbording> {
     tr('onbording.title_widget3')
   ];
 
-  List<String> infos = [
-    " ... water lubricates the joints and the disks of the spine which contains around 80% water!",
-    "... water forms saliva and mucus, which helps us to keep the mouth, nose and eyes moist and prevents friction damage!",
-    "... water delivers oxygen throughout the body. Blood is more than 90% water and carries the oxygen to different parts of the body!"
-  ];
-
   List<Widget> introWidget = [GenderSelection(), WeightSelection(),ActivitySelection()];
-
-
 
   @override
   void initState() {

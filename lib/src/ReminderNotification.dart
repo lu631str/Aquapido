@@ -5,8 +5,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../Utils/utils.dart';
-import '../Models/SettingsModel.dart';
+import 'Utils/utils.dart';
+import 'Models/SettingsModel.dart';
 
 class ReminderNotification {
   static NotificationChannel _getNotificationChannel(
@@ -33,7 +33,8 @@ class ReminderNotification {
   }
 
   static void checkPermission(BuildContext context) {
-    bool permissionDialogSeen = Provider.of<SettingsModel>(context, listen: false).permissionNote;
+    bool permissionDialogSeen =
+        Provider.of<SettingsModel>(context, listen: false).permissionNote;
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed && !permissionDialogSeen) {
         showDialog(
@@ -45,15 +46,16 @@ class ReminderNotification {
                     contentPadding: const EdgeInsets.all(16),
                     title: const Text('notification_permission.title').tr(),
                     children: [
-                      Text(
-                          'notification_permission.body').tr(),
+                      Text('notification_permission.body').tr(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           ElevatedButton(
-                            child: const Text('notification_permission.button').tr(),
+                            child: const Text('notification_permission.button')
+                                .tr(),
                             onPressed: () {
-                              Provider.of<SettingsModel>(context, listen: false).updatePermissionNoteSeen(true);
+                              Provider.of<SettingsModel>(context, listen: false)
+                                  .updatePermissionNoteSeen(true);
                               Navigator.pop(dialogContext);
                               AwesomeNotifications()
                                   .requestPermissionToSendNotifications();
@@ -99,13 +101,16 @@ class ReminderNotification {
     int endTimeSleepMinutes = prefs.getInt('endTimeMinutes') ?? 0;
     int cupSize = prefs.getInt('size') ?? 300;
 
-    TimeOfDay startTimeRemind = TimeOfDay(hour: endTimeSleepHours, minute: endTimeSleepMinutes);
-    TimeOfDay endTimeRemind = TimeOfDay(hour: startTimeSleepHours, minute: startTimeSleepMinutes);
+    TimeOfDay startTimeRemind =
+        TimeOfDay(hour: endTimeSleepHours, minute: endTimeSleepMinutes);
+    TimeOfDay endTimeRemind =
+        TimeOfDay(hour: startTimeSleepHours, minute: startTimeSleepMinutes);
     TimeOfDay currentTime = startTimeRemind;
 
     List<TimeOfDay> reminderTimes = [];
 
-    double numberOfReminds = getTimeOfDayRange(startTimeRemind, endTimeRemind) / (interval / 60);
+    double numberOfReminds =
+        getTimeOfDayRange(startTimeRemind, endTimeRemind) / (interval / 60);
 
     for (var i = 0; i <= numberOfReminds; i++) {
       reminderTimes.add(currentTime);
@@ -116,14 +121,20 @@ class ReminderNotification {
     reminderTimes.forEach((time) {
       AwesomeNotifications().createNotification(
           content: NotificationContent(
-              id: notificationId++,
-              channelKey: 'basic_channel',
-              title: 'Stay Hydrated!',
-              body: 'notification.body'.tr(),
-              payload: {'cupSize': '$cupSize'},),
-          schedule: 
-              NotificationCalendar(hour: time.hour, minute: time.minute, second: 0, millisecond: 0, timeZone: localTimeZone, repeats: true));
-          log('ReminderNotification: scheduled');
+            id: notificationId++,
+            channelKey: 'basic_channel',
+            title: 'Stay Hydrated!',
+            body: 'notification.body'.tr(),
+            payload: {'cupSize': '$cupSize'},
+          ),
+          schedule: NotificationCalendar(
+              hour: time.hour,
+              minute: time.minute,
+              second: 0,
+              millisecond: 0,
+              timeZone: localTimeZone,
+              repeats: true));
+      log('ReminderNotification: scheduled');
     });
   }
 }

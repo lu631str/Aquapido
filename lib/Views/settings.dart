@@ -6,9 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:flutter/foundation.dart';
 
-import '../Models/WaterModel.dart';
+import '../src/Models/WaterModel.dart';
 import '../src/ReminderNotification.dart';
-import '../Models/SettingsModel.dart';
+import '../src/Models/SettingsModel.dart';
 import '../main.dart';
 import '../Widgets/settings/QuickAddDialogInfo.dart';
 

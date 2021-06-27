@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../../Models/SettingsModel.dart';
+import '../../src/Models/SettingsModel.dart';
 
 class QuickAddDialogInfo extends StatefulWidget {
   final String title, descriptions, text;

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
-import '../../Models/SettingsModel.dart';
+import '../../src/Models/SettingsModel.dart';
 
 class GenderSelection extends StatefulWidget {
   @override

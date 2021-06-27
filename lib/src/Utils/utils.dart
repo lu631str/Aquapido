@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 /// Checks if [dateTime1] and [dateTime2] are the same day.
@@ -30,37 +29,37 @@ extension TimeOfDayExtension on TimeOfDay {
 }
 
 double getTimeOfDayRange(TimeOfDay first, TimeOfDay second) {
-  if(_toDouble(first) < _toDouble(second)) {
+  if (_toDouble(first) < _toDouble(second)) {
     return _toDouble(second) - _toDouble(first);
-  } else if(_toDouble(first) > _toDouble(second)) {
+  } else if (_toDouble(first) > _toDouble(second)) {
     return 24 - _toDouble(second) - _toDouble(first);
   }
   return 15;
 }
 
-double _toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+double _toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
 
 int getImageIndex(int cupSize) {
-    switch (cupSize) {
-      case 100:
-        return 0;
-        break;
-      case 200:
-        return 1;
-        break;
-      case 300:
-        return 2;
-        break;
-      case 330:
-        return 3;
-        break;
-      case 400:
-        return 4;
-        break;
-      case 500:
-        return 5;
-        break;
-      default:
-        return 6;
-    }
+  switch (cupSize) {
+    case 100:
+      return 0;
+      break;
+    case 200:
+      return 1;
+      break;
+    case 300:
+      return 2;
+      break;
+    case 330:
+      return 3;
+      break;
+    case 400:
+      return 4;
+      break;
+    case 500:
+      return 5;
+      break;
+    default:
+      return 6;
   }
+}

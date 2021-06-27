@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
-import 'package:water_tracker/Models/WaterModel.dart';
 import 'dart:collection';
+
+import '../../src/Models/SettingsModel.dart';
+import '../../src/Models/WaterModel.dart';
 
 class Event {
   final String title;

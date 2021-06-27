@@ -8,14 +8,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
 
-import '../Models/SettingsModel.dart';
+import '../src/Models/SettingsModel.dart';
 import '../Widgets/home/CupSizeElement.dart';
 import '../Widgets/onboarding/QuickAddDialog.dart';
 import '../Widgets/home/HistoryListElement.dart';
-import '../Models/Water.dart';
-import '../Utils/utils.dart';
-import '../Models/WaterModel.dart';
-import '../Utils/Constants.dart';
+import '../src/Water.dart';
+import '../src/Utils/utils.dart';
+import '../src/Models/WaterModel.dart';
+import '../src/Utils/Constants.dart';
 import '../src/ReminderNotification.dart';
 
 import 'package:rive/rive.dart';
@@ -313,12 +313,12 @@ class _HomeState extends State<Home> {
                       Container(
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.3,
-                      child:AutoSizeText(
-                        'home.cups_today'.tr(),
-                        maxLines: 1,
-                        minFontSize: 7,
-                        style: Theme.of(context).textTheme.headline6,
-                      )),
+                          child: AutoSizeText(
+                            'home.cups_today'.tr(),
+                            maxLines: 1,
+                            minFontSize: 7,
+                            style: Theme.of(context).textTheme.headline6,
+                          )),
                       FutureBuilder(
                           future:
                               context.watch<WaterModel>().getTotalCupsToday(),
@@ -429,12 +429,12 @@ class _HomeState extends State<Home> {
                       Container(
                           height: MediaQuery.of(context).size.height * 0.03,
                           width: MediaQuery.of(context).size.width * 0.3,
-                      child: AutoSizeText(
-                        'home.cup_size'.tr(),
-                        maxLines: 2,
-                        minFontSize: 7,
-                        style: Theme.of(context).textTheme.headline6,
-                      )),
+                          child: AutoSizeText(
+                            'home.cup_size'.tr(),
+                            maxLines: 2,
+                            minFontSize: 7,
+                            style: Theme.of(context).textTheme.headline6,
+                          )),
                       TextButton(
                           child: Row(children: [
                             Text(

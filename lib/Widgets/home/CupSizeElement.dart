@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Utils/Constants.dart';
-import '../../Utils/utils.dart';
-import '../../Models/SettingsModel.dart';
+import '../../src/Utils/Constants.dart';
+import '../../src/Utils/utils.dart';
+import '../../src/Models/SettingsModel.dart';
 
 class CupSizeElement extends StatelessWidget {
   final int size;
