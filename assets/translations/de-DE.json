@@ -56,7 +56,7 @@
             "total_quick_add_used": "'Quick Add' benutzt",
             "cups": "Gläser",
             "days": "Tage",
-            "times": "mal"
+            "times": "Mal"
 
         },
         "goals_dialog": {
@@ -128,7 +128,7 @@
             "low": "Wenig",
             "normal": "Normal",
             "high": "Viel",
-            "very_high": "Sehr Viel"
+            "very_high": "Sehr viel"
         },
         "gender" : {
             "choose": "Auswählen",
