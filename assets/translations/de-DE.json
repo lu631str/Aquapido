@@ -39,8 +39,12 @@
             "friday": "Fr",
             "saturday": "Sa",
             "sunday": "So"
-
         }
+    },
+    "calendar": {
+        "month": "Monat",
+        "week": "Woche",
+        "two_weeks": "2 Wochen"
     },
     "goals": {
         "title": "Ziele",
@@ -114,7 +118,8 @@
             "title": "Erinnerungsintervall ändern"
         },
         "quick_add_dialog" : {
-            "title": "'Quick Add' Funktionen"
+            "title": "'Quick Add' Funktionen",
+            "title2": "Benutze unsere 'Quick Add' Funktionen"
         },
         "weight" : {
             "title": "Gewicht ändern"
@@ -175,6 +180,9 @@
         "title_widget1": "Bitte wähle dein Geschlecht",
         "title_widget2": "Bitte wähle dein Gewicht",
         "title_widget3": "Dein Aktivitäts-Level",
+        "later": "SPÄTER",
+        "next": "WEITER",
+
 
         "activity" : {
             "low": "Wenig (sitzen)",

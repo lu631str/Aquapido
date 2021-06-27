@@ -39,8 +39,12 @@
             "friday": "Fr",
             "saturday": "Sa",
             "sunday": "Su"
-
         }
+    },
+    "calendar": {
+        "month": "Month",
+        "week": "Week",
+        "two_weeks": "2 weeks"
     },
     "goals": {
         "title": "Goals",
@@ -115,7 +119,8 @@
             "title": "Set Reminder Interval"
         },
         "quick_add_dialog" : {
-            "title": "Quick Add functions"
+            "title": "Quick Add functions",
+            "title2": "Use our 'Quick Add' Funktionen"
         },
         "weight" : {
             "title": "Set weight",
@@ -178,6 +183,8 @@
         "title_widget1": "Please select your gender",
         "title_widget2": "Please select your weight",
         "title_widget3": "Your Lifestyle activity level",
+        "later": "LATER",
+        "next": "NEXT",
 
         "activity" : {
             "low": "Low (sitting)",

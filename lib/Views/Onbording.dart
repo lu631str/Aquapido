@@ -156,7 +156,7 @@ class _OnbordingState extends State<Onbording> {
                   margin: EdgeInsets.all(0),
                   width: MediaQuery.of(context).size.width / 3.5,
                   child: TextButton(
-                    child: Text("LATER"),
+                    child: Text(tr('onbording.later')),
                     onPressed: () {
                       context.read<SettingsModel>().updateGender("choose");
                       context.read<SettingsModel>().updateActivity("normal");
@@ -181,7 +181,7 @@ class _OnbordingState extends State<Onbording> {
                   //margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 4, 0, 0, 0),
                   width: MediaQuery.of(context).size.width / 3.5,
                   child: ElevatedButton(
-                    child: Text(currentIndex == 3 - 1 ? "START" : "NEXT"),
+                    child: Text(currentIndex == 3 - 1 ? "START" : tr('onbording.next')),
                     onPressed: () {
 
                       if (currentIndex == 2) {
