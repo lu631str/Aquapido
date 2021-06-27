@@ -48,7 +48,7 @@ class _CustomDialogBoxState extends State<QuickAddDialog> {
           child: Column(
             children: [
               AutoSizeText(
-                tr('settings.quick_add_dialog.title'),
+                tr('settings.quick_add_dialog.title2'),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700),
                 maxLines: 1,
