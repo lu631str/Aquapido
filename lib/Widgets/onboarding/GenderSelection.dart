@@ -34,18 +34,16 @@ class _GenderSelectionState extends State<GenderSelection> {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width / 2.3,
-          // height: MediaQuery.of(context).size.height /9 - MediaQuery.of(context).padding.top,
           margin: EdgeInsets.all(MediaQuery.of(context).size.height / 25 -
               MediaQuery.of(context).padding.top / 25),
-          //padding: EdgeInsets.all(0),
-
           decoration: BoxDecoration(
-              color: (selectGender == 1) ? Colors.blue : Colors.transparent,
+              color: (selectGender == 1)
+                  ? Theme.of(context).primaryColor
+                  : Colors.transparent,
               border: Border.all(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          // color: Colors.blue,
           child: RadioListTile(
             dense: true,
             value: 1,
@@ -61,7 +59,6 @@ class _GenderSelectionState extends State<GenderSelection> {
             groupValue: selectGender,
             activeColor: Colors.white,
             onChanged: (val) {
-              print("Radio $val");
               setSelectGender(val);
               context.read<SettingsModel>().updateGender("male");
             },
@@ -72,9 +69,11 @@ class _GenderSelectionState extends State<GenderSelection> {
             //height: MediaQuery.of(context).size.height /8 - MediaQuery.of(context).padding.top,
             //margin: EdgeInsets.all(MediaQuery.of(context).size.height /25 - MediaQuery.of(context).padding.top/25),
             decoration: BoxDecoration(
-                color: (selectGender == 2) ? Colors.blue : Colors.transparent,
+                color: (selectGender == 2)
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
                 border: Border.all(
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: RadioListTile(
@@ -92,7 +91,6 @@ class _GenderSelectionState extends State<GenderSelection> {
               groupValue: selectGender,
               activeColor: Colors.white,
               onChanged: (val) {
-                print("Radio $val");
                 setSelectGender(val);
                 context.read<SettingsModel>().updateGender("female");
               },

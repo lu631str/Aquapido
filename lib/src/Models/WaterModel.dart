@@ -2,9 +2,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import "package:collection/collection.dart";
 import 'package:sqflite/sqflite.dart';
-import '../../main.dart';
 
-import '../../src/DailyGoal.dart';
 import '../../src/Water.dart';
 import '../Persistence/Database.dart';
 import '../Utils/utils.dart';
@@ -31,13 +29,6 @@ class WaterModel with ChangeNotifier {
 
     _insertWater(water);
 
-    double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
-    DateTime newDateTime =
-        DateTime(water.dateTime.year, water.dateTime.month, water.dateTime.day);
-    _updateDailyGoal(DailyGoal(
-        dateTime: newDateTime,
-        dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
-
     notifyListeners();
   }
 
@@ -48,12 +39,6 @@ class WaterModel with ChangeNotifier {
     if (history.isEmpty) {
       _loadHistoryFromDB();
     }
-    double dailyGoal = prefs.getDouble('dailyGoal') ?? 2500.0;
-    DateTime newDateTime =
-        DateTime(water.dateTime.year, water.dateTime.month, water.dateTime.day);
-    _updateDailyGoal(DailyGoal(
-        dateTime: newDateTime,
-        dailyGoalReached: totalWaterAmountPerDay(water.dateTime) >= dailyGoal));
     notifyListeners();
     return water;
   }
@@ -92,11 +77,6 @@ class WaterModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeAllDailyGoal() {
-    _clearDaylyGoalTable();
-    notifyListeners();
-  }
-
   int totalWaterAmountPerDay(DateTime dateTime) {
     num sum = 0;
     history.forEach((water) {
@@ -128,64 +108,9 @@ class WaterModel with ChangeNotifier {
 
   int quickAddUsed() {
     num sum = 0;
-    history.forEach((Water) {
-      if (Water.addType == AddType.shake || Water.addType == AddType.power)
+    history.forEach((water) {
+      if (water.addType == AddType.shake || water.addType == AddType.power)
         sum++;
-    });
-    return sum;
-  }
-
-  Future<List<DateTime>> getGoalsReachedDaysList() async {
-    List<DailyGoal> dailyGoalList = await _dailyGoalList();
-    List<DateTime> dateTimeList = [];
-    if (dailyGoalList.isEmpty) {
-      return dateTimeList;
-    } else {
-      dailyGoalList.forEach((dailygoal) {
-        if (dailygoal.dailyGoalReached) {
-          dateTimeList.add(dailygoal.dateTime);
-        }
-      });
-    }
-
-    return dateTimeList;
-  }
-
-  Future<int> getStreakDays() async {
-    List<DailyGoal> dailyGoalList = await _dailyGoalList();
-
-    int count = 1;
-    int max = 0;
-
-    for (int i = 1; i < dailyGoalList.length; i++) {
-      if (dailyGoalList.isEmpty)
-        max = 0;
-      else if (dailyGoalList[i]
-                  .dateTime
-                  .difference(dailyGoalList[i - 1].dateTime)
-                  .inDays ==
-              1 &&
-          (dailyGoalList[i].dailyGoalReached == true &&
-              dailyGoalList[i - 1].dailyGoalReached == true)) {
-        count++;
-      } else {
-        count = 1;
-      }
-      if (count > max) {
-        max = count;
-      }
-
-      //(dailyGoalList.elementAt(i+1).dateTime.microsecondsSinceEpoch.toInt() - dailyGoalList.elementAt(i).dateTime.microsecondsSinceEpoch.toInt() ) >=0
-    }
-    return max;
-  }
-
-  Future<int> getGoalsReached() async {
-    List<DailyGoal> dailyGoalList = await _dailyGoalList();
-
-    num sum = 0;
-    dailyGoalList.forEach((dailygoal) {
-      if (dailygoal.dailyGoalReached == true) sum++;
     });
     return sum;
   }
@@ -215,11 +140,6 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Insert the Dog into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same dog is inserted twice.
-    //
-    // In this case, replace any previous data.
-
     log('WaterModel: INSERT water - cupSize: ${water.cupSize}, dateTime: ${water.dateTime}');
 
     await db.insert(
@@ -234,31 +154,10 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Insert the Dog into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same dog is inserted twice.
-    //
-    // In this case, replace any previous data.
-
     log('WaterModel: CLEAR table ${DatabaseHelper.WATER_TABLE_NAME}');
 
     await db.delete(
       DatabaseHelper.WATER_TABLE_NAME,
-    );
-  }
-
-  Future<void> _clearDaylyGoalTable() async {
-    // Get a reference to the database.
-    final Database db = DatabaseHelper.database;
-
-    // Insert the Dog into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same dog is inserted twice.
-    //
-    // In this case, replace any previous data.
-
-    log('WaterModel: CLEAR table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME}');
-
-    await db.delete(
-      DatabaseHelper.DAILY_GOAL_TABLE_NAME,
     );
   }
 
@@ -273,7 +172,6 @@ class WaterModel with ChangeNotifier {
       DatabaseHelper.WATER_TABLE_NAME,
       // Use a `where` clause to delete a specific dog.
       where: 'date_time = ?',
-      // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [water.dateTime.millisecondsSinceEpoch],
     );
   }
@@ -282,7 +180,6 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
@@ -291,7 +188,6 @@ class WaterModel with ChangeNotifier {
       return 0;
     }
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
 
     int totalDays = 0;
@@ -315,7 +211,6 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
@@ -324,7 +219,6 @@ class WaterModel with ChangeNotifier {
       return 0;
     }
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
 
     int weeklyLitersIndex = 0;
@@ -371,7 +265,6 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
@@ -380,7 +273,6 @@ class WaterModel with ChangeNotifier {
       return 0;
     }
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
 
     int totalDays = 0;
@@ -404,7 +296,6 @@ class WaterModel with ChangeNotifier {
     // Get a reference to the database.
     final Database db = DatabaseHelper.database;
 
-    // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps =
         await db.query(DatabaseHelper.WATER_TABLE_NAME);
 
@@ -413,7 +304,6 @@ class WaterModel with ChangeNotifier {
       return 0;
     }
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     final List<Water> waterModelList = _waterModelListFromMap(maps);
     return waterModelList
         .where((w) => isSameDay(w.dateTime, DateTime.now()))
@@ -445,47 +335,6 @@ class WaterModel with ChangeNotifier {
           cupSize: maps[i]['cup_size'],
           addType: AddType.values.firstWhere(
               (element) => element.toString() == maps[i]['add_type']));
-    });
-  }
-
-  void _updateDailyGoal(DailyGoal dailyGoal) async {
-    final Database db = DatabaseHelper.database;
-
-    await db.insert(
-      DatabaseHelper.DAILY_GOAL_TABLE_NAME,
-      dailyGoal.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-
-    //db.rawQuery('INSERT OR REPLACE INTO ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} (date_time, goal_reached) values((SELECT date_time FROM ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} WHERE date_time = "${dailyGoal.getDateString()}"), "${dailyGoal.getGoalReachedAsInteger()}");');
-    log('WaterModel: UPDATE DailyGoal - dateTime: ${dailyGoal.getDateString()}, dailyGoalReached: ${dailyGoal.dailyGoalReached}');
-  }
-
-  Future<List<DailyGoal>> _dailyGoalList() async {
-    final Database db = DatabaseHelper.database;
-
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps =
-        await db.query(DatabaseHelper.DAILY_GOAL_TABLE_NAME);
-    if (maps.isEmpty) {
-      log('WaterModel: Table ${DatabaseHelper.DAILY_GOAL_TABLE_NAME} is EMPTY!');
-      return List.generate(
-          1,
-          (index) =>
-              DailyGoal(dateTime: DateTime.now(), dailyGoalReached: false));
-    }
-
-    return List.generate(maps.length, (i) {
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(maps[i]['date_time']);
-
-      bool goalReached;
-      if (maps[i]['goal_reached'] == 0) {
-        goalReached = false;
-      } else {
-        goalReached = true;
-      }
-      return DailyGoal(dateTime: dateTime, dailyGoalReached: goalReached);
     });
   }
 }

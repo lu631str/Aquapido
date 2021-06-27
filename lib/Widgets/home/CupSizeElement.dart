@@ -41,8 +41,8 @@ class CupSizeElement extends StatelessWidget {
                       data: IconThemeData(color: Colors.black87),
                       child: Icon(Icons.clear)),
                   onPressed: () {
-                      Provider.of<SettingsModel>(mainContext, listen: false)
-                          .deleteCustomCupSize(size);
+                    Provider.of<SettingsModel>(mainContext, listen: false)
+                        .deleteCustomCupSize(size);
                   },
                 )
               : Text(''),

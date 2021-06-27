@@ -14,10 +14,6 @@ class DailyGoal {
     return dailyGoalReached ? 1 : 0;
   }
 
-  DailyGoal ofMap(DateTime dateTime, bool dailyGoal) {
-    return new DailyGoal(dateTime: dateTime, dailyGoalReached: dailyGoal);
-  }
-
   Map<String, dynamic> toMap() => {
         'date_time': dateTime.millisecondsSinceEpoch,
         'goal_reached': getGoalReachedAsInteger(),

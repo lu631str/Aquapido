@@ -26,7 +26,11 @@ class _OnbordingState extends State<Onbording> {
     tr('onbording.title_widget3')
   ];
 
-  List<Widget> introWidget = [GenderSelection(), WeightSelection(),ActivitySelection()];
+  List<Widget> introWidget = [
+    GenderSelection(),
+    WeightSelection(),
+    ActivitySelection()
+  ];
 
   @override
   void initState() {
@@ -48,8 +52,6 @@ class _OnbordingState extends State<Onbording> {
     context.read<SettingsModel>().updateIntroSeen(true);
   }
 
-
-
   void _onIntroEnd(context) {
     setData();
     Navigator.of(context).push(
@@ -61,7 +63,6 @@ class _OnbordingState extends State<Onbording> {
   Widget build(BuildContext context) {
     const color1 = const Color(0xffb3d9f1);
     const color2 = const Color(0xffeef6fb);
-
 
     return Container(
         decoration: BoxDecoration(
@@ -84,7 +85,7 @@ class _OnbordingState extends State<Onbording> {
                         children: [
                           Container(
                               child: AutoSizeText(
-                                tr('onbording.title'),
+                            tr('onbording.title'),
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -92,7 +93,7 @@ class _OnbordingState extends State<Onbording> {
                           )),
                           Container(
                               child: AutoSizeText(
-                                tr('onbording.subtitle'),
+                            tr('onbording.subtitle'),
                             maxLines: 3,
                             minFontSize: 10,
                             textAlign: TextAlign.center,
@@ -146,8 +147,8 @@ class _OnbordingState extends State<Onbording> {
                 width: MediaQuery.of(context).size.width / 1.1,
                 margin: EdgeInsets.all(5),
                 child: InfoCard(
-                  title: "\n"+tr('infos.title'),
-                  text: tr("infos.info"+currentIndex.toString()),
+                  title: "\n" + tr('infos.title'),
+                  text: tr("infos.info" + currentIndex.toString()),
                 ),
               ),
               Row(children: [
@@ -166,7 +167,11 @@ class _OnbordingState extends State<Onbording> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 7, 0, MediaQuery.of(context).size.width / 7, 0),
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width / 7,
+                      0,
+                      MediaQuery.of(context).size.width / 7,
+                      0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(
@@ -181,24 +186,23 @@ class _OnbordingState extends State<Onbording> {
                   //margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 4, 0, 0, 0),
                   width: MediaQuery.of(context).size.width / 3.5,
                   child: ElevatedButton(
-                    child: Text(currentIndex == 3 - 1 ? "START" : tr('onbording.next')),
-                    onPressed: () {
-
-                      if (currentIndex == 2) {
-                       _onIntroEnd(context);
-
-                      }
-                      _controller.nextPage(
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.bounceIn,
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.circular(10),)
-                    )
-                  ),
+                      child: Text(currentIndex == 3 - 1
+                          ? "START"
+                          : tr('onbording.next')),
+                      onPressed: () {
+                        if (currentIndex == 2) {
+                          _onIntroEnd(context);
+                        }
+                        _controller.nextPage(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.bounceIn,
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ))),
                 ),
               ])
             ],
@@ -209,12 +213,11 @@ class _OnbordingState extends State<Onbording> {
   Container buildDot(int index, BuildContext context) {
     return Container(
       height: 10,
-      width:  10,
+      width: 10,
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: currentIndex == index ? Colors.blue : Colors.grey
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: currentIndex == index ? Colors.blue : Colors.grey),
     );
   }
 }

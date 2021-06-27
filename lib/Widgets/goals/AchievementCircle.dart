@@ -36,10 +36,8 @@ class AchievementCircle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              //Container(height: 10.0), // Space Top
               Stack(
                 clipBehavior: Clip.none,
-                //mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
@@ -125,18 +123,18 @@ class AchievementCircle extends StatelessWidget {
               Container(
                   width: MediaQuery.of(context).size.width / 3.4,
                   child: AutoSizeText(
-                '\n' + this.subtitle,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.clip,
-                maxLines: 3,
-                minFontSize: 6,
-                style: TextStyle(
-                  color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
-                      ? Colors.black
-                      : Colors.blue[100],
-                  fontSize: 16.0,
-                ),
-              )),
+                    '\n' + this.subtitle,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    maxLines: 3,
+                    minFontSize: 6,
+                    style: TextStyle(
+                      color: (this.color != Color.fromRGBO(231, 0, 0, 1.0))
+                          ? Colors.black
+                          : Colors.blue[100],
+                      fontSize: 16.0,
+                    ),
+                  )),
             ]));
   }
 }

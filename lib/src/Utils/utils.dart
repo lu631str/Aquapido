@@ -34,6 +34,8 @@ double getTimeOfDayRange(TimeOfDay first, TimeOfDay second) {
   } else if (_toDouble(first) > _toDouble(second)) {
     return 24 - _toDouble(second) - _toDouble(first);
   }
+  // if the start time equals the end time, return 15 because 15min is the smallest intervall you can select
+  // So it would only rreminds you 1 time at startTime / endTime
   return 15;
 }
 

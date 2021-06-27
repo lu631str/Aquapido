@@ -27,9 +27,9 @@ class HistoryListElement extends StatelessWidget {
       );
     }
     return Image.asset(
-        'assets/images/button_icon.png',
-        height: MediaQuery.of(context).size.height * 0.048,
-      );
+      'assets/images/button_icon.png',
+      height: MediaQuery.of(context).size.height * 0.048,
+    );
   }
 
   @override
@@ -49,11 +49,15 @@ class HistoryListElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: _water.isPlaceholder ? 210 : MediaQuery.of(context).size.width * 0.16,
+                      width: _water.isPlaceholder
+                          ? 210
+                          : MediaQuery.of(context).size.width * 0.16,
                       child: Text(this._water.toCupSizeString()),
                       margin: const EdgeInsets.only(left: 50),
                     ),
-                    _water.isPlaceholder ? Text('') : _getAddTypeIcon(_water.getAddType(), context),
+                    _water.isPlaceholder
+                        ? Text('')
+                        : _getAddTypeIcon(_water.getAddType(), context),
                     Text(this._water.toDateString()),
                     Row(
                       children: [
