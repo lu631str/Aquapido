@@ -50,7 +50,6 @@ class _CustomDialogBoxState extends State<AchievementCircleDialog> {
                   minFontSize: 10,
                 ),
                 Container(
-                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,10 +90,10 @@ class _CustomDialogBoxState extends State<AchievementCircleDialog> {
                   textAlign: TextAlign.center,
                 ),
                 const Divider(
-                  height: 40,
+                  height: 30,
                   thickness: 1,
-                  indent: 0,
-                  endIndent: 0,
+                  indent: 5,
+                  endIndent: 5,
                 ),
                 OutlinedButton(
                     onPressed: () {

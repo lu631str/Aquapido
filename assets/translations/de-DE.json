@@ -61,12 +61,12 @@
         },
         "goals_dialog": {
             "better_medals": "Benutze die App um bessere Medalien zu bekommen!",
-            "calculation_info": "Wir berechnen den empfohlenen Wert anhand deiner persönlichen Daten. Wenn du beispielsweise sehr aktiv bist, empfehlen wir dir mehr Wasser zu trinken..",
+            "calculation_info": "Wir berechnen den empfohlenen Wert anhand deiner persönlichen Daten. Wenn du beispielsweise sehr aktiv bist, empfehlen wir dir mehr Wasser zu trinken.",
             "alright": "OK"
         },
         "daily_goal": {
             "title": "Tägliches Ziel",
-            "recommended": "empfolen"
+            "recommended": "empfohlen"
         }
 
     },
@@ -76,9 +76,9 @@
     },
 
     "quick_add_dialog": {
-        "shake": "'Quick add' schütteln",
-        "power": "'Quick add' 2x An Knopf",
-        "save": "speichern"
+        "shake": "'Quick add' Schütteln",
+        "power": "'Quick add' 2x Power Knopf",
+        "save": "Speichern"
 
     },
     "settings": {
