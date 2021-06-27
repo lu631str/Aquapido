@@ -8,14 +8,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
 
-import '../Models/SettingsModel.dart';
+import '../src/Models/SettingsModel.dart';
 import '../Widgets/home/CupSizeElement.dart';
 import '../Widgets/onboarding/QuickAddDialog.dart';
 import '../Widgets/home/HistoryListElement.dart';
-import '../Models/Water.dart';
-import '../Utils/utils.dart';
-import '../Models/WaterModel.dart';
-import '../Utils/Constants.dart';
+import '../src/Water.dart';
+import '../src/Utils/utils.dart';
+import '../src/Models/WaterModel.dart';
+import '../src/Utils/Constants.dart';
 import '../src/ReminderNotification.dart';
 
 import 'package:rive/rive.dart';

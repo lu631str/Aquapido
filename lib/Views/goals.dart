@@ -9,7 +9,7 @@ import '../Widgets/goals/AchievementCircle.dart';
 import '../Widgets/goals/DailyGoal.dart';
 import '../Widgets/goals/MedalType.dart';
 import '../Widgets/shared/InfoCard.dart';
-import '../Models/WaterModel.dart';
+import '../src/Models/WaterModel.dart';
 
 class Goals extends StatefulWidget {
   Goals({Key key, this.title}) : super(key: key);

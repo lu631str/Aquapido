@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_tracker/Models/SettingsModel.dart';
-import 'package:water_tracker/Widgets/onboarding/ActivitySelection.dart';
-import 'package:water_tracker/Widgets/onboarding/GenderSelection.dart';
-import 'package:water_tracker/Widgets/shared/InfoCard.dart';
-import 'package:water_tracker/Widgets/onboarding/WeightSelection.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../Models/SettingsModel.dart';
+import '../src/Models/SettingsModel.dart';
 import '../Widgets/onboarding/ActivitySelection.dart';
 import '../Widgets/onboarding/GenderSelection.dart';
 import '../Widgets/shared/InfoCard.dart';

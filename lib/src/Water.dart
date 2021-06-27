@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../Utils/utils.dart';
+import 'Utils/utils.dart';
 
 class Water {
   final DateTime dateTime;

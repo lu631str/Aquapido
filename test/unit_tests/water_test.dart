@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:water_tracker/Models/Water.dart';
+import 'package:water_tracker/src/Water.dart';
 
 final DateTime dateTime = DateTime.parse("2021-02-27 13:27:00");
 final Water water = Water(dateTime: dateTime, cupSize: 300);

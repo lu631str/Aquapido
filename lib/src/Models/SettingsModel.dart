@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/Constants.dart';
-import '../main.dart';
+import '../../main.dart';
 
 /*
 This class holds the values for settings. The provider can listen to changes of

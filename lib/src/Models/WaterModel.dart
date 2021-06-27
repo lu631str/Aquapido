@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import "package:collection/collection.dart";
 import 'package:sqflite/sqflite.dart';
-import '../main.dart';
+import '../../main.dart';
 
-import '../Models/DailyGoal.dart';
-import '../Models/Water.dart';
+import '../../src/DailyGoal.dart';
+import '../../src/Water.dart';
 import '../Persistence/Database.dart';
 import '../Utils/utils.dart';
 

@@ -5,8 +5,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../Utils/utils.dart';
-import '../Models/SettingsModel.dart';
+import 'Utils/utils.dart';
+import 'Models/SettingsModel.dart';
 
 class ReminderNotification {
   static NotificationChannel _getNotificationChannel(

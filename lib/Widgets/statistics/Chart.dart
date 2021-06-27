@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Models/SettingsModel.dart';
+import '../../src/Models/SettingsModel.dart';
 import 'WeeklyBarChart.dart';
 import 'DailyLineChart.dart';
 

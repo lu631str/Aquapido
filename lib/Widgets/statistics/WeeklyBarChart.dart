@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
-import '../../Models/SettingsModel.dart';
-import '../../Models/WaterModel.dart';
+import '../../src/Models/SettingsModel.dart';
+import '../../src/Models/WaterModel.dart';
 
 class WeeklyBarChart extends StatefulWidget {
   WeeklyBarChart();
