@@ -140,12 +140,13 @@ class WaterModel with ChangeNotifier {
     List<DateTime> dateTimeList = [];
     if (dailyGoalList.isEmpty) {
       return dateTimeList;
-    } else{
+    } else {
       dailyGoalList.forEach((dailygoal) {
         if (dailygoal.dailyGoalReached) {
           dateTimeList.add(dailygoal.dateTime);
         }
-      });}
+      });
+    }
 
     return dateTimeList;
   }

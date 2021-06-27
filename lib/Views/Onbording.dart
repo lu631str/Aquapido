@@ -26,15 +26,7 @@ class _OnbordingState extends State<Onbording> {
     tr('onbording.title_widget3')
   ];
 
-  List<String> infos = [
-    " ... water lubricates the joints and the disks of the spine which contains around 80% water!",
-    "... water forms saliva and mucus, which helps us to keep the mouth, nose and eyes moist and prevents friction damage!",
-    "... water delivers oxygen throughout the body. Blood is more than 90% water and carries the oxygen to different parts of the body!"
-  ];
-
   List<Widget> introWidget = [GenderSelection(), WeightSelection(),ActivitySelection()];
-
-
 
   @override
   void initState() {

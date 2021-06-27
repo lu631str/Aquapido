@@ -13,7 +13,8 @@ class Water {
   Water({this.dateTime, this.cupSize, this.addType});
 
   Water.placeholder(this.cupSize)
-      : dateTime = DateTime.now(), addType = AddType.button,
+      : dateTime = DateTime.now(),
+        addType = AddType.button,
         isPlaceholder = true;
 
   String _getDateString(DateTime dateTime) {
@@ -25,7 +26,7 @@ class Water {
 
   /// Returns CupSize String Representation.
   String toCupSizeString() {
-    if(isPlaceholder) {
+    if (isPlaceholder) {
       return 'home.placeholder'.tr();
     }
     return '${cupSize}ml';
@@ -36,7 +37,7 @@ class Water {
   }
 
   String toAddTypeString() {
-    if(isPlaceholder) {
+    if (isPlaceholder) {
       return '';
     }
     return addType.toString().substring(addType.toString().indexOf('.') + 1);
@@ -44,7 +45,7 @@ class Water {
 
   /// Returns Date String Representation.
   String toDateString() {
-    if(isPlaceholder) {
+    if (isPlaceholder) {
       return '';
     }
     return '${_getDateString(dateTime)} - ${DateFormat('kk:mm').format(dateTime)}';
@@ -61,8 +62,4 @@ class Water {
       };
 }
 
-enum AddType {  
-   button,
-   shake,
-   power 
-}
+enum AddType { button, shake, power }

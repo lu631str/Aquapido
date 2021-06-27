@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 
-
 class DailyGoal {
   final DateTime dateTime;
   final bool dailyGoalReached;
@@ -20,9 +19,7 @@ class DailyGoal {
   }
 
   Map<String, dynamic> toMap() => {
-    'date_time': dateTime.millisecondsSinceEpoch,
-    'goal_reached': getGoalReachedAsInteger(),
-  };
+        'date_time': dateTime.millisecondsSinceEpoch,
+        'goal_reached': getGoalReachedAsInteger(),
+      };
 }
-
-

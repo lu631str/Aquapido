@@ -16,16 +16,14 @@ class Goals extends StatefulWidget {
 
   final String title;
 
-
   @override
   _GoalsState createState() => _GoalsState();
 }
 
 class _GoalsState extends State<Goals> {
+  int randomNumber = Random().nextInt(11);
 
-  int randomNumber =Random().nextInt(11) ;
-
-  List<int> maxTotalWater = [20, 100, 1000 ];
+  List<int> maxTotalWater = [20, 100, 1000];
   List<int> maxCups = [5, 280, 1000];
   List<int> maxStreak = [3, 28, 364];
   List<int> maxGoalReached = [7, 30, 364];
@@ -36,11 +34,9 @@ class _GoalsState extends State<Goals> {
       return MedalType.Bronze;
     } else if (current >= max[0] && current < max[1]) {
       return MedalType.Silver;
-    } else if (current >= max[1]&& current < max[2]) {
-      return MedalType.Gold;}
-
-
-    else if (current >= max[2]) {
+    } else if (current >= max[1] && current < max[2]) {
+      return MedalType.Gold;
+    } else if (current >= max[2]) {
       return MedalType.Gold;
     } else {
       return MedalType.Gold; // error case
@@ -54,11 +50,9 @@ class _GoalsState extends State<Goals> {
       return Color.fromARGB(255, 193, 193, 194);
     } else if (current >= max[1]) {
       return Color.fromARGB(255, 199, 177, 70);
-
-    }else if (current >= max[2]) {
+    } else if (current >= max[2]) {
       return Color.fromARGB(255, 199, 177, 70);
-    }
-    else {
+    } else {
       return Color.fromARGB(153, 255, 0, 0); // error case
     }
   }
@@ -68,24 +62,23 @@ class _GoalsState extends State<Goals> {
       return max[0];
     } else if (current >= max[0] && current < max[1]) {
       return max[1];
-    } else if (current >= max[1]&& current < max[2]) {
+    } else if (current >= max[1] && current < max[2]) {
       return max[2];
-    }
-    else if (current >= max[2]) {
+    } else if (current >= max[2]) {
       return max[3];
-    }
-      else {
+    } else {
       return -1; // error case
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    int _totalWaterAmount = Provider.of<WaterModel>(context, listen: false).totalWaterAmount();
-    int _totalCups = Provider.of<WaterModel>(context, listen: false).totalCups();
-    int _quickAddUsed = Provider.of<WaterModel>(context, listen: false).quickAddUsed();
+    int _totalWaterAmount =
+        Provider.of<WaterModel>(context, listen: false).totalWaterAmount();
+    int _totalCups =
+        Provider.of<WaterModel>(context, listen: false).totalCups();
+    int _quickAddUsed =
+        Provider.of<WaterModel>(context, listen: false).quickAddUsed();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -97,205 +90,204 @@ class _GoalsState extends State<Goals> {
                 alignment: Alignment(0.40, -0.80),
                 child: Column(
                   children: [
-                     Column(children: <Widget>[
-                       Row(
-                         children: [
-                         IconButton(
-                           onPressed: () {
-                             showDialog(
-                                 context: context,
-                                 builder: (context) {
-                                   return StatefulBuilder(builder: (context, setState) {
-                                     return AchievementCircleDialog();
-
-
-                                   });
-                                 });
-                           },
-                           icon: Icon(Icons.info_outline),
-                           padding: const EdgeInsets.only(right: 6),
-                           constraints: BoxConstraints(),
-                         )
-                       ],
-                       mainAxisAlignment: MainAxisAlignment.end,
-                       ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder: getRingColor(
-                                        maxTotalWater, (_totalWaterAmount~/1000).toInt()),
-                                    medalType: getMedal(
-                                        maxTotalWater,  (_totalWaterAmount~/1000).toInt()),
-                                    isCurrentInt: false,
-                                    currentDouble: (_totalWaterAmount / 1000).toDouble(),
-                                    max: getMax(maxTotalWater, (_totalWaterAmount~/1000).toInt()),
-                                    unit: 'Liter',
-                                    subtitle: tr('goals.goals.total_water')),
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder: getRingColor(
-                                        maxCups, _totalCups),
-                                    medalType:
-                                        getMedal(maxCups, _totalCups),
-                                    isCurrentInt: true,
-                                    currentInt: _totalCups,
-                                    max: getMax(maxCups, _totalCups),
-                                    unit:  tr('goals.goals.cups'),
-                                    subtitle:  tr('goals.goals.total_cups')),
-                                AchievementCircle(
-                                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                                    colorBoarder:
-                                    Color.fromARGB(255, 168, 93, 30),
-                                    medalType: MedalType.Bronze,
-                                    isCurrentInt: true,
-                                    currentInt: _quickAddUsed,
-                                    max: getMax(maxQuickAddUsed, _quickAddUsed),
-                                    unit: tr('goals.goals.times'),
-                                    subtitle: tr('goals.goals.total_quick_add_used')),
-                              ]
-
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                FutureBuilder(
-
-                                    future:
-                                    context.watch<WaterModel>().getGoalsReached(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<int> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting)
-                                        return AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:
+                    Column(children: <Widget>[
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(
+                                        builder: (context, setState) {
+                                      return AchievementCircleDialog();
+                                    });
+                                  });
+                            },
+                            icon: Icon(Icons.info_outline),
+                            padding: const EdgeInsets.only(right: 6),
+                            constraints: BoxConstraints(),
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.end,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            AchievementCircle(
+                                color: Color.fromRGBO(255, 255, 255, 1.0),
+                                colorBoarder: getRingColor(maxTotalWater,
+                                    (_totalWaterAmount ~/ 1000).toInt()),
+                                medalType: getMedal(maxTotalWater,
+                                    (_totalWaterAmount ~/ 1000).toInt()),
+                                isCurrentInt: false,
+                                currentDouble:
+                                    (_totalWaterAmount / 1000).toDouble(),
+                                max: getMax(maxTotalWater,
+                                    (_totalWaterAmount ~/ 1000).toInt()),
+                                unit: 'Liter',
+                                subtitle: tr('goals.goals.total_water')),
+                            AchievementCircle(
+                                color: Color.fromRGBO(255, 255, 255, 1.0),
+                                colorBoarder: getRingColor(maxCups, _totalCups),
+                                medalType: getMedal(maxCups, _totalCups),
+                                isCurrentInt: true,
+                                currentInt: _totalCups,
+                                max: getMax(maxCups, _totalCups),
+                                unit: tr('goals.goals.cups'),
+                                subtitle: tr('goals.goals.total_cups')),
+                            AchievementCircle(
+                                color: Color.fromRGBO(255, 255, 255, 1.0),
+                                colorBoarder: Color.fromARGB(255, 168, 93, 30),
+                                medalType: MedalType.Bronze,
+                                isCurrentInt: true,
+                                currentInt: _quickAddUsed,
+                                max: getMax(maxQuickAddUsed, _quickAddUsed),
+                                unit: tr('goals.goals.times'),
+                                subtitle:
+                                    tr('goals.goals.total_quick_add_used')),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            FutureBuilder(
+                                future: context
+                                    .watch<WaterModel>()
+                                    .getGoalsReached(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting)
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
                                             Color.fromARGB(255, 199, 177, 70),
-                                            medalType: MedalType.Gold,
-                                            isCurrentInt: true,
-                                            currentInt:0,
-                                            max: maxGoalReached[0],
-                                            unit: tr('goals.goals.times'),
-                                            subtitle: tr('goals.goals.goals_reached'));
-                                      else if (snapshot.hasData)
-                                        return AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:getRingColor(maxGoalReached, snapshot.data),
-                                            medalType: getMedal(maxGoalReached, snapshot.data),
-                                            isCurrentInt: true,
-                                            currentInt: snapshot.data,
-                                            max: getMax(maxGoalReached, snapshot.data),
-                                            unit: tr('goals.goals.times'),
-                                            subtitle: tr('goals.goals.goals_reached'));
-                                      else if (snapshot.hasError) {
-                                        return  AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: maxGoalReached[0],
+                                        unit: tr('goals.goals.times'),
+                                        subtitle:
+                                            tr('goals.goals.goals_reached'));
+                                  else if (snapshot.hasData)
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder: getRingColor(
+                                            maxGoalReached, snapshot.data),
+                                        medalType: getMedal(
+                                            maxGoalReached, snapshot.data),
+                                        isCurrentInt: true,
+                                        currentInt: snapshot.data,
+                                        max: getMax(
+                                            maxGoalReached, snapshot.data),
+                                        unit: tr('goals.goals.times'),
+                                        subtitle:
+                                            tr('goals.goals.goals_reached'));
+                                  else if (snapshot.hasError) {
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
                                             Color.fromARGB(255, 252, 13, 13),
-                                            medalType: MedalType.Gold,
-                                            isCurrentInt: true,
-                                            currentInt: 0,
-                                            max: 0,
-                                            unit: 'Error',
-                                            subtitle: 'Error');
-                                      } else
-                                        return   AchievementCircle(
-                                          color: Color.fromRGBO(
-                                              255, 255, 255, 1.0),
-                                          colorBoarder:
-                                          Color.fromARGB(255, 255, 17, 36),
-                                          medalType: MedalType.Gold,
-                                          isCurrentInt: true,
-                                          currentInt: 0,
-                                          max: 0,
-                                          unit: 'none',
-                                          subtitle: 'none');
-                                    }
-
-                                ),
-                                FutureBuilder(
-
-                                    future:
-                                    context.watch<WaterModel>().getStreakDays(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<int> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting)
-                                        return AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:
-                                            Color.fromARGB(255, 199, 177, 70),
-                                            medalType: MedalType.Gold,
-                                            isCurrentInt: true,
-                                            currentInt:0,
-                                            max: maxStreak[0],
-                                            unit:  tr('goals.goals.days'),
-                                            subtitle: 'Streak');
-                                      else if (snapshot.hasData)
-                                        return AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:getRingColor(maxGoalReached, snapshot.data),
-                                            medalType: getMedal(maxGoalReached, snapshot.data),
-                                            isCurrentInt: true,
-                                            currentInt: snapshot.data,
-                                            max: getMax(maxStreak, snapshot.data),
-                                            unit: tr('goals.goals.days'),
-                                            subtitle: 'Streak');
-                                      else if (snapshot.hasError) {
-                                        return  AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:
-                                            Color.fromARGB(255, 252, 13, 13),
-                                            medalType: MedalType.Gold,
-                                            isCurrentInt: true,
-                                            currentInt: 0,
-                                            max: 0,
-                                            unit: 'Error',
-                                            subtitle: 'Error');
-                                      } else
-                                        return   AchievementCircle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            colorBoarder:
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: 0,
+                                        unit: 'Error',
+                                        subtitle: 'Error');
+                                  } else
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
                                             Color.fromARGB(255, 255, 17, 36),
-                                            medalType: MedalType.Gold,
-                                            isCurrentInt: true,
-                                            currentInt: 0,
-                                            max: 0,
-                                            unit: 'none',
-                                            subtitle: 'none');
-                                    }
-
-                                ),
-
-                              ])
-                        ])
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: 0,
+                                        unit: 'none',
+                                        subtitle: 'none');
+                                }),
+                            FutureBuilder(
+                                future:
+                                    context.watch<WaterModel>().getStreakDays(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting)
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
+                                            Color.fromARGB(255, 199, 177, 70),
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: maxStreak[0],
+                                        unit: tr('goals.goals.days'),
+                                        subtitle: 'Streak');
+                                  else if (snapshot.hasData)
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder: getRingColor(
+                                            maxGoalReached, snapshot.data),
+                                        medalType: getMedal(
+                                            maxGoalReached, snapshot.data),
+                                        isCurrentInt: true,
+                                        currentInt: snapshot.data,
+                                        max: getMax(maxStreak, snapshot.data),
+                                        unit: tr('goals.goals.days'),
+                                        subtitle: 'Streak');
+                                  else if (snapshot.hasError) {
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
+                                            Color.fromARGB(255, 252, 13, 13),
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: 0,
+                                        unit: 'Error',
+                                        subtitle: 'Error');
+                                  } else
+                                    return AchievementCircle(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1.0),
+                                        colorBoarder:
+                                            Color.fromARGB(255, 255, 17, 36),
+                                        medalType: MedalType.Gold,
+                                        isCurrentInt: true,
+                                        currentInt: 0,
+                                        max: 0,
+                                        unit: 'none',
+                                        subtitle: 'none');
+                                }),
+                          ])
+                    ])
                   ],
                 )),
-             const Divider(
-                height: 20,
-                thickness: 1,
-                indent: 10,
-                endIndent: 5,
-              ),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 10,
+              endIndent: 5,
+            ),
             DailyGoal(),
-             const Divider(
-                height: 20,
-                thickness: 1,
-                indent: 5,
-                endIndent: 10,
-              ),
-            InfoCard(title: "\n"+tr('infos.title'),
-            text:tr("infos.info"+randomNumber.toString()),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 5,
+              endIndent: 10,
+            ),
+            InfoCard(
+              title: "\n" + tr('infos.title'),
+              text: tr("infos.info" + randomNumber.toString()),
             )
           ],
         ),
