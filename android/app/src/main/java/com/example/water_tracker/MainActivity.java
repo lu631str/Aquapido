@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -173,12 +174,17 @@ public class MainActivity extends FlutterActivity {
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
-                if (mAccel > 5) {
-                    vibrate();
-                    if (mEvents != null) {
-                        mEvents.success("shake,1");
-                    } else {
-                        Log.d("sensorListener", "mEvents is null");
+                if (mAccel > 7) {
+                    SharedPreferences prefs = getSharedPreferences("FlutterSharedPreferences", MODE_PRIVATE);
+                    boolean shake = prefs.getBoolean("flutter.shake", false);//"No name defined" is the default value.
+                    if(shake) {
+
+                        vibrate();
+                        if (mEvents != null) {
+                            mEvents.success("shake,1");
+                        } else {
+                            Log.d("sensorListener", "mEvents is null");
+                        }
                     }
                 }
             }
