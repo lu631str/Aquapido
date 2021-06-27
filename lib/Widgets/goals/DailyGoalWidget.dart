@@ -83,7 +83,7 @@ class DailyGoalWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 20),
               child: Text(tr('goals.daily_goal.title') +
-                  ': ${context.watch<SettingsModel>().dailyGoal.toInt()} ml'),
+                  ': ${context.watch<SettingsModel>().dailyGoal.toInt()} ${Constants.WATER_UNIT_ML}'),
             ),
             IconButton(
               onPressed: () {
@@ -151,7 +151,7 @@ class DailyGoalWidget extends StatelessWidget {
                 return num.toInt()
                     .toString(); // parse double to int and then to string
               },
-              rightSuffix: Text(' ml'),
+              rightSuffix: Text(' ${Constants.WATER_UNIT_ML}'),
               positionOffset: FlutterSliderTooltipPositionOffset(top: 5),
             ),
             trackBar: FlutterSliderTrackBar(

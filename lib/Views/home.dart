@@ -217,7 +217,9 @@ class _HomeState extends State<Home> {
   void _addWaterCup(Water water, int index, int amountOfCups) async {
     if (amountOfCups != 0) {
       if (mounted) {
+
         Provider.of<WaterModel>(context, listen: false).addWater(index, water);
+
         double dailyGoal =
             Provider.of<SettingsModel>(context, listen: false).dailyGoal;
         int waterAmount = Provider.of<WaterModel>(context, listen: false)
@@ -228,6 +230,7 @@ class _HomeState extends State<Home> {
             DailyGoal(
                 dateTime: newDateTime,
                 dailyGoalReached: waterAmount >= dailyGoal));
+
         if (waterAmount >= dailyGoal) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           final snackBar = SnackBar(
@@ -337,7 +340,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))}L',
+                        '${_formatDailyTotalWaterAmount(context.watch<WaterModel>().totalWaterAmountPerDay(DateTime.now()))}${Constants.WATER_UNIT_L}',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       Stack(
@@ -365,7 +368,7 @@ class _HomeState extends State<Home> {
                                   size: 20,
                                 ),
                                 Text(
-                                  '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}L',
+                                  '${Provider.of<SettingsModel>(context, listen: false).dailyGoal / 1000}${Constants.WATER_UNIT_L}',
                                   style: TextStyle(
                                       fontSize: 17, color: Color(0xFF49873C)),
                                 ),
@@ -429,7 +432,7 @@ class _HomeState extends State<Home> {
                       TextButton(
                           child: Row(children: [
                             Text(
-                              '${context.watch<SettingsModel>().cupSize}ml ',
+                              '${context.watch<SettingsModel>().cupSize}${Constants.WATER_UNIT_ML} ',
                               style: Theme.of(context).textTheme.headline6,
                             ),
                             Icon(Icons.edit, color: Colors.black),

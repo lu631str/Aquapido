@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'Utils/Constants.dart';
 import 'Utils/utils.dart';
 
 class Water {
@@ -29,7 +30,7 @@ class Water {
     if (isPlaceholder) {
       return 'home.placeholder'.tr();
     }
-    return '${cupSize}ml';
+    return '$cupSize${Constants.WATER_UNIT_ML}';
   }
 
   AddType getAddType() {

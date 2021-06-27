@@ -5,6 +5,8 @@ class Constants {
   static const List<int> cupSizes = [100, 200, 300, 330, 400, 500];
   static const CARD_MARGIN = EdgeInsets.all(11);
   static const CARD_ELEVATION = 2.5;
+  static const WATER_UNIT_L = 'L';
+  static const WATER_UNIT_ML = 'ml';
 
   static final List<Image> cupImages = [
     Image.asset(
