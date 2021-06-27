@@ -16,7 +16,16 @@ class _ActivitySelectionState extends State<ActivitySelection> {
   @override
   void initState() {
     super.initState();
-    selectActivity = 1;
+    String activity = context.read<SettingsModel>().activity;
+    if(activity == 'low') {
+      selectActivity = 1;
+    } else if(activity == 'normal') {
+      selectActivity = 2;
+    } else if(activity == 'high') {
+      selectActivity = 3;
+    } else {
+      selectActivity = 4;
+    }
   }
 
   setSelectActivity(int val) {

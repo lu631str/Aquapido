@@ -18,6 +18,7 @@ class _WeightSelectionState extends State<WeightSelection> {
   @override
   void initState() {
     super.initState();
+    _selectedWeight = context.read<SettingsModel>().weight;
   }
 
   setSelectWeight(int value) {

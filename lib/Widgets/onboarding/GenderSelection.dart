@@ -17,13 +17,22 @@ class _GenderSelectionState extends State<GenderSelection> {
   @override
   void initState() {
     super.initState();
-    selectGender = 1;
+    String gender = context.read<SettingsModel>().gender;
+    if(gender == 'male') {
+      selectGender = 1;
+    } else {
+      selectGender = 2;
+    }
   }
 
   setSelectGender(int val) {
     setState(() {
       selectGender = val;
-      context.read<SettingsModel>().updateGender("male");
+      if(val == 1) {
+        context.read<SettingsModel>().updateGender("male");
+      } else {
+        context.read<SettingsModel>().updateGender("female");
+      }
     });
   }
 
@@ -60,7 +69,6 @@ class _GenderSelectionState extends State<GenderSelection> {
             activeColor: Colors.white,
             onChanged: (val) {
               setSelectGender(val);
-              context.read<SettingsModel>().updateGender("male");
             },
           ),
         ),
@@ -92,7 +100,6 @@ class _GenderSelectionState extends State<GenderSelection> {
               activeColor: Colors.white,
               onChanged: (val) {
                 setSelectGender(val);
-                context.read<SettingsModel>().updateGender("female");
               },
             )),
       ],
