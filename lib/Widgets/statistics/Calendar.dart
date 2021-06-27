@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+
 import '../../src/Models/SettingsModel.dart';
 import '../../src/Models/WaterModel.dart';
 
@@ -53,6 +57,7 @@ class CalendarState extends State<Calendar> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting();
 
     _selectedDay =
         Provider.of<SettingsModel>(context, listen: false).selectedDate;
@@ -132,13 +137,17 @@ class CalendarState extends State<Calendar> {
               eventLoader: (day) {
                 return events[day] ?? [];
               },
+              daysOfWeekStyle: DaysOfWeekStyle(dowTextFormatter: (date, languageCode) => DateFormat( "E", languageCode).format(date),
+              ),
               headerStyle: HeaderStyle(
+                titleTextFormatter:(date, languageCode) => DateFormat( "yMMMM", languageCode).format(date) ,
                   formatButtonDecoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(40),
                   ),
-                  formatButtonTextStyle: TextStyle(color: Colors.white)),
+                  formatButtonTextStyle: TextStyle(color: Colors.white),
+              ),
               calendarStyle: CalendarStyle(
                   selectedDecoration: BoxDecoration(
                       gradient: LinearGradient(
