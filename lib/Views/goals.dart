@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:water_tracker/Widgets/goals/AchievementCircleDialog.dart';
+import 'package:water_tracker/src/Models/DailyGoalModel.dart';
 import 'dart:math';
 
 import '../Widgets/goals/AchievementCircle.dart';
-import '../Widgets/goals/DailyGoal.dart';
+import '../Widgets/goals/DailyGoalWidget.dart';
 import '../Widgets/goals/MedalType.dart';
 import '../Widgets/shared/InfoCard.dart';
 import '../src/Models/WaterModel.dart';
@@ -154,7 +155,7 @@ class _GoalsState extends State<Goals> {
                           children: <Widget>[
                             FutureBuilder(
                                 future: context
-                                    .watch<WaterModel>()
+                                    .watch<DailyGoalModel>()
                                     .getGoalsReached(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<int> snapshot) {
@@ -214,7 +215,7 @@ class _GoalsState extends State<Goals> {
                                 }),
                             FutureBuilder(
                                 future:
-                                    context.watch<WaterModel>().getStreakDays(),
+                                    context.watch<DailyGoalModel>().getStreakDays(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<int> snapshot) {
                                   if (snapshot.connectionState ==
@@ -278,7 +279,7 @@ class _GoalsState extends State<Goals> {
               indent: 10,
               endIndent: 5,
             ),
-            DailyGoal(),
+            DailyGoalWidget(),
             const Divider(
               height: 20,
               thickness: 1,

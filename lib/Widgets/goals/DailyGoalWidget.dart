@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 import '../../src/Models/SettingsModel.dart';
 import '../../src/Utils/Constants.dart';
 
-class DailyGoal extends StatelessWidget {
+class DailyGoalWidget extends StatelessWidget {
   final double _minGoal = 2000;
   final double _maxGoal = 6000;
 
-  DailyGoal({Key key}) : super(key: key);
+  DailyGoalWidget({Key key}) : super(key: key);
 
   double _calcRecommendedPercentage(weight,gender,activity) {
     var normalizedRecommended = this._calcRecommend(weight,gender,activity) - this._minGoal;

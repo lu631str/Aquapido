@@ -7,6 +7,9 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
+import 'package:water_tracker/Widgets/goals/DailyGoalWidget.dart';
+import 'package:water_tracker/src/DailyGoal.dart';
+import 'package:water_tracker/src/Models/DailyGoalModel.dart';
 
 import '../src/Models/SettingsModel.dart';
 import '../Widgets/home/CupSizeElement.dart';
@@ -227,6 +230,12 @@ class _HomeState extends State<Home> {
             Provider.of<SettingsModel>(context, listen: false).dailyGoal;
         int waterAmount = Provider.of<WaterModel>(context, listen: false)
             .totalWaterAmountPerDay(DateTime.now());
+        DateTime newDateTime = DateTime(
+            water.dateTime.year, water.dateTime.month, water.dateTime.day);
+        Provider.of<DailyGoalModel>(context, listen: false).updateDailyGoal(
+            DailyGoal(
+                dateTime: newDateTime,
+                dailyGoalReached: waterAmount >= dailyGoal));
         if (waterAmount >= dailyGoal) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           final snackBar = SnackBar(
@@ -245,6 +254,14 @@ class _HomeState extends State<Home> {
   void _delete(index) async {
     Water water =
         Provider.of<WaterModel>(context, listen: false).removeWater(index);
+
+    double dailyGoal =
+        Provider.of<SettingsModel>(context, listen: false).dailyGoal;
+    int waterAmount = Provider.of<WaterModel>(context, listen: false)
+        .totalWaterAmountPerDay(DateTime.now());
+
+    Provider.of<DailyGoalModel>(context, listen: false)
+        .removeDailyGoal(water, waterAmount >= dailyGoal);
     _updateGlassAnimation();
     this._showUndoSnackBar(index, water);
   }

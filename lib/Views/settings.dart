@@ -5,8 +5,10 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:water_tracker/Widgets/goals/DailyGoalWidget.dart';
 
 import '../src/Models/WaterModel.dart';
+import '../src/Models/DailyGoalModel.dart';
 import '../src/ReminderNotification.dart';
 import '../src/Models/SettingsModel.dart';
 import '../main.dart';
@@ -48,7 +50,7 @@ class _SettingsState extends State<Settings> {
   void _reset() {
     setData();
     Provider.of<WaterModel>(context, listen: false).removeAllWater();
-    Provider.of<WaterModel>(context, listen: false).removeAllDailyGoal();
+    Provider.of<DailyGoalModel>(context, listen: false).removeAllDailyGoal();
     Provider.of<SettingsModel>(context, listen: false).resetCustomCups();
     context.read<SettingsModel>().updateDialogSeen(false);
     context.read<SettingsModel>().updateIntroSeen(false);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:water_tracker/src/Models/DailyGoalModel.dart';
 import 'dart:collection';
 
 import '../../src/Models/SettingsModel.dart';
-import '../../src/Models/WaterModel.dart';
 
 class Event {
   final String title;
@@ -16,10 +16,6 @@ class Event {
 }
 
 class Calendar extends StatefulWidget {
-  //  final List<DateTime> dailyGoalReachedDates;
-  // // final DateTime startDate;
-  // //
-  //  Calendar(this.dailyGoalReachedDates);
 
   @override
   State<StatefulWidget> createState() => CalendarState();
@@ -60,7 +56,7 @@ class CalendarState extends State<Calendar> {
 
   Future<LinkedHashMap<DateTime, List<Event>>> _getEvents() async {
     List<DateTime> goalsReachedDays =
-        await Provider.of<WaterModel>(context, listen: false)
+        await Provider.of<DailyGoalModel>(context, listen: false)
             .getGoalsReachedDaysList();
 
     Map<DateTime, List<Event>> mapEvents = {

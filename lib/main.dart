@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
+import 'package:water_tracker/src/Models/DailyGoalModel.dart';
 
 import 'Views/goals.dart';
 import 'Views/settings.dart';
@@ -35,6 +36,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (_) => SettingsModel()),
           ChangeNotifierProvider(create: (_) => WaterModel()),
+          ChangeNotifierProvider(create: (_) => DailyGoalModel()),
         ],
         child: WaterTrackerApp(),
       ),
